@@ -2,16 +2,24 @@ package me.zhengjie;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
+import me.zhengjie.modules.minio.service.MinIOService;
 import me.zhengjie.modules.test.domain.BlogArticle;
 import me.zhengjie.modules.test.mapper.BlogArticleMapper;
 import me.zhengjie.modules.test.repository.BlogArticleRepository;
 import me.zhengjie.modules.test.service.impl.BlogArticleServiceImpl;
+import me.zhengjie.result.RestResult;
+import org.apache.http.entity.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +34,10 @@ public class EladminSystemApplicationTests {
     BlogArticleMapper blogArticleMapper;
     @Autowired
     BlogArticleRepository repository;
+
+    @Autowired
+    MinIOService minIOService;
+
 
     @Test
     public void contextLoads() {
@@ -79,6 +91,14 @@ public class EladminSystemApplicationTests {
 //        System.err.println(save);
 
 
+    }
+
+    @Test
+    public void testUpload() throws IOException {
+        File file = new File("");
+        MultipartFile cMultiFile = new MockMultipartFile("file", file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), new FileInputStream(file));
+        RestResult restResult = minIOService.uploadFile(cMultiFile);
+        System.err.println(restResult);
     }
 
 
