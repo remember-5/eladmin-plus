@@ -12,6 +12,19 @@ spring:
     redis:
       repositories:
         enabled: false
+    #配置 MinIO
+  minio:
+    host: http://118.25.95.207
+    port: 9000
+    bucket:
+    access-key:
+    secret-key:
+
+    # 上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
 
   #配置 Jpa
   jpa:
