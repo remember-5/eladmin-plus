@@ -17,6 +17,7 @@ package me.zhengjie.modules.system.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.config.FileProperties;
+import me.zhengjie.modules.minio.service.MinIOService;
 import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.security.service.UserCacheClean;
 import me.zhengjie.modules.system.domain.User;
@@ -29,6 +30,7 @@ import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.modules.system.service.dto.UserQueryCriteria;
 import me.zhengjie.modules.system.service.mapstruct.UserMapper;
+import me.zhengjie.result.RestResult;
 import me.zhengjie.utils.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -59,6 +61,7 @@ public class UserServiceImpl implements UserService {
     private final RedisUtils redisUtils;
     private final UserCacheClean userCacheClean;
     private final OnlineUserService onlineUserService;
+    private final MinIOService minIOService;
 
     @Override
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
@@ -186,9 +189,15 @@ public class UserServiceImpl implements UserService {
     public Map<String, String> updateAvatar(MultipartFile multipartFile) {
         User user = userRepository.findByUsername(SecurityUtils.getCurrentUsername());
         String oldPath = user.getAvatarPath();
-        File file = FileUtil.upload(multipartFile, properties.getPath().getAvatar());
-        user.setAvatarPath(Objects.requireNonNull(file).getPath());
-        user.setAvatarName(file.getName());
+//        File file = FileUtil.upload(multipartFile, properties.getPath().getAvatar());
+//        user.setAvatarPath(Objects.requireNonNull(file).getPath());
+//        user.setAvatarName(file.getName());
+        RestResult restResult = minIOService.uploadFile(multipartFile);
+        String data = String.valueOf(restResult.getData());
+        if (data!=null){
+            user.setAvatarPath(data);
+        }
+        user.setAvatarName(multipartFile.getOriginalFilename());
         userRepository.save(user);
         if (StringUtils.isNotBlank(oldPath)) {
             FileUtil.del(oldPath);
@@ -196,7 +205,7 @@ public class UserServiceImpl implements UserService {
         @NotBlank String username = user.getUsername();
         flushCache(username);
         return new HashMap<String, String>(1) {{
-            put("avatar", file.getName());
+            put("avatar", multipartFile.getOriginalFilename());
         }};
     }
 
