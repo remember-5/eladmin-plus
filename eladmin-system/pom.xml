@@ -109,6 +109,10 @@
             <artifactId>minio</artifactId>
             <version>7.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- 打包 -->
