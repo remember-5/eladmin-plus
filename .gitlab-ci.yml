@@ -20,7 +20,7 @@ prod-build1:
   script:
     - echo "=============== 开始编译构建任务 ==============="
      - $MAVEN_HOME/bin/mvn compile
-   tags:
+  tags:
      - realname-runner1
   only:
     - dev
