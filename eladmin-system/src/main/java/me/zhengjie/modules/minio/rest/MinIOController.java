@@ -4,7 +4,9 @@ package me.zhengjie.modules.minio.rest;
 import io.minio.errors.MinioException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.minio.service.MinIOService;
 import me.zhengjie.modules.minio.utils.MinIOUtils;
 import me.zhengjie.result.RestResult;
@@ -28,13 +30,14 @@ import java.io.InputStream;
 public class MinIOController {
 
     private final MinIOService minIOService;
-    private final MinIOUtils minioUtil;
 
     /**
      * MultipartFile 上传形式
      * @param file 文件
      * @return return
      */
+    @Log("上传文件:MultipartFile")
+    @ApiOperation("上传文件:MultipartFile")
     @PostMapping("upload")
     public RestResult uploadFile(@RequestParam("file") MultipartFile file){
         return minIOService.uploadFile(file);
@@ -45,6 +48,8 @@ public class MinIOController {
      * @param fileData 文件
      * @return return
      */
+    @Log("上传文件:base64")
+    @ApiOperation("上传文件:base64")
     @PostMapping("uploadBaseFile")
     @ApiImplicitParam(name = "fileData", value = "上传的Base64格式文件", required = true)
     public RestResult uploadBase64File(@RequestParam String fileData){
@@ -55,6 +60,8 @@ public class MinIOController {
     /**
      * 删除文件
      */
+    @Log("删除文件")
+    @ApiOperation("删除文件")
     @DeleteMapping("/delete/{objectName}")
     public RestResult delete(@PathVariable("objectName") String objectName) throws Exception {
        return minIOService.removeObject(objectName);
@@ -63,6 +70,8 @@ public class MinIOController {
     /**
      * 下载文件到本地
      */
+    @Log("下载文件")
+    @ApiOperation("下载文件到本地")
     @GetMapping("/download/{objectName}")
     public ResponseEntity<byte[]> downloadToLocal(@PathVariable("objectName") String objectName, HttpServletResponse response) throws Exception {
         ResponseEntity<byte[]> responseEntity = null;
@@ -110,11 +119,12 @@ public class MinIOController {
     /**
      * 在浏览器预览图片
      */
+    @ApiOperation("在浏览器预览图片")
     @GetMapping("/preViewPicture/{objectName}")
     public void preViewPicture(@PathVariable("objectName") String objectName, HttpServletResponse response) throws Exception {
         response.setContentType("image/jpeg");
         try (ServletOutputStream out = response.getOutputStream()) {
-            InputStream stream = minioUtil.getObject(objectName);
+            InputStream stream = minIOService.getObject(objectName);
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int n = 0;
