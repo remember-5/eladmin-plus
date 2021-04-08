@@ -14,4 +14,8 @@ public class MinIOCode {
      * /
      */
     public static final char SLASH = '/';
+    /**
+     * file
+     */
+    public static final String FILE = "file";
 }

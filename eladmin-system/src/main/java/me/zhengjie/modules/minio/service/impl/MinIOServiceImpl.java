@@ -43,10 +43,10 @@ public class MinIOServiceImpl implements MinIOService {
      * @Return: java.lang.String
      */
     @Override
-    public RestResult uploadFile(MultipartFile file){
-        if (ObjectUtil.isNotNull(file)){
+    public RestResult uploadFile(MultipartFile file) {
+        if (ObjectUtil.isNotNull(file)) {
             String newFileUrl = minIOUtils.upload(file);
-            if (newFileUrl != UPLOAD_FAILED&& !UPLOAD_FAILED.equals(newFileUrl)){
+            if (newFileUrl != UPLOAD_FAILED && !UPLOAD_FAILED.equals(newFileUrl)) {
                 return new RestResult().resultEnum(ResultEnum.A00000).data(newFileUrl);
             }
             return new RestResult().resultEnum(ResultEnum.A0500);
@@ -56,30 +56,32 @@ public class MinIOServiceImpl implements MinIOService {
 
     /**
      * base64上传
+     *
      * @param fileData base64
      * @return /
      */
     @Override
-    public RestResult uploadFile(String fileData){
+    public RestResult uploadFile(String fileData) {
         MultipartFile file = base64ToMultipart(fileData);
         return uploadFile(file);
     }
 
     /**
      * InputStream 上传
+     *
      * @param inputStreamFile InputStream流文件
      * @return
      */
     @Override
-    public RestResult uploadFile(InputStream inputStreamFile, String fileName){
+    public RestResult uploadFile(InputStream inputStreamFile, String fileName) {
         try {
             // InputStream 转 File
-            File file = inputStreamToFile(inputStreamFile,fileName);
+            File file = inputStreamToFile(inputStreamFile, fileName);
             // File 转 MultipartFile
             MultipartFile multipartFile = fileToMultipartFile(file);
             // 上传文件
             return uploadFile(multipartFile);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
             return new RestResult().resultEnum(ResultEnum.A0500);
@@ -87,7 +89,7 @@ public class MinIOServiceImpl implements MinIOService {
     }
 
     @Override
-    public RestResult removeObject(String objectName){
+    public RestResult removeObject(String objectName) {
         try {
             minIOUtils.removeObject(objectName);
             return new RestResult().resultEnum(ResultEnum.A00000);
@@ -98,7 +100,7 @@ public class MinIOServiceImpl implements MinIOService {
     }
 
     @Override
-    public InputStream getObject(String objectName){
+    public InputStream getObject(String objectName) {
         try {
             return minIOUtils.getObject(objectName);
         } catch (Exception e) {
@@ -106,7 +108,6 @@ public class MinIOServiceImpl implements MinIOService {
             return null;
         }
     }
-
 
 
 }

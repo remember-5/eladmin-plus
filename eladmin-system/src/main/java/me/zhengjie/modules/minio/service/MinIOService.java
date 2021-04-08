@@ -18,6 +18,7 @@ public interface MinIOService {
 
     /**
      * base64上传
+     *
      * @param fileData base64
      * @return /
      */
@@ -25,6 +26,7 @@ public interface MinIOService {
 
     /**
      * InputStream 上传
+     *
      * @param inputStreamFile InputStream流文件
      * @return /
      */
@@ -32,6 +34,7 @@ public interface MinIOService {
 
     /**
      * 删除文件
+     *
      * @param objectName 文件名
      * @return /
      */
@@ -39,6 +42,7 @@ public interface MinIOService {
 
     /**
      * 下载文件流
+     *
      * @param objectName 文件名
      * @return /
      */

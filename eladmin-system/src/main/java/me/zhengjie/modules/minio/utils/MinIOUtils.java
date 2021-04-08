@@ -40,10 +40,11 @@ public class MinIOUtils {
      * 上传文件
      * 文件夹名取日期
      * 文件名取UUID
+     *
      * @param file 文件
      * @return /
      */
-    public String upload(MultipartFile file){
+    public String upload(MultipartFile file) {
         //获取原始文件名称  XX.png   XX.png
         String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
         //获取原始文件名称后缀
@@ -53,16 +54,19 @@ public class MinIOUtils {
         //获取当前日期作为文件夹名
         String packageName = LocalDate.now().toString();
         // 上传文件
-        return uploadFile(file,packageName,newFileName);
+        return uploadFile(file, packageName, newFileName);
     }
+
     /**
      * 上传文件
      * 文件夹名自定义
      * 文件名取UUID
-     * @param file 文件
+     *
+     * @param file        文件
+     * @param packageName 文件夹名
      * @return /
      */
-    public String upload(MultipartFile file, String packageName){
+    public String upload(MultipartFile file, String packageName) {
         //获取原始文件名称  XX.png   XX.png
         String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
         //获取原始文件名称后缀
@@ -70,20 +74,23 @@ public class MinIOUtils {
         //新文件名称
         String newFileName = UUID.randomUUID(true).toString() + suffix;
         // 上传文件
-        return uploadFile(file,packageName,newFileName);
+        return uploadFile(file, packageName, newFileName);
     }
+
     /**
      * 上传文件
      * 文件夹名取日期
      * 文件名自定义
-     * @param file 文件
+     *
+     * @param fileName 文件名
+     * @param file     文件
      * @return /
      */
-    public String upload(String fileName, MultipartFile file){
+    public String upload(String fileName, MultipartFile file) {
         //获取当前日期作为文件夹名
         String packageName = LocalDate.now().toString();
         // 上传文件
-        return uploadFile(file,packageName,fileName);
+        return uploadFile(file, packageName, fileName);
     }
 
     /**
@@ -93,14 +100,15 @@ public class MinIOUtils {
      * @Param: [file, bucket, packageName, fileName]文件，文件分区名，文件夹名，文件名
      * @Return: String 文件url
      */
-    public String uploadFile(MultipartFile file, String packageName, String fileName){
+    public String uploadFile(MultipartFile file, String packageName, String fileName) {
+        String fileType = Objects.requireNonNull(file.getContentType());
         //文件分区名
         String bucket = minIOConfig.getBucket();
         bucketExists(bucket);
-        PutObjectOptions putObjectOptions= new PutObjectOptions(file.getSize(),StrUtil.INDEX_NOT_FOUND);
-        putObjectOptions.setContentType(Objects.requireNonNull(file.getContentType()));
+        PutObjectOptions putObjectOptions = new PutObjectOptions(file.getSize(), StrUtil.INDEX_NOT_FOUND);
+        putObjectOptions.setContentType(fileType);
         try {
-            minioClient.putObject(bucket,packageName + SLASH + fileName, file.getInputStream(),putObjectOptions);
+            minioClient.putObject(bucket, packageName + SLASH + fileName, file.getInputStream(), putObjectOptions);
         } catch (Exception e) {
             log.error(UPLOAD_FAILED);
             e.printStackTrace();
@@ -118,23 +126,23 @@ public class MinIOUtils {
 
     /**
      * @Author: fly
-     * @Description:  检查文件分区是否存在，如果没有就创建
+     * @Description: 检查文件分区是否存在，如果没有就创建
      * @Date: 2020/10/15
      * @Param: [bucket]文件分区名字
      * @Return: void
      */
-    private void bucketExists(String bucket){
+    private void bucketExists(String bucket) {
         boolean bucketisExist = false;
         try {
             bucketisExist = minioClient.bucketExists(bucket);
-            if (bucketisExist){
+            if (bucketisExist) {
                 log.error("文件分区已存在");
-            }else {
-                log.info("文件分区未存在,正在创建分区{}",bucket);
+            } else {
+                log.info("文件分区未存在,正在创建分区{}", bucket);
                 minioClient.makeBucket(bucket);
             }
         } catch (Exception e) {
-            log.error("文件分区{}异常",bucket);
+            log.error("文件分区{}异常", bucket);
             e.printStackTrace();
         }
     }
@@ -142,6 +150,7 @@ public class MinIOUtils {
 
     /**
      * 获取全部bucket
+     *
      * @return /
      */
     public List<Bucket> getAllBuckets() throws Exception {
@@ -150,6 +159,7 @@ public class MinIOUtils {
 
     /**
      * 根据bucketName获取信息
+     *
      * @param bucketName bucket名称
      */
     public Optional<Bucket> getBucket(String bucketName) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InvalidResponseException, InternalException, ErrorResponseException, ServerException, XmlParserException, InvalidBucketNameException {
@@ -158,6 +168,7 @@ public class MinIOUtils {
 
     /**
      * 根据bucketName删除信息
+     *
      * @param bucketName bucket名称
      */
     public void removeBucket(String bucketName) throws Exception {
@@ -177,6 +188,7 @@ public class MinIOUtils {
 
     /**
      * 获取⽂件
+     *
      * @param objectName ⽂件名称
      * @return ⼆进制流
      */
@@ -223,12 +235,13 @@ public class MinIOUtils {
 
     /**
      * 删除⽂件
+     *
      * @param objectName ⽂件名称
      * @throws Exception https://docs.minio.io/cn/java-client-apireference.html#removeObject
      */
     public void removeObject(String objectName) throws Exception {
         String bucketName = minIOConfig.getBucket();
-        minioClient.removeObject(bucketName,objectName);
-        log.info("删除{}文件成功",objectName);
+        minioClient.removeObject(bucketName, objectName);
+        log.info("删除{}文件成功", objectName);
     }
 }

@@ -21,7 +21,7 @@ public class MinIOConfig {
 
     @Bean(name = "minioClient")
     public MinioClient minioClient() throws InvalidPortException, InvalidEndpointException {
-        return new MinioClient(this.host,this.port,this.accessKey,this.secretKey);
+        return new MinioClient(this.host, this.port, this.accessKey, this.secretKey);
     }
 
 }

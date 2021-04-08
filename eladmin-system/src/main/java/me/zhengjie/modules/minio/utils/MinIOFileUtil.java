@@ -6,6 +6,8 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.*;
 
+import static me.zhengjie.modules.minio.config.MinIOCode.FILE;
+
 /**
  * @Description inputStream 转 File
  * @Author fly
@@ -51,6 +53,6 @@ public class MinIOFileUtil {
      * File 转 MultipartFile
      */
     public static MultipartFile fileToMultipartFile(File file) throws IOException {
-        return new MockMultipartFile("file", file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), new FileInputStream(file));
+        return new MockMultipartFile(FILE, file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), new FileInputStream(file));
     }
 }
