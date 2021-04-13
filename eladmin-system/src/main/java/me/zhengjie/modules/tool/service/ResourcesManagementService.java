@@ -80,6 +80,12 @@ public interface ResourcesManagementService {
     void deleteAll(Long[] ids);
 
     /**
+     * 获取启用的minio配置
+     * @return /
+     */
+    ResourcesManagement getMinioConfig();
+
+    /**
     * 导出数据
     * @param all 待导出的数据
     * @param response /

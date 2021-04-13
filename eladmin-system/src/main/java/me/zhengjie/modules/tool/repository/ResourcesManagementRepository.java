@@ -42,6 +42,13 @@ public interface ResourcesManagementRepository extends JpaRepository<ResourcesMa
      * admin 查询状态为启用的
      * @return /
      */
-    @Query(value = "select a.*  from t_resources_management a where a.enabled = 1", nativeQuery = true)
+    @Query(value = "select a.*  from t_resources_management a where a.enabled = 1 ", nativeQuery = true)
     ResourcesManagement findByEnabled();
+
+    /**
+     * admin 查询状态为启用的
+     * @return /
+     */
+    @Query(value = "select a.*  from t_resources_management a where a.enabled = 1 and a.type = 1 ", nativeQuery = true)
+    ResourcesManagement findByMinioEnabled();
 }

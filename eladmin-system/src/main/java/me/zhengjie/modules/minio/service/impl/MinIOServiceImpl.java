@@ -1,28 +1,19 @@
 package me.zhengjie.modules.minio.service.impl;
 
 
-import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.modules.minio.config.MinIOConfig;
 import me.zhengjie.modules.minio.service.MinIOService;
-import me.zhengjie.modules.minio.utils.MinIOFileUtil;
 import me.zhengjie.modules.minio.utils.MinIOUtils;
 import me.zhengjie.result.RestResult;
 import me.zhengjie.result.ResultEnum;
-import me.zhengjie.utils.FileUtil;
-import me.zhengjie.utils.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.InputStream;
-import java.sql.ResultSet;
-import java.time.LocalDate;
 
-import static me.zhengjie.modules.minio.config.MinIOCode.SLASH;
 import static me.zhengjie.modules.minio.config.MinIOCode.UPLOAD_FAILED;
 import static me.zhengjie.modules.minio.utils.BASE64DecodedMultipartFile.base64ToMultipart;
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.fileToMultipartFile;

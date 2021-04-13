@@ -18,4 +18,28 @@ public class MinIOCode {
      * file
      */
     public static final String FILE = "file";
+    /**
+     * minioConfig Bean name
+     */
+    public static final String MINIO = "minioConfig";
+    /**
+     * minioClient Bean name
+     */
+    public static final String MINIOCLIENT = "minioClient";
+    /**
+     * remove Error
+     */
+    public static final String REMOVE_ERROR = "remove Error";
+    /**
+     * remove Success
+     */
+    public static final String REMOVE_SUCCESS = "remove Success";
+    /**
+     * register Bean Error
+     */
+    public static final String REGISTER_ERROR = "register Bean Error";
+    /**
+     * register Bean Success
+     */
+    public static final String REGISTER_SUCCESS = "register Bean Success";
 }
