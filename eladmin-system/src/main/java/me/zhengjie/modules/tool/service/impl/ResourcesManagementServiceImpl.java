@@ -102,17 +102,19 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void editEnabled(ResourcesManagement resources) {
+        // 获取当前资源状态，0为禁用 1为启用
         Integer enabled = resources.getEnabled();
         if (enabled == 0) {
-            // 启用状态
+            // 修改状态为启用
             resources.setEnabled(1);
-            // 禁用其他启用
+            // 检查其他启用状态的资源
             ResourcesManagement resourcesManagement = resourcesManagementRepository.findByEnabled();
             if (ObjectUtil.isNotNull(resourcesManagement)) {
+                // 禁用其他启用状态的资源
                 resourcesManagementRepository.updateById(resourcesManagement.getId());
                 // 销毁Bean
                 switch (resources.getType()) {
-                    // 类型为minio
+                    // 类型为 minio
                     case 1:
                         removeBeanDefinition(MINIOCLIENT);
                         break;
@@ -124,13 +126,12 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
                         break;
                     default:
                         // 类型错误
-                        break;
+                        throw new RuntimeException("资源类型错误");
                 }
-
             }
             // 注入Bean
             switch (resources.getType()) {
-                // 类型为minio
+                // 类型为 minio
                 case 1:
                     registerBean(MINIOCLIENT, resources);
                     break;
@@ -142,14 +143,14 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
                     break;
                 default:
                     // 类型错误
-                    break;
+                    throw new RuntimeException("资源类型错误");
             }
         } else {
-            // 禁用状态
+            // 修改状态为禁用
             resources.setEnabled(0);
             // 销毁Bean
             switch (resources.getType()) {
-                // 类型为minio
+                // 类型为 minio
                 case 1:
                     removeBeanDefinition(MINIOCLIENT);
                     break;
@@ -161,7 +162,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
                     break;
                 default:
                     // 类型错误
-                    break;
+                    throw new RuntimeException("资源类型错误");
             }
         }
         ResourcesManagement resourcesManagement = resourcesManagementRepository.findById(resources.getId()).orElseGet(ResourcesManagement::new);
