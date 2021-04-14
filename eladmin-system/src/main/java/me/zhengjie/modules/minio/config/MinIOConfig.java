@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "spring.minio")
+//@Configuration
+//@ConfigurationProperties(prefix = "spring.minio")
 public class MinIOConfig {
 
     private String host;
@@ -19,9 +19,9 @@ public class MinIOConfig {
     private String accessKey;
     private String secretKey;
 
-    @Bean(name = "minioClient")
-    public MinioClient minioClient() throws InvalidPortException, InvalidEndpointException {
-        return new MinioClient(this.host,this.port,this.accessKey,this.secretKey);
-    }
+    //    @Bean(name = "minioClient")
+    //    public MinioClient minioClient() throws InvalidPortException, InvalidEndpointException {
+    //        return new MinioClient(this.host, this.port, this.accessKey, this.secretKey);
+    //    }
 
 }
