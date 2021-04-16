@@ -31,7 +31,7 @@ public interface ResourcesManagementRepository extends JpaRepository<ResourcesMa
 
     /**
      * 禁用状态
-     * @param id
+     * @param id 资源配置id
      */
     @Modifying
     @Transactional
@@ -39,14 +39,14 @@ public interface ResourcesManagementRepository extends JpaRepository<ResourcesMa
     void updateById(Long id);
 
     /**
-     * admin 查询状态为启用的
+     * 查询状态为启用的配置信息
      * @return /
      */
     @Query(value = "select a.*  from t_resources_management a where a.enabled = 1 ", nativeQuery = true)
     ResourcesManagement findByEnabled();
 
     /**
-     * admin 查询状态为启用的
+     * 查询状态为启用的minio的信息
      * @return /
      */
     @Query(value = "select a.*  from t_resources_management a where a.enabled = 1 and a.type = 1 ", nativeQuery = true)

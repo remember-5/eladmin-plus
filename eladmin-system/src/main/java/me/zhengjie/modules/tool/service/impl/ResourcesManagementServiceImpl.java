@@ -100,6 +100,11 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     }
 
     @Override
+    public ResourcesManagement findByEnabled(){
+        return resourcesManagementRepository.findByEnabled();
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void editEnabled(ResourcesManagement resources) {
         // 获取当前资源状态，0为禁用 1为启用
@@ -233,6 +238,11 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         log.info("Bean {} 已移除", beanName);
         //System.out.println(String.format("Bean %s 已移除", beanName));
         return REMOVE_SUCCESS;
+    }
+
+    @Override
+    public void updateById(Long id){
+        resourcesManagementRepository.updateById(id);
     }
 
     @Override

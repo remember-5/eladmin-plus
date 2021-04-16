@@ -55,6 +55,12 @@ public interface ResourcesManagementService {
     ResourcesManagementDto findById(Long id);
 
     /**
+     * 查询状态为启用的配置
+     * @return /
+     */
+    ResourcesManagement findByEnabled();
+
+    /**
     * 创建
     * @param resources /
     * @return ResourcesManagementDto
@@ -84,6 +90,12 @@ public interface ResourcesManagementService {
      * @return /
      */
     ResourcesManagement getMinioConfig();
+
+    /**
+     * 根据资源id修改配置状态为禁用
+     * @param id 资源id
+     */
+    void updateById(Long id);
 
     /**
     * 导出数据
