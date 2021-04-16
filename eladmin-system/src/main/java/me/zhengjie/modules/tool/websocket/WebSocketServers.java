@@ -5,13 +5,14 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.SpringContextUtil;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -25,6 +26,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Slf4j
 @Component
 public class WebSocketServers {
+
+    private RedisUtils redisUtils;
 
     /**
      * concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -50,6 +53,7 @@ public class WebSocketServers {
         webSocketSets.removeIf(webSocket -> webSocket.sid.equals(sid));
         webSocketSets.add(this);
         this.sid=sid;
+        redisUtils = (RedisUtils) SpringContextUtil.getBean(RedisUtils.class);
     }
 
     /**
@@ -88,6 +92,7 @@ public class WebSocketServers {
      * 实现服务器主动推送
      */
     private void sendMessage(String message) throws IOException {
+        // TODO 做通知中心 哪些类型需要通知 通知级别
         this.session.getBasicRemote().sendText(message);
     }
 
@@ -95,20 +100,32 @@ public class WebSocketServers {
     /**
      * 群发自定义消息
      * */
-    public static void sendInfo(SocketMessage socketMsg) throws IOException {
+    public void sendInfo(SocketMessage socketMsg) throws IOException {
         String message = socketMsg.getMsg();
         Set<String> users = socketMsg.getUsers();
-        log.info("推送消息到"+socketMsg.getUsers()+"，推送内容:"+message);
+        log.info("推送消息到"+ users +"，推送内容:"+message);
+        // TODO redis Key格式修改 存redis的内容修改(谁发的 发给谁 内容是什么)
+        // TODO 发送目标不在线怎么处理
+        // TODO 是否记录 消息记录
+        // 添加到Redis 发送给谁 然后取出一个发一个
+        redisUtils.sSet(sid+":SocketMessage", users.toArray());
         for (WebSocketServers item : webSocketSets) {
             try {
                 // 这里可以设定只推送给这个sid的，为null则全部推送
                 if(users.isEmpty() || ObjectUtil.isNull(users)) {
+                    // 发送给全部的时候排除自己
+                    if (sid.equals(item.sid)){
+                        continue;
+                    }
                     item.sendMessage(message);
                 }else {
                     for (String sid: users) {
                         if (sid.equals(item.sid)){
                             item.sendMessage(message);
                             log.info("推送消息到"+sid+"，推送内容:"+message);
+                            redisUtils.setRemove(this.sid+":SocketMessage", sid);
+                            long socketMessage = redisUtils.sGetSetSize(this.sid+":SocketMessage");
+                            // System.out.println("剩余需要消息发送目标个数为"+socketMessage);
                         }
                     }
                 }
