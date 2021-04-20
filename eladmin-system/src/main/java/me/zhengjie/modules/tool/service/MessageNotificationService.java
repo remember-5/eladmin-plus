@@ -15,9 +15,9 @@
 */
 package me.zhengjie.modules.tool.service;
 
-import me.zhengjie.modules.tool.domain.ResourcesManagement;
-import me.zhengjie.modules.tool.service.dto.ResourcesManagementDto;
-import me.zhengjie.modules.tool.service.dto.ResourcesManagementQueryCriteria;
+import me.zhengjie.modules.tool.domain.MessageNotification;
+import me.zhengjie.modules.tool.service.dto.MessageNotificationDto;
+import me.zhengjie.modules.tool.service.dto.MessageNotificationQueryCriteria;
 import org.springframework.data.domain.Pageable;
 import java.util.Map;
 import java.util.List;
@@ -28,9 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 * @website https://el-admin.vip
 * @description 服务接口
 * @author fly
-* @date 2021-04-12
+* @date 2021-04-19
 **/
-public interface ResourcesManagementService {
+public interface MessageNotificationService {
 
     /**
     * 查询数据分页
@@ -38,46 +38,39 @@ public interface ResourcesManagementService {
     * @param pageable 分页参数
     * @return Map<String,Object>
     */
-    Map<String,Object> queryAll(ResourcesManagementQueryCriteria criteria, Pageable pageable);
+    Map<String,Object> queryAll(MessageNotificationQueryCriteria criteria, Pageable pageable);
 
     /**
     * 查询所有数据不分页
     * @param criteria 条件参数
-    * @return List<ResourcesManagementDto>
+    * @return List<MessageNotificationDto>
     */
-    List<ResourcesManagementDto> queryAll(ResourcesManagementQueryCriteria criteria);
+    List<MessageNotificationDto> queryAll(MessageNotificationQueryCriteria criteria);
 
+    /**
+     * 根据用户id查询状态 不为 已处理的通知消息
+     * @return /
+     */
+    List<MessageNotificationDto> findMessageByUserId();
     /**
      * 根据ID查询
      * @param id ID
-     * @return ResourcesManagementDto
+     * @return MessageNotificationDto
      */
-    ResourcesManagementDto findById(Long id);
-
-    /**
-     * 查询状态为启用的配置
-     * @return /
-     */
-    ResourcesManagement findByEnabled();
+    MessageNotificationDto findById(Long id);
 
     /**
     * 创建
     * @param resources /
-    * @return ResourcesManagementDto
+    * @return MessageNotificationDto
     */
-    ResourcesManagementDto create(ResourcesManagement resources);
+    MessageNotificationDto create(MessageNotification resources);
 
     /**
     * 编辑
     * @param resources /
     */
-    void update(ResourcesManagement resources);
-
-    /**
-     * 修改状态
-     * @param resources /
-     */
-    void editEnabled(ResourcesManagement resources);
+    void update(MessageNotification resources);
 
     /**
     * 多选删除
@@ -86,22 +79,10 @@ public interface ResourcesManagementService {
     void deleteAll(Long[] ids);
 
     /**
-     * 获取启用的minio配置
-     * @return /
-     */
-    ResourcesManagement getMinioConfig();
-
-    /**
-     * 根据资源id修改配置状态为禁用
-     * @param id 资源id
-     */
-    void updateById(Long id);
-
-    /**
     * 导出数据
     * @param all 待导出的数据
     * @param response /
     * @throws IOException /
     */
-    void download(List<ResourcesManagementDto> all, HttpServletResponse response) throws IOException;
+    void download(List<MessageNotificationDto> all, HttpServletResponse response) throws IOException;
 }

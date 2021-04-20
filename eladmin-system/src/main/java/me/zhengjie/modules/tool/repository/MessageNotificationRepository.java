@@ -15,6 +15,7 @@
 */
 package me.zhengjie.modules.tool.repository;
 
+import me.zhengjie.modules.tool.domain.MessageNotification;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -22,33 +23,29 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
 * @website https://el-admin.vip
 * @author fly
-* @date 2021-04-12
+* @date 2021-04-19
 **/
-public interface ResourcesManagementRepository extends JpaRepository<ResourcesManagement, Long>, JpaSpecificationExecutor<ResourcesManagement> {
-
+public interface MessageNotificationRepository extends JpaRepository<MessageNotification, Long>, JpaSpecificationExecutor<MessageNotification> {
     /**
-     * 禁用状态
-     * @param id 资源配置id
+     * 修改状态
+     * @param messageState 状态
+     * @param id 消息id
      */
     @Modifying
     @Transactional
-    @Query(value = "update ResourcesManagement set enabled=0 where id=?1 ")
-    void updateById(Long id);
+    @Query(value = "update MessageNotification set messageState = ?1 where id=?2 ")
+    void updateById(Integer messageState, Long id);
 
     /**
-     * 查询状态为启用的配置信息
+     * 根据用户id查询状态 不为 已处理的通知消息
+     * @param userId 用户id
      * @return /
      */
-    @Query(value = "select a.*  from t_resources_management a where a.enabled = 1 ", nativeQuery = true)
-    ResourcesManagement findByEnabled();
-
-    /**
-     * 查询状态为启用的minio的信息
-     * @return /
-     */
-    @Query(value = "select a.*  from t_resources_management a where a.enabled = 1 and a.type = 1 ", nativeQuery = true)
-    ResourcesManagement findByMinioEnabled();
+    @Query(value = "select a.*  from t_message_notification a where a.message_state != 2 and a.user_id = ?1", nativeQuery = true)
+    List<MessageNotification> findMessageByUserId(Long userId);
 }

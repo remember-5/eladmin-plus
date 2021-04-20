@@ -242,6 +242,9 @@ INSERT INTO `sys_dict` VALUES (4, 'dept_status', '部门状态', NULL, NULL, '20
 INSERT INTO `sys_dict` VALUES (5, 'job_status', '岗位状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
 INSERT INTO `sys_dict` VALUES (6, 'resource_status', '存储资源状态', 'admin', 'admin', '2021-04-12 15:41:43', '2021-04-12 16:57:00');
 INSERT INTO `sys_dict` VALUES (7, 'resources_type', '存储资源类型', 'admin', 'admin', '2021-04-12 16:56:56', '2021-04-12 16:56:56');
+INSERT INTO `sys_dict` VALUES (8, 'message_level', '消息级别', 'admin', 'admin', '2021-04-19 17:00:40', '2021-04-19 17:00:40');
+INSERT INTO `sys_dict` VALUES (9, 'message_label', '消息标签', 'admin', 'admin', '2021-04-19 17:01:19', '2021-04-19 17:01:19');
+INSERT INTO `sys_dict` VALUES (10, 'message_state', '消息状态', 'admin', 'admin', '2021-04-19 17:02:24', '2021-04-19 17:02:24');
 COMMIT;
 
 -- ----------------------------
@@ -277,6 +280,14 @@ INSERT INTO `sys_dict_detail` VALUES (8, 6, '禁用', '0', 0, 'admin', 'admin', 
 INSERT INTO `sys_dict_detail` VALUES (9, 7, 'minIO', '1', 1, 'admin', 'admin', '2021-04-12 16:57:12', '2021-04-12 16:57:12');
 INSERT INTO `sys_dict_detail` VALUES (10, 7, '七牛云', '2', 2, 'admin', 'admin', '2021-04-12 16:57:22', '2021-04-12 16:57:22');
 INSERT INTO `sys_dict_detail` VALUES (11, 7, '阿里云', '3', 3, 'admin', 'admin', '2021-04-12 16:57:29', '2021-04-12 16:57:29');
+INSERT INTO `sys_dict_detail` VALUES (12, 8, '紧急', '0', 0, 'admin', 'admin', '2021-04-19 17:00:57', '2021-04-19 17:00:57');
+INSERT INTO `sys_dict_detail` VALUES (13, 8, '普通', '1', 1, 'admin', 'admin', '2021-04-19 17:01:06', '2021-04-19 17:01:06');
+INSERT INTO `sys_dict_detail` VALUES (14, 9, '错误', '0', 0, 'admin', 'admin', '2021-04-19 17:01:34', '2021-04-19 17:01:34');
+INSERT INTO `sys_dict_detail` VALUES (15, 9, '普通', '1', 1, 'admin', 'admin', '2021-04-19 17:01:44', '2021-04-19 17:01:44');
+INSERT INTO `sys_dict_detail` VALUES (16, 9, '待办', '2', 2, 'admin', 'admin', '2021-04-19 17:02:12', '2021-04-19 17:02:12');
+INSERT INTO `sys_dict_detail` VALUES (17, 10, '未查看', '0', 0, 'admin', 'admin', '2021-04-19 17:02:46', '2021-04-19 17:02:46');
+INSERT INTO `sys_dict_detail` VALUES (18, 10, '进行中', '1', 1, 'admin', 'admin', '2021-04-19 17:02:55', '2021-04-19 17:02:55');
+INSERT INTO `sys_dict_detail` VALUES (19, 10, '已处理', '2', 2, 'admin', 'admin', '2021-04-19 17:03:02', '2021-04-19 17:03:02');
 COMMIT;
 
 -- ----------------------------
@@ -732,6 +743,29 @@ INSERT INTO `sys_users_roles` VALUES (2, 2);
 COMMIT;
 
 -- ----------------------------
+-- Table structure for t_message_notification
+-- ----------------------------
+DROP TABLE IF EXISTS `t_message_notification`;
+CREATE TABLE `t_message_notification`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL COMMENT '消息通知的用户',
+  `briefly` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '内容简要',
+  `details` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '内容详情',
+  `message_level` tinyint(2) DEFAULT NULL COMMENT '消息级别(0紧急/1普通)',
+  `message_label` tinyint(2) DEFAULT NULL COMMENT '标签(类型:0错误/1普通通知/2待办)',
+  `message_state` tinyint(2) DEFAULT NULL COMMENT '状态(0未开始/1进行中/2已处理)',
+  `create_date` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_date` datetime(0) DEFAULT NULL COMMENT '修改时间',
+  `is_deleted` tinyint(2) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
+  `by1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `by2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `by3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `by4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `by5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息通知' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for t_resources_management
 -- ----------------------------
 DROP TABLE IF EXISTS `t_resources_management`;
@@ -751,7 +785,7 @@ CREATE TABLE `t_resources_management`  (
   `is_deleted` tinyint(2) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uniq_bucket`(`bucket`) USING BTREE COMMENT '字段唯一性'
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象存储' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象存储' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for tool_alipay_config
