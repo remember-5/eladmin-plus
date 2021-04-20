@@ -823,3 +823,48 @@ BEGIN;
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+DROP TABLE IF EXISTS `sms_project_user`;
+CREATE TABLE `sms_project_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `appid` int(11) DEFAULT NULL COMMENT 'appid',
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目密码',
+  `party` varchar(255) DEFAULT NULL,
+  `party1` varchar(255) DEFAULT NULL,
+  `party2` varchar(255) DEFAULT NULL,
+  `party3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `sms_record`;
+CREATE TABLE `sms_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entry_name` varchar(255) DEFAULT NULL COMMENT '项目名称',
+  `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL COMMENT '手机号',
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '发送内容',
+  `sign` varchar(255) DEFAULT NULL COMMENT '签名',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `send_time` datetime DEFAULT NULL COMMENT '发送时间',
+  `send_status` varchar(255) DEFAULT NULL COMMENT '发送状态 0 待发送  1 已发送  2 发送失败',
+  `spreat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '接口名称',
+  `spreat1` varchar(255) DEFAULT NULL,
+  `spreat2` varchar(255) DEFAULT NULL,
+  `spreat3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `project_information`;
+CREATE TABLE `project_information` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entry_name` varchar(255) DEFAULT NULL,
+  `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'id',
+  `secret` varchar(255) NOT NULL COMMENT '密钥',
+  `spreat` varchar(255) DEFAULT NULL,
+  `spreat1` varchar(255) DEFAULT NULL,
+  `spreat2` varchar(255) DEFAULT NULL,
+  `spreat3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
