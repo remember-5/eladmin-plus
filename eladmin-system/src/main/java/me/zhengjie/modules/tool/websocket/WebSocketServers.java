@@ -5,6 +5,10 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
+import me.zhengjie.modules.mnt.websocket.SocketMsg;
+import me.zhengjie.modules.mnt.websocket.WebSocketServer;
+import me.zhengjie.modules.tool.domain.MessageNotification;
+import me.zhengjie.modules.tool.repository.MessageNotificationRepository;
 import me.zhengjie.utils.RedisUtils;
 import me.zhengjie.utils.SpringContextUtil;
 import org.springframework.stereotype.Component;
@@ -28,6 +32,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class WebSocketServers {
 
     private RedisUtils redisUtils;
+    private MessageNotificationRepository messageNotificationRepository;
 
     /**
      * concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -45,7 +50,7 @@ public class WebSocketServers {
     private String sid="";
     /**
      * 连接建立成功调用的方法
-     * */
+     */
     @OnOpen
     public void onOpen(Session session,@PathParam("sid") String sid) {
         this.session = session;
@@ -66,7 +71,8 @@ public class WebSocketServers {
 
     /**
      * 收到客户端消息后调用的方法
-     * @param message 客户端发送过来的消息*/
+     * @param message 客户端发送过来的消息
+     */
     @OnMessage
     public void onMessage(String message, Session session) {
         log.info("收到来"+sid+"的信息:"+message);
@@ -75,9 +81,19 @@ public class WebSocketServers {
         }
         // 发消息
             try {
-                JSONObject messageObject = JSONObject.parseObject(message);
-                SocketMessage socketMessage = JSON.toJavaObject(messageObject,SocketMessage.class);
-                sendInfo(socketMessage);
+                SocketMessage socketMessage = JSON.toJavaObject(JSONObject.parseObject(message),SocketMessage.class);
+                if (socketMessage.getUsers().size() == 1 && "[ok]".equals(socketMessage.getUsers().toString())){
+                    // 消息通知
+                    //System.out.println(socketMessage);
+                    MessageNotification msgn = JSON.toJavaObject(JSONObject.parseObject(socketMessage.getMsg()),MessageNotification.class);
+                    if (ObjectUtil.isNotNull(msgn)) {
+                        messageNotificationRepository = (MessageNotificationRepository) SpringContextUtil.getBean(MessageNotificationRepository.class);
+                        messageNotificationRepository.updateById(2, msgn.getId());
+                    }
+                }else {
+                    // 消息发送
+                    sendInfo(socketMessage);
+                }
             } catch (IOException e) {
                 log.error(e.getMessage(),e);
             }
@@ -92,10 +108,28 @@ public class WebSocketServers {
      * 实现服务器主动推送
      */
     private void sendMessage(String message) throws IOException {
-        // TODO 做通知中心 哪些类型需要通知 通知级别
+        // TODO 做消息通知中心 哪些类型需要通知 通知级别
+        // 生成消息参考 me.zhengjie.modules.tool.rest.TestMessageNotification
         this.session.getBasicRemote().sendText(message);
     }
 
+
+    /**
+     * 推送消息到前端
+     * */
+    public static void sendMessage(String message, @PathParam("sid") String sid) throws IOException {
+        log.info("推送消息到"+sid+"，推送内容:"+message);
+        for (WebSocketServers item : webSocketSets) {
+            try {
+                //这里可以设定只推送给这个sid的，为null则全部推送
+                if(sid == null) {
+                    item.sendMessage(message);
+                }else if(item.sid.equals(sid)){
+                    item.sendMessage(message);
+                }
+            } catch (IOException ignored) { }
+        }
+    }
 
     /**
      * 群发自定义消息
@@ -106,7 +140,7 @@ public class WebSocketServers {
         log.info("推送消息到"+ users +"，推送内容:"+message);
         // TODO redis Key格式修改 存redis的内容修改(谁发的 发给谁 内容是什么)
         // TODO 发送目标不在线怎么处理
-        // TODO 是否记录 消息记录
+        // TODO 记录消息记录
         // 添加到Redis 发送给谁 然后取出一个发一个
         redisUtils.sSet(sid+":SocketMessage", users.toArray());
         for (WebSocketServers item : webSocketSets) {
