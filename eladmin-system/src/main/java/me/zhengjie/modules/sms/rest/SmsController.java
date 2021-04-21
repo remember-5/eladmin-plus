@@ -100,12 +100,13 @@ public class SmsController {
             return JSONObject.toJSONString(soap);
         }else {
             log.info("参数效验失败"+soap.getCode()+soap.getData()+soap.getMessage());
+            return JSONObject.toJSONString(soap);
         }
-        JSONObject json=new JSONObject();
+       /* JSONObject json=new JSONObject();
         json.put("code","9999");
-        json.put("msg","请求异常");
-        json.put("result","9999");
-        return JSONObject.toJSONString(json);
+        json.put("message","请求异常");
+        json.put("data","9999");
+        return JSONObject.toJSONString(json);*/
     }
 
     /**
@@ -152,25 +153,29 @@ public class SmsController {
     public Soap checkParameter(String appid,String phone,String sign,String content){
         Soap soap = new Soap();
         soap.setData("0001");
-        if (appid==null&&appid.equals("")){
+        if (appid==null||appid.trim().equals("")){
             soap.setCode("1000");
             soap.setMessage("appid不能为空");
+            return soap;
         }
-        if (content==null&&content.equals("")){
+        if (content==null||content.trim().equals("")){
             soap.setCode("1001");
             soap.setMessage("发送内容不能为空");
+            return soap;
         }
-        if (phone==null&&phone.equals("")){
+        if (phone==null||phone.trim().equals("")){
             soap.setCode("1002");
             soap.setMessage("手机号不能为空");
+            return soap;
         }
-        if (sign==null&&sign.equals("")){
+        if (sign==null||sign.trim().equals("")){
             soap.setCode("1003");
             soap.setMessage("签名不能为空");
+            return soap;
         }
-        soap.setData("0000");
-        soap.setCode("0000");
-        soap.setMessage("成功");
+            soap.setData("0000");
+            soap.setCode("0000");
+            soap.setMessage("成功");
         return soap;
     }
 }
