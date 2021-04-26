@@ -111,3 +111,9 @@ file:
   # 文件大小 /M
   maxSize: 100
   avatarMaxSize: 5
+
+user:
+  information:
+        account: dh94731
+        password: pwAU3g79
+
