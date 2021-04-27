@@ -1,6 +1,7 @@
 package me.zhengjie.modules.smsServer.rest;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,14 +45,15 @@ public class SmsController {
      * @return
      */
     @PostMapping(value = "dahansend")
-    public  String test(@RequestBody  List<Information> information){
+    public  String test(@RequestBody  Map<String,Object> information){
         Save save = new Save();
         Soap soap = save.getSoap();
         Save save1 = vailAPP(information);
         if(!save1.getSoap().getCode().equals("0000")){
             return JSONObject.toJSONString(save1);
         }
-        List<Save> saveList =verification(information);
+        JSONObject jsonObject=new JSONObject(information);
+        List<Save> saveList =verification(jsonObject);
         for (int i=0;i<saveList.size();i++){
             if (!saveList.get(i).getSoap().getCode().equals(success)){
                 return JSONObject.toJSONString(saveList.get(i).getSoap());
@@ -59,7 +61,7 @@ public class SmsController {
         }
 
         String code = "";
-            Map<String, String> map = projectInformationRepository.selectAppid(information.get(0).getAppid(),information.get(0).getSecret());
+            Map<String, String> map = projectInformationRepository.selectAppid(saveList.get(0).getAppid(),String.valueOf(information.get("secret")));
                 for (int i = 0; i < saveList.size(); i++) {//遍历入库
                     SmsaRecord smsaRecord = new SmsaRecord();
                     smsaRecord.setAppid(saveList.get(i).getAppid());
@@ -122,10 +124,10 @@ public class SmsController {
     }
 
 
-    public Save vailAPP(List<Information> information){
+    public Save vailAPP(Map<String,Object> information){
         Save save=new Save();
         Soap soap = save.getSoap();
-        Map<String, String> map = projectInformationRepository.selectAppid(information.get(0).getAppid(),information.get(0).getSecret());
+        Map<String, String> map = projectInformationRepository.selectAppid(String.valueOf(information.get("appid")),String.valueOf(information.get("secret")));
         if (map.size()<=0){
             soap=save.getSoap();
             soap.setData(fangwen);
@@ -146,20 +148,25 @@ public class SmsController {
      * @param
      * @return
      */
-    public List<Save> verification(List<Information> information){
+    public List<Save> verification(JSONObject information){
         List<Save> saves=new ArrayList<>();
-        for (Information information1:information) {
+        JSONArray jsonArray=JSONArray.parseArray(information.get("data").toString());
+        String appid=String.valueOf(information.get("appid"));
+        String secret= String.valueOf(information.get("secret"));
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject=jsonArray.getJSONObject(i);
             Save save=new Save();
             Soap soap = save.getSoap();
-            save.setAppid(information1.getAppid());
-            save.setContent(information1.getContent());
-            save.setPhone(information1.getPhone());
-            save.setSign(information1.getSign());
+            save.setAppid(appid);
+            save.setContent(jsonObject.getString("content"));
+            save.setPhone(jsonObject.getString("phone"));
+            save.setSign(jsonObject.getString("sign"));
             save.setType("0");
-            soap = checkParameter(information1.getAppid(), information1.getPhone(), information1.getSign(),information1.getContent(),information1.getSecret());
+            soap = checkParameter(appid, save.getPhone(), save.getSign(),save.getContent(),secret);
             save.setSoap(soap);
             saves.add(save);
         }
+
         return saves;
     }
 
