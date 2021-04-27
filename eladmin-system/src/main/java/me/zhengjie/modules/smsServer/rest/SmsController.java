@@ -65,6 +65,7 @@ public class SmsController {
                     smsaRecord.setAppid(saveList.get(i).getAppid());
                     smsaRecord.setEntryName(map.get("entry_name"));
                     smsaRecord.setPhone(saveList.get(i).getPhone());
+                    smsaRecord.setSign(saveList.get(i).getSign());
                     smsaRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
                     smsaRecord.setSendTime(new Timestamp(System.currentTimeMillis()));
                     if(saveList.get(i).getSoap().getCode().equals("0000")) {
