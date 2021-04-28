@@ -81,4 +81,10 @@ public interface ProjectInformationService {
     * @throws IOException /
     */
     void download(List<ProjectInformationDto> all, HttpServletResponse response) throws IOException;
+
+    /**
+     * 随机生成
+     * @return
+     */
+    String generation();
 }

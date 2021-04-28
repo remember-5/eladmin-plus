@@ -15,6 +15,7 @@
 */
 package me.zhengjie.modules.smsServer.service.impl;
 
+import cn.hutool.core.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.smsServer.domain.ProjectInformation;
 import me.zhengjie.modules.smsServer.repository.ProjectInformationRepository;
@@ -90,6 +91,11 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
         for (Integer id : ids) {
             projectInformationRepository.deleteById(id);
         }
+    }
+
+    @Override
+    public String generation() {
+        return RandomUtil.randomString(10) ;
     }
 
     @Override
