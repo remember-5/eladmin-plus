@@ -34,10 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
 * @website https://el-admin.vip
@@ -95,7 +92,50 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
 
     @Override
     public String generation() {
-        return RandomUtil.randomString(10) ;
+        String val = "";
+        Random random = new Random();
+        //用循环输出十九个字符进行拼接
+        for (int i = 0; i < 21; i++) {
+            // 本次循环是数字还是字母
+            String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "number";
+            // 字母
+            if ("char".equalsIgnoreCase(charOrNum)) {
+                // 本次字母为大写还是小写（ASCII）
+                int choice = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                //生成这个字符
+                val += (char) (choice + random.nextInt(26));
+            }
+            // 数字
+            else if ("number".equalsIgnoreCase(charOrNum)) {
+                //数字可以直接生成
+                val += String.valueOf(random.nextInt(10));
+            }
+        }
+        return val;
+    }
+
+    @Override
+    public String generation2() {
+        String val = "";
+        Random random = new Random();
+        //用循环输出十九个字符进行拼接
+        for (int i = 0; i < 12; i++) {
+            // 本次循环是数字还是字母
+            String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "number";
+            // 字母
+            if ("char".equalsIgnoreCase(charOrNum)) {
+                // 本次字母为大写还是小写（ASCII）
+                int choice = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                //生成这个字符
+                val += (char) (choice + random.nextInt(26));
+            }
+            // 数字
+            else if ("number".equalsIgnoreCase(charOrNum)) {
+                //数字可以直接生成
+                val += String.valueOf(random.nextInt(10));
+            }
+        }
+        return val;
     }
 
     @Override

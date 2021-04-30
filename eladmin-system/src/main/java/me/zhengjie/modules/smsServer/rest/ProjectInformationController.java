@@ -67,7 +67,7 @@ public class ProjectInformationController {
     @ApiOperation("新增项目信息")
     @PreAuthorize("@el.check('projectInformation:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody ProjectInformation resources){
-        resources.setAppid(projectInformationService.generation());
+        resources.setAppid(projectInformationService.generation2());
         resources.setSecret(projectInformationService.generation());
         resources.setCreateTime(new Timestamp(System.currentTimeMillis()));
         return new ResponseEntity<>(projectInformationService.create(resources),HttpStatus.CREATED);

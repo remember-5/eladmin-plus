@@ -83,8 +83,14 @@ public interface ProjectInformationService {
     void download(List<ProjectInformationDto> all, HttpServletResponse response) throws IOException;
 
     /**
-     * 随机生成
+     * 随机生成21位数
      * @return
      */
     String generation();
+
+    /**
+     * 随机生成12位数
+     * @return
+     */
+    String generation2();
 }
