@@ -893,3 +893,95 @@ BEGIN;
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+DROP TABLE IF EXISTS `sms_project_user`;
+CREATE TABLE `sms_project_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `appid` int(11) DEFAULT NULL COMMENT 'appid',
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '项目密码',
+  `party` varchar(255) DEFAULT NULL,
+  `party1` varchar(255) DEFAULT NULL,
+  `party2` varchar(255) DEFAULT NULL,
+  `party3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `sms_journal`;
+CREATE TABLE `sms_journal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entry_name` varchar(255) DEFAULT NULL COMMENT '项目名称',
+  `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'appid',
+  `phone` varchar(255) DEFAULT NULL COMMENT '手机号',
+  `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '发送内容',
+  `sign` varchar(255) DEFAULT NULL COMMENT '签名',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `send_time` timestamp NULL DEFAULT NULL COMMENT '发送时间',
+  `send_status` varchar(255) DEFAULT NULL COMMENT '发送状态 0 待发送  1 已发送  2 发送失败',
+  `uid` int(11) DEFAULT NULL COMMENT '应用id',
+  `spreat1` varchar(255) DEFAULT NULL,
+  `spreat2` varchar(255) DEFAULT NULL,
+  `spreat3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `project_information`;
+CREATE TABLE `project_information` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `entry_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '接入名',
+  `appid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'appid',
+  `secret` varchar(255) NOT NULL COMMENT '密钥',
+  `status` varchar(255) DEFAULT NULL COMMENT '应用状态 （0 不允许发送  1 允许发送）',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `spreat` varchar(255) DEFAULT NULL,
+  `spreat1` varchar(255) DEFAULT NULL,
+  `spreat2` varchar(255) DEFAULT NULL,
+  `spreat3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+DROP TABLE IF EXISTS `t_keywordfiltering`;
+CREATE TABLE `t_keywordfiltering` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  `is_del` int(20) NOT NULL COMMENT '是否逻辑删除',
+  `name` varchar(255) DEFAULT NULL COMMENT '过滤表的名字',
+  `blacklist_describe` varchar(255) DEFAULT NULL COMMENT '过滤表的表述',
+  `file_url` varchar(255) DEFAULT NULL COMMENT '上传文件的url',
+  `update_type` char(1) DEFAULT NULL COMMENT '更新模式',
+  `by1` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by2` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by3` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by4` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by5` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by6` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by7` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by8` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by9` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by10` varchar(255) DEFAULT NULL COMMENT '备用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='关键词表';
+
+DROP TABLE IF EXISTS `t_keywordfiltering_content`;
+CREATE TABLE `t_keywordfiltering_content` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT '修改时间',
+  `is_del` int(20) NOT NULL COMMENT '是否逻辑删除',
+  `keyword` varchar(255) DEFAULT NULL COMMENT '关键字',
+  `url` varchar(255) DEFAULT NULL COMMENT '来自于文件',
+  `keywordfiltering_id` bigint(20) DEFAULT NULL COMMENT '关键词表id',
+  `by1` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by2` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by3` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by4` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by5` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by6` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by7` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by8` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by9` varchar(255) DEFAULT NULL COMMENT '备用',
+  `by10` varchar(255) DEFAULT NULL COMMENT '备用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='关键词内容';
+
