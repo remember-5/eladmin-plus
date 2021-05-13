@@ -15,7 +15,7 @@
 */
 package me.zhengjie.modules.tool.domain;
 
-import lombok.Data;
+import lombok.*;
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.ApiModelProperty;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -23,6 +23,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -35,6 +36,9 @@ import java.io.Serializable;
 **/
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="t_resources_management")
 public class ResourcesManagement implements Serializable {
 

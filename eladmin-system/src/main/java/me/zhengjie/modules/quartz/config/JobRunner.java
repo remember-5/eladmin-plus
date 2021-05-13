@@ -22,6 +22,8 @@ import me.zhengjie.modules.quartz.repository.QuartzJobRepository;
 import me.zhengjie.modules.quartz.utils.QuartzManage;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import me.zhengjie.modules.tool.service.ResourcesManagementService;
+import me.zhengjie.modules.tool.service.dto.ResourcesManagementDto;
+import me.zhengjie.modules.tool.service.dto.ResourcesManagementQueryCriteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -29,6 +31,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static me.zhengjie.modules.minio.config.MinIOCode.MINIOCLIENT;
+import static me.zhengjie.modules.minio.config.MinIOCode.REGISTER_SUCCESS;
 
 /**
  * @author Zheng Jie
@@ -57,12 +62,38 @@ public class JobRunner implements ApplicationRunner {
         // 检查是否有状态为启动的配置
         ResourcesManagement resourcesManagement = resourcesManagementService.findByEnabled();
         /*  此处有两个选择
-                   1.根据已启动状态的配置注入Bean (需要调整顺序 此时执行找不到BeanFactory
-                   2.修改数据库内数据状态为未启动 (此处使用的这个
+                   1.根据已启动状态的配置注入Bean (此处使用的这个
+                   2.修改数据库内数据状态为未启动
          */
         if (ObjectUtil.isNotNull(resourcesManagement)) {
-            // 禁用 启用状态的资源配置
-            resourcesManagementService.updateById(resourcesManagement.getId());
+            // 修改数据库内数据状态为未启动
+            // resourcesManagementService.updateById(resourcesManagement.getId());
+            // 根据已启动状态的配置注入Bean
+            resourcesManagementService.registerBean(MINIOCLIENT, resourcesManagement);
+        }else {
+            // 如果没有状态为启动的配置
+            // 查询数据库中全部的资源配置
+            List<ResourcesManagementDto> resourcesManagementDtos = resourcesManagementService.queryAll(new ResourcesManagementQueryCriteria());
+            if (ObjectUtil.isNotNull(resourcesManagementDtos)){
+                for (ResourcesManagementDto resourcesManagementDto :resourcesManagementDtos) {
+                    if (resourcesManagementDto.getType() == 1){
+                        // 类型为minio
+                        String s = resourcesManagementService.registerBean(MINIOCLIENT,
+                                ResourcesManagement.builder()
+                                .url(resourcesManagementDto.getUrl())
+                                .port(resourcesManagementDto.getPort())
+                                .accesskey(resourcesManagementDto.getAccesskey())
+                                .secretkey(resourcesManagementDto.getSecretkey())
+                                .build());
+                        if (REGISTER_SUCCESS.equals(s)){
+                            // 创建成功跳出循环
+                            break;
+                        }
+                    }
+                }
+            }else {
+                log.warn("-----------------资源配置无，请至菜单配置------------------");
+            }
         }
         log.info("--------------------资源配置初始化完成---------------------");
     }

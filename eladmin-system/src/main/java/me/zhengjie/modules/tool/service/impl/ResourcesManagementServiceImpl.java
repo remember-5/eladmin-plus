@@ -18,7 +18,6 @@ package me.zhengjie.modules.tool.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.modules.minio.config.MinIOConfig;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import me.zhengjie.utils.ValidationUtil;
 import me.zhengjie.utils.FileUtil;
@@ -46,8 +45,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import static me.zhengjie.modules.minio.config.MinIOCode.*;
-import static me.zhengjie.utils.SpringContextUtil.getApplicationContext;
-import static me.zhengjie.utils.SpringContextUtil.getBean;
+import static me.zhengjie.utils.SpringContextHolder.getApplicationContext;
+import static me.zhengjie.utils.SpringContextHolder.getBean;
 
 /**
  * @author fly
@@ -181,6 +180,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
      *
      * @return /
      */
+    @Override
     public String registerBean(String beanName, ResourcesManagement resourcesManagement) {
         // 获取context
         ConfigurableApplicationContext configurableApplicationContext = (ConfigurableApplicationContext) getApplicationContext();

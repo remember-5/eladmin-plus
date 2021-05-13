@@ -98,6 +98,14 @@ public interface ResourcesManagementService {
     void updateById(Long id);
 
     /**
+     * 注册Bean
+     * @param beanName bean名字
+     * @param resourcesManagement 参数
+     * @return /
+     */
+    String registerBean(String beanName, ResourcesManagement resourcesManagement);
+
+    /**
     * 导出数据
     * @param all 待导出的数据
     * @param response /
