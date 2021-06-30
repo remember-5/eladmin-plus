@@ -72,8 +72,9 @@ public class DictServiceImpl implements DictService {
         delCaches(resources);
         Dict dict = dictRepository.findById(resources.getId()).orElseGet(Dict::new);
         ValidationUtil.isNull( dict.getId(),"Dict","id",resources.getId());
-        resources.setId(dict.getId());
-        dictRepository.save(resources);
+        dict.setName(resources.getName());
+        dict.setDescription(resources.getDescription());
+        dictRepository.save(dict);
     }
 
     @Override
@@ -115,6 +116,6 @@ public class DictServiceImpl implements DictService {
     }
 
     public void delCaches(Dict dict){
-        redisUtils.del("dict::name:" + dict.getName());
+        redisUtils.del(CacheKey.DICT_NAME + dict.getName());
     }
 }

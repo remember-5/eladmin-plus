@@ -42,7 +42,6 @@ import java.util.concurrent.*;
  * @date 2019-01-07
  */
 @Async
-@SuppressWarnings({"unchecked","all"})
 public class ExecutionJob extends QuartzJobBean {
 
     /** 该处仅供参考 */
@@ -55,7 +54,7 @@ public class ExecutionJob extends QuartzJobBean {
         QuartzLogRepository quartzLogRepository = SpringContextHolder.getBean(QuartzLogRepository.class);
         QuartzJobService quartzJobService = SpringContextHolder.getBean(QuartzJobService.class);
         RedisUtils redisUtils = SpringContextHolder.getBean(RedisUtils.class);
-        
+
         String uuid = quartzJob.getUuid();
 
         QuartzLog log = new QuartzLog();
@@ -83,7 +82,7 @@ public class ExecutionJob extends QuartzJobBean {
             System.out.println("任务执行完毕，任务名称：" + quartzJob.getJobName() + ", 执行时间：" + times + "毫秒");
             System.out.println("--------------------------------------------------------------");
             // 判断是否存在子任务
-            if(quartzJob.getSubTask() != null){
+            if(StringUtils.isNotBlank(quartzJob.getSubTask())){
                 String[] tasks = quartzJob.getSubTask().split("[,，]");
                 // 执行子任务
                 quartzJobService.executionSubJob(tasks);
@@ -108,8 +107,10 @@ public class ExecutionJob extends QuartzJobBean {
             if(quartzJob.getEmail() != null){
                 EmailService emailService = SpringContextHolder.getBean(EmailService.class);
                 // 邮箱报警
-                EmailVo emailVo = taskAlarm(quartzJob, ThrowableUtil.getStackTrace(e));
-                emailService.send(emailVo, emailService.find());
+                if(StringUtils.isNoneBlank(quartzJob.getEmail())){
+                    EmailVo emailVo = taskAlarm(quartzJob, ThrowableUtil.getStackTrace(e));
+                    emailService.send(emailVo, emailService.find());
+                }
             }
         } finally {
             quartzLogRepository.save(log);
