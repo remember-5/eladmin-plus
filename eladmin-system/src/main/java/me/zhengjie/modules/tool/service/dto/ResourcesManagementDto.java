@@ -15,7 +15,10 @@
 */
 package me.zhengjie.modules.tool.service.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import javax.persistence.Column;
 import java.sql.Timestamp;
 import java.io.Serializable;
 
@@ -53,6 +56,15 @@ public class ResourcesManagementDto implements Serializable {
 
     /** 启用状态(1启用/0禁用) */
     private Integer enabled;
+
+    /** 是否需要自定义前缀(1是/0否) */
+    private Integer isPrefix;
+
+    /** 自定义前缀 */
+    private String prefixStr;
+
+    /** 是否为https(1是/0否) */
+    private Integer isHttps;
 
     /** 备注 */
     private String remarks;

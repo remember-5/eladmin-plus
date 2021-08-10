@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import me.zhengjie.modules.tool.service.ResourcesManagementService;
+import me.zhengjie.result.ResultEnum;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -118,9 +119,25 @@ public class MinIOUtils {
             e.printStackTrace();
             return UPLOAD_FAILED;
         }
+        if(byMinioEnabled.getIsPrefix() == 1){
+            if (byMinioEnabled.getIsHttps() == 1){
+                return new UrlBuilder()
+                        .setScheme("https")
+                        .setHost(byMinioEnabled.getPrefixStr())
+                        .addPath(bucket)
+                        .appendPath(packageName)
+                        .appendPath(fileName)
+                        .build();
+            }
+            return new UrlBuilder()
+                    .setHost(byMinioEnabled.getPrefixStr())
+                    .addPath(bucket)
+                    .appendPath(packageName)
+                    .appendPath(fileName)
+                    .build();
+        }
         return new UrlBuilder()
                 //.setHost(minIOConfig.getHost().substring(7))
-                //.setPort(minIOConfig.getPort())
                 .setHost(byMinioEnabled.getUrl().substring(7))
                 .setPort(byMinioEnabled.getPort())
                 .addPath(bucket)

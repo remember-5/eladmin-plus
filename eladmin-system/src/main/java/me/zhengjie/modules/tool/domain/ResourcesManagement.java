@@ -80,6 +80,18 @@ public class ResourcesManagement implements Serializable {
     @ApiModelProperty(value = "启用状态(1启用/0禁用)")
     private Integer enabled;
 
+    @Column(name = "is_prefix")
+    @ApiModelProperty(value = "是否需要自定义前缀(1是/0否)")
+    private Integer isPrefix;
+
+    @Column(name = "prefix_str")
+    @ApiModelProperty(value = "自定义前缀")
+    private String prefixStr;
+
+    @Column(name = "is_https")
+    @ApiModelProperty(value = "是否为https(1是/0否)")
+    private Integer isHttps;
+
     @Column(name = "remarks")
     @ApiModelProperty(value = "备注")
     private String remarks;

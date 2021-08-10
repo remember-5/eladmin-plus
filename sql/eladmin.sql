@@ -770,23 +770,27 @@ CREATE TABLE `t_message_notification`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_resources_management`;
 CREATE TABLE `t_resources_management`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `type` int(11) DEFAULT NULL COMMENT '分类',
-  `num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '资源编号',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '资源地址',
-  `port` int(11) DEFAULT NULL COMMENT '端口号',
-  `bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '空间名',
-  `accesskey` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'accessKey',
-  `secretkey` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'secretKey',
-  `enabled` tinyint(2) DEFAULT NULL COMMENT '启用状态(1启用/0禁用)',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
-  `create_date` datetime(0) DEFAULT NULL COMMENT '创建时间',
-  `update_date` datetime(0) DEFAULT NULL COMMENT '修改时间',
-  `is_deleted` tinyint(2) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uniq_bucket`(`bucket`) USING BTREE COMMENT '字段唯一性'
+`id` bigint(20) NOT NULL AUTO_INCREMENT,
+`type` int(11) DEFAULT NULL COMMENT '分类',
+`num` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '资源编号',
+`url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '资源地址',
+`port` int(11) DEFAULT NULL COMMENT '端口号',
+`bucket` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '空间名',
+`accesskey` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'accessKey',
+`secretkey` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'secretKey',
+`enabled` tinyint(2) DEFAULT NULL COMMENT '启用状态(1启用/0禁用)',
+`is_prefix` tinyint(2) DEFAULT NULL COMMENT '是否需要自定义前缀(1是/0否)',
+`prefix_str` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '自定义前缀',
+`is_https` tinyint(2) DEFAULT NULL COMMENT '是否为https(1是/0否)',
+`remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+`create_date` datetime(0) DEFAULT NULL COMMENT '创建时间',
+`update_date` datetime(0) DEFAULT NULL COMMENT '修改时间',
+`is_deleted` tinyint(2) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
+PRIMARY KEY (`id`) USING BTREE,
+UNIQUE INDEX `uniq_bucket`(`bucket`) USING BTREE COMMENT '字段唯一性'
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '对象存储' ROW_FORMAT = Dynamic;
 
+SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 -- Table structure for tool_alipay_config
 -- ----------------------------
