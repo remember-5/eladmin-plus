@@ -113,6 +113,8 @@ public class DeptServiceImpl implements DeptService {
         resources.setSubCount(0);
         // 清理缓存
         updateSubCnt(resources.getPid());
+        // 清理自定义角色权限的datascope缓存
+        delCaches(resources.getPid());
     }
 
     @Override
@@ -177,7 +179,7 @@ public class DeptServiceImpl implements DeptService {
         deptList.forEach(dept -> {
                     if (dept!=null && dept.getEnabled()) {
                         List<Dept> depts = deptRepository.findByPid(dept.getId());
-                        if (deptList.size() != 0) {
+                        if (depts.size() != 0) {
                             list.addAll(getDeptChildren(depts));
                         }
                         list.add(dept.getId());
@@ -273,9 +275,9 @@ public class DeptServiceImpl implements DeptService {
      * @param id /
      */
     public void delCaches(Long id){
-        List<User> users = userRepository.findByDeptRoleId(id);
+        List<User> users = userRepository.findByRoleDeptId(id);
         // 删除数据权限
-        redisUtils.delByKeys("data::user:",users.stream().map(User::getId).collect(Collectors.toSet()));
-        redisUtils.del("dept::id:" + id);
+        redisUtils.delByKeys(CacheKey.DATA_USER, users.stream().map(User::getId).collect(Collectors.toSet()));
+        redisUtils.del(CacheKey.DEPT_ID + id);
     }
 }

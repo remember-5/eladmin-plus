@@ -15,7 +15,7 @@
 */
 package me.zhengjie.modules.tool.domain;
 
-import lombok.Data;
+import lombok.*;
 import cn.hutool.core.bean.BeanUtil;
 import io.swagger.annotations.ApiModelProperty;
 import cn.hutool.core.bean.copier.CopyOptions;
@@ -23,6 +23,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.*;
 import java.sql.Timestamp;
 import java.io.Serializable;
@@ -35,6 +36,9 @@ import java.io.Serializable;
 **/
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="t_resources_management")
 public class ResourcesManagement implements Serializable {
 
@@ -75,6 +79,18 @@ public class ResourcesManagement implements Serializable {
     @Column(name = "enabled")
     @ApiModelProperty(value = "启用状态(1启用/0禁用)")
     private Integer enabled;
+
+    @Column(name = "is_prefix")
+    @ApiModelProperty(value = "是否需要自定义前缀(1是/0否)")
+    private Integer isPrefix;
+
+    @Column(name = "prefix_str")
+    @ApiModelProperty(value = "自定义前缀")
+    private String prefixStr;
+
+    @Column(name = "is_https")
+    @ApiModelProperty(value = "是否为https(1是/0否)")
+    private Integer isHttps;
 
     @Column(name = "remarks")
     @ApiModelProperty(value = "备注")
