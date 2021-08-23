@@ -135,8 +135,9 @@ public class KeywordfilteringContentServiceImpl implements KeywordfilteringConte
         for (Long id : ids) {
             blacklist=keywordfilteringContentRepository.getOne(id);
             blacklist.setIsDel(1);
-            if (redisUtils.hasKey(TAG))
+            if (redisUtils.hasKey(TAG)) {
                 redisUtils.setRemove(TAG,blacklist.getKeyword());
+            }
             keywordfilteringContentRepository.save(blacklist);
         }
     }
