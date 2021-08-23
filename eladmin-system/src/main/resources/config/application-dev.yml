@@ -1,12 +1,14 @@
+server:
+  port: 8002
 #配置数据源
 spring:
   datasource:
     druid:
       db-type: com.alibaba.druid.pool.DruidDataSource
       driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      url: jdbc:log4jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
-      username: ${DB_USER:root}
-      password: ${DB_PWD:123456}
+      url: jdbc:log4jdbc:mysql://118.25.95.207:3306/eladmin_template?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+      username: eladmin_template
+      password: EladminTemplate@2021
       # 初始连接数
       initial-size: 5
       # 最小连接数
@@ -48,6 +50,15 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+  # redis
+  redis:
+    #数据库索引
+    database: 9
+    host: 118.25.95.207
+    port: 6379
+    password: lQrVBDbu9rR7T3oY
+    #连接超时时间
+    timeout: 5000
 
 # 登录相关配置
 login:
@@ -118,6 +129,7 @@ file:
   avatarMaxSize: 5
 
 user:
+  # 大汉接口配置
   information:
     account: dh94732
     password: 7S4hNeHg

@@ -133,6 +133,7 @@
 
     <!-- 打包 -->
     <build>
+        <finalName>eladmin-template</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
