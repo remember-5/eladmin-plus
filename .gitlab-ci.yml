@@ -19,35 +19,35 @@ prod-build1:
   stage: compile
   script:
     - echo "=============== 开始编译构建任务 ==============="
-     - $MAVEN_HOME/bin/mvn compile
-  tags:
-     - realname-runner1
+      - $MAVEN_HOME/bin/mvn compile
+#  tags:
+#    - xxx
   only:
-    - dev
+    - master
 # 生产环境打包
 prod-package1:
   stage: package
   script:
     - echo "=============== 开始打包任务  ==============="
-    # 清缓存
-    # - mvn clean
+      # 清缓存
+      - mvn clean
     # 打包
-#    - mvn package -Dmaven.test.skip=true
-    # 停止服务
-    # - sh stop.sh
-    # 删除jar包
-    # - rm -rf /server/tc/tc-eladmin-demo.jar
-    # copy到指定位置
-#     - cp ./eladmin-system/target/tc-eladmin-demo.jar /server/tc
-#     - cp ./start.sh /server/tc
-#     - cd /server/tc
-    # 启动服务
-#     - sh start.sh
+    - mvn package -Dmaven.test.skip=true
+      # 停止服务
+      - sh stop.sh
+      # 删除jar包
+      - rm -rf /server/eladmin/eladmin-template.jar
+      # copy到指定位置
+      - cp ./eladmin-system/target/eladmin-template.jar /server/eladmin
+      - cp ./start.sh /server/eladmin
+      - cd /server/eladmin
+      # 启动服务
+      - sh start.sh
 
-  #  artifacts:
-  #    paths:
-  #      - target/*.jar
-  #  tags:
-  #    - realname-runner1
+#    artifacts:
+#      paths:
+#        - target/*.jar
+#    tags:
+#      - xxx
   only:
-    - dev
+    - master
