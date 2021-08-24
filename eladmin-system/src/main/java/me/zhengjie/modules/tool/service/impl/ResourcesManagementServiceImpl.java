@@ -96,6 +96,9 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         ValidationUtil.isNull(resourcesManagement.getId(), "ResourcesManagement", "id", resources.getId());
         resourcesManagement.copy(resources);
         resourcesManagementRepository.save(resourcesManagement);
+        // 修改数据后删除Bean重新生成
+        removeBeanDefinition(MINIOCLIENT);
+        registerBean(MINIOCLIENT, resourcesManagement);
     }
 
     @Override
@@ -248,6 +251,11 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     @Override
     public void deleteAll(Long[] ids) {
         for (Long id : ids) {
+            // 如果有启用状态的 则销毁Bean
+            ResourcesManagementDto resDto = findById(id);
+            if (resDto.getEnabled() == 1){
+                removeBeanDefinition(MINIOCLIENT);
+            }
             resourcesManagementRepository.deleteById(id);
         }
     }
