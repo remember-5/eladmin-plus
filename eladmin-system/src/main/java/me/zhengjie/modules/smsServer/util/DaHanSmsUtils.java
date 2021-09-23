@@ -35,7 +35,7 @@ public class DaHanSmsUtils {
 	 * @param sign 签名
 	 * @return
 	 */
-	public static String BatchSubmit(List<String> phones, String content, String sign) {
+	public static String batchSubmit(List<String> phones, String content, String sign) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			String date = sdf.format(new Date());// 日期
@@ -119,7 +119,7 @@ public class DaHanSmsUtils {
 	 * 发送不同号码多个号码
 	 * @return
 	 */
-	public static String BatchSubmit(List<SmsParam> smsParams) {
+	public static String batchSubmit(List<SmsParam> smsParams) {
 		try {
 			if (userInformation==null){
 				UserInformation bean = SpringContextHolder.getBean(UserInformation.class);
@@ -150,7 +150,7 @@ public class DaHanSmsUtils {
 	 * @return
 	 */
 
-	public static List<MoObject> MultiMo() {
+	public static List<MoObject> multiMo() {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			String date = sdf.format(new Date());// 日期

@@ -91,7 +91,7 @@ public class KeywordfilteringController {
     @PreAuthorize("@el.check('keywordfiltering:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody Keywordfiltering resources) throws IOException {
         if (resources.getUpdateType()!=null){
-            if (resources.getUpdateType().equals("1")) //全量
+            if ("1".equals(resources.getUpdateType())) //全量
             {
                 KeywordfilteringContentQueryCriteria keywordfilteringContentQueryCriteria = new KeywordfilteringContentQueryCriteria();
                 keywordfilteringContentQueryCriteria.setKeywordfilteringId(resources.getId());

@@ -58,7 +58,7 @@ public class YiTongSmsUtils {
      * @return
      */
     @SuppressWarnings("unchecked")
-	public static HashMap SingleMt(String phone, String smsMessages, int type, SmsPushEtongnet smsSign) {
+	public static HashMap singleMt(String phone, String smsMessages, int type, SmsPushEtongnet smsSign) {
     	String sm = encodeHexStr(DC, smsMessages);//下行内容进行Hex编码，此处dc设为15，即使用GBK编码格式
         StringBuffer sb = new StringBuffer();
         sb.append(MT_URL).append("?command=");
@@ -89,7 +89,7 @@ public class YiTongSmsUtils {
     /**
      * 获取上行内容方法
      */
-    public static List<MoObject> MultiMo() {
+    public static List<MoObject> multiMo() {
     	List<MoObject> moObjectList = new ArrayList<MoObject>();
     	try {
     		String smsUrl = MO_URL + "?command=" + MOQ_REQUEST + "&spid=" + SPID + "&sppassword=" + PASSWORD;

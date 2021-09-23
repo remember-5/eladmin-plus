@@ -6,7 +6,6 @@ import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.keyword.service.KeywordfilteringContentService;
-import me.zhengjie.modules.smsServer.domain.Information;
 import me.zhengjie.modules.smsServer.domain.Save;
 import me.zhengjie.modules.smsServer.domain.SmsaRecord;
 import me.zhengjie.modules.smsServer.domain.Soap;
@@ -48,8 +47,8 @@ public class SmsController {
     public  String test(@RequestBody  Map<String,Object> information){
         Save save = new Save();
         Soap soap = save.getSoap();
-        Save save1 = vailAPP(information);
-        if(!save1.getSoap().getCode().equals("0000")){
+        Save save1 = vailApp(information);
+        if(!"0000".equals(save1.getSoap().getCode())){
             return JSONObject.toJSONString(save1);
         }
         JSONObject jsonObject=new JSONObject(information);
@@ -70,7 +69,7 @@ public class SmsController {
                     smsaRecord.setSign(saveList.get(i).getSign());
                     smsaRecord.setCreateTime(new Timestamp(System.currentTimeMillis()));
                     smsaRecord.setSendTime(new Timestamp(System.currentTimeMillis()));
-                    if(saveList.get(i).getSoap().getCode().equals("0000")) {
+                    if("0000".equals(saveList.get(i).getSoap().getCode())) {
                         smsaRecord.setSendStatus("0");
                     }else{
                         smsaRecord.setSendStatus("3");
@@ -101,9 +100,9 @@ public class SmsController {
                     smsParams.add(smsParam);
                 }
             }
-            code = DaHanSmsUtils.BatchSubmit(smsParams);
+            code = DaHanSmsUtils.batchSubmit(smsParams);
             JSONObject object = JSONObject.parseObject(code);
-            if (object.getString("result").equals("0") && !object.getString("result").equals("")) {
+            if ("0".equals(object.getString("result")) && !"".equals(object.getString("result"))) {
                 for (SmsaRecord smsaRecord : smsaRecords) {
                     smsRecordaRepository.updateStatus(smsaRecord.getId());
                 }
@@ -124,7 +123,7 @@ public class SmsController {
     }
 
 
-    public Save vailAPP(Map<String,Object> information){
+    public Save vailApp(Map<String,Object> information){
         Save save=new Save();
         Soap soap = save.getSoap();
         Map<String, String> map = projectInformationRepository.selectAppid(String.valueOf(information.get("appid")),String.valueOf(information.get("secret")));

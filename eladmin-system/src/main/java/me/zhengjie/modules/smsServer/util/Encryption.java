@@ -1,6 +1,6 @@
 package me.zhengjie.modules.smsServer.util;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -55,10 +55,10 @@ public class Encryption {
     * @return 32位密文
     */
    public static String md5Digest32(String plainText) {
-       String re_md5 = new String();
+       String reMd5 = new String();
        try {
            MessageDigest md = MessageDigest.getInstance("MD5");
-		   md.update(plainText.getBytes("UTF-8"));
+		   md.update(plainText.getBytes(StandardCharsets.UTF_8));
            byte b[] = md.digest();
 
            int i;
@@ -75,13 +75,11 @@ public class Encryption {
                buf.append(Integer.toHexString(i));
            }
 
-           re_md5 = buf.toString();
+           reMd5 = buf.toString();
 
        } catch (NoSuchAlgorithmException e) {
            e.printStackTrace();
-       } catch (UnsupportedEncodingException e) {
-		   e.printStackTrace();
-	   }
-       return re_md5;
+       }
+	   return reMd5;
    }
 }

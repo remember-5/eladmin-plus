@@ -17,11 +17,11 @@ public class JiuGeSmsUtils {
 
     private static final String PASSWORD = "slwl#2020";
 
-    private static final String PostURL="http://39.104.175.91:5001/ws/sendSms";
+    private static final String POST_URL ="http://39.104.175.91:5001/ws/sendSms";
 
-    private static final String Delivery_URL="http://39.104.175.91:5001/ws/getDelivery";
+    private static final String DELIVERY_URL ="http://39.104.175.91:5001/ws/getDelivery";
 
-    private static  final String getBalance_URL="http://39.104.175.91:5001/ws/getBalance";
+    private static  final String GET_BALANCE_URL ="http://39.104.175.91:5001/ws/getBalance";
 
     /**
      *发送下行短信
@@ -37,8 +37,8 @@ public class JiuGeSmsUtils {
         map.put("sendMethod","0");
         map.put("mobiles",mobiles);
         map.put("message",sign+message);
-        log.info("九鸽接口短信---发送短信请求报文："+PostURL+"="+map);
-        String post = HttpUtil.post(PostURL, map);
+        log.info("九鸽接口短信---发送短信请求报文："+ POST_URL +"="+map);
+        String post = HttpUtil.post(POST_URL, map);
         log.info("九鸽接口短信---发送短信返回报文："+post);
         return post;
     }
@@ -57,7 +57,7 @@ public class JiuGeSmsUtils {
         map.put("mobiles",mobiles);
         map.put("message",message);
         map.put("wapPushUrl",wapPushUrl);
-        String post = HttpUtil.post(PostURL, map);
+        String post = HttpUtil.post(POST_URL, map);
         return post;
     }
 
@@ -72,7 +72,7 @@ public class JiuGeSmsUtils {
         map.put("password",PASSWORD);
         map.put("requestIdentifier",requestIdentifier);
         System.out.println("入参："+map);
-        String post = HttpUtil.post(Delivery_URL, map);
+        String post = HttpUtil.post(DELIVERY_URL, map);
         return post;
     }
 
@@ -85,7 +85,7 @@ public class JiuGeSmsUtils {
         map.put("password",PASSWORD);
         //map.put("channelId",channelId);
         System.out.println("入参："+map);
-        String post = HttpUtil.post(getBalance_URL, map);
+        String post = HttpUtil.post(GET_BALANCE_URL, map);
         return post;
     }
 
