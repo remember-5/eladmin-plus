@@ -31,7 +31,7 @@ import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.modules.system.service.dto.UserQueryCriteria;
 import me.zhengjie.modules.system.service.mapstruct.UserMapper;
-import me.zhengjie.result.RestResult;
+import me.zhengjie.result.R;
 import me.zhengjie.utils.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
@@ -42,7 +42,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -201,7 +200,7 @@ public class UserServiceImpl implements UserService {
 //        File file = FileUtil.upload(multipartFile, properties.getPath().getAvatar());
 //        user.setAvatarPath(Objects.requireNonNull(file).getPath());
 //        user.setAvatarName(file.getName());
-        RestResult restResult = minIOService.uploadFile(multipartFile);
+        R restResult = minIOService.uploadFile(multipartFile);
         String data = String.valueOf(restResult.getData());
         if (data!=null){
             user.setAvatarPath(data);

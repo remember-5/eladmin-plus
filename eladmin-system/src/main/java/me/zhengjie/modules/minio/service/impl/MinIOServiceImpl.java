@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.minio.service.MinIOService;
 import me.zhengjie.modules.minio.utils.MinIOUtils;
-import me.zhengjie.result.RestResult;
+import me.zhengjie.result.R;
 import me.zhengjie.result.ResultEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,15 +34,15 @@ public class MinIOServiceImpl implements MinIOService {
      * @Return: java.lang.String
      */
     @Override
-    public RestResult uploadFile(MultipartFile file) {
+    public R uploadFile(MultipartFile file) {
         if (ObjectUtil.isNotNull(file)) {
             String newFileUrl = minIOUtils.upload(file);
             if (newFileUrl != UPLOAD_FAILED && !UPLOAD_FAILED.equals(newFileUrl)) {
-                return new RestResult().resultEnum(ResultEnum.A00000).data(newFileUrl);
+                return new R().resultEnum(ResultEnum.A00000).data(newFileUrl);
             }
-            return new RestResult().resultEnum(ResultEnum.A0500);
+            return new R().resultEnum(ResultEnum.A0500);
         }
-        return new RestResult().resultEnum(ResultEnum.A0400);
+        return new R().resultEnum(ResultEnum.A0400);
     }
 
     /**
@@ -52,7 +52,7 @@ public class MinIOServiceImpl implements MinIOService {
      * @return /
      */
     @Override
-    public RestResult uploadFile(String fileData) {
+    public R uploadFile(String fileData) {
         MultipartFile file = base64ToMultipart(fileData);
         return uploadFile(file);
     }
@@ -64,7 +64,7 @@ public class MinIOServiceImpl implements MinIOService {
      * @return
      */
     @Override
-    public RestResult uploadFile(InputStream inputStreamFile, String fileName) {
+    public R uploadFile(InputStream inputStreamFile, String fileName) {
         try {
             // InputStream 转 File
             File file = inputStreamToFile(inputStreamFile, fileName);
@@ -75,18 +75,18 @@ public class MinIOServiceImpl implements MinIOService {
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
-            return new RestResult().resultEnum(ResultEnum.A0500);
+            return new R().resultEnum(ResultEnum.A0500);
         }
     }
 
     @Override
-    public RestResult removeObject(String objectName) {
+    public R removeObject(String objectName) {
         try {
             minIOUtils.removeObject(objectName);
-            return new RestResult().resultEnum(ResultEnum.A00000);
+            return new R().resultEnum(ResultEnum.A00000);
         } catch (Exception e) {
             e.printStackTrace();
-            return new RestResult().resultEnum(ResultEnum.A0500);
+            return new R().resultEnum(ResultEnum.A0500);
         }
     }
 

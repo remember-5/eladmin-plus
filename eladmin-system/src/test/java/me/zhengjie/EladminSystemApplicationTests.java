@@ -7,7 +7,7 @@ import me.zhengjie.modules.test.domain.BlogArticle;
 import me.zhengjie.modules.test.mapper.BlogArticleMapper;
 import me.zhengjie.modules.test.repository.BlogArticleRepository;
 import me.zhengjie.modules.test.service.impl.BlogArticleServiceImpl;
-import me.zhengjie.result.RestResult;
+import me.zhengjie.result.R;
 import org.apache.http.entity.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -97,7 +97,7 @@ public class EladminSystemApplicationTests {
     public void testUpload() throws IOException {
         File file = new File("");
         MultipartFile cMultiFile = new MockMultipartFile("file", file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), new FileInputStream(file));
-        RestResult restResult = minIOService.uploadFile(cMultiFile);
+        R restResult = minIOService.uploadFile(cMultiFile);
         System.err.println(restResult);
     }
 
