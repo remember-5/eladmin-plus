@@ -46,7 +46,7 @@ public class EladminSystemApplicationTests {
         blogArticleMapper.selectList(new QueryWrapper<>()).forEach(System.err::println);
         List<BlogArticle> list = blogArticleService.list();
         for (BlogArticle blogArticle : list) {
-            log.info("{}",blogArticle);
+            log.info("{}", blogArticle);
         }
 
         // insert
@@ -59,16 +59,15 @@ public class EladminSystemApplicationTests {
 
         blogArticleService.save(blogArticle);
         blogArticleService.save(blogArticle1);
-        blogArticleService.save(new BlogArticle(null,"test2","test2",new Date()));
+        blogArticleService.save(new BlogArticle(null, "test2", "test2", new Date()));
 
         // update
         blogArticle.setTitle("testtesttest");
         blogArticleService.updateById(blogArticle);
 
         // delete
-        log.info("{}",blogArticle.getId());
+        log.info("{}", blogArticle.getId());
         blogArticleService.removeById(blogArticle.getId());
-
 
 
     }
@@ -83,7 +82,7 @@ public class EladminSystemApplicationTests {
         repository.myFind(3).forEach(System.err::println);
 
         // TODO 暂时不行，不知道为啥
-        repository.saveEntity(new BlogArticle(null,"provide_entity","provide_entity",null));
+        repository.saveEntity(new BlogArticle(null, "provide_entity", "provide_entity", null));
 
 
         // save

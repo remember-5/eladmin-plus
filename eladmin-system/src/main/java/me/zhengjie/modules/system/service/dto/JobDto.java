@@ -23,9 +23,9 @@ import me.zhengjie.base.BaseDTO;
 import java.io.Serializable;
 
 /**
-* @author Zheng Jie
-* @date 2019-03-29
-*/
+ * @author Zheng Jie
+ * @date 2019-03-29
+ */
 @Getter
 @Setter
 @NoArgsConstructor

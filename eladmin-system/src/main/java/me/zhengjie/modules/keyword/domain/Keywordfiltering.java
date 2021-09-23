@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.keyword.domain;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -27,14 +27,14 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
-* @website https://el-admin.vip
-* @description /
-* @author tianhh
-* @date 2021-04-21
-**/
+ * @author tianhh
+ * @website https://el-admin.vip
+ * @description /
+ * @date 2021-04-21
+ **/
 @Entity
 @Data
-@Table(name="t_keywordfiltering")
+@Table(name = "t_keywordfiltering")
 public class Keywordfiltering implements Serializable {
 
     @Id
@@ -53,7 +53,7 @@ public class Keywordfiltering implements Serializable {
     @ApiModelProperty(value = "修改时间")
     private Timestamp updateTime;
 
-    @Column(name = "is_del",nullable = false)
+    @Column(name = "is_del", nullable = false)
     @ApiModelProperty(value = "是否逻辑删除")
     private Integer isDel;
 
@@ -113,7 +113,7 @@ public class Keywordfiltering implements Serializable {
     @ApiModelProperty(value = "备用")
     private String by10;
 
-    public void copy(Keywordfiltering source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+    public void copy(Keywordfiltering source) {
+        BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

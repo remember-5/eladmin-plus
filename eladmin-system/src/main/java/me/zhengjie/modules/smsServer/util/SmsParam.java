@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author tanzs
  * @date 2021/3/5
- * @desc  大汉发送不同内容不同号码入参封装
+ * @desc 大汉发送不同内容不同号码入参封装
  */
 @Data
 public class SmsParam {
@@ -18,7 +18,7 @@ public class SmsParam {
 
     private String sign;
 
-    private String subcode="";
+    private String subcode = "";
 
-    private String sendtime="";
+    private String sendtime = "";
 }

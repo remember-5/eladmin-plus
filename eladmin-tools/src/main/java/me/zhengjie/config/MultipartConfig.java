@@ -18,12 +18,13 @@ package me.zhengjie.config;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
 
 /**
- * @date 2018-12-28
  * @author https://blog.csdn.net/llibin1024530411/article/details/79474953
+ * @date 2018-12-28
  */
 @Configuration
 public class MultipartConfig {

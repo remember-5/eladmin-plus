@@ -19,6 +19,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -26,13 +27,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
-* @author Zheng Jie
-* @date 2019-03-29
-*/
+ * @author Zheng Jie
+ * @date 2019-03-29
+ */
 @Entity
 @Getter
 @Setter
-@Table(name="sys_job")
+@Table(name = "sys_job")
 public class Job extends BaseEntity implements Serializable {
 
     @Id

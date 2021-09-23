@@ -12,22 +12,22 @@ import java.util.Date;
  */
 public class BlogArticleProvider {
 
-    public String findAll(){
+    public String findAll() {
         return new SQL()
                 .SELECT("*")
                 .FROM("blog_article")
                 .WHERE("1=1").toString();
     }
 
-    public String save(String title, String content, Date date){
+    public String save(String title, String content, Date date) {
         return new SQL()
                 .INSERT_INTO("blog_article")
-                .VALUES("title","${content}")
-                .VALUES("content","${title}")
-                .VALUES("create_date", "${date}" ).toString();
+                .VALUES("title", "${content}")
+                .VALUES("content", "${title}")
+                .VALUES("create_date", "${date}").toString();
     }
 
-    public String saveEntity(BlogArticle blogArticle){
+    public String saveEntity(BlogArticle blogArticle) {
         String s = new SQL()
                 .INSERT_INTO("blog_article")
                 .VALUES("title", "${content}")

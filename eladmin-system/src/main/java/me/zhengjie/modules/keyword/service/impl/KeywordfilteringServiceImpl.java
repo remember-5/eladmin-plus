@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.keyword.service.impl;
 
 import lombok.RequiredArgsConstructor;
@@ -39,11 +39,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
-* @author tianhh
-* @date 2021-04-21
-**/
+ * @author tianhh
+ * @website https://el-admin.vip
+ * @description 服务实现
+ * @date 2021-04-21
+ **/
 @Service
 @RequiredArgsConstructor
 public class KeywordfilteringServiceImpl implements KeywordfilteringService {
@@ -52,35 +52,35 @@ public class KeywordfilteringServiceImpl implements KeywordfilteringService {
     private final KeywordfilteringMapper keywordfilteringMapper;
 
     @Override
-    public Map<String,Object> queryAll(KeywordfilteringQueryCriteria criteria, Pageable pageable){
-        if (criteria==null){
-            criteria=new KeywordfilteringQueryCriteria();
+    public Map<String, Object> queryAll(KeywordfilteringQueryCriteria criteria, Pageable pageable) {
+        if (criteria == null) {
+            criteria = new KeywordfilteringQueryCriteria();
         }
-        if (criteria.getIsDel()==null){
+        if (criteria.getIsDel() == null) {
             criteria.setIsDel(0);
         }
         KeywordfilteringQueryCriteria finalCriteria = criteria;
-        Page<Keywordfiltering> page = keywordfilteringRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,finalCriteria,criteriaBuilder),pageable);
+        Page<Keywordfiltering> page = keywordfilteringRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, finalCriteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(keywordfilteringMapper::toDto));
     }
 
     @Override
-    public List<KeywordfilteringDto> queryAll(KeywordfilteringQueryCriteria criteria){
-        if (criteria==null){
-            criteria=new KeywordfilteringQueryCriteria();
+    public List<KeywordfilteringDto> queryAll(KeywordfilteringQueryCriteria criteria) {
+        if (criteria == null) {
+            criteria = new KeywordfilteringQueryCriteria();
         }
-        if (criteria.getIsDel()==null){
+        if (criteria.getIsDel() == null) {
             criteria.setIsDel(0);
         }
         KeywordfilteringQueryCriteria finalCriteria = criteria;
-        return keywordfilteringMapper.toDto(keywordfilteringRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, finalCriteria,criteriaBuilder)));
+        return keywordfilteringMapper.toDto(keywordfilteringRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, finalCriteria, criteriaBuilder)));
     }
 
     @Override
     @Transactional
     public KeywordfilteringDto findById(Long id) {
         Keywordfiltering keywordfiltering = keywordfilteringRepository.findById(id).orElseGet(Keywordfiltering::new);
-        ValidationUtil.isNull(keywordfiltering.getId(),"Keywordfiltering","id",id);
+        ValidationUtil.isNull(keywordfiltering.getId(), "Keywordfiltering", "id", id);
         return keywordfilteringMapper.toDto(keywordfiltering);
     }
 
@@ -95,16 +95,16 @@ public class KeywordfilteringServiceImpl implements KeywordfilteringService {
     @Transactional(rollbackFor = Exception.class)
     public void update(Keywordfiltering resources) {
         Keywordfiltering keywordfiltering = keywordfilteringRepository.findById(resources.getId()).orElseGet(Keywordfiltering::new);
-        ValidationUtil.isNull( keywordfiltering.getId(),"Keywordfiltering","id",resources.getId());
+        ValidationUtil.isNull(keywordfiltering.getId(), "Keywordfiltering", "id", resources.getId());
         keywordfiltering.copy(resources);
         keywordfilteringRepository.save(keywordfiltering);
     }
 
     @Override
     public void deleteAll(Long[] ids) {
-        Keywordfiltering blacklist=null;
+        Keywordfiltering blacklist = null;
         for (Long id : ids) {
-            blacklist=keywordfilteringRepository.getOne(id);
+            blacklist = keywordfilteringRepository.getOne(id);
             blacklist.setIsDel(1);
             keywordfilteringRepository.save(blacklist);
         }
@@ -114,7 +114,7 @@ public class KeywordfilteringServiceImpl implements KeywordfilteringService {
     public void download(List<KeywordfilteringDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (KeywordfilteringDto keywordfiltering : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("创建时间", keywordfiltering.getCreateTime());
             map.put("修改时间", keywordfiltering.getUpdateTime());
             map.put("是否逻辑删除", keywordfiltering.getIsDel());

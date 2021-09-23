@@ -24,6 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
@@ -33,6 +34,7 @@ import java.sql.Timestamp;
 
 /**
  * 通用字段， is_del 根据需求自行添加
+ *
  * @author Zheng Jie
  * @Date 2019年10月24日20:46:32
  */
@@ -63,10 +65,12 @@ public class BaseEntity implements Serializable {
     private Timestamp updateTime;
 
     /* 分组校验 */
-    public @interface Create {}
+    public @interface Create {
+    }
 
     /* 分组校验 */
-    public @interface Update {}
+    public @interface Update {
+    }
 
     @Override
     public String toString() {

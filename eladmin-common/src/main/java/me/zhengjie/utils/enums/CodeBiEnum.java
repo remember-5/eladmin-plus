@@ -22,6 +22,7 @@ import lombok.Getter;
  * <p>
  * 验证码业务场景
  * </p>
+ *
  * @author Zheng Jie
  * @date 2020-05-02
  */

@@ -22,6 +22,7 @@ import lombok.Getter;
  * <p>
  * 数据权限枚举
  * </p>
+ *
  * @author Zheng Jie
  * @date 2020-05-07
  */

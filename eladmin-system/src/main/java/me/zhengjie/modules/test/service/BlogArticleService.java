@@ -6,10 +6,6 @@ import me.zhengjie.modules.test.domain.BlogArticle;
 public interface BlogArticleService extends IService<BlogArticle> {
 
 
-
-
-
-
 }
 
 

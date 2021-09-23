@@ -1,6 +1,7 @@
 package me.zhengjie.utils;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static me.zhengjie.utils.EncryptUtils.*;
 

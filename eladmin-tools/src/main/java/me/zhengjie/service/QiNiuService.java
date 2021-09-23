@@ -33,12 +33,14 @@ public interface QiNiuService {
 
     /**
      * 查配置
+     *
      * @return QiniuConfig
      */
     QiniuConfig find();
 
     /**
      * 修改配置
+     *
      * @param qiniuConfig 配置
      * @return QiniuConfig
      */
@@ -46,6 +48,7 @@ public interface QiNiuService {
 
     /**
      * 分页查询
+     *
      * @param criteria 条件
      * @param pageable 分页参数
      * @return /
@@ -54,6 +57,7 @@ public interface QiNiuService {
 
     /**
      * 查询全部
+     *
      * @param criteria 条件
      * @return /
      */
@@ -61,7 +65,8 @@ public interface QiNiuService {
 
     /**
      * 上传文件
-     * @param file 文件
+     *
+     * @param file        文件
      * @param qiniuConfig 配置
      * @return QiniuContent
      */
@@ -69,6 +74,7 @@ public interface QiNiuService {
 
     /**
      * 查询文件
+     *
      * @param id 文件ID
      * @return QiniuContent
      */
@@ -76,40 +82,46 @@ public interface QiNiuService {
 
     /**
      * 下载文件
+     *
      * @param content 文件信息
-     * @param config 配置
+     * @param config  配置
      * @return String
      */
     String download(QiniuContent content, QiniuConfig config);
 
     /**
      * 删除文件
+     *
      * @param content 文件
-     * @param config 配置
+     * @param config  配置
      */
     void delete(QiniuContent content, QiniuConfig config);
 
     /**
      * 同步数据
+     *
      * @param config 配置
      */
     void synchronize(QiniuConfig config);
 
     /**
      * 删除文件
-     * @param ids 文件ID数组
+     *
+     * @param ids    文件ID数组
      * @param config 配置
      */
     void deleteAll(Long[] ids, QiniuConfig config);
 
     /**
      * 更新数据
+     *
      * @param type 类型
      */
     void update(String type);
 
     /**
      * 导出数据
+     *
      * @param queryAll /
      * @param response /
      * @throws IOException /

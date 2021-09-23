@@ -70,28 +70,28 @@ public class JobRunner implements ApplicationRunner {
             // resourcesManagementService.updateById(resourcesManagement.getId());
             // 根据已启动状态的配置注入Bean
             resourcesManagementService.registerBean(MINIOCLIENT, resourcesManagement);
-        }else {
+        } else {
             // 如果没有状态为启动的配置
             // 查询数据库中全部的资源配置
             List<ResourcesManagementDto> resourcesManagementDtos = resourcesManagementService.queryAll(new ResourcesManagementQueryCriteria());
-            if (ObjectUtil.isNotNull(resourcesManagementDtos)){
-                for (ResourcesManagementDto resourcesManagementDto :resourcesManagementDtos) {
-                    if (resourcesManagementDto.getType() == 1){
+            if (ObjectUtil.isNotNull(resourcesManagementDtos)) {
+                for (ResourcesManagementDto resourcesManagementDto : resourcesManagementDtos) {
+                    if (resourcesManagementDto.getType() == 1) {
                         // 类型为minio
                         String s = resourcesManagementService.registerBean(MINIOCLIENT,
                                 ResourcesManagement.builder()
-                                .url(resourcesManagementDto.getUrl())
-                                .port(resourcesManagementDto.getPort())
-                                .accesskey(resourcesManagementDto.getAccesskey())
-                                .secretkey(resourcesManagementDto.getSecretkey())
-                                .build());
-                        if (REGISTER_SUCCESS.equals(s)){
+                                        .url(resourcesManagementDto.getUrl())
+                                        .port(resourcesManagementDto.getPort())
+                                        .accesskey(resourcesManagementDto.getAccesskey())
+                                        .secretkey(resourcesManagementDto.getSecretkey())
+                                        .build());
+                        if (REGISTER_SUCCESS.equals(s)) {
                             // 创建成功跳出循环
                             break;
                         }
                     }
                 }
-            }else {
+            } else {
                 log.warn("-----------------资源配置无，请至菜单配置------------------");
             }
         }

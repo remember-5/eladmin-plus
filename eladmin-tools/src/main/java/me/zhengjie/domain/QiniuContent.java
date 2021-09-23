@@ -18,12 +18,14 @@ package me.zhengjie.domain;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * 上传成功后，存储结果
+ *
  * @author Zheng Jie
  * @date 2018-12-31
  */

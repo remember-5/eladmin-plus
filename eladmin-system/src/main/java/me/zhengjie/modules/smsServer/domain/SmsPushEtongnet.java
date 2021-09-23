@@ -8,12 +8,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
-* @author wh
-* @date 2021-03-08
-*/
+ * @author wh
+ * @date 2021-03-08
+ */
 @Entity
 @Data
-@Table(name="sms_push_etongnet")
+@Table(name = "sms_push_etongnet")
 public class SmsPushEtongnet implements Serializable {
 
     @Id
@@ -48,7 +48,7 @@ public class SmsPushEtongnet implements Serializable {
     @Column(name = "back_z5")
     private String backZ5;
 
-    public void copy(SmsPushEtongnet source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+    public void copy(SmsPushEtongnet source) {
+        BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

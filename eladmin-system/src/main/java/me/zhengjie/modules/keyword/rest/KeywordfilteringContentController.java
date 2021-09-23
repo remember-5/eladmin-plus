@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.keyword.rest;
 
 import io.swagger.annotations.Api;
@@ -33,10 +33,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
-* @website https://el-admin.vip
-* @author tianhh
-* @date 2021-04-21
-**/
+ * @author tianhh
+ * @website https://el-admin.vip
+ * @date 2021-04-21
+ **/
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "关键字详情管理")
@@ -57,23 +57,23 @@ public class KeywordfilteringContentController {
     @Log("查询关键字详情")
     @ApiOperation("查询关键字详情")
     @PreAuthorize("@el.check('keywordfilteringContent:list')")
-    public ResponseEntity<Object> query(KeywordfilteringContentQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(keywordfilteringContentService.queryAll(criteria,pageable),HttpStatus.OK);
+    public ResponseEntity<Object> query(KeywordfilteringContentQueryCriteria criteria, Pageable pageable) {
+        return new ResponseEntity<>(keywordfilteringContentService.queryAll(criteria, pageable), HttpStatus.OK);
     }
 
     @PostMapping
     @Log("新增关键字详情")
     @ApiOperation("新增关键字详情")
     @PreAuthorize("@el.check('keywordfilteringContent:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody KeywordfilteringContent resources){
-        return new ResponseEntity<>(keywordfilteringContentService.create(resources),HttpStatus.CREATED);
+    public ResponseEntity<Object> create(@Validated @RequestBody KeywordfilteringContent resources) {
+        return new ResponseEntity<>(keywordfilteringContentService.create(resources), HttpStatus.CREATED);
     }
 
     @PutMapping
     @Log("修改关键字详情")
     @ApiOperation("修改关键字详情")
     @PreAuthorize("@el.check('keywordfilteringContent:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody KeywordfilteringContent resources){
+    public ResponseEntity<Object> update(@Validated @RequestBody KeywordfilteringContent resources) {
         keywordfilteringContentService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

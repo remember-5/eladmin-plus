@@ -18,6 +18,7 @@ package me.zhengjie.modules.system.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseDTO;
+
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;

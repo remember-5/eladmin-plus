@@ -102,7 +102,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     }
 
     @Override
-    public ResourcesManagement findByEnabled(){
+    public ResourcesManagement findByEnabled() {
         return resourcesManagementRepository.findByEnabled();
     }
 
@@ -244,7 +244,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     }
 
     @Override
-    public void updateById(Long id){
+    public void updateById(Long id) {
         resourcesManagementRepository.updateById(id);
     }
 
@@ -253,7 +253,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         for (Long id : ids) {
             // 如果有启用状态的 则销毁Bean
             ResourcesManagementDto resDto = findById(id);
-            if (resDto.getEnabled() == 1){
+            if (resDto.getEnabled() == 1) {
                 removeBeanDefinition(MINIOCLIENT);
             }
             resourcesManagementRepository.deleteById(id);

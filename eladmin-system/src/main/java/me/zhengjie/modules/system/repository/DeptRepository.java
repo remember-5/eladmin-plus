@@ -20,17 +20,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
 import java.util.List;
 import java.util.Set;
 
 /**
-* @author Zheng Jie
-* @date 2019-03-25
-*/
+ * @author Zheng Jie
+ * @date 2019-03-25
+ */
 public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificationExecutor<Dept> {
 
     /**
      * 根据 PID 查询
+     *
      * @param id pid
      * @return /
      */
@@ -38,12 +40,14 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
 
     /**
      * 获取顶级部门
+     *
      * @return /
      */
     List<Dept> findByPidIsNull();
 
     /**
      * 根据角色ID 查询
+     *
      * @param roleId 角色ID
      * @return /
      */
@@ -53,6 +57,7 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
 
     /**
      * 判断是否存在子节点
+     *
      * @param pid /
      * @return /
      */
@@ -60,10 +65,11 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
 
     /**
      * 根据ID更新sub_count
+     *
      * @param count /
-     * @param id /
+     * @param id    /
      */
     @Modifying
-    @Query(value = " update sys_dept set sub_count = ?1 where dept_id = ?2 ",nativeQuery = true)
+    @Query(value = " update sys_dept set sub_count = ?1 where dept_id = ?2 ", nativeQuery = true)
     void updateSubCntById(Integer count, Long id);
 }

@@ -20,11 +20,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.zhengjie.utils.GenUtil;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * 列的数据信息
+ *
  * @author Zheng Jie
  * @date 2019-01-02
  */
@@ -87,7 +89,7 @@ public class ColumnInfo implements Serializable {
         this.keyType = keyType;
         this.extra = extra;
         this.notNull = notNull;
-        if(GenUtil.PK.equalsIgnoreCase(keyType) && GenUtil.EXTRA.equalsIgnoreCase(extra)){
+        if (GenUtil.PK.equalsIgnoreCase(keyType) && GenUtil.EXTRA.equalsIgnoreCase(extra)) {
             this.notNull = false;
         }
         this.remark = remark;

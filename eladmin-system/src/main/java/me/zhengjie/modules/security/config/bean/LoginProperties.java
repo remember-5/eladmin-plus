@@ -104,7 +104,7 @@ public class LoginProperties {
                     throw new BadConfigurationException("验证码配置信息错误！正确配置查看 LoginCodeEnum ");
             }
         }
-        if(StringUtils.isNotBlank(loginCode.getFontName())){
+        if (StringUtils.isNotBlank(loginCode.getFontName())) {
             captcha.setFont(new Font(loginCode.getFontName(), Font.PLAIN, loginCode.getFontSize()));
         }
         return captcha;

@@ -22,6 +22,7 @@ import lombok.Getter;
  * <p>
  * 验证码业务场景对应的 Redis 中的 key
  * </p>
+ *
  * @author Zheng Jie
  * @date 2020-05-02
  */

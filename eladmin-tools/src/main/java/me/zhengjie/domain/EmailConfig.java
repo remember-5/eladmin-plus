@@ -17,12 +17,14 @@ package me.zhengjie.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
  * 邮件配置类，数据存覆盖式存入数据存
+ *
  * @author Zheng Jie
  * @date 2018-12-26
  */
