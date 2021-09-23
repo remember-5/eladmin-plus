@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.tool.service.impl;
 
 import me.zhengjie.modules.tool.domain.MessageNotification;
@@ -30,6 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.QueryHelp;
+
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
@@ -40,11 +41,11 @@ import java.util.LinkedHashMap;
 import static me.zhengjie.utils.SecurityUtils.getCurrentUserId;
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
-* @author fly
-* @date 2021-04-19
-**/
+ * @author fly
+ * @website https://el-admin.vip
+ * @description 服务实现
+ * @date 2021-04-19
+ **/
 @Service
 @RequiredArgsConstructor
 public class MessageNotificationServiceImpl implements MessageNotificationService {
@@ -53,18 +54,18 @@ public class MessageNotificationServiceImpl implements MessageNotificationServic
     private final MessageNotificationMapper messageNotificationMapper;
 
     @Override
-    public Map<String,Object> queryAll(MessageNotificationQueryCriteria criteria, Pageable pageable){
-        Page<MessageNotification> page = messageNotificationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Map<String, Object> queryAll(MessageNotificationQueryCriteria criteria, Pageable pageable) {
+        Page<MessageNotification> page = messageNotificationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(messageNotificationMapper::toDto));
     }
 
     @Override
-    public List<MessageNotificationDto> queryAll(MessageNotificationQueryCriteria criteria){
-        return messageNotificationMapper.toDto(messageNotificationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<MessageNotificationDto> queryAll(MessageNotificationQueryCriteria criteria) {
+        return messageNotificationMapper.toDto(messageNotificationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
-    public List<MessageNotificationDto> findMessageByUserId(){
+    public List<MessageNotificationDto> findMessageByUserId() {
         return messageNotificationMapper.toDto(messageNotificationRepository.findMessageByUserId(getCurrentUserId()));
     }
 
@@ -72,7 +73,7 @@ public class MessageNotificationServiceImpl implements MessageNotificationServic
     @Transactional
     public MessageNotificationDto findById(Long id) {
         MessageNotification messageNotification = messageNotificationRepository.findById(id).orElseGet(MessageNotification::new);
-        ValidationUtil.isNull(messageNotification.getId(),"MessageNotification","id",id);
+        ValidationUtil.isNull(messageNotification.getId(), "MessageNotification", "id", id);
         return messageNotificationMapper.toDto(messageNotification);
     }
 
@@ -86,7 +87,7 @@ public class MessageNotificationServiceImpl implements MessageNotificationServic
     @Transactional(rollbackFor = Exception.class)
     public void update(MessageNotification resources) {
         MessageNotification messageNotification = messageNotificationRepository.findById(resources.getId()).orElseGet(MessageNotification::new);
-        ValidationUtil.isNull( messageNotification.getId(),"MessageNotification","id",resources.getId());
+        ValidationUtil.isNull(messageNotification.getId(), "MessageNotification", "id", resources.getId());
         messageNotification.copy(resources);
         messageNotificationRepository.save(messageNotification);
     }
@@ -102,7 +103,7 @@ public class MessageNotificationServiceImpl implements MessageNotificationServic
     public void download(List<MessageNotificationDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (MessageNotificationDto messageNotification : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("消息通知的用户", messageNotification.getUserId());
             map.put("内容简要", messageNotification.getBriefly());
             map.put("内容详情", messageNotification.getDetails());
@@ -112,11 +113,11 @@ public class MessageNotificationServiceImpl implements MessageNotificationServic
             map.put("创建时间", messageNotification.getCreateDate());
             map.put("修改时间", messageNotification.getUpdateDate());
             map.put("1 表示删除，0 表示未删除", messageNotification.getIsDeleted());
-            map.put(" by1",  messageNotification.getBy1());
-            map.put(" by2",  messageNotification.getBy2());
-            map.put(" by3",  messageNotification.getBy3());
-            map.put(" by4",  messageNotification.getBy4());
-            map.put(" by5",  messageNotification.getBy5());
+            map.put(" by1", messageNotification.getBy1());
+            map.put(" by2", messageNotification.getBy2());
+            map.put(" by3", messageNotification.getBy3());
+            map.put(" by4", messageNotification.getBy4());
+            map.put(" by5", messageNotification.getBy5());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

@@ -19,8 +19,8 @@ import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.GenConfig;
 import me.zhengjie.repository.GenConfigRepository;
 import me.zhengjie.service.GenConfigService;
-import me.zhengjie.utils.StringUtils;
 import org.springframework.stereotype.Service;
+
 import java.io.File;
 
 /**
@@ -36,7 +36,7 @@ public class GenConfigServiceImpl implements GenConfigService {
     @Override
     public GenConfig find(String tableName) {
         GenConfig genConfig = genConfigRepository.findByTableName(tableName);
-        if(genConfig == null){
+        if (genConfig == null) {
             return new GenConfig(tableName);
         }
         return genConfig;

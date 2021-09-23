@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.smsServer.rest;
 
 import io.swagger.annotations.Api;
@@ -34,10 +34,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 /**
-* @website https://el-admin.vip
-* @author wh
-* @date 2021-04-21
-**/
+ * @author wh
+ * @website https://el-admin.vip
+ * @date 2021-04-21
+ **/
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "项目信息管理")
@@ -58,26 +58,26 @@ public class ProjectInformationController {
     @Log("查询项目信息")
     @ApiOperation("查询项目信息")
     @PreAuthorize("@el.check('projectInformation:list')")
-    public ResponseEntity<Object> query(ProjectInformationQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(projectInformationService.queryAll(criteria,pageable),HttpStatus.OK);
+    public ResponseEntity<Object> query(ProjectInformationQueryCriteria criteria, Pageable pageable) {
+        return new ResponseEntity<>(projectInformationService.queryAll(criteria, pageable), HttpStatus.OK);
     }
 
     @PostMapping
     @Log("新增项目信息")
     @ApiOperation("新增项目信息")
     @PreAuthorize("@el.check('projectInformation:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody ProjectInformation resources){
+    public ResponseEntity<Object> create(@Validated @RequestBody ProjectInformation resources) {
         resources.setAppid(projectInformationService.generation2());
         resources.setSecret(projectInformationService.generation());
         resources.setCreateTime(new Timestamp(System.currentTimeMillis()));
-        return new ResponseEntity<>(projectInformationService.create(resources),HttpStatus.CREATED);
+        return new ResponseEntity<>(projectInformationService.create(resources), HttpStatus.CREATED);
     }
 
     @PutMapping
     @Log("修改项目信息")
     @ApiOperation("修改项目信息")
     @PreAuthorize("@el.check('projectInformation:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody ProjectInformation resources){
+    public ResponseEntity<Object> update(@Validated @RequestBody ProjectInformation resources) {
         projectInformationService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

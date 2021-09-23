@@ -29,22 +29,22 @@ public class UrlTurnMultipartFileUtil {
             //设置应用程序要从网络连接读取数据
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
-            String filetype = url.substring(url.length()-4);
+            String filetype = url.substring(url.length() - 4);
             System.out.println(filetype);
             System.out.println(fileName);
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream is = conn.getInputStream();
                 FileItemFactory factory = new DiskFileItemFactory(16, null);
-                if (".jpg".equals(filetype)){
-                    item = factory.createItem(fileName+filetype, ContentType.IMAGE_JPEG.toString(), false, fileName);
-                }else if (".png".equals(filetype)){
-                    item = factory.createItem(fileName+filetype, ContentType.IMAGE_PNG.toString(), false, fileName);
-                }else if (".mp3".equals(filetype)){
-                    item = factory.createItem(fileName+filetype, "audio/mpeg", false, fileName);
-                }else if (".mp4".equals(filetype)){
-                    item = factory.createItem(fileName+filetype, "video/mp4", false, fileName);
+                if (".jpg".equals(filetype)) {
+                    item = factory.createItem(fileName + filetype, ContentType.IMAGE_JPEG.toString(), false, fileName);
+                } else if (".png".equals(filetype)) {
+                    item = factory.createItem(fileName + filetype, ContentType.IMAGE_PNG.toString(), false, fileName);
+                } else if (".mp3".equals(filetype)) {
+                    item = factory.createItem(fileName + filetype, "audio/mpeg", false, fileName);
+                } else if (".mp4".equals(filetype)) {
+                    item = factory.createItem(fileName + filetype, "video/mp4", false, fileName);
                 } else {
-                    item = factory.createItem(fileName+filetype, ContentType.APPLICATION_OCTET_STREAM.toString(), false, fileName);
+                    item = factory.createItem(fileName + filetype, ContentType.APPLICATION_OCTET_STREAM.toString(), false, fileName);
                 }
                 OutputStream os = item.getOutputStream();
 

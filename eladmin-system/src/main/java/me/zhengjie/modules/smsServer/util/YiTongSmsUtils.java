@@ -32,43 +32,45 @@ import java.util.List;
  * <Li>本示例支持 jre1.4 或以上版本</Li>
  * <Li>本示例不依赖于除jre lib之外的jar包</Li>
  * </Ul>
+ *
  * @author hyyang
  * @since 1.4
  */
 @Slf4j
 public class YiTongSmsUtils {
 
-	private static final String MT_URL="http://esms90.10690007.net/sms/mt";  //下行地址
-    private static final String MO_URL="http://polling2.10690007.net/sms/mortq";    //主动获取上行地址
-    private static final String SPID = "20454";		//账号
-    private static final String PASSWORD = "RNsYw8Nk";			//密码
-    private static final String MT_REQUEST = "MT_REQUEST"; 	 	//发送单一号码单一内容  指令
-    private static final String MULTI_MT_RESPONSE = "MULTI_MT_REQUEST"; 	//群发多个号码同一内容 指令
+    private static final String MT_URL = "http://esms90.10690007.net/sms/mt";  //下行地址
+    private static final String MO_URL = "http://polling2.10690007.net/sms/mortq";    //主动获取上行地址
+    private static final String SPID = "20454";        //账号
+    private static final String PASSWORD = "RNsYw8Nk";            //密码
+    private static final String MT_REQUEST = "MT_REQUEST";        //发送单一号码单一内容  指令
+    private static final String MULTI_MT_RESPONSE = "MULTI_MT_REQUEST";    //群发多个号码同一内容 指令
     private static final String MOQ_REQUEST = "MOQ_REQUEST"; //主动获取上行指令
-    private static final String SPSC = "00"; 		//sp服务代码，可选参数，默认为 00
-    private static final String SA = ""; 		//源号码，可选
-    private static final int DC = 15; 		//源号码，可选参数
+    private static final String SPSC = "00";        //sp服务代码，可选参数，默认为 00
+    private static final String SA = "";        //源号码，可选
+    private static final int DC = 15;        //源号码，可选参数
 
 
     /**
      * 相同内容短信发送方法
+     *
      * @param phone
      * @param smsMessages
      * @param smsSign
      * @return
      */
     @SuppressWarnings("unchecked")
-	public static HashMap SingleMt(String phone, String smsMessages, int type, SmsPushEtongnet smsSign) {
-    	String sm = encodeHexStr(DC, smsMessages);//下行内容进行Hex编码，此处dc设为15，即使用GBK编码格式
+    public static HashMap singleMt(String phone, String smsMessages, int type, SmsPushEtongnet smsSign) {
+        String sm = encodeHexStr(DC, smsMessages);//下行内容进行Hex编码，此处dc设为15，即使用GBK编码格式
         StringBuffer sb = new StringBuffer();
         sb.append(MT_URL).append("?command=");
-        if(type == OrderState.Single.getValue()){
-        	sb.append(MT_REQUEST);
-        	sb.append("&sa=").append(SA);
-        	sb.append("&da=").append(phone);
+        if (type == OrderState.Single.getValue()) {
+            sb.append(MT_REQUEST);
+            sb.append("&sa=").append(SA);
+            sb.append("&da=").append(phone);
         } else {
-        	sb.append(MULTI_MT_RESPONSE);
-        	sb.append("&das=").append(phone);
+            sb.append(MULTI_MT_RESPONSE);
+            sb.append("&das=").append(phone);
         }
         sb.append("&spid=").append(smsSign.getSpid());
         sb.append("&sppassword=").append(smsSign.getPassword());
@@ -78,60 +80,60 @@ public class YiTongSmsUtils {
         //组成url字符串
         String smsUrl = sb.toString();
         //发送http请求，并接收http响应
-        log.info("移通接口短信---发送短信请求报文："+smsUrl);
+        log.info("移通接口短信---发送短信请求报文：" + smsUrl);
         String resStr = doGetRequest(smsUrl);
-        log.info("移通接口短信---发送短信返回报文："+resStr);
+        log.info("移通接口短信---发送短信返回报文：" + resStr);
         //解析响应字符串
         HashMap hashMap = parseResStr(resStr);
-		return hashMap;
+        return hashMap;
     }
 
     /**
      * 获取上行内容方法
      */
-    public static List<MoObject> MultiMo() {
-    	List<MoObject> moObjectList = new ArrayList<MoObject>();
-    	try {
-    		String smsUrl = MO_URL + "?command=" + MOQ_REQUEST + "&spid=" + SPID + "&sppassword=" + PASSWORD;
-	        //发送http请求，并接收http响应
-    		log.info("移通接口短信---获取上行请求报文："+ smsUrl.toString());
-	        String resStr = doGetRequest(smsUrl.toString());
-	        log.info("移通接口短信---获取上行返回报文："+resStr);
-	        HashMap pp = parseResStr(resStr);
-	        String mos = (String) pp.get("mos");
-	        //解析响应字符串
-	        if (mos != null && mos.length() > 0) {
-				String[] moarray = mos.split(",");
-				for (String mostr : moarray) {
-					String[] mo = mostr.split("/");
-					MoObject moObject = new MoObject();
-					moObject.setSpId(SPID);
-					moObject.setSpServiceCode(SPSC);
-					moObject.setMlinkMoId(Long.parseLong(mo[0]));
-					moObject.setSourceAddr(mo[1].substring(2, 13));
-					moObject.setDestinationAddr(mo[2]);
-					moObject.setDataCoding(Integer.parseInt(mo[5]));
-					moObject.setMoContent(decodeHexString(moObject.getDataCoding(), mo[6]));
-					if (mo[3] != null && mo[3].length() > 0) {
-						moObject.setEsmClass(Integer.parseInt(mo[3]));
-					} else {
-						moObject.setEsmClass(0);
-					}
-					if (mo[4] != null && mo[4].length() > 0) {
-						moObject.setProtocolId(Integer.parseInt(mo[4]));
-					} else {
-						moObject.setProtocolId(0);
-					}
-					moObject.setReceiveTime(new Date());
-					moObjectList.add(moObject);
-				}
-			}
-    	} catch (NumberFormatException e) {
-    		e.printStackTrace();
-    	} catch (DecoderException e) {
-    		e.printStackTrace();
-    	}
-		return moObjectList;
+    public static List<MoObject> multiMo() {
+        List<MoObject> moObjectList = new ArrayList<MoObject>();
+        try {
+            String smsUrl = MO_URL + "?command=" + MOQ_REQUEST + "&spid=" + SPID + "&sppassword=" + PASSWORD;
+            //发送http请求，并接收http响应
+            log.info("移通接口短信---获取上行请求报文：" + smsUrl.toString());
+            String resStr = doGetRequest(smsUrl.toString());
+            log.info("移通接口短信---获取上行返回报文：" + resStr);
+            HashMap pp = parseResStr(resStr);
+            String mos = (String) pp.get("mos");
+            //解析响应字符串
+            if (mos != null && mos.length() > 0) {
+                String[] moarray = mos.split(",");
+                for (String mostr : moarray) {
+                    String[] mo = mostr.split("/");
+                    MoObject moObject = new MoObject();
+                    moObject.setSpId(SPID);
+                    moObject.setSpServiceCode(SPSC);
+                    moObject.setMlinkMoId(Long.parseLong(mo[0]));
+                    moObject.setSourceAddr(mo[1].substring(2, 13));
+                    moObject.setDestinationAddr(mo[2]);
+                    moObject.setDataCoding(Integer.parseInt(mo[5]));
+                    moObject.setMoContent(decodeHexString(moObject.getDataCoding(), mo[6]));
+                    if (mo[3] != null && mo[3].length() > 0) {
+                        moObject.setEsmClass(Integer.parseInt(mo[3]));
+                    } else {
+                        moObject.setEsmClass(0);
+                    }
+                    if (mo[4] != null && mo[4].length() > 0) {
+                        moObject.setProtocolId(Integer.parseInt(mo[4]));
+                    } else {
+                        moObject.setProtocolId(0);
+                    }
+                    moObject.setReceiveTime(new Date());
+                    moObjectList.add(moObject);
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } catch (DecoderException e) {
+            e.printStackTrace();
+        }
+        return moObjectList;
     }
 
     //以下代码为定义的工具方法或变量，可单独在一个工具类中进行定义
@@ -158,8 +160,8 @@ public class YiTongSmsUtils {
                 res = bfw.readLine();
             }
         } catch (Exception e) {
-        	e.printStackTrace();
-            log.info("移通接口请求异常！"+e);
+            e.printStackTrace();
+            log.info("移通接口请求异常！" + e);
         }
         return res;
     }
@@ -191,14 +193,15 @@ public class YiTongSmsUtils {
                 res = bfw.readLine();
             }
         } catch (Exception e) {
-        	e.printStackTrace();
-            log.info("移通接口请求异常！"+e);
+            e.printStackTrace();
+            log.info("移通接口请求异常！" + e);
         }
         return res;
     }
 
     /**
      * 将 短信下行 请求响应字符串解析到一个HashMap中
+     *
      * @param resStr
      * @return
      */
@@ -222,13 +225,13 @@ public class YiTongSmsUtils {
     /**
      * Hex编码字符组
      */
-    private static final char[] DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+    private static final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
 
     /**
      * 将普通字符串转换成Hex编码字符串
      *
      * @param dataCoding 编码格式，15表示GBK编码，8表示UnicodeBigUnmarked编码，0表示ISO8859-1编码
-     * @param realStr 普通字符串
+     * @param realStr    普通字符串
      * @return Hex编码字符串
      */
     public static String encodeHexStr(int dataCoding, String realStr) {
@@ -266,7 +269,7 @@ public class YiTongSmsUtils {
      * 将Hex编码字符串还原成普通字符串
      *
      * @param dataCoding 反编码格式，15表示GBK编码，8表示UnicodeBigUnmarked编码，0表示ISO8859-1编码
-     * @param hexStr Hex编码字符串
+     * @param hexStr     Hex编码字符串
      * @return 普通字符串
      */
     public static String decodeHexStr(int dataCoding, String hexStr) {
@@ -286,12 +289,12 @@ public class YiTongSmsUtils {
             // two characters form the hex value.
             for (int i = 0, j = 0; j < len; i++) {
                 int f = Character.digit(data[j], 16) << 4;
-                if(f==-1){
+                if (f == -1) {
                     throw new RuntimeException("Illegal hexadecimal charcter " + data[j] + " at index " + j);
                 }
                 j++;
                 f = f | Character.digit(data[j], 16);
-                if(f==-1){
+                if (f == -1) {
                     throw new RuntimeException("Illegal hexadecimal charcter " + data[j] + " at index " + j);
                 }
                 j++;
@@ -314,21 +317,21 @@ public class YiTongSmsUtils {
     }
 
     public static String decodeHexString(int dataCoding, String hexStr) throws DecoderException {
-		String realStr = null;
-		try {
-			if (hexStr != null) {
-				if (dataCoding == 15) {
-					realStr = new String(Hex.decodeHex(hexStr.toCharArray()), "GBK");
-				} else if ((dataCoding & 0x0C) == 0x08) {
-					realStr = new String(Hex.decodeHex(hexStr.toCharArray()), "UnicodeBigUnmarked");
-				} else {
-					realStr = new String(Hex.decodeHex(hexStr.toCharArray()), "ISO8859-1");
-				}
-			}
-		} catch (UnsupportedEncodingException e) {
-			//logger.error(e.getMessage(), e);
-		}
-		return realStr;
-	}
+        String realStr = null;
+        try {
+            if (hexStr != null) {
+                if (dataCoding == 15) {
+                    realStr = new String(Hex.decodeHex(hexStr.toCharArray()), "GBK");
+                } else if ((dataCoding & 0x0C) == 0x08) {
+                    realStr = new String(Hex.decodeHex(hexStr.toCharArray()), "UnicodeBigUnmarked");
+                } else {
+                    realStr = new String(Hex.decodeHex(hexStr.toCharArray()), "ISO8859-1");
+                }
+            }
+        } catch (UnsupportedEncodingException e) {
+            //logger.error(e.getMessage(), e);
+        }
+        return realStr;
+    }
 
 }

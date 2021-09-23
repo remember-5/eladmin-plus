@@ -1,6 +1,6 @@
 package me.zhengjie.modules.minio.service;
 
-import me.zhengjie.result.RestResult;
+import me.zhengjie.result.R;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -14,7 +14,7 @@ public interface MinIOService {
      * @Param: [file]
      * @Return: java.lang.String
      */
-    RestResult uploadFile(MultipartFile file);
+    R uploadFile(MultipartFile file);
 
     /**
      * base64上传
@@ -22,7 +22,7 @@ public interface MinIOService {
      * @param fileData base64
      * @return /
      */
-    RestResult uploadFile(String fileData);
+    R uploadFile(String fileData);
 
     /**
      * InputStream 上传
@@ -30,7 +30,7 @@ public interface MinIOService {
      * @param inputStreamFile InputStream流文件
      * @return /
      */
-    RestResult uploadFile(InputStream inputStreamFile, String fileName);
+    R uploadFile(InputStream inputStreamFile, String fileName);
 
     /**
      * 删除文件
@@ -38,7 +38,7 @@ public interface MinIOService {
      * @param objectName 文件名
      * @return /
      */
-    RestResult removeObject(String objectName);
+    R removeObject(String objectName);
 
     /**
      * 下载文件流

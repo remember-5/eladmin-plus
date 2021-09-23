@@ -10,8 +10,9 @@ public class Save {
     private String content;  //发送内容
     private String type;  //发送类型 0  单发  1 群发
     private Soap soap;
+
     public Soap getSoap() {
-        if (soap==null) {
+        if (soap == null) {
             soap = new Soap();
         }
         return soap;

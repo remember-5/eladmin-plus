@@ -17,6 +17,7 @@ package me.zhengjie.aspect;
 
 /**
  * 限流枚举
+ *
  * @author /
  */
 public enum LimitType {

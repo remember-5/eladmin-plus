@@ -32,15 +32,17 @@ public interface MenuService {
 
     /**
      * 查询全部数据
+     *
      * @param criteria 条件
-     * @param isQuery /
-     * @throws Exception /
+     * @param isQuery  /
      * @return /
+     * @throws Exception /
      */
     List<MenuDto> queryAll(MenuQueryCriteria criteria, Boolean isQuery) throws Exception;
 
     /**
      * 根据ID查询
+     *
      * @param id /
      * @return /
      */
@@ -48,26 +50,30 @@ public interface MenuService {
 
     /**
      * 创建
+     *
      * @param resources /
      */
     void create(Menu resources);
 
     /**
      * 编辑
+     *
      * @param resources /
      */
     void update(Menu resources);
 
     /**
      * 获取所有子节点，包含自身ID
+     *
      * @param menuList /
-     * @param menuSet /
+     * @param menuSet  /
      * @return /
      */
     Set<Menu> getChildMenus(List<Menu> menuList, Set<Menu> menuSet);
 
     /**
      * 构建菜单树
+     *
      * @param menuDtos 原始数据
      * @return /
      */
@@ -75,6 +81,7 @@ public interface MenuService {
 
     /**
      * 构建菜单树
+     *
      * @param menuDtos /
      * @return /
      */
@@ -82,6 +89,7 @@ public interface MenuService {
 
     /**
      * 根据ID查询
+     *
      * @param id /
      * @return /
      */
@@ -89,12 +97,14 @@ public interface MenuService {
 
     /**
      * 删除
+     *
      * @param menuSet /
      */
     void delete(Set<Menu> menuSet);
 
     /**
      * 导出
+     *
      * @param queryAll 待导出的数据
      * @param response /
      * @throws IOException /
@@ -103,6 +113,7 @@ public interface MenuService {
 
     /**
      * 懒加载菜单数据
+     *
      * @param pid /
      * @return /
      */
@@ -110,6 +121,7 @@ public interface MenuService {
 
     /**
      * 根据ID获取同级与上级数据
+     *
      * @param menuDto /
      * @param objects /
      * @return /
@@ -118,6 +130,7 @@ public interface MenuService {
 
     /**
      * 根据当前用户获取菜单
+     *
      * @param currentUserId /
      * @return /
      */

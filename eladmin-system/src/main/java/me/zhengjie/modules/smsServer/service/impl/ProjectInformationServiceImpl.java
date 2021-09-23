@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.smsServer.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
@@ -37,11 +37,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
-* @author wh
-* @date 2021-04-21
-**/
+ * @author wh
+ * @website https://el-admin.vip
+ * @description 服务实现
+ * @date 2021-04-21
+ **/
 @Service
 @RequiredArgsConstructor
 public class ProjectInformationServiceImpl implements ProjectInformationService {
@@ -50,21 +50,21 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
     private final ProjectInformationMapper projectInformationMapper;
 
     @Override
-    public Map<String,Object> queryAll(ProjectInformationQueryCriteria criteria, Pageable pageable){
-        Page<ProjectInformation> page = projectInformationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Map<String, Object> queryAll(ProjectInformationQueryCriteria criteria, Pageable pageable) {
+        Page<ProjectInformation> page = projectInformationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(projectInformationMapper::toDto));
     }
 
     @Override
-    public List<ProjectInformationDto> queryAll(ProjectInformationQueryCriteria criteria){
-        return projectInformationMapper.toDto(projectInformationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<ProjectInformationDto> queryAll(ProjectInformationQueryCriteria criteria) {
+        return projectInformationMapper.toDto(projectInformationRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
     @Transactional
     public ProjectInformationDto findById(Integer id) {
         ProjectInformation projectInformation = projectInformationRepository.findById(id).orElseGet(ProjectInformation::new);
-        ValidationUtil.isNull(projectInformation.getId(),"ProjectInformation","id",id);
+        ValidationUtil.isNull(projectInformation.getId(), "ProjectInformation", "id", id);
         return projectInformationMapper.toDto(projectInformation);
     }
 
@@ -78,7 +78,7 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
     @Transactional(rollbackFor = Exception.class)
     public void update(ProjectInformation resources) {
         ProjectInformation projectInformation = projectInformationRepository.findById(resources.getId()).orElseGet(ProjectInformation::new);
-        ValidationUtil.isNull( projectInformation.getId(),"ProjectInformation","id",resources.getId());
+        ValidationUtil.isNull(projectInformation.getId(), "ProjectInformation", "id", resources.getId());
         projectInformation.copy(resources);
         projectInformationRepository.save(projectInformation);
     }
@@ -142,13 +142,13 @@ public class ProjectInformationServiceImpl implements ProjectInformationService 
     public void download(List<ProjectInformationDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (ProjectInformationDto projectInformation : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
-            map.put(" entryName",  projectInformation.getEntryName());
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put(" entryName", projectInformation.getEntryName());
             map.put("id", projectInformation.getAppid());
-            map.put(" spreat",  projectInformation.getSpreat());
-            map.put(" spreat1",  projectInformation.getSpreat1());
-            map.put(" spreat2",  projectInformation.getSpreat2());
-            map.put(" spreat3",  projectInformation.getSpreat3());
+            map.put(" spreat", projectInformation.getSpreat());
+            map.put(" spreat1", projectInformation.getSpreat1());
+            map.put(" spreat2", projectInformation.getSpreat2());
+            map.put(" spreat3", projectInformation.getSpreat3());
             map.put("密钥", projectInformation.getSecret());
             map.put("应用状态 （0 不允许发送  1 允许发送）", projectInformation.getStatus());
             list.add(map);

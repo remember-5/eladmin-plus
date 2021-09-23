@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.smsServer.rest;
 
 import io.swagger.annotations.Api;
@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
-* @website https://el-admin.vip
-* @author wh
-* @date 2021-04-19
-**/
+ * @author wh
+ * @website https://el-admin.vip
+ * @date 2021-04-19
+ **/
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "短信信息管理")
@@ -39,7 +39,8 @@ public class SmsRecordaController {
 
     private final SmsRecordaService smsRecordaService;
     private final SmsRecordaRepository smsRecordaRepository;
-//
+
+    //
 //    @Log("导出数据")
 //    @ApiOperation("导出数据")
 //    @GetMapping(value = "/download")
@@ -86,6 +87,7 @@ public class SmsRecordaController {
     public ResponseEntity<Object> getrecordday() {
         return new ResponseEntity<>(smsRecordaService.getrecordday(), HttpStatus.OK);
     }
+
     @ApiOperation("查询近几个周数据")
     @GetMapping("/getrecordweek")
     public ResponseEntity<Object> getrecordweek() {
@@ -97,9 +99,10 @@ public class SmsRecordaController {
     public ResponseEntity<Object> getrecordmonth() {
         return new ResponseEntity<>(smsRecordaService.getrecordmonth(), HttpStatus.OK);
     }
+
     @ApiOperation("查询近几月的数据")
     @GetMapping("/getcustomTime")
-    public ResponseEntity<Object> getcustomTime(String start,String  end ) {
-        return new ResponseEntity<>(smsRecordaService.getcustomTime(start,end), HttpStatus.OK);
+    public ResponseEntity<Object> getcustomTime(String start, String end) {
+        return new ResponseEntity<>(smsRecordaService.getcustomTime(start, end), HttpStatus.OK);
     }
 }

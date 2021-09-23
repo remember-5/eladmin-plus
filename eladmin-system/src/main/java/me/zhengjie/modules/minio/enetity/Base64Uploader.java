@@ -13,7 +13,4 @@ public class Base64Uploader {
     private String data;
 
 
-
-
-
 }

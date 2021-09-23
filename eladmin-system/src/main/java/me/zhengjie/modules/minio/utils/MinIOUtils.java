@@ -119,8 +119,8 @@ public class MinIOUtils {
             e.printStackTrace();
             return UPLOAD_FAILED;
         }
-        if(byMinioEnabled.getIsPrefix() == 1){
-            if (byMinioEnabled.getIsHttps() == 1){
+        if (byMinioEnabled.getIsPrefix() == 1) {
+            if (byMinioEnabled.getIsHttps() == 1) {
                 return new UrlBuilder()
                         .setScheme("https")
                         .setHost(byMinioEnabled.getPrefixStr())

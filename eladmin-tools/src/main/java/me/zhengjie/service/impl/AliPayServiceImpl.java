@@ -30,6 +30,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 /**
@@ -61,7 +62,7 @@ public class AliPayServiceImpl implements AliPayService {
     @Override
     public String toPayAsPc(AlipayConfig alipay, TradeVo trade) throws Exception {
 
-        if(alipay.getId() == null){
+        if (alipay.getId() == null) {
             throw new BadRequestException("请先添加相应配置，再操作");
         }
         AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(), alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(), alipay.getSignType());
@@ -74,14 +75,14 @@ public class AliPayServiceImpl implements AliPayService {
         request.setNotifyUrl(alipay.getNotifyUrl());
         // 填充订单参数
         request.setBizContent("{" +
-                "    \"out_trade_no\":\""+trade.getOutTradeNo()+"\"," +
+                "    \"out_trade_no\":\"" + trade.getOutTradeNo() + "\"," +
                 "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
-                "    \"total_amount\":"+trade.getTotalAmount()+"," +
-                "    \"subject\":\""+trade.getSubject()+"\"," +
-                "    \"body\":\""+trade.getBody()+"\"," +
+                "    \"total_amount\":" + trade.getTotalAmount() + "," +
+                "    \"subject\":\"" + trade.getSubject() + "\"," +
+                "    \"body\":\"" + trade.getBody() + "\"," +
                 "    \"extend_params\":{" +
-                "    \"sys_service_provider_id\":\""+alipay.getSysServiceProviderId()+"\"" +
-                "    }"+
+                "    \"sys_service_provider_id\":\"" + alipay.getSysServiceProviderId() + "\"" +
+                "    }" +
                 "  }");//填充业务参数
         // 调用SDK生成表单, 通过GET方式，口可以获取url
         return alipayClient.pageExecute(request, "GET").getBody();
@@ -90,14 +91,14 @@ public class AliPayServiceImpl implements AliPayService {
 
     @Override
     public String toPayAsWeb(AlipayConfig alipay, TradeVo trade) throws Exception {
-        if(alipay.getId() == null){
+        if (alipay.getId() == null) {
             throw new BadRequestException("请先添加相应配置，再操作");
         }
         AlipayClient alipayClient = new DefaultAlipayClient(alipay.getGatewayUrl(), alipay.getAppId(), alipay.getPrivateKey(), alipay.getFormat(), alipay.getCharset(), alipay.getPublicKey(), alipay.getSignType());
 
         double money = Double.parseDouble(trade.getTotalAmount());
         double maxMoney = 5000;
-        if(money <= 0 || money >= maxMoney){
+        if (money <= 0 || money >= maxMoney) {
             throw new BadRequestException("测试金额过大");
         }
         // 创建API对应的request(手机网页版)
@@ -105,14 +106,14 @@ public class AliPayServiceImpl implements AliPayService {
         request.setReturnUrl(alipay.getReturnUrl());
         request.setNotifyUrl(alipay.getNotifyUrl());
         request.setBizContent("{" +
-                "    \"out_trade_no\":\""+trade.getOutTradeNo()+"\"," +
+                "    \"out_trade_no\":\"" + trade.getOutTradeNo() + "\"," +
                 "    \"product_code\":\"FAST_INSTANT_TRADE_PAY\"," +
-                "    \"total_amount\":"+trade.getTotalAmount()+"," +
-                "    \"subject\":\""+trade.getSubject()+"\"," +
-                "    \"body\":\""+trade.getBody()+"\"," +
+                "    \"total_amount\":" + trade.getTotalAmount() + "," +
+                "    \"subject\":\"" + trade.getSubject() + "\"," +
+                "    \"body\":\"" + trade.getBody() + "\"," +
                 "    \"extend_params\":{" +
-                "    \"sys_service_provider_id\":\""+alipay.getSysServiceProviderId()+"\"" +
-                "    }"+
+                "    \"sys_service_provider_id\":\"" + alipay.getSysServiceProviderId() + "\"" +
+                "    }" +
                 "  }");
         return alipayClient.pageExecute(request, "GET").getBody();
     }

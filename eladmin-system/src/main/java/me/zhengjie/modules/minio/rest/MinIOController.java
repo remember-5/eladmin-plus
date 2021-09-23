@@ -1,7 +1,6 @@
 package me.zhengjie.modules.minio.rest;
 
 
-import io.minio.errors.MinioException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -9,12 +8,7 @@ import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.minio.enetity.Base64Uploader;
 import me.zhengjie.modules.minio.service.MinIOService;
-import me.zhengjie.modules.minio.utils.MinIOUtils;
-import me.zhengjie.result.RestResult;
-import me.zhengjie.utils.StringUtils;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import me.zhengjie.result.R;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,7 +35,7 @@ public class MinIOController {
     @Log("上传文件:MultipartFile")
     @ApiOperation("上传文件:MultipartFile")
     @PostMapping("upload")
-    public RestResult uploadFile(@RequestParam("file") MultipartFile file) {
+    public R uploadFile(@RequestParam("file") MultipartFile file) {
         return minIOService.uploadFile(file);
     }
 
@@ -55,7 +49,7 @@ public class MinIOController {
     @ApiOperation("上传文件:base64")
     @PostMapping("uploadBaseFile")
     @ApiImplicitParam(name = "fileData", value = "上传的Base64格式文件", required = true)
-    public RestResult uploadBase64File(@RequestBody Base64Uploader base64Uploader) {
+    public R uploadBase64File(@RequestBody Base64Uploader base64Uploader) {
         return minIOService.uploadFile(base64Uploader.getData());
     }
 
@@ -66,7 +60,7 @@ public class MinIOController {
     @Log("删除文件")
     @ApiOperation("删除文件")
     @DeleteMapping("/delete/{objectName}")
-    public RestResult delete(@PathVariable("objectName") String objectName) throws Exception {
+    public R delete(@PathVariable("objectName") String objectName) throws Exception {
         return minIOService.removeObject(objectName);
     }
 

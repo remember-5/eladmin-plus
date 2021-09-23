@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.Set;
 
 /**
- * @description
  * @author fly
+ * @description
  * @date 2021/4/15 15:19
  */
 @Data
@@ -20,14 +20,15 @@ public class SocketMessage {
      */
     private Set<String> users;
 
-    public SocketMessage() {}
+    public SocketMessage() {
+    }
 
-    public SocketMessage (String msg, Set<String> users){
+    public SocketMessage(String msg, Set<String> users) {
         this.msg = msg;
         this.users = users;
     }
 
-    public SocketMessage (String msg){
+    public SocketMessage(String msg) {
         this.msg = msg;
     }
 }

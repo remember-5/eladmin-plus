@@ -19,6 +19,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseDTO;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;

@@ -25,7 +25,7 @@ spring:
       max-evictable-idle-time-millis: 900000
       # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
       test-while-idle: true
-        # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
+      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
       test-on-borrow: true
       # 是否在归还到池中前进行检验
       test-on-return: false

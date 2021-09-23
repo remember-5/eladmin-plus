@@ -7,7 +7,7 @@ import me.zhengjie.modules.test.domain.BlogArticle;
 import me.zhengjie.modules.test.mapper.BlogArticleMapper;
 import me.zhengjie.modules.test.repository.BlogArticleRepository;
 import me.zhengjie.modules.test.service.impl.BlogArticleServiceImpl;
-import me.zhengjie.result.RestResult;
+import me.zhengjie.result.R;
 import org.apache.http.entity.ContentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +46,7 @@ public class EladminSystemApplicationTests {
         blogArticleMapper.selectList(new QueryWrapper<>()).forEach(System.err::println);
         List<BlogArticle> list = blogArticleService.list();
         for (BlogArticle blogArticle : list) {
-            log.info("{}",blogArticle);
+            log.info("{}", blogArticle);
         }
 
         // insert
@@ -59,16 +59,15 @@ public class EladminSystemApplicationTests {
 
         blogArticleService.save(blogArticle);
         blogArticleService.save(blogArticle1);
-        blogArticleService.save(new BlogArticle(null,"test2","test2",new Date()));
+        blogArticleService.save(new BlogArticle(null, "test2", "test2", new Date()));
 
         // update
         blogArticle.setTitle("testtesttest");
         blogArticleService.updateById(blogArticle);
 
         // delete
-        log.info("{}",blogArticle.getId());
+        log.info("{}", blogArticle.getId());
         blogArticleService.removeById(blogArticle.getId());
-
 
 
     }
@@ -83,7 +82,7 @@ public class EladminSystemApplicationTests {
         repository.myFind(3).forEach(System.err::println);
 
         // TODO 暂时不行，不知道为啥
-        repository.saveEntity(new BlogArticle(null,"provide_entity","provide_entity",null));
+        repository.saveEntity(new BlogArticle(null, "provide_entity", "provide_entity", null));
 
 
         // save
@@ -97,7 +96,7 @@ public class EladminSystemApplicationTests {
     public void testUpload() throws IOException {
         File file = new File("");
         MultipartFile cMultiFile = new MockMultipartFile("file", file.getName(), ContentType.APPLICATION_OCTET_STREAM.toString(), new FileInputStream(file));
-        RestResult restResult = minIOService.uploadFile(cMultiFile);
+        R restResult = minIOService.uploadFile(cMultiFile);
         System.err.println(restResult);
     }
 

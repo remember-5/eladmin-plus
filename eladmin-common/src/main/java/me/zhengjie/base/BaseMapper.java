@@ -25,6 +25,7 @@ public interface BaseMapper<D, E> {
 
     /**
      * DTO转Entity
+     *
      * @param dto /
      * @return /
      */
@@ -32,6 +33,7 @@ public interface BaseMapper<D, E> {
 
     /**
      * Entity转DTO
+     *
      * @param entity /
      * @return /
      */
@@ -39,15 +41,17 @@ public interface BaseMapper<D, E> {
 
     /**
      * DTO集合转Entity集合
+     *
      * @param dtoList /
      * @return /
      */
-    List <E> toEntity(List<D> dtoList);
+    List<E> toEntity(List<D> dtoList);
 
     /**
      * Entity集合转DTO集合
+     *
      * @param entityList /
      * @return /
      */
-    List <D> toDto(List<E> entityList);
+    List<D> toDto(List<E> entityList);
 }
