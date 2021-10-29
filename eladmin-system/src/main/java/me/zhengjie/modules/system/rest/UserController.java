@@ -168,6 +168,15 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @ApiOperation("重置密码")
+    @PostMapping(value = "/resetPass")
+    public ResponseEntity<Object> resetPass(@RequestBody Long userId) {
+        String password = "123456";
+        UserDto user = userService.findById(userId);
+        userService.updatePass(user.getUsername(), passwordEncoder.encode(password));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @ApiOperation("修改头像")
     @PostMapping(value = "/updateAvatar")
     public ResponseEntity<Object> updateAvatar(@RequestParam MultipartFile avatar) {
