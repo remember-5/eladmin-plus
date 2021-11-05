@@ -1,53 +1,29 @@
-image: maven:latest
-
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=/usr/local/maven/repo"
-# 本次构建的阶段：build package
-stages:
-  - compile
-  - package
-#  - dock
-
-#services:
-#  - docker:dind
-
-# ======================= 第一个节点 ================================
-
-# =========== 生产 ===========
+# =========== 开发环境 ===========
 # 构建 Job
-prod-build1:
+dev-build:
   stage: compile
   script:
     - echo "=============== 开始编译构建任务 ==============="
     - $MAVEN_HOME/bin/mvn compile
-#  tags:
-#    - xxx
   only:
-    - master
+    - dev
+
 # 生产环境打包
-prod-package1:
+dev-package:
   stage: package
   script:
     - echo "=============== 开始打包任务  ==============="
-    # 清缓存
-    - mvn clean
-    # 打包
-    - mvn package -Dmaven.test.skip=true
-    # 停止服务
-    - sh stop.sh
-    # 删除jar包
-    - rm -rf /server/eladmin/eladmin-template.jar
-    # copy到指定位置
-    - cp ./eladmin-system/target/eladmin-template.jar /server/eladmin
-    - cp ./start.sh /server/eladmin
-    - cd /server/eladmin
-    # 启动服务
-    - sh start.sh
-
-#    artifacts:
-#      paths:
-#        - target/*.jar
-#    tags:
-#      - xxx
+    - |
+      if [ $MY_NAME == "wangjiahao" ]; then
+        echo "=============== wangjiahao  ==============="
+      else
+        echo "=============== else  ==============="
+      fi
+  #    artifacts:
+  #      paths:
+  #        - target/*.jar
+  #    tags:
+  #      - xxx
+  # 分支
   only:
-    - master
+    - dev
