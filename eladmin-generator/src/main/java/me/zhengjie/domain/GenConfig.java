@@ -69,6 +69,12 @@ public class GenConfig implements Serializable {
     @ApiModelProperty(value = "前端文件路径")
     private String apiPath;
 
+    @ApiModelProperty(value = "菜单标题")
+    private String menuHeadline;
+
+    @ApiModelProperty(value = "路由地址")
+    private String routingAddress;
+
     @ApiModelProperty(value = "作者")
     private String author;
 
