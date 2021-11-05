@@ -1,0 +1,8 @@
+# =========== 开发环境 ===========
+# 开发环境啥也不干
+dev-build:
+  stage: compile
+  script:
+    - echo "=============== $MY_NAME ==============="
+  only:
+    - dev

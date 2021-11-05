@@ -1,0 +1,9 @@
+# =========== 测试环境 ===========
+# 构建 Job
+test-build:
+  stage: compile
+  script:
+    - echo "=============== 开始编译构建任务 ==============="
+    - $MAVEN_HOME/bin/mvn compile
+  only:
+    - test
