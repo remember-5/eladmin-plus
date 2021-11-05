@@ -4,7 +4,7 @@ dev-build:
   stage: compile
   script:
     - echo "=============== 开始编译构建任务 ==============="
-    - $MAVEN_HOME/bin/mvn compile
+#    - $MAVEN_HOME/bin/mvn compile
   only:
     - dev
 
@@ -13,11 +13,13 @@ dev-package:
   stage: package
   script:
     - echo "=============== 开始打包任务  ==============="
-    - |
-      if [ $MY_NAME == "wangjiahao" ]; then
+    - >
+      if [ "$MY_NAME" == "wangjiahao"];then
         echo "=============== wangjiahao  ==============="
-      else
-        echo "=============== else  ==============="
+      fi
+    - >
+      if [ "$MY_NAME" == "yangjianfei"];then
+        echo "=============== yangjianfei  ==============="
       fi
   #    artifacts:
   #      paths:
