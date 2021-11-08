@@ -15,7 +15,10 @@
  */
 package me.zhengjie.modules.tool.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import io.minio.MinioClient;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
@@ -36,6 +39,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.QueryHelp;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -61,6 +65,14 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
 
     private final ResourcesManagementRepository resourcesManagementRepository;
     private final ResourcesManagementMapper resourcesManagementMapper;
+
+    @Override
+    public void importData(MultipartFile file) throws IOException{
+        String fileName = IdUtil.simpleUUID() + ".xlsx";
+        ExcelReader reader = ExcelUtil.getReader(FileUtil.inputStreamToFile(file.getResource().getInputStream(),fileName));
+        List<ResourcesManagement> readAll = reader.readAll(ResourcesManagement.class);
+        System.out.println(readAll);
+    }
 
     @Override
     public Map<String, Object> queryAll(ResourcesManagementQueryCriteria criteria, Pageable pageable) {

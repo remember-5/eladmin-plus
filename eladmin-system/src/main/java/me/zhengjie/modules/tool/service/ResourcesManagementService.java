@@ -19,6 +19,7 @@ import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import me.zhengjie.modules.tool.service.dto.ResourcesManagementDto;
 import me.zhengjie.modules.tool.service.dto.ResourcesManagementQueryCriteria;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 import java.util.List;
@@ -32,6 +33,12 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2021-04-12
  **/
 public interface ResourcesManagementService {
+
+    /**
+     * 导入文件
+     * @param file /
+     */
+    void importData(MultipartFile file) throws IOException;
 
     /**
      * 查询数据分页
