@@ -2,6 +2,7 @@ package me.zhengjie.modules.tool.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.GenConfig;
+import me.zhengjie.modules.system.domain.Menu;
 import me.zhengjie.modules.system.service.MenuService;
 import me.zhengjie.modules.system.service.dto.MenuDto;
 import me.zhengjie.modules.system.service.dto.MenuQueryCriteria;
@@ -22,10 +23,13 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
         String[] menuHeadlines = genConfig.getMenuHeadline().split("/");
         String[] routingAddresss = genConfig.getRoutingAddress().split("/");
         Long pid = null;
+        String path="";
+        //开始查找 上级
         for (int i = 0; i < menuHeadlines.length-1; i++) {
             MenuQueryCriteria menuQueryCriteria = new MenuQueryCriteria();
             menuQueryCriteria.setBlurry(menuHeadlines[i]);
             List<MenuDto> menuDtos=null;
+
             try {
                 menuDtos = menuService.queryAll(menuQueryCriteria, true);
             } catch (Exception e) {
@@ -33,12 +37,47 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
             }
             for (MenuDto menuDto : menuDtos) {
                 if (menuDto.getTitle().equals(menuHeadlines[i])){
-
+                    pid= menuDto.getId();
+                    break;
                 }
             }
 
+            ///没有搜索到
+            if (pid==null){
+                path=path+"/"+menuHeadlines[i];
+                pid = create(0,null, menuHeadlines[i],null,null,path).getId();
+            }
         }
+        //创建菜单
+        String s = lineToHump(genConfig.getTableName());
+        MenuDto menuDto = create(1,pid,menuHeadlines[menuHeadlines.length-1],
+                s+":list",genConfig.getPath()+"/index",genConfig.getRoutingAddress());
+        //创建按钮
+        //添加权限
+        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"添加",
+                s+":add",null,null);
+        //修改权限
+        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"修改",
+                s+":edit",null,null);
+        //删除权限
+
+        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"删除",
+                s+":del",null,null);
         return null;
+    }
+    private MenuDto create(Integer type,Long pid,String title,String permission,String component,String path){
+        Menu menu = new Menu();
+        menu.setType(type);
+        menu.setIFrame(false);
+        menu.setCache(false);
+        menu.setHidden(false);
+        menu.setPid(pid==null?0L:pid);
+        menu.setTitle(title);
+        menu.setMenuSort(999);
+        menu.setPath(path);
+        menu.setComponent(component);
+        menu.setPermission(permission);
+        return menuService.create(menu);
     }
     private static Pattern linePattern = Pattern.compile("_(\\w)");
     public static String lineToHump(String str) {

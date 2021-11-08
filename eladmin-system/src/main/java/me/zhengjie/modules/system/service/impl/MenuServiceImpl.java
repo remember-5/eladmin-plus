@@ -39,7 +39,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -92,7 +91,6 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 用户角色改变时需清理缓存
-     *
      * @param currentUserId /
      * @return /
      */
@@ -107,9 +105,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void create(Menu resources) {
-        if (menuRepository.findByTitle(resources.getTitle()) != null) {
-            throw new EntityExistException(Menu.class, "title", resources.getTitle());
+    public MenuDto create(Menu resources) {
+        if(menuRepository.findByTitle(resources.getTitle()) != null){
+            throw new EntityExistException(Menu.class,"title",resources.getTitle());
         }
         if (StringUtils.isNotBlank(resources.getComponentName())) {
             if (menuRepository.findByComponentName(resources.getComponentName()) != null) {
@@ -125,11 +123,12 @@ public class MenuServiceImpl implements MenuService {
                 throw new BadRequestException("外链必须以http://或者https://开头");
             }
         }
-        menuRepository.save(resources);
+        Menu save = menuRepository.save(resources);
         // 计算子节点数目
         resources.setSubCount(0);
         // 更新父节点菜单数目
         updateSubCnt(resources.getPid());
+        return menuMapper.toDto(save);
     }
 
     @Override
