@@ -66,6 +66,8 @@ public class SecurityProperties {
      */
     private Long renew;
 
+    private PermitProperties permit;
+
     public String getTokenStartWith() {
         return tokenStartWith + " ";
     }
