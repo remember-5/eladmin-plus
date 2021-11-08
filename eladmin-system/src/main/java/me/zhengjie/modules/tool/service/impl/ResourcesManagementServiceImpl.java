@@ -85,7 +85,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     @Transactional(rollbackFor = Exception.class)
     public ResourcesManagementDto create(ResourcesManagement resources) {
         // 初始化状态 默认为0 禁用状态
-        resources.setEnabled(0);
+        resources.setEnabled(false);
         return resourcesManagementMapper.toDto(resourcesManagementRepository.save(resources));
     }
 
@@ -110,10 +110,10 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     @Transactional(rollbackFor = Exception.class)
     public void editEnabled(ResourcesManagement resources) {
         // 获取当前资源状态，0为禁用 1为启用
-        Integer enabled = resources.getEnabled();
-        if (enabled == 0) {
+        Boolean enabled = resources.getEnabled();
+        if (enabled) {
             // 修改状态为启用
-            resources.setEnabled(1);
+            resources.setEnabled(true);
             // 检查其他启用状态的资源
             ResourcesManagement resourcesManagement = resourcesManagementRepository.findByEnabled();
             if (ObjectUtil.isNotNull(resourcesManagement)) {
@@ -154,7 +154,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
             }
         } else {
             // 修改状态为禁用
-            resources.setEnabled(0);
+            resources.setEnabled(false);
             // 销毁Bean
             switch (resources.getType()) {
                 // 类型为 minio
@@ -230,7 +230,6 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         Object beanObject = getBean(beanName);
         if (ObjectUtil.isNull(beanObject)) {
             log.error("Bean {} 不存在", beanName);
-            //System.out.println(String.format("Bean %s 不存在", beanName));
             return REMOVE_ERROR;
         }
         //获取context.
@@ -239,7 +238,6 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) configurableApplicationContext.getBeanFactory();
         defaultListableBeanFactory.removeBeanDefinition(beanName);
         log.info("Bean {} 已移除", beanName);
-        //System.out.println(String.format("Bean %s 已移除", beanName));
         return REMOVE_SUCCESS;
     }
 
@@ -253,7 +251,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         for (Long id : ids) {
             // 如果有启用状态的 则销毁Bean
             ResourcesManagementDto resDto = findById(id);
-            if (resDto.getEnabled() == 1) {
+            if (resDto.getEnabled()) {
                 removeBeanDefinition(MINIOCLIENT);
             }
             resourcesManagementRepository.deleteById(id);
