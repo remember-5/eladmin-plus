@@ -3,10 +3,7 @@ package me.zhengjie.modules.tool.websocket;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.modules.mnt.websocket.SocketMsg;
-import me.zhengjie.modules.mnt.websocket.WebSocketServer;
 import me.zhengjie.modules.tool.domain.MessageNotification;
 import me.zhengjie.modules.tool.repository.MessageNotificationRepository;
 import me.zhengjie.utils.RedisUtils;
@@ -83,11 +80,11 @@ public class WebSocketServers {
         }
         // 发消息
         try {
-            SocketMessage socketMessage = JSON.toJavaObject(JSONObject.parseObject(message), SocketMessage.class);
+            SocketMessage socketMessage = JSON.toJavaObject(JSON.parseObject(message), SocketMessage.class);
             if (socketMessage.getUsers().size() == 1 && "[ok]".equals(socketMessage.getUsers().toString())) {
                 // 消息通知
                 //System.out.println(socketMessage);
-                MessageNotification msgn = JSON.toJavaObject(JSONObject.parseObject(socketMessage.getMsg()), MessageNotification.class);
+                MessageNotification msgn = JSON.toJavaObject(JSON.parseObject(socketMessage.getMsg()), MessageNotification.class);
                 if (ObjectUtil.isNotNull(msgn)) {
                     messageNotificationRepository = (MessageNotificationRepository) SpringContextUtil.getBean(MessageNotificationRepository.class);
                     messageNotificationRepository.updateById(2, msgn.getId());
