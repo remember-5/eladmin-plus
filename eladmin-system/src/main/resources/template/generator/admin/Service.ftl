@@ -19,6 +19,7 @@ import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import ${package}.service.dto.${className}QueryCriteria;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.Map;
 import java.util.List;
 import java.io.IOException;
@@ -31,6 +32,12 @@ import javax.servlet.http.HttpServletResponse;
 * @date ${date}
 **/
 public interface ${className}Service {
+
+    /**
+    * 导入文件
+    * @param file /
+    */
+    void importData(MultipartFile file) throws IOException;
 
     /**
     * 查询数据分页
