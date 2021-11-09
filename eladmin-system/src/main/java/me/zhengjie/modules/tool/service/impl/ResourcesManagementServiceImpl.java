@@ -67,11 +67,13 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     private final ResourcesManagementMapper resourcesManagementMapper;
 
     @Override
+    @Transactional
     public void importData(MultipartFile file) throws IOException{
         String fileName = IdUtil.simpleUUID() + ".xlsx";
         ExcelReader reader = ExcelUtil.getReader(FileUtil.inputStreamToFile(file.getResource().getInputStream(),fileName));
         List<ResourcesManagement> readAll = reader.readAll(ResourcesManagement.class);
         System.out.println(readAll);
+        resourcesManagementRepository.saveAll(readAll);
     }
 
     @Override
