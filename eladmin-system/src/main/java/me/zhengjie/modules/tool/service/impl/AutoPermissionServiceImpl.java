@@ -65,6 +65,9 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
 
         create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"删除",
                 s+":del",null,null);
+
+        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"导入",
+                s+":importData",null,null);
         return null;
     }
     private MenuDto create(Integer type,Long pid,String title,String permission,String component,String path){
