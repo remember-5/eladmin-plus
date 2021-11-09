@@ -183,7 +183,8 @@ public class GenUtil {
             // 生成代码
             genFile(file, template, genMap);
         }
-        autoPermissionService.genAutoPermission(genConfig);
+        if (genConfig.getAutoGenerateMenu())
+            autoPermissionService.genAutoPermission(genConfig);
     }
 
     // 获取模版数据

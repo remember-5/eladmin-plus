@@ -74,7 +74,8 @@ public class GenConfig implements Serializable {
 
     @ApiModelProperty(value = "路由地址")
     private String routingAddress;
-
+    @ApiModelProperty(value = "自动生成菜单")
+    private Boolean autoGenerateMenu = false;
     @ApiModelProperty(value = "作者")
     private String author;
 

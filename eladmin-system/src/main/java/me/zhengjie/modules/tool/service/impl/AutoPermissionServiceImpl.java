@@ -23,13 +23,14 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
         String[] menuHeadlines = genConfig.getMenuHeadline().split("/");
         String[] routingAddresss = genConfig.getRoutingAddress().split("/");
         Long pid = null;
-        String path="";
+        StringBuilder stringBuilder = new StringBuilder();
+        boolean isQurey = false;
         //开始查找 上级
         for (int i = 0; i < menuHeadlines.length-1; i++) {
             MenuQueryCriteria menuQueryCriteria = new MenuQueryCriteria();
             menuQueryCriteria.setBlurry(menuHeadlines[i]);
             List<MenuDto> menuDtos=null;
-
+            isQurey = false;
             try {
                 menuDtos = menuService.queryAll(menuQueryCriteria, true);
             } catch (Exception e) {
@@ -38,14 +39,15 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
             for (MenuDto menuDto : menuDtos) {
                 if (menuDto.getTitle().equals(menuHeadlines[i])){
                     pid= menuDto.getId();
+                    isQurey = true;
                     break;
                 }
             }
 
             ///没有搜索到
-            if (pid==null){
-                path=path+"/"+menuHeadlines[i];
-                pid = create(0,null, menuHeadlines[i],null,null,path).getId();
+            if (!isQurey){
+                stringBuilder.append("/").append(routingAddresss[i]);
+                pid = create(0,pid, menuHeadlines[i],null,null,stringBuilder.toString()).getId();
             }
         }
         //创建菜单
