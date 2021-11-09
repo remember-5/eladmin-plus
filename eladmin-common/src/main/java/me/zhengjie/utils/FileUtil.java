@@ -19,6 +19,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.poi.excel.BigExcelWriter;
 import cn.hutool.poi.excel.ExcelUtil;
+import cn.hutool.poi.excel.ExcelWriter;
 import me.zhengjie.exception.BadRequestException;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
@@ -154,7 +155,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
     /**
      * inputStream 转 File
      */
-    static File inputStreamToFile(InputStream ins, String name) {
+    public static File inputStreamToFile(InputStream ins, String name) {
         File file = new File(SYS_TEM_DIR + name);
         if (file.exists()) {
             return file;
@@ -228,6 +229,24 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         // 终止后删除临时文件
         file.deleteOnExit();
         writer.flush(out, true);
+        //此处记得关闭输出Servlet流
+        IoUtil.close(out);
+    }
+
+    public static void downloadTemplate(List<Object> rows, HttpServletResponse response) throws IOException {
+        //通过工具类创建writer
+        ExcelWriter writer = ExcelUtil.getWriter(true);
+        //一次性写出内容，强制输出标题
+        writer.write(rows, true);
+        //response为HttpServletResponse对象
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
+        //template.xlsx是弹出下载对话框的文件名，不能为中文，中文请自行编码
+        response.setHeader("Content-Disposition","attachment;filename=template.xlsx");
+        ServletOutputStream out=response.getOutputStream();
+        //out为OutputStream，需要写出到的目标流
+        writer.flush(out, true);
+        //关闭writer，释放内存
+        writer.close();
         //此处记得关闭输出Servlet流
         IoUtil.close(out);
     }

@@ -15,10 +15,12 @@
 */
 package ${package}.rest;
 
+import cn.hutool.core.collection.CollUtil;
 import me.zhengjie.annotation.Log;
 import ${package}.domain.${className};
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
+import me.zhengjie.utils.FileUtil;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +29,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -42,6 +46,24 @@ import javax.servlet.http.HttpServletResponse;
 public class ${className}Controller {
 
     private final ${className}Service ${changeClassName}Service;
+
+    @Log("导入数据模板")
+    @ApiOperation("导入数据模板")
+    @GetMapping(value = "/downloadTemplate")
+    @PreAuthorize("@el.check('${changeClassName}:importData')")
+    public void downloadTemplate(HttpServletResponse response) throws IOException {
+        List<Object> rows = CollUtil.newArrayList(new ${className}());
+        FileUtil.downloadTemplate(rows,response);
+    }
+
+    @Log("导入数据")
+    @ApiOperation("导入数据")
+    @PostMapping(value = "/importData")
+    @PreAuthorize("@el.check('${changeClassName}:importData')")
+    public ResponseEntity<Object> importData(@RequestParam("file") MultipartFile file) throws IOException{
+        ${changeClassName}Service.importData(file);
+        return new ResponseEntity<>(HttpStatus.OK);
+        }
 
     @Log("导出数据")
     @ApiOperation("导出数据")

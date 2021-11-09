@@ -18,7 +18,10 @@ package me.zhengjie.modules.security.config;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.AnonymousAccess;
 import me.zhengjie.modules.security.config.bean.SecurityProperties;
-import me.zhengjie.modules.security.security.*;
+import me.zhengjie.modules.security.security.JwtAccessDeniedHandler;
+import me.zhengjie.modules.security.security.JwtAuthenticationEntryPoint;
+import me.zhengjie.modules.security.security.TokenConfigurer;
+import me.zhengjie.modules.security.security.TokenProvider;
 import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.security.service.UserCacheClean;
 import me.zhengjie.utils.enums.RequestMethodEnum;
@@ -99,26 +102,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                // 静态资源等等
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/*.html",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js",
-                        "/webSocket/**",
-                        "/ws/**"
-                ).permitAll()
-                // swagger 文档
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/*/api-docs").permitAll()
-                // 文件
-                .antMatchers("/avatar/**").permitAll()
-                .antMatchers("/file/**").permitAll()
-                // 阿里巴巴 druid
-                .antMatchers("/druid/**").permitAll()
+                .antMatchers(HttpMethod.GET, properties.getPermit().getGetUrl().toArray(new String[0])).permitAll()
+                .antMatchers(HttpMethod.POST, properties.getPermit().getPostUrl().toArray(new String[0])).permitAll()
+                .antMatchers(HttpMethod.PUT, properties.getPermit().getPutUrl().toArray(new String[0])).permitAll()
+                .antMatchers(HttpMethod.DELETE, properties.getPermit().getDeleteUrl().toArray(new String[0])).permitAll()
+                .antMatchers(properties.getPermit().getDefaultsUrl().toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型

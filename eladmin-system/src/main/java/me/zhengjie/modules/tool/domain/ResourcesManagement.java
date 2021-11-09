@@ -80,7 +80,7 @@ public class ResourcesManagement implements Serializable {
 
     @Column(name = "enabled")
     @ApiModelProperty(value = "启用状态(1启用/0禁用)")
-    private Integer enabled;
+    private Boolean enabled;
 
     @Column(name = "is_prefix")
     @ApiModelProperty(value = "是否需要自定义前缀(1是/0否)")

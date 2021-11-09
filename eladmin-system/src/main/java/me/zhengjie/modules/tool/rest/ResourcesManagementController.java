@@ -15,10 +15,12 @@
  */
 package me.zhengjie.modules.tool.rest;
 
+import cn.hutool.core.collection.CollUtil;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import me.zhengjie.modules.tool.service.ResourcesManagementService;
 import me.zhengjie.modules.tool.service.dto.ResourcesManagementQueryCriteria;
+import me.zhengjie.utils.FileUtil;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,9 +29,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
 
 /**
  * @author fly
@@ -43,6 +48,24 @@ import javax.servlet.http.HttpServletResponse;
 public class ResourcesManagementController {
 
     private final ResourcesManagementService resourcesManagementService;
+
+    @Log("导入数据模板")
+    @ApiOperation("导入数据模板")
+    @GetMapping(value = "/downloadTemplate")
+    @PreAuthorize("@el.check('resourcesManagement:importData')")
+    public void downloadTemplate(HttpServletResponse response) throws IOException {
+        List<Object> rows = CollUtil.newArrayList(new ResourcesManagement());
+        FileUtil.downloadTemplate(rows,response);
+    }
+
+    @Log("导入数据")
+    @ApiOperation("导入数据")
+    @PostMapping(value = "/importData")
+    @PreAuthorize("@el.check('resourcesManagement:importData')")
+    public ResponseEntity<Object> importData(@RequestParam("file") MultipartFile file) throws IOException{
+        resourcesManagementService.importData(file);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @Log("导出数据")
     @ApiOperation("导出数据")

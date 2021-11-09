@@ -31,6 +31,7 @@
     </#if>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
+      <up-operation :permission="permission" />
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" <#if isNotNullColumns??>:rules="rules"</#if> size="small" label-width="80px">
@@ -112,12 +113,13 @@ import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
+import upOperation from '@crud/UP.operation'
 import pagination from '@crud/Pagination'
 
 const defaultForm = { <#if columns??><#list columns as column>${column.changeColumnName}: null<#if column_has_next>, </#if></#list></#if> }
 export default {
   name: '${className}',
-  components: { pagination, crudOperation, rrOperation, udOperation },
+  components: { pagination, crudOperation, rrOperation, udOperation, upOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   <#if hasDict>
   dicts: [<#if hasDict??><#list dicts as dict>'${dict}'<#if dict_has_next>, </#if></#list></#if>],
@@ -130,7 +132,8 @@ export default {
       permission: {
         add: ['admin', '${changeClassName}:add'],
         edit: ['admin', '${changeClassName}:edit'],
-        del: ['admin', '${changeClassName}:del']
+        del: ['admin', '${changeClassName}:del'],
+        importData: ['admin', '${changeClassName}:importData']
       },
       rules: {
         <#if isNotNullColumns??>

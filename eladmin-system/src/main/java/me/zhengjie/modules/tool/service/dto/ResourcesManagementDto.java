@@ -71,7 +71,7 @@ public class ResourcesManagementDto implements Serializable {
     /**
      * 启用状态(1启用/0禁用)
      */
-    private Integer enabled;
+    private Boolean enabled;
 
     /**
      * 是否需要自定义前缀(1是/0否)

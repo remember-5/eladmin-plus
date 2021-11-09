@@ -25,6 +25,9 @@ import me.zhengjie.exception.EntityExistException;
         </#if>
     </#list>
 </#if>
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.poi.excel.ExcelReader;
+import cn.hutool.poi.excel.ExcelUtil;
 import me.zhengjie.utils.ValidationUtil;
 import me.zhengjie.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +49,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.QueryHelp;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
@@ -65,6 +69,15 @@ public class ${className}ServiceImpl implements ${className}Service {
 
     private final ${className}Repository ${changeClassName}Repository;
     private final ${className}Mapper ${changeClassName}Mapper;
+
+    @Override
+    @Transactional
+    public void importData(MultipartFile file) throws IOException{
+        String fileName = IdUtil.simpleUUID() + ".xlsx";
+        ExcelReader reader = ExcelUtil.getReader(FileUtil.inputStreamToFile(file.getResource().getInputStream(),fileName));
+        List<${className}> readAll = reader.readAll(${className}.class);
+        ${changeClassName}Repository.saveAll(readAll);
+    }
 
     @Override
     public Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable){
@@ -90,10 +103,10 @@ public class ${className}ServiceImpl implements ${className}Service {
     public ${className}Dto create(${className} resources) {
 <#if !auto && pkColumnType = 'Long'>
         Snowflake snowflake = IdUtil.createSnowflake(1, 1);
-        resources.set${pkCapitalColName}(snowflake.nextId()); 
+        resources.set${pkCapitalColName}(snowflake.nextId());
 </#if>
 <#if !auto && pkColumnType = 'String'>
-        resources.set${pkCapitalColName}(IdUtil.simpleUUID()); 
+        resources.set${pkCapitalColName}(IdUtil.simpleUUID());
 </#if>
 <#if columns??>
     <#list columns as column>
