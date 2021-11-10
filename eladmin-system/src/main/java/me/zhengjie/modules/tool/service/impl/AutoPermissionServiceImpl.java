@@ -1,23 +1,37 @@
 package me.zhengjie.modules.tool.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.domain.GenConfig;
 import me.zhengjie.modules.system.domain.Menu;
+import me.zhengjie.modules.system.domain.Role;
 import me.zhengjie.modules.system.service.MenuService;
+import me.zhengjie.modules.system.service.RoleService;
 import me.zhengjie.modules.system.service.dto.MenuDto;
 import me.zhengjie.modules.system.service.dto.MenuQueryCriteria;
+import me.zhengjie.modules.system.service.dto.RoleDto;
+import me.zhengjie.modules.system.service.dto.RoleSmallDto;
+import me.zhengjie.modules.system.service.mapstruct.MenuMapper;
+import me.zhengjie.modules.system.service.mapstruct.RoleMapper;
 import me.zhengjie.service.AutoPermissionService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AutoPermissionServiceImpl implements AutoPermissionService {
     private final MenuService menuService;
 
+    private final RoleService roleService;
+
+    private final RoleMapper roleMapper;
+
+    private final MenuMapper menuMapper;
     @Override
     public String genAutoPermission(GenConfig genConfig) {
         String[] menuHeadlines = genConfig.getMenuHeadline().split("/");
@@ -25,6 +39,7 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
         Long pid = null;
         StringBuilder stringBuilder = new StringBuilder();
         boolean isQurey = false;
+        List<MenuDto> menuDtosCreates=new ArrayList<>();
         //开始查找 上级
         for (int i = 0; i < menuHeadlines.length-1; i++) {
             MenuQueryCriteria menuQueryCriteria = new MenuQueryCriteria();
@@ -47,28 +62,59 @@ public class AutoPermissionServiceImpl implements AutoPermissionService {
             ///没有搜索到
             if (!isQurey){
                 stringBuilder.append("/").append(routingAddresss[i]);
-                pid = create(0,pid, menuHeadlines[i],null,null,stringBuilder.toString()).getId();
+                MenuDto menuDto = create(0, pid, menuHeadlines[i], null, null, stringBuilder.toString());
+                menuDtosCreates.add(menuDto);
+                pid = menuDto.getId();
             }
         }
         //创建菜单
         String s = lineToHump(genConfig.getTableName());
         MenuDto menuDto = create(1,pid,menuHeadlines[menuHeadlines.length-1],
-                s+":list",genConfig.getPath()+"/index",genConfig.getRoutingAddress());
+                s+":list",genConfig.getComponentPath(),genConfig.getRoutingAddress());
+        menuDtosCreates.add(menuDto);
         //创建按钮
         //添加权限
-        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"添加",
-                s+":add",null,null);
+        MenuDto menuDtoAdd = create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length - 1] + "添加",
+                s + ":add", null, null);
+        menuDtosCreates.add(menuDtoAdd);
         //修改权限
-        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"修改",
-                s+":edit",null,null);
+        MenuDto menuDtoEdit = create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length - 1] + "修改",
+                s + ":edit", null, null);
+        menuDtosCreates.add(menuDtoEdit);
         //删除权限
 
-        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"删除",
-                s+":del",null,null);
+        MenuDto menuDtoDel = create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length - 1] + "删除",
+                s + ":del", null, null);
+        menuDtosCreates.add(menuDtoDel);
 
-        create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length-1]+"导入",
-                s+":importData",null,null);
+        MenuDto menuDtoImportData = create(2, menuDto.getId(), menuHeadlines[menuHeadlines.length - 1] + "导入",
+                s + ":importData", null, null);
+        menuDtosCreates.add(menuDtoImportData);
+        if (Boolean.TRUE.equals(genConfig.getAdminJurisdiction())){
+            addMenu(menuDtosCreates);
+        }
+
         return null;
+    }
+
+    /**
+     * 添加菜单
+     * @param menuDtosCreates 添加的菜单列表
+     * @return
+     */
+    private boolean addMenu(List<MenuDto> menuDtosCreates){
+        try {
+            RoleDto byId = roleService.findById(1L);
+            Role role = roleMapper.toEntity(byId);
+            for (MenuDto menuDtosCreate : menuDtosCreates) {
+                role.getMenus().add(menuMapper.toEntity(menuDtosCreate));
+            }
+            roleService.updateMenu(role,byId);
+        }catch (Exception e){
+            log.error("添加菜单错误:{}",e);
+            return false;
+        }
+        return true;
     }
     private MenuDto create(Integer type,Long pid,String title,String permission,String component,String path){
         Menu menu = new Menu();
