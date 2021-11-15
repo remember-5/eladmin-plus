@@ -20,6 +20,7 @@ import cn.hutool.extra.template.*;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.domain.GenConfig;
 import me.zhengjie.domain.ColumnInfo;
+import me.zhengjie.service.AutoPermissionService;
 import org.springframework.util.ObjectUtils;
 
 import java.io.File;
@@ -145,7 +146,7 @@ public class GenUtil {
         return tempPath;
     }
 
-    public static void generatorCode(List<ColumnInfo> columnInfos, GenConfig genConfig) throws IOException {
+    public static void generatorCode(List<ColumnInfo> columnInfos, GenConfig genConfig, AutoPermissionService autoPermissionService) throws IOException {
         Map<String, Object> genMap = getGenMap(columnInfos, genConfig);
         TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
         // 生成后端代码
@@ -182,6 +183,8 @@ public class GenUtil {
             // 生成代码
             genFile(file, template, genMap);
         }
+        if (genConfig.getAutoGenerateMenu())
+            autoPermissionService.genAutoPermission(genConfig);
     }
 
     // 获取模版数据

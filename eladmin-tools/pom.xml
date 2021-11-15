@@ -5,7 +5,7 @@
     <parent>
         <artifactId>eladmin</artifactId>
         <groupId>me.zhengjie</groupId>
-        <version>1.0.2</version>
+        <version>1.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,6 +16,7 @@
         <mail.version>1.4.7</mail.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <alipay.version>4.9.153.ALL</alipay.version>
+        <eladmin-logging.version>1.2.0</eladmin-logging.version>
     </properties>
 
     <dependencies>
@@ -23,7 +24,7 @@
         <dependency>
             <groupId>me.zhengjie</groupId>
             <artifactId>eladmin-logging</artifactId>
-            <version>1.0.2</version>
+            <version>${eladmin-logging.version}</version>
         </dependency>
 
         <!--邮件依赖-->

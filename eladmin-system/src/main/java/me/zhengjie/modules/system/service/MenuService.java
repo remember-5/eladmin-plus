@@ -53,7 +53,7 @@ public interface MenuService {
      *
      * @param resources /
      */
-    void create(Menu resources);
+    MenuDto create(Menu resources);
 
     /**
      * 编辑

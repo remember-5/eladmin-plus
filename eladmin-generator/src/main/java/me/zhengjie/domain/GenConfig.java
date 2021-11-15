@@ -68,7 +68,20 @@ public class GenConfig implements Serializable {
 
     @ApiModelProperty(value = "前端文件路径")
     private String apiPath;
+    @ApiModelProperty(value = "是否相对路径")
+    private Boolean relativePath = false;
 
+    @ApiModelProperty(value = "是否添加到管理员权限上")
+    private Boolean adminJurisdiction = false;
+    @ApiModelProperty(value = "组件相对路径")
+    private String componentPath;
+    @ApiModelProperty(value = "菜单标题")
+    private String menuHeadline;
+
+    @ApiModelProperty(value = "路由地址")
+    private String routingAddress;
+    @ApiModelProperty(value = "自动生成菜单")
+    private Boolean autoGenerateMenu = false;
     @ApiModelProperty(value = "作者")
     private String author;
 

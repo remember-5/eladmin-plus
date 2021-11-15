@@ -24,6 +24,7 @@ import me.zhengjie.domain.ColumnInfo;
 import me.zhengjie.domain.vo.TableInfo;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.repository.ColumnInfoRepository;
+import me.zhengjie.service.AutoPermissionService;
 import me.zhengjie.service.GeneratorService;
 import me.zhengjie.utils.FileUtil;
 import me.zhengjie.utils.GenUtil;
@@ -59,7 +60,7 @@ public class GeneratorServiceImpl implements GeneratorService {
     private EntityManager em;
 
     private final ColumnInfoRepository columnInfoRepository;
-
+    private final AutoPermissionService autoPermissionService;
     @Override
     public Object getTables() {
         // 使用预编译防止sql注入
@@ -170,7 +171,7 @@ public class GeneratorServiceImpl implements GeneratorService {
             throw new BadRequestException("请先配置生成器");
         }
         try {
-            GenUtil.generatorCode(columns, genConfig);
+            GenUtil.generatorCode(columns, genConfig, autoPermissionService);
         } catch (IOException e) {
             log.error(e.getMessage(), e);
             throw new BadRequestException("生成失败，请手动处理已生成的文件");

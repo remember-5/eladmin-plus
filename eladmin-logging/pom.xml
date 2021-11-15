@@ -5,18 +5,22 @@
     <parent>
         <artifactId>eladmin</artifactId>
         <groupId>me.zhengjie</groupId>
-        <version>1.0.2</version>
+        <version>1.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>eladmin-logging</artifactId>
     <name>日志模块</name>
 
+    <properties>
+        <eladmin-common.version>1.2.0</eladmin-common.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>me.zhengjie</groupId>
             <artifactId>eladmin-common</artifactId>
-            <version>1.0.2</version>
+            <version>${eladmin-common.version}</version>
         </dependency>
     </dependencies>
 </project>
