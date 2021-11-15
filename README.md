@@ -12,5 +12,13 @@
 * `dev`分支做为开发合并分支
 * `api`包含一个独立api的项目
 
+## 贡献者列表
+
+感谢以下伙伴的付出(排名部分先后)
+* [wangjiahao](https://github.com/remember-5) 
+* [fly](https://github.com/Y914612354)
+* [tianhh](https://github.com/tianhhuan)
+
+
 
 
