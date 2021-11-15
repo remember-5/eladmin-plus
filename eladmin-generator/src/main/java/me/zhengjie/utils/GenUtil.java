@@ -20,6 +20,7 @@ import cn.hutool.extra.template.*;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.domain.GenConfig;
 import me.zhengjie.domain.ColumnInfo;
+import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.service.AutoPermissionService;
 import org.springframework.util.ObjectUtils;
 
@@ -151,21 +152,29 @@ public class GenUtil {
         TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
         // 生成后端代码
         List<String> templates = getAdminTemplateNames();
-        for (String templateName : templates) {
-            Template template = engine.getTemplate("generator/admin/" + templateName + ".ftl");
-            String rootPath = System.getProperty("user.dir");
-            String filePath = getAdminFilePath(templateName, genConfig, genMap.get("className").toString(), rootPath);
+        try {
+            for (String templateName : templates) {
+                Template template = engine.getTemplate("generator/admin/" + templateName + ".ftl");
+                String rootPath = System.getProperty("user.dir");
+                String filePath = getAdminFilePath(templateName, genConfig, genMap.get("className").toString(), rootPath);
 
-            assert filePath != null;
-            File file = new File(filePath);
+                assert filePath != null;
+                File file = new File(filePath);
 
-            // 如果非覆盖生成
-            if (!genConfig.getCover() && FileUtil.exist(file)) {
-                continue;
+                // 如果非覆盖生成
+                if (!genConfig.getCover() && FileUtil.exist(file)) {
+                    continue;
+                }
+                // 生成代码
+                genFile(file, template, genMap);
             }
-            // 生成代码
-            genFile(file, template, genMap);
+        }catch (Exception e)
+        {
+            if (e.getMessage().indexOf("pkColumnType")!=-1){
+                throw new BadRequestException("数据表缺少主键");
+            }
         }
+
 
         // 生成前端代码
         templates = getFrontTemplateNames();
