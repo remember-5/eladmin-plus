@@ -17,6 +17,7 @@
 * 自动化CI/CD
 * 支持mybatis-plus
 * 支持用户自定义头像
+* websocket消息通知
 
 ## 规定
 
