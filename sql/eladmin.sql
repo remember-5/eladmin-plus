@@ -55,6 +55,12 @@ CREATE TABLE `code_gen_config` (
   `api_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '前端Api文件路径',
   `prefix` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '表前缀',
   `api_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '接口名称',
+  `menu_headline` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单标题',
+  `routing_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '路由地址',
+  `auto_generate_menu` bit(1) NULL DEFAULT NULL COMMENT '自动生成菜单',
+  `relative_path` bit(1) NULL DEFAULT NULL COMMENT '是否相对路径',
+  `admin_jurisdiction` bit(1) NULL DEFAULT NULL COMMENT '是否添加到管理员权限上',
+  `component_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件相对路径',
   PRIMARY KEY (`config_id`) USING BTREE,
   INDEX `idx_table_name`(`table_name`(100)) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成器配置' ROW_FORMAT = Compact;
