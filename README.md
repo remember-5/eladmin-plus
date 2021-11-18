@@ -28,7 +28,7 @@
 - [ ] 多数据源支持
 - [ ] 增加oauth2的支持(单独分支)
 - [ ] 支持工作流
-- [ ] redis-utils支持lset，zset，geo方法
+- [x] redis-utils支持lset，zset，geo方法
 
 ## 规定
 
@@ -45,7 +45,7 @@
 ## 贡献者列表
 
 感谢以下伙伴的付出(排名不分先后)
-* [wangjiahao](https://github.com/remember-5) 
+* [wangjiahao](https://github.com/remember-5)
 * [fly](https://github.com/Y914612354)
 * [tianhh](https://github.com/tianhhuan)
 
