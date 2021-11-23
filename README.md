@@ -29,6 +29,7 @@
 - [ ] 增加oauth2的支持(单独分支)
 - [ ] 支持工作流
 - [x] redis-utils支持lset，zset，geo方法
+- [ ] 可动态配置获取IP地址
 
 ## 规定
 
