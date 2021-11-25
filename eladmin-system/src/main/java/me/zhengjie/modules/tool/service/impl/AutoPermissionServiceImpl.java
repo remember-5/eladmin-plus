@@ -10,7 +10,6 @@ import me.zhengjie.modules.system.service.RoleService;
 import me.zhengjie.modules.system.service.dto.MenuDto;
 import me.zhengjie.modules.system.service.dto.MenuQueryCriteria;
 import me.zhengjie.modules.system.service.dto.RoleDto;
-import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.mapstruct.MenuMapper;
 import me.zhengjie.modules.system.service.mapstruct.RoleMapper;
 import me.zhengjie.service.AutoPermissionService;
@@ -21,6 +20,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * @author wangjiahao
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

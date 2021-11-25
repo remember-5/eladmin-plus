@@ -18,6 +18,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 
+/**
+ * @author wangjiahao
+ */
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "上传文件")

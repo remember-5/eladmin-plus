@@ -8,25 +8,29 @@ import java.util.HashMap;
 public class R extends HashMap<String, Object> {
 
     private static final long serialVersionUID = -8713837118340960775L;
+    private static final String MESSAGE = "message";
+    private static final String DATA = "data";
+    private static final String CODE = "code";
+
 
     public R message(String message) {
-        this.put("message", message);
+        this.put(MESSAGE, message);
         return this;
     }
 
     public R data(Object data) {
-        this.put("data", data);
+        this.put(DATA, data);
         return this;
     }
 
     public R code(String code) {
-        this.put("code", code);
+        this.put(CODE, code);
         return this;
     }
 
     public R resultEnum(ResultEnum resultEnum) {
-        this.put("code", resultEnum.code);
-        this.put("message", resultEnum.message);
+        this.put(CODE, resultEnum.code);
+        this.put(MESSAGE, resultEnum.message);
         return this;
     }
 
@@ -37,10 +41,10 @@ public class R extends HashMap<String, Object> {
     }
 
     public String getMessage() {
-        return String.valueOf(get("message"));
+        return String.valueOf(get(MESSAGE));
     }
 
     public Object getData() {
-        return get("data");
+        return get(DATA);
     }
 }

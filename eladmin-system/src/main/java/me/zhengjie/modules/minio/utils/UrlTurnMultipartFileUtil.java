@@ -1,5 +1,6 @@
 package me.zhengjie.modules.minio.utils;
 
+import cn.hutool.core.img.ImgUtil;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -20,6 +21,11 @@ import java.net.URL;
  */
 public class UrlTurnMultipartFileUtil {
 
+    public static final String MEDIA_TYPE_MP3 = "mp3";
+    public static final String MEDIA_TYPE_MP4 = "mp4";
+    public static final String HTTP_CONTENT_TYPE_MEDIA_TYPE_AUDIO = "audio/mpeg";
+    public static final String HTTP_CONTENT_TYPE_MEDIA_TYPE_VIDEO = "video/mp4";
+
     public static MultipartFile createFileItem(String url, String fileName) {
         FileItem item = null;
         try {
@@ -29,20 +35,18 @@ public class UrlTurnMultipartFileUtil {
             //设置应用程序要从网络连接读取数据
             conn.setDoInput(true);
             conn.setRequestMethod("GET");
-            String filetype = url.substring(url.length() - 4);
-            System.out.println(filetype);
-            System.out.println(fileName);
+            String filetype = url.substring(url.lastIndexOf(".") + 1, url.length());
             if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream is = conn.getInputStream();
                 FileItemFactory factory = new DiskFileItemFactory(16, null);
-                if (".jpg".equals(filetype)) {
+                if (ImgUtil.IMAGE_TYPE_JPG.equals(filetype)) {
                     item = factory.createItem(fileName + filetype, ContentType.IMAGE_JPEG.toString(), false, fileName);
-                } else if (".png".equals(filetype)) {
+                } else if (ImgUtil.IMAGE_TYPE_PNG.equals(filetype)) {
                     item = factory.createItem(fileName + filetype, ContentType.IMAGE_PNG.toString(), false, fileName);
-                } else if (".mp3".equals(filetype)) {
-                    item = factory.createItem(fileName + filetype, "audio/mpeg", false, fileName);
-                } else if (".mp4".equals(filetype)) {
-                    item = factory.createItem(fileName + filetype, "video/mp4", false, fileName);
+                } else if (MEDIA_TYPE_MP3.equals(filetype)) {
+                    item = factory.createItem(fileName + filetype, HTTP_CONTENT_TYPE_MEDIA_TYPE_AUDIO, false, fileName);
+                } else if (MEDIA_TYPE_MP4.equals(filetype)) {
+                    item = factory.createItem(fileName + filetype, HTTP_CONTENT_TYPE_MEDIA_TYPE_VIDEO, false, fileName);
                 } else {
                     item = factory.createItem(fileName + filetype, ContentType.APPLICATION_OCTET_STREAM.toString(), false, fileName);
                 }

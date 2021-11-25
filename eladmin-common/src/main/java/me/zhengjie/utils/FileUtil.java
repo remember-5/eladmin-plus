@@ -20,11 +20,10 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.poi.excel.BigExcelWriter;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.exception.BadRequestException;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
@@ -44,9 +43,8 @@ import java.util.Map;
  * @author Zheng Jie
  * @date 2018-12-27
  */
+@Slf4j
 public class FileUtil extends cn.hutool.core.io.FileUtil {
-
-    private static final Logger log = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * 系统临时目录
@@ -195,7 +193,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
                 if (!dest.getParentFile().mkdirs()) {
-                    System.out.println("was not successful.");
+                    log.info("was not successful.");
                 }
             }
             // 文件写入

@@ -16,6 +16,8 @@
 package me.zhengjie.modules.system.rest;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.crypto.asymmetric.KeyType;
+import cn.hutool.crypto.asymmetric.RSA;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -155,8 +157,9 @@ public class UserController {
     @ApiOperation("修改密码")
     @PostMapping(value = "/updatePass")
     public ResponseEntity<Object> updatePass(@RequestBody UserPassVo passVo) throws Exception {
-        String oldPass = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, passVo.getOldPass());
-        String newPass = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, passVo.getNewPass());
+        RSA rsa = new RSA(RsaProperties.privateKey,null);
+        String oldPass = new String(rsa.decrypt(passVo.getOldPass(), KeyType.PrivateKey));
+        String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
         UserDto user = userService.findByName(SecurityUtils.getCurrentUsername());
         if (!passwordEncoder.matches(oldPass, user.getPassword())) {
             throw new BadRequestException("修改失败，旧密码错误");
@@ -187,7 +190,8 @@ public class UserController {
     @ApiOperation("修改邮箱")
     @PostMapping(value = "/updateEmail/{code}")
     public ResponseEntity<Object> updateEmail(@PathVariable String code, @RequestBody User user) throws Exception {
-        String password = RsaUtils.decryptByPrivateKey(RsaProperties.privateKey, user.getPassword());
+        RSA rsa = new RSA(RsaProperties.privateKey,null);
+        String password = new String(rsa.decrypt(user.getPassword(),KeyType.PrivateKey));
         UserDto userDto = userService.findByName(SecurityUtils.getCurrentUsername());
         if (!passwordEncoder.matches(password, userDto.getPassword())) {
             throw new BadRequestException("密码错误");

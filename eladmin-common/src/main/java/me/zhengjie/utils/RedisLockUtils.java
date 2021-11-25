@@ -25,6 +25,7 @@ public class RedisLockUtils {
     public void lock(String lockKey) {
         Lock lock = obtainLock(lockKey);
         lock.lock();
+
     }
 
     public boolean tryLock(String lockKey) {

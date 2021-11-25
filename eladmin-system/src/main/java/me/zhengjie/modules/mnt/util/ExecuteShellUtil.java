@@ -55,7 +55,7 @@ public class ExecuteShellUtil {
         ChannelShell channel = null;
         PrintWriter printWriter = null;
         BufferedReader input = null;
-        stdout = new Vector<String>();
+        stdout = new Vector<>();
         try {
             channel = (ChannelShell) session.openChannel("shell");
             channel.connect();
@@ -68,7 +68,6 @@ public class ExecuteShellUtil {
             String line;
             while ((line = input.readLine()) != null) {
                 stdout.add(line);
-                System.out.println(line);
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);

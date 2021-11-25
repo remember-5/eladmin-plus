@@ -15,6 +15,8 @@
  */
 package me.zhengjie.service.impl;
 
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +25,13 @@ import me.zhengjie.domain.vo.EmailVo;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.repository.EmailRepository;
 import me.zhengjie.service.EmailService;
-import me.zhengjie.utils.EncryptUtils;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 /**
@@ -42,7 +44,8 @@ import java.util.Optional;
 public class EmailServiceImpl implements EmailService {
 
     private final EmailRepository emailRepository;
-
+    public static final String KEY = "Passw0rdPassw0rd";
+    private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, KEY.getBytes(StandardCharsets.UTF_8));
     @Override
     @CachePut(key = "'config'")
     @Transactional(rollbackFor = Exception.class)
@@ -50,7 +53,7 @@ public class EmailServiceImpl implements EmailService {
         emailConfig.setId(1L);
         if (!emailConfig.getPass().equals(old.getPass())) {
             // 对称加密
-            emailConfig.setPass(EncryptUtils.desEncrypt(emailConfig.getPass()));
+            emailConfig.setPass(new String(aes.encrypt(emailConfig.getPass())));
         }
         return emailRepository.save(emailConfig);
     }
@@ -78,7 +81,7 @@ public class EmailServiceImpl implements EmailService {
         account.setAuth(true);
         try {
             // 对称解密
-            account.setPass(EncryptUtils.desDecrypt(emailConfig.getPass()));
+            account.setPass( new String(aes.decrypt(emailConfig.getPass())));
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }

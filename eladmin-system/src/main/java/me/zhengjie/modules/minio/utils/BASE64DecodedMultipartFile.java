@@ -6,9 +6,8 @@ import sun.misc.BASE64Decoder;
 import java.io.*;
 
 /**
- * @Description
- * @Author fly
- * @Date 2020/12/4 16:57
+ * @author fly
+ * @date 2020/12/4 16:57
  */
 public class BASE64DecodedMultipartFile implements MultipartFile {
     private final byte[] imgContent;

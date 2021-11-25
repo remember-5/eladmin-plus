@@ -25,9 +25,19 @@ public interface BlogArticleRepository {
     @SelectProvider(value = BlogArticleProvider.class, method = "findAll")
     List<BlogArticle> findAll();
 
+    /**
+     * /
+     * @param title /
+     * @param content /
+     * @param date /
+     */
     @InsertProvider(value = BlogArticleProvider.class, method = "save")
     void save(String title, String content, Date date);
 
+    /**
+     *  /
+     * @param blogArticle /
+     */
     @InsertProvider(value = BlogArticleProvider.class, method = "saveEntity")
     void saveEntity(BlogArticle blogArticle);
 
@@ -40,6 +50,11 @@ public interface BlogArticleRepository {
     @Select("SELECT * FROM eladmin.blog_article WHERE 1=1")
     List<BlogArticle> myFind();
 
+    /**
+     * /
+     * @param id /
+     * @return /
+     */
     @Select("SELECT * FROM eladmin.blog_article WHERE id = ${id}")
     List<BlogArticle> myFind(int id);
 

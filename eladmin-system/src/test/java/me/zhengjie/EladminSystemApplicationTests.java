@@ -99,9 +99,5 @@ public class EladminSystemApplicationTests {
         R restResult = minIOService.uploadFile(cMultiFile);
         System.err.println(restResult);
     }
-
-
-    public static void main(String[] args) {
-    }
 }
 

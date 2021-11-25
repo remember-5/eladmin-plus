@@ -18,6 +18,7 @@ package me.zhengjie.modules.mnt.rest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.mnt.domain.Deploy;
 import me.zhengjie.modules.mnt.domain.DeployHistory;
@@ -45,13 +46,14 @@ import java.util.Set;
  * @author zhanghouying
  * @date 2019-08-24
  */
-@RestController
+@Slf4j
 @Api(tags = "运维：部署管理")
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/deploy")
 public class DeployController {
 
-    private final String fileSavePath = FileUtil.getTmpDirPath() + "/";
+    private final String fileSavePath = FileUtil.getTmpDirPath() + File.separator;
     private final DeployService deployService;
 
 
@@ -111,9 +113,9 @@ public class DeployController {
             //文件下一步要根据文件名字来
             deployService.deploy(fileSavePath + fileName, id);
         } else {
-            System.out.println("没有找到相对应的文件");
+            log.warn("没有找到相对应的文件");
         }
-        System.out.println("文件上传的原名称为:" + Objects.requireNonNull(file).getOriginalFilename());
+            log.info("文件上传的原名称为: {}", Objects.requireNonNull(file).getOriginalFilename());
         Map<String, Object> map = new HashMap<>(2);
         map.put("errno", 0);
         map.put("id", fileName);

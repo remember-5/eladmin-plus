@@ -1,11 +1,15 @@
 package me.zhengjie.modules.minio.config;
 
+import lombok.NoArgsConstructor;
+
 /**
- * @Description
- * @Author fly
- * @Date 2020/12/2 17:38
+ * @author fly
+ * @date 2020/12/2 17:38
  */
+@NoArgsConstructor
 public class MinIOCode {
+
+
     /**
      * 文件上传失败
      */
@@ -25,7 +29,7 @@ public class MinIOCode {
     /**
      * minioClient Bean name
      */
-    public static final String MINIOCLIENT = "minioClient";
+    public static final String MINIO_CLIENT = "minioClient";
     /**
      * remove Error
      */

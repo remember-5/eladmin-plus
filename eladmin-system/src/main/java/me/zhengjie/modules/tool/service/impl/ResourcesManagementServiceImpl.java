@@ -20,33 +20,33 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
 import io.minio.MinioClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
-import me.zhengjie.utils.ValidationUtil;
-import me.zhengjie.utils.FileUtil;
-import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.tool.repository.ResourcesManagementRepository;
 import me.zhengjie.modules.tool.service.ResourcesManagementService;
 import me.zhengjie.modules.tool.service.dto.ResourcesManagementDto;
 import me.zhengjie.modules.tool.service.dto.ResourcesManagementQueryCriteria;
 import me.zhengjie.modules.tool.service.mapstruct.ResourcesManagementMapper;
+import me.zhengjie.utils.FileUtil;
+import me.zhengjie.utils.PageUtil;
+import me.zhengjie.utils.QueryHelp;
+import me.zhengjie.utils.ValidationUtil;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import me.zhengjie.utils.PageUtil;
-import me.zhengjie.utils.QueryHelp;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-import java.util.Map;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static me.zhengjie.modules.minio.config.MinIOCode.*;
 import static me.zhengjie.utils.SpringContextHolder.getApplicationContext;
@@ -111,8 +111,8 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         resourcesManagement.copy(resources);
         resourcesManagementRepository.save(resourcesManagement);
         // 修改数据后删除Bean重新生成
-        removeBeanDefinition(MINIOCLIENT);
-        registerBean(MINIOCLIENT, resourcesManagement);
+        removeBeanDefinition(MINIO_CLIENT);
+        registerBean(MINIO_CLIENT, resourcesManagement);
     }
 
     @Override
@@ -137,7 +137,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
                 switch (resources.getType()) {
                     // 类型为 minio
                     case 1:
-                        removeBeanDefinition(MINIOCLIENT);
+                        removeBeanDefinition(MINIO_CLIENT);
                         break;
                     // 类型为七牛云
                     case 2:
@@ -154,7 +154,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
             switch (resources.getType()) {
                 // 类型为 minio
                 case 1:
-                    registerBean(MINIOCLIENT, resources);
+                    registerBean(MINIO_CLIENT, resources);
                     break;
                 // 类型为七牛云
                 case 2:
@@ -173,7 +173,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
             switch (resources.getType()) {
                 // 类型为 minio
                 case 1:
-                    removeBeanDefinition(MINIOCLIENT);
+                    removeBeanDefinition(MINIO_CLIENT);
                     break;
                 // 类型为七牛云
                 case 2:
@@ -211,14 +211,11 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
         beanDefinitionBuilder.addConstructorArgValue(resourcesManagement.getPort());
         beanDefinitionBuilder.addConstructorArgValue(resourcesManagement.getAccesskey());
         beanDefinitionBuilder.addConstructorArgValue(resourcesManagement.getSecretkey());
-        // 赋值成员变量参数
-        //beanDefinitionBuilder.addPropertyValue("bucket", resourcesManagement.getBucket());
 
         // 判断Bean是否已经注册
         Object beanObject = getBean(beanName);
         if (ObjectUtil.isNotNull(beanObject)) {
             log.info("Bean {} 已注册", beanName);
-            //System.out.println(String.format("Bean %s 已注册", beanName));
         } else {
             // 动态注册bean.
             defaultListableBeanFactory.registerBeanDefinition(beanName, beanDefinitionBuilder.getBeanDefinition());
@@ -226,7 +223,6 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
             beanObject = getBean(beanName);
             if (ObjectUtil.isNotNull(beanObject)) {
                 log.info("Bean {} 注册成功", beanName);
-                //System.out.println(String.format("Bean %s 注册成功", beanName));
                 return beanObject.toString();
             } else {
                 return REGISTER_ERROR;
@@ -266,7 +262,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
             // 如果有启用状态的 则销毁Bean
             ResourcesManagementDto resDto = findById(id);
             if (resDto.getEnabled()) {
-                removeBeanDefinition(MINIOCLIENT);
+                removeBeanDefinition(MINIO_CLIENT);
             }
             resourcesManagementRepository.deleteById(id);
         }

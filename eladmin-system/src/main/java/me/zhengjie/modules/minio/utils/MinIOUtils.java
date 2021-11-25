@@ -4,21 +4,19 @@ package me.zhengjie.modules.minio.utils;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.StrUtil;
-import io.minio.*;
+import io.minio.MinioClient;
+import io.minio.PutObjectOptions;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import me.zhengjie.modules.tool.service.ResourcesManagementService;
-import me.zhengjie.result.ResultEnum;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.InputStream;
-import java.rmi.ServerException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -29,13 +27,14 @@ import java.util.Optional;
 import static me.zhengjie.modules.minio.config.MinIOCode.*;
 import static me.zhengjie.utils.SpringContextHolder.getBean;
 
+/**
+ * @author wangjiahao 
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class MinIOUtils {
-    //@Resource
-    //private MinioClient minioClient;
-    //private final MinIOConfig minIOConfig;
+
     private final ResourcesManagementService managementService;
 
     /**
@@ -107,12 +106,11 @@ public class MinIOUtils {
         //文件分区名
         ResourcesManagement byMinioEnabled = managementService.getMinioConfig();
         String bucket = byMinioEnabled.getBucket();
-        //String bucket = minIOConfig.getBucket();
         bucketExists(bucket);
         PutObjectOptions putObjectOptions = new PutObjectOptions(file.getSize(), StrUtil.INDEX_NOT_FOUND);
         putObjectOptions.setContentType(fileType);
         try {
-            MinioClient minioClient = getBean(MINIOCLIENT);
+            MinioClient minioClient = getBean(MINIO_CLIENT);
             minioClient.putObject(bucket, packageName + SLASH + fileName, file.getInputStream(), putObjectOptions);
         } catch (Exception e) {
             log.error(UPLOAD_FAILED);
@@ -156,7 +154,7 @@ public class MinIOUtils {
      */
     private void bucketExists(String bucket) {
         boolean bucketisExist = false;
-        MinioClient minioClient = getBean(MINIOCLIENT);
+        MinioClient minioClient = getBean(MINIO_CLIENT);
         try {
             bucketisExist = minioClient.bucketExists(bucket);
             if (bucketisExist) {
@@ -177,8 +175,8 @@ public class MinIOUtils {
      *
      * @return /
      */
-    public List<Bucket> getAllBuckets() throws Exception {
-        MinioClient minioClient = getBean(MINIOCLIENT);
+    public List<Bucket> getAllBuckets() throws InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        MinioClient minioClient = getBean(MINIO_CLIENT);
         return minioClient.listBuckets();
     }
 
@@ -187,8 +185,8 @@ public class MinIOUtils {
      *
      * @param bucketName bucket名称
      */
-    public Optional<Bucket> getBucket(String bucketName) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InvalidResponseException, InternalException, ErrorResponseException, ServerException, XmlParserException, InvalidBucketNameException {
-        MinioClient minioClient = getBean(MINIOCLIENT);
+    public Optional<Bucket> getBucket(String bucketName) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InvalidResponseException, InternalException, ErrorResponseException, XmlParserException, InvalidBucketNameException {
+        MinioClient minioClient = getBean(MINIO_CLIENT);
         return minioClient.listBuckets().stream().filter(b -> b.name().equals(bucketName)).findFirst();
     }
 
@@ -197,8 +195,8 @@ public class MinIOUtils {
      *
      * @param bucketName bucket名称
      */
-    public void removeBucket(String bucketName) throws Exception {
-        MinioClient minioClient = getBean(MINIOCLIENT);
+    public void removeBucket(String bucketName) throws InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
+        MinioClient minioClient = getBean(MINIO_CLIENT);
         minioClient.removeBucket(bucketName);
     }
 
@@ -222,8 +220,7 @@ public class MinIOUtils {
     public InputStream getObject(String objectName) throws Exception {
         ResourcesManagement byMinioEnabled = managementService.getMinioConfig();
         String bucketName = byMinioEnabled.getBucket();
-        //String bucketName = minIOConfig.getBucket();
-        MinioClient minioClient = getBean(MINIOCLIENT);
+        MinioClient minioClient = getBean(MINIO_CLIENT);
         return minioClient.getObject(bucketName, objectName);
     }
 
@@ -269,11 +266,10 @@ public class MinIOUtils {
      * @param objectName ⽂件名称
      * @throws Exception https://docs.minio.io/cn/java-client-apireference.html#removeObject
      */
-    public void removeObject(String objectName) throws Exception {
+    public void removeObject(String objectName) throws InvalidBucketNameException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         ResourcesManagement byMinioEnabled = managementService.getMinioConfig();
         String bucketName = byMinioEnabled.getBucket();
-        //String bucketName = minIOConfig.getBucket();
-        MinioClient minioClient = getBean(MINIOCLIENT);
+        MinioClient minioClient = getBean(MINIO_CLIENT);
         minioClient.removeObject(bucketName, objectName);
         log.info("删除{}文件成功", objectName);
     }

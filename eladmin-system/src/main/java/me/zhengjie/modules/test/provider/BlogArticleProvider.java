@@ -1,6 +1,5 @@
 package me.zhengjie.modules.test.provider;
 
-import cn.hutool.core.date.DateUtil;
 import me.zhengjie.modules.test.domain.BlogArticle;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -28,17 +27,9 @@ public class BlogArticleProvider {
     }
 
     public String saveEntity(BlogArticle blogArticle) {
-        String s = new SQL()
+        return new SQL()
                 .INSERT_INTO("blog_article")
                 .VALUES("title", "${content}")
                 .VALUES("content", "${title}").toString();
-        System.err.println(s);
-        return s;
     }
-
-
-    public static void main(String[] args) {
-        System.err.println(DateUtil.now());
-    }
-
 }
