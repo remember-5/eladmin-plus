@@ -191,8 +191,8 @@ public enum ResultEnum {
     D0003("D0003", "红包使用异常");
 
 
-    public String code;
-    public String message;
+    public final String code;
+    public final String message;
 
 
     ResultEnum(String code, String message) {

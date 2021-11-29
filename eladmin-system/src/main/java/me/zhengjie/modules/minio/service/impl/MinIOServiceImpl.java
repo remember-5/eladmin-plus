@@ -19,6 +19,9 @@ import static me.zhengjie.modules.minio.utils.BASE64DecodedMultipartFile.base64T
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.fileToMultipartFile;
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.inputStreamToFile;
 
+/**
+ * @author wangjiahao
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

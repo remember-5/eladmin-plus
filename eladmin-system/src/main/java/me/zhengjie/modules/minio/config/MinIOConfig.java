@@ -1,27 +1,25 @@
 package me.zhengjie.modules.minio.config;
 
-import io.minio.MinioClient;
-import io.minio.errors.InvalidEndpointException;
-import io.minio.errors.InvalidPortException;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
+/**
+ * @author wangjiahao
+ */
 @Data
-//@Configuration
-//@ConfigurationProperties(prefix = "spring.minio")
-public class MinIOConfig {
+@NoArgsConstructor
+@AllArgsConstructor
+public class MinIOConfig implements Serializable {
+
+    private static final long serialVersionUID = 5512969315614829142L;
 
     private String host;
     private Integer port;
     private String bucket;
     private String accessKey;
     private String secretKey;
-
-    //    @Bean(name = "minioClient")
-    //    public MinioClient minioClient() throws InvalidPortException, InvalidEndpointException {
-    //        return new MinioClient(this.host, this.port, this.accessKey, this.secretKey);
-    //    }
 
 }

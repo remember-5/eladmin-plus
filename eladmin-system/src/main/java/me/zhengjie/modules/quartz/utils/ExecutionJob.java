@@ -19,6 +19,7 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.config.thread.ThreadPoolExecutorUtil;
 import me.zhengjie.domain.vo.EmailVo;
 import me.zhengjie.modules.quartz.domain.QuartzJob;
@@ -43,6 +44,7 @@ import java.util.concurrent.*;
  * @author /
  * @date 2019-01-07
  */
+@Slf4j
 @Async
 public class ExecutionJob extends QuartzJobBean {
 
@@ -61,30 +63,30 @@ public class ExecutionJob extends QuartzJobBean {
 
         String uuid = quartzJob.getUuid();
 
-        QuartzLog log = new QuartzLog();
-        log.setJobName(quartzJob.getJobName());
-        log.setBeanName(quartzJob.getBeanName());
-        log.setMethodName(quartzJob.getMethodName());
-        log.setParams(quartzJob.getParams());
+        QuartzLog quartzLog = new QuartzLog();
+        quartzLog.setJobName(quartzJob.getJobName());
+        quartzLog.setBeanName(quartzJob.getBeanName());
+        quartzLog.setMethodName(quartzJob.getMethodName());
+        quartzLog.setParams(quartzJob.getParams());
         long startTime = System.currentTimeMillis();
-        log.setCronExpression(quartzJob.getCronExpression());
+        quartzLog.setCronExpression(quartzJob.getCronExpression());
         try {
             // 执行任务
-            System.out.println("--------------------------------------------------------------");
-            System.out.println("任务开始执行，任务名称：" + quartzJob.getJobName());
+            log.info("--------------------------------------------------------------");
+            log.info("任务开始执行，任务名称：{}", quartzJob.getJobName());
             QuartzRunnable task = new QuartzRunnable(quartzJob.getBeanName(), quartzJob.getMethodName(),
                     quartzJob.getParams());
             Future<?> future = EXECUTOR.submit(task);
             future.get();
             long times = System.currentTimeMillis() - startTime;
-            log.setTime(times);
+            quartzLog.setTime(times);
             if (StringUtils.isNotBlank(uuid)) {
                 redisUtils.set(uuid, true);
             }
             // 任务状态
-            log.setIsSuccess(true);
-            System.out.println("任务执行完毕，任务名称：" + quartzJob.getJobName() + ", 执行时间：" + times + "毫秒");
-            System.out.println("--------------------------------------------------------------");
+            quartzLog.setIsSuccess(true);
+            log.info("任务执行完毕，任务名称：{} , 执行时间：{} 毫秒", quartzJob.getJobName(), times);
+            log.info("--------------------------------------------------------------");
             // 判断是否存在子任务
             if (StringUtils.isNotBlank(quartzJob.getSubTask())) {
                 String[] tasks = quartzJob.getSubTask().split("[,，]");
@@ -95,13 +97,13 @@ public class ExecutionJob extends QuartzJobBean {
             if (StringUtils.isNotBlank(uuid)) {
                 redisUtils.set(uuid, false);
             }
-            System.out.println("任务执行失败，任务名称：" + quartzJob.getJobName());
-            System.out.println("--------------------------------------------------------------");
+            log.error("任务执行失败，任务名称：{}" , quartzJob.getJobName());
+            log.info("--------------------------------------------------------------");
             long times = System.currentTimeMillis() - startTime;
-            log.setTime(times);
+            quartzLog.setTime(times);
             // 任务状态 0：成功 1：失败
-            log.setIsSuccess(false);
-            log.setExceptionDetail(ThrowableUtil.getStackTrace(e));
+            quartzLog.setIsSuccess(false);
+            quartzLog.setExceptionDetail(ThrowableUtil.getStackTrace(e));
             // 任务如果失败了则暂停
             if (quartzJob.getPauseAfterFailure() != null && quartzJob.getPauseAfterFailure()) {
                 quartzJob.setIsPause(false);
@@ -117,7 +119,7 @@ public class ExecutionJob extends QuartzJobBean {
                 }
             }
         } finally {
-            quartzLogRepository.save(log);
+            quartzLogRepository.save(quartzLog);
         }
     }
 

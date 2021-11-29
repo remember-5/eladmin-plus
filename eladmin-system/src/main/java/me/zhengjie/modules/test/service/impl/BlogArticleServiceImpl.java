@@ -6,6 +6,9 @@ import me.zhengjie.modules.test.mapper.BlogArticleMapper;
 import me.zhengjie.modules.test.service.BlogArticleService;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author wangjiahao
+ */
 @Service
 public class BlogArticleServiceImpl extends ServiceImpl<BlogArticleMapper, BlogArticle> implements BlogArticleService {
 

@@ -5,6 +5,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 
+/**
+ * @author wangjiahao
+ */
 public interface MinIOService {
 
     /**

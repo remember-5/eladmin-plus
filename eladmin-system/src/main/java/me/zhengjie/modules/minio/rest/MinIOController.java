@@ -2,7 +2,6 @@ package me.zhengjie.modules.minio.rest;
 
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
@@ -18,6 +17,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 
+/**
+ * @author wangjiahao
+ */
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "上传文件")
@@ -48,7 +50,6 @@ public class MinIOController {
     @Log("上传文件:base64")
     @ApiOperation("上传文件:base64")
     @PostMapping("uploadBaseFile")
-    @ApiImplicitParam(name = "fileData", value = "上传的Base64格式文件", required = true)
     public R uploadBase64File(@RequestBody Base64Uploader base64Uploader) {
         return minIOService.uploadFile(base64Uploader.getData());
     }

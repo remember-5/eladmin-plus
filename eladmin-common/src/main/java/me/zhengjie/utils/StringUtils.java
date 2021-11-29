@@ -18,13 +18,12 @@ package me.zhengjie.utils;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import nl.basjes.parse.useragent.UserAgent;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,9 +39,9 @@ import java.util.Enumeration;
  * @author Zheng Jie
  * 字符串工具类, 继承org.apache.commons.lang3.StringUtils类
  */
+@Slf4j
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
-    private static final Logger log = LoggerFactory.getLogger(StringUtils.class);
     private static boolean ipLocal = false;
     private static File file = null;
     private static DbConfig config;

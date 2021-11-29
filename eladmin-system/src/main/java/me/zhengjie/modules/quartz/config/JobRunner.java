@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static me.zhengjie.modules.minio.config.MinIOCode.MINIOCLIENT;
+import static me.zhengjie.modules.minio.config.MinIOCode.MINIO_CLIENT;
 import static me.zhengjie.modules.minio.config.MinIOCode.REGISTER_SUCCESS;
 
 /**
@@ -66,10 +66,8 @@ public class JobRunner implements ApplicationRunner {
                    2.修改数据库内数据状态为未启动
          */
         if (ObjectUtil.isNotNull(resourcesManagement)) {
-            // 修改数据库内数据状态为未启动
-            // resourcesManagementService.updateById(resourcesManagement.getId());
             // 根据已启动状态的配置注入Bean
-            resourcesManagementService.registerBean(MINIOCLIENT, resourcesManagement);
+            resourcesManagementService.registerBean(MINIO_CLIENT, resourcesManagement);
         } else {
             // 如果没有状态为启动的配置
             // 查询数据库中全部的资源配置
@@ -78,7 +76,7 @@ public class JobRunner implements ApplicationRunner {
                 for (ResourcesManagementDto resourcesManagementDto : resourcesManagementDtos) {
                     if (resourcesManagementDto.getType() == 1) {
                         // 类型为minio
-                        String s = resourcesManagementService.registerBean(MINIOCLIENT,
+                        String s = resourcesManagementService.registerBean(MINIO_CLIENT,
                                 ResourcesManagement.builder()
                                         .url(resourcesManagementDto.getUrl())
                                         .port(resourcesManagementDto.getPort())

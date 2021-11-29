@@ -170,7 +170,7 @@ public class DeptServiceImpl implements DeptService {
         for (Dept dept : menuList) {
             deptDtos.add(deptMapper.toDto(dept));
             List<Dept> depts = deptRepository.findByPid(dept.getId());
-            if (depts != null && depts.size() != 0) {
+            if (depts != null && !depts.isEmpty()) {
                 getDeleteDepts(depts, deptDtos);
             }
         }
@@ -183,7 +183,7 @@ public class DeptServiceImpl implements DeptService {
         deptList.forEach(dept -> {
                     if (dept != null && dept.getEnabled()) {
                         List<Dept> depts = deptRepository.findByPid(dept.getId());
-                        if (depts.size() != 0) {
+                        if (!depts.isEmpty()) {
                             list.addAll(getDeptChildren(depts));
                         }
                         list.add(dept.getId());

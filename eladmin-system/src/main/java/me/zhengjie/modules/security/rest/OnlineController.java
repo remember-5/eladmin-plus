@@ -15,11 +15,13 @@
  */
 package me.zhengjie.modules.security.rest;
 
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.security.service.OnlineUserService;
-import me.zhengjie.utils.EncryptUtils;
+import me.zhengjie.service.impl.EmailServiceImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 /**
@@ -40,6 +43,7 @@ import java.util.Set;
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;
+    private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
 
     @ApiOperation("查询在线用户")
     @GetMapping
@@ -61,7 +65,7 @@ public class OnlineController {
     public ResponseEntity<Object> delete(@RequestBody Set<String> keys) throws Exception {
         for (String key : keys) {
             // 解密Key
-            key = EncryptUtils.desDecrypt(key);
+            key = new String(aes.decrypt(key.getBytes(StandardCharsets.UTF_8)));
             onlineUserService.kickOut(key);
         }
         return new ResponseEntity<>(HttpStatus.OK);

@@ -15,10 +15,13 @@
  */
 package me.zhengjie.modules.security.service;
 
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
+import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.security.config.bean.SecurityProperties;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.security.service.dto.OnlineUserDto;
+import me.zhengjie.service.impl.EmailServiceImpl;
 import me.zhengjie.utils.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -39,7 +43,7 @@ public class OnlineUserService {
 
     private final SecurityProperties properties;
     private final RedisUtils redisUtils;
-
+    private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
     public OnlineUserService(SecurityProperties properties, RedisUtils redisUtils) {
         this.properties = properties;
         this.redisUtils = redisUtils;
@@ -59,7 +63,17 @@ public class OnlineUserService {
         String address = StringUtils.getCityInfo(ip);
         OnlineUserDto onlineUserDto = null;
         try {
-            onlineUserDto = new OnlineUserDto(jwtUserDto.getUsername(), jwtUserDto.getUser().getNickName(), dept, browser, ip, address, EncryptUtils.desEncrypt(token), new Date());
+
+            onlineUserDto = new OnlineUserDto(
+                    jwtUserDto.getUsername(),
+                    jwtUserDto.getUser().getNickName(),
+                    dept,
+                    browser,
+                    ip,
+                    address,
+                    new String(aes.encrypt(token.getBytes(StandardCharsets.UTF_8))),
+                    new Date());
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -170,7 +184,8 @@ public class OnlineUserService {
         for (OnlineUserDto onlineUserDto : onlineUserDtos) {
             if (onlineUserDto.getUserName().equals(userName)) {
                 try {
-                    String token = EncryptUtils.desDecrypt(onlineUserDto.getKey());
+
+                    String token = new String(aes.decrypt(onlineUserDto.getKey().getBytes(StandardCharsets.UTF_8)));
                     if (StringUtils.isNotBlank(igoreToken) && !igoreToken.equals(token)) {
                         this.kickOut(token);
                     } else if (StringUtils.isBlank(igoreToken)) {
@@ -193,7 +208,7 @@ public class OnlineUserService {
         List<OnlineUserDto> onlineUsers = getAll(username);
         for (OnlineUserDto onlineUser : onlineUsers) {
             if (onlineUser.getUserName().equals(username)) {
-                String token = EncryptUtils.desDecrypt(onlineUser.getKey());
+                String token = new String(aes.decrypt(onlineUser.getKey().getBytes(StandardCharsets.UTF_8)));
                 kickOut(token);
             }
         }

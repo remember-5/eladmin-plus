@@ -23,9 +23,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @Author fly
  * @Date 2021/4/15 15:13
  */
-@ServerEndpoint("/ws/{sid}")
 @Slf4j
 @Component
+@ServerEndpoint("/ws/{sid}")
 public class WebSocketServers {
 
     private RedisUtils redisUtils;
@@ -74,7 +74,7 @@ public class WebSocketServers {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        log.info("收到来" + sid + "的信息:" + message);
+        log.info("收到来 {}, 的信息: {}", sid, message);
         if (StrUtil.isBlank(message)) {
             return;
         }
@@ -83,7 +83,6 @@ public class WebSocketServers {
             SocketMessage socketMessage = JSON.toJavaObject(JSON.parseObject(message), SocketMessage.class);
             if (socketMessage.getUsers().size() == 1 && "[ok]".equals(socketMessage.getUsers().toString())) {
                 // 消息通知
-                //System.out.println(socketMessage);
                 MessageNotification msgn = JSON.toJavaObject(JSON.parseObject(socketMessage.getMsg()), MessageNotification.class);
                 if (ObjectUtil.isNotNull(msgn)) {
                     messageNotificationRepository = (MessageNotificationRepository) SpringContextUtil.getBean(MessageNotificationRepository.class);
@@ -118,7 +117,7 @@ public class WebSocketServers {
      * 推送消息到前端
      */
     public static void sendMessage(String message, @PathParam("sid") String sid) throws IOException {
-        log.info("推送消息到" + sid + "，推送内容:" + message);
+        log.info("推送消息到{}，推送内容:{}", sid, message);
         for (WebSocketServers item : webSocketSets) {
             try {
                 //这里可以设定只推送给这个sid的，为null则全部推送
@@ -138,7 +137,7 @@ public class WebSocketServers {
     public void sendInfo(SocketMessage socketMsg) throws IOException {
         String message = socketMsg.getMsg();
         Set<String> users = socketMsg.getUsers();
-        log.info("推送消息到" + users + "，推送内容:" + message);
+        log.info("推送消息到{},推送内容:{}", users, message);
         // TODO redis Key格式修改 存redis的内容修改(谁发的 发给谁 内容是什么)
         // TODO 发送目标不在线怎么处理
         // TODO 记录消息记录
@@ -157,7 +156,7 @@ public class WebSocketServers {
                     for (String sid : users) {
                         if (sid.equals(item.sid)) {
                             item.sendMessage(message);
-                            log.info("推送消息到" + sid + "，推送内容:" + message);
+                            log.info("推送消息到{},推送内容:{}", sid, message);
                             redisUtils.setRemove(this.sid + ":SocketMessage", sid);
                             long socketMessage = redisUtils.sGetSetSize(this.sid + ":SocketMessage");
                             // System.out.println("剩余需要消息发送目标个数为"+socketMessage);

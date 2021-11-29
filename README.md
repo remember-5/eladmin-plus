@@ -21,14 +21,17 @@
 - [x] 自定义上传头像
 - [x] websocket消息通知
 - [x] 集成dahan短信接口
-- [ ] 支持打包为docker镜像
+- [x] 支持打包为docker镜像
 - [ ] 多租户
 - [ ] 导入导出模版支持多表
 - [ ] 代码生成支持动态数据源
 - [ ] 多数据源支持
 - [ ] 增加oauth2的支持(单独分支)
 - [ ] 支持工作流
-- [ ] redis-utils支持lset，zset，geo方法
+- [x] redis-utils支持lset，zset，geo方法
+- [x] 可动态配置获取IP地址
+- [ ] 升级为使用knife4j
+- [ ] 支持离线导出接口文档
 
 ## 规定
 
@@ -45,7 +48,7 @@
 ## 贡献者列表
 
 感谢以下伙伴的付出(排名不分先后)
-* [wangjiahao](https://github.com/remember-5) 
+* [wangjiahao](https://github.com/remember-5)
 * [fly](https://github.com/Y914612354)
 * [tianhh](https://github.com/tianhhuan)
 
