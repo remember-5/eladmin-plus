@@ -5,7 +5,7 @@
     <parent>
         <artifactId>eladmin</artifactId>
         <groupId>me.zhengjie</groupId>
-        <version>1.2.1</version>
+        <version>1.2.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,9 +16,9 @@
         <jjwt.version>0.11.1</jjwt.version>
         <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <jna.version>5.8.0</jna.version>
-        <eladmin-common.version>1.2.1</eladmin-common.version>
-        <eladmin-generator.version>1.2.1</eladmin-generator.version>
-        <eladmin-tools.version>1.2.1</eladmin-tools.version>
+        <eladmin-common.version>1.2.2</eladmin-common.version>
+        <eladmin-generator.version>1.2.2</eladmin-generator.version>
+        <eladmin-tools.version>1.2.2</eladmin-tools.version>
     </properties>
 
     <dependencies>

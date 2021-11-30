@@ -39,8 +39,8 @@ spring:
         # 控制台管理用户名和密码
         url-pattern: /druid/*
         reset-enable: false
-        login-username: admin
-        login-password: 123456
+        login-username: nt1-eladmin-tamplate
+        login-password: Nt1@2021-7777!!!!
       filter:
         stat:
           enabled: true
