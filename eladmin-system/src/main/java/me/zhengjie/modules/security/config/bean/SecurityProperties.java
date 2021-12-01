@@ -16,6 +16,7 @@
 package me.zhengjie.modules.security.config.bean;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Jwt参数配置
@@ -24,6 +25,7 @@ import lombok.Data;
  * @date 2019年11月28日
  */
 @Data
+@ConfigurationProperties(prefix = "jwt")
 public class SecurityProperties {
 
     /**

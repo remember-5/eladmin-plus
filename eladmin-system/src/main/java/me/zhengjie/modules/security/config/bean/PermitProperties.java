@@ -17,7 +17,4 @@ public class PermitProperties {
     private List<String> putUrl;
     private List<String> deleteUrl;
 
-
-
-
 }

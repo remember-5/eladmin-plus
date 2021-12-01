@@ -20,6 +20,7 @@ import com.wf.captcha.base.Captcha;
 import lombok.Data;
 import me.zhengjie.exception.BadConfigurationException;
 import me.zhengjie.utils.StringUtils;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.awt.*;
 import java.util.Objects;
@@ -31,6 +32,7 @@ import java.util.Objects;
  * @date loginCode.length0loginCode.length0/6/10 17:loginCode.length6
  */
 @Data
+@ConfigurationProperties(prefix = "login")
 public class LoginProperties {
 
     /**
