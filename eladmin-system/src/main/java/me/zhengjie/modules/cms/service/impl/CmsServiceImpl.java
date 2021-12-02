@@ -15,7 +15,6 @@
 */
 package me.zhengjie.modules.cms.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.cms.domain.Cms;
 import me.zhengjie.modules.cms.repository.CmsRepository;
@@ -44,8 +43,6 @@ import java.util.Map;
 
 import static me.zhengjie.utils.SecurityUtils.getCurrentUsername;
 
-//import me.zhengjie.modules.cmsEs.domain.TCms;
-//import me.zhengjie.modules.cmsEs.service.CmsEsService;
 
 /**
 * @website https://el-admin.vip
@@ -60,7 +57,6 @@ public class CmsServiceImpl implements CmsService {
     private final CmsRepository cmsRepository;
     private final CmsMapper cmsMapper;
 
-//    private final CmsEsService cmsEsService;
     private final CmsColumnServiceImpl cmsColumnService;
     @Override
     public Map<String,Object> queryAll(CmsQueryCriteria criteria, Pageable pageable){
@@ -85,10 +81,6 @@ public class CmsServiceImpl implements CmsService {
     @Transactional(rollbackFor = Exception.class)
     public CmsDto create(Cms resources) {
         Cms save = cmsRepository.save(resources);
-        String s = JSONObject.toJSONString(save);
-//        TCms tCms = JSONObject.parseObject(s, TCms.class);
-//        tCms.setColumnId(resources.getColumn().getId());
-//        cmsEsService.add(tCms);
         return cmsMapper.toDto(save);
     }
 
@@ -112,14 +104,7 @@ public class CmsServiceImpl implements CmsService {
         Cms cms = cmsRepository.findById(resources.getId()).orElseGet(Cms::new);
         ValidationUtil.isNull( cms.getId(),"Cms","id",resources.getId());
         cms.copy(resources);
-        Cms save = cmsRepository.save(cms);
-        //更新es
-//        String s = JSONObject.toJSONString(save);
-//        TCms tCms = JSONObject.parseObject(s, TCms.class);
-//        if (!cms.getColumn().getId().equals(resources.getColumn().getId())){
-//            tCms.setColumnId(resources.getColumn().getId());
-//        }
-//        cmsEsService.add(tCms);
+        cmsRepository.save(cms);
     }
 
     @Override
@@ -143,7 +128,6 @@ public class CmsServiceImpl implements CmsService {
     @Override
     public void deleteAll(Long[] ids) {
         for (Long id : ids) {
-//            cmsEsService.del(id);
             cmsRepository.updateById(id);
         }
     }

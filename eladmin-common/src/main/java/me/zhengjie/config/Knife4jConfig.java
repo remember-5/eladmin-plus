@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
@@ -37,7 +38,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @RequiredArgsConstructor
 public class Knife4jConfig {
 
-    /*引入Knife4j提供的扩展类*/
+    /**
+     * 引入Knife4j提供的扩展类
+     */
     private final OpenApiExtensionResolver openApiExtensionResolver;
 
 
@@ -49,7 +52,7 @@ public class Knife4jConfig {
                         .title("swagger-bootstrap-ui-demo RESTful APIs")
                         .description("# swagger-bootstrap-ui-demo RESTful APIs")
                         .termsOfServiceUrl("http://www.xx.com/")
-                        .contact("1332661444@qq.com")
+                        .contact(new Contact("wangjiahao","https://blog.remember5.top","1332661444@qq.com"))
                         .version("1.0")
                         .build())
                         //分组名称

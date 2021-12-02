@@ -38,12 +38,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-//import me.zhengjie.modules.cmsEs.domain.TCmsColumn;
-//import me.zhengjie.modules.cmsEs.service.CmsColumnEsService;
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
+* 服务实现
 * @author fly
 * @date 2021-03-02
 **/
@@ -53,7 +50,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
 
     private final CmsColumnRepository cmsColumnRepository;
     private final CmsColumnMapper cmsColumnMapper;
-//    private  final CmsColumnEsService cmsColumnEsService;
 
     @Override
     public Map<String,Object> queryAll(CmsColumnQueryCriteria criteria, Pageable pageable){
@@ -89,7 +85,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
                 // 取当前栏目id 做父id 查询栏目子集
                 column.setColumns(columnsTreeData(column.getId()));
             }
-            // return cmsColumns;
         }
         return cmsColumns;
     }
@@ -109,7 +104,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     public CmsColumnDto create(CmsColumn resources) {
         resources.setIsDeleted(0);
         CmsColumnDto cmsColumnDto = cmsColumnMapper.toDto(cmsColumnRepository.save(resources));
-//        cmsColumnEsService.add(JSONObject.parseObject(JSONObject.toJSONString(cmsColumnDto),TCmsColumn.class));
         return cmsColumnDto;
     }
 
@@ -129,7 +123,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
         ValidationUtil.isNull( cmsColumn.getId(),"CmsColumn","id",resources.getId());
         cmsColumn.copy(resources);
         cmsColumnRepository.save(cmsColumn);
-//        cmsColumnEsService.add(JSONObject.parseObject(JSONObject.toJSONString(cmsColumn),TCmsColumn.class));
     }
 
     @Override

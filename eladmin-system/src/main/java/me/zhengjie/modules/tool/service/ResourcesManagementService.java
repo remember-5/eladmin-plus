@@ -21,10 +21,10 @@ import me.zhengjie.modules.tool.service.dto.ResourcesManagementQueryCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Map;
-import java.util.List;
-import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author fly
@@ -37,6 +37,7 @@ public interface ResourcesManagementService {
     /**
      * 导入文件
      * @param file /
+     * @exception IOException /
      */
     void importData(MultipartFile file) throws IOException;
 
