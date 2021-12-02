@@ -78,7 +78,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
         // 查询顶级类目(项目)
         CmsColumnQueryCriteria criteria = new CmsColumnQueryCriteria();
         criteria.setFid(-1L);
-        // TODO 根据不同代理商查看不同顶级类目
         List<CmsColumnDto> cmsColumns = cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
         if (cmsColumns != null && cmsColumns.size() > 0){
             for (CmsColumnDto column : cmsColumns) {
@@ -112,7 +111,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     public CmsColumnDto createFirstLevelColumn(CmsColumn resources) {
         resources.setFid(-1L);
         resources.setIsDeleted(0);
-        // TODO 管理员增加顶级类目供代理商使用
         return cmsColumnMapper.toDto(cmsColumnRepository.save(resources));
     }
 
