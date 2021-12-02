@@ -22,7 +22,7 @@ package me.zhengjie.modules.security.config.bean;
  * @date: 2020/6/10 17:40
  */
 
-public enum LoginCodeEnum {
+public enum CaptchaTypeEnum {
     /**
      * 算数
      */

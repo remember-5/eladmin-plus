@@ -62,7 +62,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 public class UserController {
-
+    private final RsaProperties rsaProperties;
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final DataService dataService;
@@ -157,7 +157,7 @@ public class UserController {
     @ApiOperation("修改密码")
     @PostMapping(value = "/updatePass")
     public ResponseEntity<Object> updatePass(@RequestBody UserPassVo passVo) throws Exception {
-        RSA rsa = new RSA(RsaProperties.privateKey,null);
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
         String oldPass = new String(rsa.decrypt(passVo.getOldPass(), KeyType.PrivateKey));
         String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
         UserDto user = userService.findByName(SecurityUtils.getCurrentUsername());
@@ -190,7 +190,7 @@ public class UserController {
     @ApiOperation("修改邮箱")
     @PostMapping(value = "/updateEmail/{code}")
     public ResponseEntity<Object> updateEmail(@PathVariable String code, @RequestBody User user) throws Exception {
-        RSA rsa = new RSA(RsaProperties.privateKey,null);
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
         String password = new String(rsa.decrypt(user.getPassword(),KeyType.PrivateKey));
         UserDto userDto = userService.findByName(SecurityUtils.getCurrentUsername());
         if (!passwordEncoder.matches(password, userDto.getPassword())) {

@@ -16,23 +16,18 @@
 package me.zhengjie.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
  * @author Zheng Jie
- * @website https://el-admin.vip
- * @description
  * @date 2020-05-18
  **/
 @Data
 @Component
+@ConfigurationProperties("rsa")
 public class RsaProperties {
 
-    public static String privateKey;
+    private String privateKey;
 
-    @Value("${rsa.private_key}")
-    public void setPrivateKey(String privateKey) {
-        RsaProperties.privateKey = privateKey;
-    }
 }

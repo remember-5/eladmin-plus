@@ -68,9 +68,9 @@ login:
   #  是否限制单用户登录
   single-login: false
   #  验证码
-  login-code:
+  captcha-code:
     #  验证码类型配置 查看 LoginProperties 类
-    code-type: arithmetic
+    type: arithmetic
     #  登录图形验证码有效时间/分钟
     expiration: 2
     #  验证码高度
@@ -129,12 +129,6 @@ ip:
 generator:
   enabled: false
 
-#如果生产环境要开启swagger，需要配置请求地址
-#springfox:
-#  documentation:
-#    swagger:
-#      v2:
-#        host: # 接口域名或外网ip
 
 #是否开启 swagger-ui
 swagger:
