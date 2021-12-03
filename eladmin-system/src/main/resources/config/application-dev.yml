@@ -1,14 +1,20 @@
 server:
   port: 8000
+
 #配置数据源
 spring:
+  # 上传文件大小
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
   autoconfigure:
     # 排除 Druid 自动配置
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
     # 指定使用 Druid 数据源
     type: com.alibaba.druid.pool.DruidDataSource
-    # 动态数据源文档 https://www.kancloud.cn/tracy5546/dynamic-datasource/content
+    # 动态数据源文档 @see https://www.kancloud.cn/tracy5546/dynamic-datasource/content
     dynamic:
       #设置默认的数据源或者数据源组,默认值即为 master
       primary: master
@@ -21,17 +27,12 @@ spring:
           username: eladmin_template
           password: EladminTemplate@2021
         # 从库数据源
-    #        slave:
-    #          driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    #          url: jdbc:log4jdbc:mysql://129.28.xx.xx:2000/xx?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
-    #          username: root
-    #          password: .
+        slave:
+          driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+          url: jdbc:log4jdbc:mysql://118.25.95.207:3306/eladmin_template?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+          username: eladmin_template
+          password: EladminTemplate@2021
     druid:
-#      db-type: com.alibaba.druid.pool.DruidDataSource
-#      driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#      url: jdbc:log4jdbc:mysql://118.25.95.207:3306/eladmin_template?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
-#      username: eladmin_template
-#      password: EladminTemplate@2021
       # 初始连接数
       initial-size: 5
       # 最小连接数
@@ -63,6 +64,9 @@ spring:
         enabled: true
         url-pattern: /druid/*
         reset-enable: false
+        # 控制台管理用户名和密码
+        login-username: admin
+        login-password: 123456
       filter:
         stat:
           enabled: true
@@ -152,6 +156,10 @@ generator:
 ip:
   local-parsing: true
 
+#密码加密传输，前端公钥加密，后端私钥解密
+rsa:
+  private_key: MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
+
 # 文件存储路径
 file:
   mac:
@@ -187,8 +195,7 @@ swagger:
   group-name: 后台管理
   base-package: me.zhengjie
 
-
-# TODO 要给prod环境也加上配置
+# knife4j增强模式 @see https://doc.xiaominfo.com/knife4j/documentation/enhance.html
 knife4j:
   enable: true
   cors: false
@@ -200,7 +207,7 @@ knife4j:
   documents:
     -
       group: 2.X版本
-      name: 接口签名
+      name: 接口签名ss
       locations: classpath:sign/*
   setting:
     language: zh-CN
@@ -225,5 +232,3 @@ knife4j:
     enableDebug: true
     enableOpenApi: false
     enableGroup: true
-
-
