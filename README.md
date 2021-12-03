@@ -69,6 +69,9 @@
 - 前后端统一异常拦截处理，统一输出异常，避免繁琐的判断
 - 支持在线用户管理与服务器性能监控，支持限制单用户登录
 - 支持运维管理，可方便地对远程服务器的应用进行部署与管理
+- 支持多数据源，可以同时连接多个不同的数据库
+- 支持离线api文档下载，方便传输接口文档
+- 支持websocket消息个性推送，安全加密传输
 
 ##  系统功能
 - 用户管理：提供用户的相关配置，新增用户后，默认密码为123456
@@ -90,6 +93,10 @@
 ## 项目结构
 项目采用按功能分模块的开发方式，结构如下
 
+- `protal` 为门户页面，需要配合nginx或者其他服务一起启用
+
+- `admin-page` 为后台系统的页面，需要配合nginx或者其他服务一起启用
+
 - `eladmin-common` 为系统的公共模块，各种工具类，公共配置存在该模块
 
 - `eladmin-system` 为系统核心模块也是项目入口模块，也是最终需要打包部署的模块
@@ -103,18 +110,37 @@
 ## 详细结构
 
 ```
-- eladmin-common 公共模块
-    - annotation 为系统自定义注解
-    - aspect 自定义注解的切面
-    - base 提供了Entity、DTO基类和mapstruct的通用mapper
-    - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
-    - exception 项目统一异常的处理
-    - utils 系统通用工具类
-- eladmin-system 系统核心模块（系统启动入口）
-	- config 配置跨域与静态资源，与数据权限
-	    - thread 线程池相关
-	- modules 系统相关模块(登录授权、系统监控、定时任务、运维管理等)
-- eladmin-logging 系统日志模块
-- eladmin-tools 系统第三方工具模块
-- eladmin-generator 系统代码生成模块
+
+- admin-page
+  - static 静态文件
+    - css css样式文件
+    - js js代码文件
+    - font 字体库
+    - img 图片文件
+  - index.html 主页面
+  - favicon.ico 图标
+- portal
+    - static 静态文件
+      - css css样式文件
+      - js js代码文件
+      - font 字体库
+      - img 图片文件
+    - index.html 主页面
+    - favicon.ico 图标
+- SmartMilitary
+    - eladmin-common 公共模块
+        - annotation 为系统自定义注解
+        - aspect 自定义注解的切面
+        - base 提供了Entity、DTO基类和mapstruct的通用mapper
+        - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
+        - exception 项目统一异常的处理
+        - utils 系统通用工具类
+    - eladmin-system 系统核心模块（系统启动入口）
+        - config 配置跨域与静态资源，与数据权限
+            - thread 线程池相关
+        - modules 系统相关模块(登录授权、系统监控、定时任务、运维管理等)
+    - eladmin-logging 系统日志模块
+    - eladmin-tools 系统第三方工具模块
+    - eladmin-generator 系统代码生成模块
+- 
 ```
