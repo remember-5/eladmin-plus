@@ -125,10 +125,6 @@ jwt:
 generator:
   enabled: true
 
-#是否开启 swagger-ui
-swagger:
-  enabled: true
-
 # IP 本地解析
 ip:
   local-parsing: true
@@ -154,10 +150,30 @@ user:
     account: dh94732
     password: 7S4hNeHg
 
+#是否开启 swagger-ui
+swagger:
+  enabled: true
+  title: 'eladmin-nt1模版项目'
+  description: '后台管理接口文档'
+  author: '王家豪'
+  email: '1332661444@qq.com'
+  blog: 'https://blog.remember5.top'
+  service-url: 'http://127.0.0.1:8080'
+  version: '1.0'
+  host: '/'
+  group-name: 后台管理
+  base-package: me.zhengjie
+
 
 # TODO 要给prod环境也加上配置
 knife4j:
   enable: true
+  cors: false
+  production: false
+  basic:
+    enable: false
+    username: test
+    password: 12313
   documents:
     -
       group: 2.X版本
@@ -186,10 +202,5 @@ knife4j:
     enableDebug: true
     enableOpenApi: false
     enableGroup: true
-  cors: false
-  production: false
-  basic:
-    enable: false
-    username: test
-    password: 12313
+
 

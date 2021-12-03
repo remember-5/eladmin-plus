@@ -4,9 +4,9 @@ package me.zhengjie.utils;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.entity.CaptchaCode;
+import me.zhengjie.entity.LoginProperties;
 import me.zhengjie.exception.BadConfigurationException;
-import me.zhengjie.modules.security.config.bean.CaptchaCode;
-import me.zhengjie.modules.security.config.bean.LoginProperties;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;

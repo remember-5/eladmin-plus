@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zhengjie.modules.security.config.bean;
+package me.zhengjie.entity;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.stereotype.Component;
 
 /**
  * 配置文件读取
- *
- * @author liaojinlong
- * @date loginCode.length0loginCode.length0/6/10 17:loginCode.length6
+ * @author wangjiahao
  */
 @Data
 @Component
@@ -42,6 +41,7 @@ public class LoginProperties {
     /**
      * 验证码类型
      */
+    @NestedConfigurationProperty
     private CaptchaCode captchaCode;
 
 }

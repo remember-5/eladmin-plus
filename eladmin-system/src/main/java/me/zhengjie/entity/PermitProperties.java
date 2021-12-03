@@ -1,4 +1,4 @@
-package me.zhengjie.modules.security.config.bean;
+package me.zhengjie.entity;
 
 import lombok.Data;
 

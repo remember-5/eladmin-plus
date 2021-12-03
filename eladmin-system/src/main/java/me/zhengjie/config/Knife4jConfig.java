@@ -17,6 +17,7 @@ package me.zhengjie.config;
 
 import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.entity.SwaggerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -38,31 +39,32 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @RequiredArgsConstructor
 public class Knife4jConfig {
 
+
     /**
      * 引入Knife4j提供的扩展类
      */
     private final OpenApiExtensionResolver openApiExtensionResolver;
-
+    private final SwaggerProperties swaggerProperties;
 
     @Bean(value = "defaultApi2")
     public Docket defaultApi2() {
-        //TODO 这些变量都要提到配置文件中
         return new Docket(DocumentationType.SWAGGER_2)
+                .enable(swaggerProperties.getEnabled())
                 .apiInfo(new ApiInfoBuilder()
-                        .title("swagger-bootstrap-ui-demo RESTful APIs")
-                        .description("# swagger-bootstrap-ui-demo RESTful APIs")
-                        .termsOfServiceUrl("http://www.xx.com/")
-                        .contact(new Contact("wangjiahao","https://blog.remember5.top","1332661444@qq.com"))
-                        .version("1.0")
+                        .title(swaggerProperties.getTitle())
+                        .description(swaggerProperties.getDescription())
+                        .termsOfServiceUrl(swaggerProperties.getServiceUrl())
+                        .contact(new Contact(swaggerProperties.getAuthor(), swaggerProperties.getBlog(), swaggerProperties.getEmail()))
+                        .version(swaggerProperties.getVersion())
                         .build())
-                        //分组名称
-                        .groupName("2.X版本")
-                        .select()
-                        //这里指定Controller扫描包路径
-                        .apis(RequestHandlerSelectors.basePackage("me.zhengjie"))
-                        .paths(PathSelectors.any())
-                        .build()//赋予插件体系
-                        .extensions(openApiExtensionResolver.buildExtensions("2.X版本"));
+                //分组名称
+                .groupName(swaggerProperties.getGroupName())
+                .select()
+                //这里指定Controller扫描包路径
+                .apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
+                //赋予插件体系;
+                .paths(PathSelectors.any()).build()
+                .extensions(openApiExtensionResolver.buildExtensions(swaggerProperties.getGroupName()));
     }
 
 }
