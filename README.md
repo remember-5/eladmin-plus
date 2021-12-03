@@ -30,10 +30,11 @@
 - [ ] 支持工作流
 - [x] redis-utils支持lset，zset，geo方法
 - [x] 可动态配置获取IP地址
-- [ ] 升级为使用knife4j
-- [ ] 支持离线导出接口文档
+- [x] 升级为使用knife4j
+- [x] 支持离线导出接口文档
 - [ ] 更丰富的权限划分(基础的菜单权限)
 - [x] 增加CMS功能
+- [ ] RSA密码加密解密分不同环境的配置
 
 ## 规定
 
@@ -53,6 +54,7 @@
 * [wangjiahao](https://github.com/remember-5)
 * [fly](https://github.com/Y914612354)
 * [tianhh](https://github.com/tianhhuan)
+* [jinjun]()
 
 
 

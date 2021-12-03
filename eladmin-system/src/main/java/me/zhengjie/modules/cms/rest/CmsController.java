@@ -33,9 +33,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//import me.zhengjie.modules.cmsEs.domain.TCms;
-//import me.zhengjie.modules.cmsEs.service.CmsEsService;
-
 /**
 * @website https://el-admin.vip
 * @author zhangenrong
@@ -49,7 +46,6 @@ public class CmsController {
 
     private final CmsService cmsService;
 
-//    private final CmsEsService cmsEsService;
     @Log("导出数据")
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
@@ -70,14 +66,7 @@ public class CmsController {
     @ApiOperation("查询cms文章")
     @PreAuthorize("@el.check('cms:list')")
     public ResponseEntity<Object> query(@RequestBody String es){
-//        List<TCms> query = cmsEsService.query(JSON.parseArray(es));
-//        if (query.size()<=0)
-//            return new ResponseEntity<>(HttpStatus.OK);
         CmsQueryCriteria cmsQueryCriteria = new CmsQueryCriteria();
-//        cmsQueryCriteria.setIds(new ArrayList<>());
-//        for (int i = 0; i < query.size(); i++) {
-//            cmsQueryCriteria.getIds().add(query.get(i).getId());
-//        }
         return new ResponseEntity<>(cmsService.queryAll(cmsQueryCriteria),HttpStatus.OK);
     }
     @PostMapping

@@ -11,11 +11,9 @@ import java.io.InputStream;
 public interface MinIOService {
 
     /**
-     * @Author: fly
-     * @Description: 文件上传
-     * @Date: 2020/10/15
-     * @Param: [file]
-     * @Return: java.lang.String
+     * 文件上传
+     * @param file 文件
+     * @return /
      */
     R uploadFile(MultipartFile file);
 
@@ -31,6 +29,7 @@ public interface MinIOService {
      * InputStream 上传
      *
      * @param inputStreamFile InputStream流文件
+     * @param fileName 文件名
      * @return /
      */
     R uploadFile(InputStream inputStreamFile, String fileName);

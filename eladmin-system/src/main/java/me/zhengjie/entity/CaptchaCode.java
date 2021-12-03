@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package me.zhengjie.modules.security.config.bean;
+package me.zhengjie.entity;
 
 import lombok.Data;
 
@@ -24,38 +24,40 @@ import lombok.Data;
  * @date 2020/6/10 18:53
  */
 @Data
-public class LoginCode {
+public class CaptchaCode {
 
     /**
-     * 验证码配置
+     * 验证码类型配置
      */
-    private LoginCodeEnum codeType;
+    private CaptchaTypeEnum type;
     /**
      * 验证码有效期 分钟
+     * default value = 2L
      */
-    private Long expiration = 2L;
+    private Long expiration;
     /**
      * 验证码内容长度
+     * default value = 2
      */
-    private int length = 2;
+    private int length;
     /**
      * 验证码宽度
+     * default value = 111
      */
-    private int width = 111;
+    private int width;
     /**
      * 验证码高度
+     * default value = 36
      */
-    private int height = 36;
+    private int height;
     /**
      * 验证码字体
      */
     private String fontName;
     /**
      * 字体大小
+     * default value = 25
      */
-    private int fontSize = 25;
+    private int fontSize;
 
-    public LoginCodeEnum getCodeType() {
-        return codeType;
-    }
 }

@@ -13,9 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package me.zhengjie.modules.security.config.bean;
+package me.zhengjie.entity;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * Jwt参数配置
@@ -24,6 +26,7 @@ import lombok.Data;
  * @date 2019年11月28日
  */
 @Data
+@ConfigurationProperties(prefix = "jwt")
 public class SecurityProperties {
 
     /**
@@ -66,8 +69,13 @@ public class SecurityProperties {
      */
     private Long renew;
 
+    @NestedConfigurationProperty
     private PermitProperties permit;
 
+    /**
+     * 这个不能删掉
+     * @return /
+     */
     public String getTokenStartWith() {
         return tokenStartWith + " ";
     }

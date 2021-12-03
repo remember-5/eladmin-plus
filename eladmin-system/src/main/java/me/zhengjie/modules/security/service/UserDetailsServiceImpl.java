@@ -16,9 +16,9 @@
 package me.zhengjie.modules.security.service;
 
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.entity.LoginProperties;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.exception.EntityNotFoundException;
-import me.zhengjie.modules.security.config.bean.LoginProperties;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.system.service.DataService;
 import me.zhengjie.modules.system.service.RoleService;

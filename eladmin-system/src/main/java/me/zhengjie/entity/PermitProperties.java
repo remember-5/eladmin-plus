@@ -1,4 +1,4 @@
-package me.zhengjie.modules.security.config.bean;
+package me.zhengjie.entity;
 
 import lombok.Data;
 
@@ -16,8 +16,5 @@ public class PermitProperties {
     private List<String> postUrl;
     private List<String> putUrl;
     private List<String> deleteUrl;
-
-
-
 
 }

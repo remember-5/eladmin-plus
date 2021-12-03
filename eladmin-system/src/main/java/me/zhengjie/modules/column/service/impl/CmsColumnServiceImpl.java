@@ -38,12 +38,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-//import me.zhengjie.modules.cmsEs.domain.TCmsColumn;
-//import me.zhengjie.modules.cmsEs.service.CmsColumnEsService;
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
+* 服务实现
 * @author fly
 * @date 2021-03-02
 **/
@@ -53,7 +50,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
 
     private final CmsColumnRepository cmsColumnRepository;
     private final CmsColumnMapper cmsColumnMapper;
-//    private  final CmsColumnEsService cmsColumnEsService;
 
     @Override
     public Map<String,Object> queryAll(CmsColumnQueryCriteria criteria, Pageable pageable){
@@ -82,14 +78,12 @@ public class CmsColumnServiceImpl implements CmsColumnService {
         // 查询顶级类目(项目)
         CmsColumnQueryCriteria criteria = new CmsColumnQueryCriteria();
         criteria.setFid(-1L);
-        // TODO 根据不同代理商查看不同顶级类目
         List<CmsColumnDto> cmsColumns = cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
         if (cmsColumns != null && cmsColumns.size() > 0){
             for (CmsColumnDto column : cmsColumns) {
                 // 取当前栏目id 做父id 查询栏目子集
                 column.setColumns(columnsTreeData(column.getId()));
             }
-            // return cmsColumns;
         }
         return cmsColumns;
     }
@@ -109,7 +103,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     public CmsColumnDto create(CmsColumn resources) {
         resources.setIsDeleted(0);
         CmsColumnDto cmsColumnDto = cmsColumnMapper.toDto(cmsColumnRepository.save(resources));
-//        cmsColumnEsService.add(JSONObject.parseObject(JSONObject.toJSONString(cmsColumnDto),TCmsColumn.class));
         return cmsColumnDto;
     }
 
@@ -118,7 +111,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     public CmsColumnDto createFirstLevelColumn(CmsColumn resources) {
         resources.setFid(-1L);
         resources.setIsDeleted(0);
-        // TODO 管理员增加顶级类目供代理商使用
         return cmsColumnMapper.toDto(cmsColumnRepository.save(resources));
     }
 
@@ -129,7 +121,6 @@ public class CmsColumnServiceImpl implements CmsColumnService {
         ValidationUtil.isNull( cmsColumn.getId(),"CmsColumn","id",resources.getId());
         cmsColumn.copy(resources);
         cmsColumnRepository.save(cmsColumn);
-//        cmsColumnEsService.add(JSONObject.parseObject(JSONObject.toJSONString(cmsColumn),TCmsColumn.class));
     }
 
     @Override

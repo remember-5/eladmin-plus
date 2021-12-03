@@ -9,13 +9,6 @@ spring:
     redis:
       repositories:
         enabled: false
-
-    # 上传文件大小
-  servlet:
-    multipart:
-      max-file-size: 20MB
-      max-request-size: 100MB
-
   #配置 Jpa
   jpa:
     properties:
@@ -44,25 +37,21 @@ qiniu:
 code:
   expiration: 300
 
-#密码加密传输，前端公钥加密，后端私钥解密
-rsa:
-  private_key: MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
-
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: me.zhengjie.modules.test
-#  global-config:
-#    # 数据库相关配置
-#    db-config:
-#      #驼峰下划线转换
-#      table-underline: true
-#      #是否开启大写命名，默认不开启
-#      #capital-mode: true
-#      #逻辑删除配置
-#      logic-delete-value: 1
-#      logic-not-delete-value: 0
-#  # 原生配置
-#  configuration:
-#    map-underscore-to-camel-case: true
-#    cache-enabled: true
+  global-config:
+    # 数据库相关配置
+    db-config:
+      #驼峰下划线转换
+      table-underline: true
+      #是否开启大写命名，默认不开启
+      #capital-mode: true
+      #逻辑删除配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  # 原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
