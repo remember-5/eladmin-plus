@@ -6,6 +6,27 @@
 
 已同步官方的版本`aadeb2504dfded5e713891bdeebf6fbd10a7d719`
 
+注意！！！
+注意！！！
+注意！！！
+
+```
+DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_HOST=127.0.0.1;REDIS_PORT=6379;REDIS_PWD=;REDIS_DB=0;DRUID_USER=admin;DRUID_PWD=123456;
+```
+
+启动前，请加入环境变量：
+`DB_HOST` 数据库地址，默认 127.0.0.1
+`DB_PORT` 数据库端口，默认 3306
+`DB_NAME` 数据库名称，默认 eladmin
+`DB_USER` 数据库用户名，默认 root
+`DB_PWD` 用户名密码，默认 123456
+`REDIS_HOST` Redis地址，默认127.0.0.1
+`REDIS_PORT` Redis端口，默认6379
+`REDIS_PWD` Redis密码，默认没有密码
+`REDIS_DB` Redis的DB，默认 0
+`DRUID_USER` druid用户，默认 admin
+`DRUID_PWD` druid密码，默认 12345
+
 ## 新增功能列表
 
 - [x] admin重置普通用户密码
