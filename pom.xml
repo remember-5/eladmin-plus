@@ -120,37 +120,6 @@
             <version>${log4jdbc.version}</version>
         </dependency>
 
-        <!-- Swagger UI 相关 -->
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger2</artifactId>-->
-<!--            <version>${swagger.version}</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>io.swagger</groupId>-->
-<!--                    <artifactId>swagger-annotations</artifactId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <groupId>io.swagger</groupId>-->
-<!--                    <artifactId>swagger-models</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.springfox</groupId>-->
-<!--            <artifactId>springfox-swagger-ui</artifactId>-->
-<!--            <version>${swagger.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.swagger</groupId>-->
-<!--            <artifactId>swagger-annotations</artifactId>-->
-<!--            <version>1.5.21</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>io.swagger</groupId>-->
-<!--            <artifactId>swagger-models</artifactId>-->
-<!--            <version>1.5.21</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
@@ -250,12 +219,13 @@
 
     </dependencies>
 
+
     <build>
         <plugins>
             <!-- 打包时跳过测试 -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
                 </configuration>

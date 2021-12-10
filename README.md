@@ -36,6 +36,20 @@
 - [x] 增加CMS功能
 - [x] RSA密码加密解密分不同环境的配置
 
+## 技术选型
+
+核心框架：SpringBoot
+ORM框架：Mybatis
+任务调度：Spring Task + Quartz
+权限安全：Spring Security
+网页即时通讯：WebSocket
+连接池：Druid（阿里开源）
+日志处理：SLF4J(日志门面框架)、logback
+缓存处理：Redis
+Excel表处理：POI+EasyExcel
+在线文档：Knife4j
+实体转换：mapstruct
+
 ## 规定
 
 1. 代码可读性
