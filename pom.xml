@@ -40,6 +40,7 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <knife4j.version>2.0.9</knife4j.version>
         <ip2region.version>1.7.2</ip2region.version>
+        <p6spy.version>3.9.1</p6spy.version>
     </properties>
 
     <dependencies>
@@ -115,10 +116,17 @@
         </dependency>
 
         <!--监控sql日志-->
+<!--        <dependency>-->
+<!--            <groupId>org.bgee.log4jdbc-log4j2</groupId>-->
+<!--            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>-->
+<!--            <version>${log4jdbc.version}</version>-->
+<!--        </dependency>-->
+
+        <!--监控sql日志-->
         <dependency>
-            <groupId>org.bgee.log4jdbc-log4j2</groupId>
-            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
-            <version>${log4jdbc.version}</version>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>${p6spy.version}</version>
         </dependency>
 
         <dependency>
@@ -127,7 +135,6 @@
             <!--在引用时请在maven中央仓库搜索2.X最新版本号-->
             <version>${knife4j.version}</version>
         </dependency>
-
 
         <!--Mysql依赖包-->
         <dependency>
@@ -206,11 +213,11 @@
         </dependency>
 
         <!-- 解析客户端操作系统、浏览器信息 -->
-<!--        <dependency>-->
-<!--            <groupId>nl.basjes.parse.useragent</groupId>-->
-<!--            <artifactId>yauaa</artifactId>-->
-<!--            <version>5.23</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>nl.basjes.parse.useragent</groupId>
+            <artifactId>yauaa</artifactId>
+            <version>5.23</version>
+        </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
