@@ -2,7 +2,7 @@ spring:
   freemarker:
     check-template-location: false
   profiles:
-    active: prod
+    active: dev
   jackson:
     time-zone: GMT+8
   data:
