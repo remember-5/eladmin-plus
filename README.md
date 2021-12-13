@@ -6,6 +6,27 @@
 
 已同步官方的版本`aadeb2504dfded5e713891bdeebf6fbd10a7d719`
 
+注意！！！
+注意！！！
+注意！！！
+
+```
+DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_HOST=127.0.0.1;REDIS_PORT=6379;REDIS_PWD=;REDIS_DB=0;DRUID_USER=admin;DRUID_PWD=123456;
+```
+
+启动前，请加入环境变量：
+`DB_HOST` 数据库地址，默认 127.0.0.1
+`DB_PORT` 数据库端口，默认 3306
+`DB_NAME` 数据库名称，默认 eladmin
+`DB_USER` 数据库用户名，默认 root
+`DB_PWD` 用户名密码，默认 123456
+`REDIS_HOST` Redis地址，默认127.0.0.1
+`REDIS_PORT` Redis端口，默认6379
+`REDIS_PWD` Redis密码，默认没有密码
+`REDIS_DB` Redis的DB，默认 0
+`DRUID_USER` druid用户，默认 admin
+`DRUID_PWD` druid密码，默认 12345
+
 ## 新增功能列表
 
 - [x] admin重置普通用户密码
@@ -32,9 +53,24 @@
 - [x] 可动态配置获取IP地址
 - [x] 升级为使用knife4j
 - [x] 支持离线导出接口文档
-- [ ] 更丰富的权限划分(基础的菜单权限)
+- [x] 更丰富的权限划分(基础的菜单权限)
 - [x] 增加CMS功能
 - [x] RSA密码加密解密分不同环境的配置
+- [x] 使用p6spy更高效的记录日志
+
+## 技术选型
+
+核心框架：SpringBoot
+ORM框架：Mybatis
+任务调度：Spring Task + Quartz
+权限安全：Spring Security
+网页即时通讯：WebSocket
+连接池：Druid（阿里开源）
+日志处理：SLF4J(日志门面框架)、logback
+缓存处理：Redis
+Excel表处理：POI+EasyExcel
+在线文档：Knife4j
+实体转换：mapstruct
 
 ## 规定
 
@@ -69,6 +105,15 @@
 - 前后端统一异常拦截处理，统一输出异常，避免繁琐的判断
 - 支持在线用户管理与服务器性能监控，支持限制单用户登录
 - 支持运维管理，可方便地对远程服务器的应用进行部署与管理
+- 支持多数据源，可以同时连接多个不同的数据库
+- 支持离线api文档下载，方便传输接口文档
+- 支持websocket消息个性推送，安全加密传输
+- 集成CMS文章发布，采用更高效好用的编辑器，让文章管理变得更简单
+- 支持docker镜像发布运行
+- 可动态更换minio、七牛云等存储管理服务，支持个性化上传文件
+- 项目同时兼容jpa和mybatis，使开发人员的选择变得更多，不再有选择焦虑症
+- 支持各模块的批量上传和下载功能
+- 已适配gitlab-runner，做CI/CD的自动部署，多元化配置
 
 ##  系统功能
 - 用户管理：提供用户的相关配置，新增用户后，默认密码为123456
@@ -86,9 +131,16 @@
 - 支付宝支付：整合了支付宝支付并且提供了测试账号，可自行测试
 - 服务监控：监控服务器的负载情况
 - 运维管理：一键部署你的应用
+- 存储资源管理：管理minio、七牛云、阿里云OSS
+- 文章列表：内置功能强大的高效编辑器，提高书写速度，集成了文件上传和审核功能。
+- 栏目管理：管理文章的栏目，可以随心配置栏目
 
 ## 项目结构
 项目采用按功能分模块的开发方式，结构如下
+
+- `protal` 为门户页面，需要配合nginx或者其他服务一起启用
+
+- `admin-page` 为后台系统的页面，需要配合nginx或者其他服务一起启用
 
 - `eladmin-common` 为系统的公共模块，各种工具类，公共配置存在该模块
 
@@ -103,18 +155,37 @@
 ## 详细结构
 
 ```
-- eladmin-common 公共模块
-    - annotation 为系统自定义注解
-    - aspect 自定义注解的切面
-    - base 提供了Entity、DTO基类和mapstruct的通用mapper
-    - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
-    - exception 项目统一异常的处理
-    - utils 系统通用工具类
-- eladmin-system 系统核心模块（系统启动入口）
-	- config 配置跨域与静态资源，与数据权限
-	    - thread 线程池相关
-	- modules 系统相关模块(登录授权、系统监控、定时任务、运维管理等)
-- eladmin-logging 系统日志模块
-- eladmin-tools 系统第三方工具模块
-- eladmin-generator 系统代码生成模块
+
+- admin-page
+  - static 静态文件
+    - css css样式文件
+    - js js代码文件
+    - font 字体库
+    - img 图片文件
+  - index.html 主页面
+  - favicon.ico 图标
+- portal
+    - static 静态文件
+      - css css样式文件
+      - js js代码文件
+      - font 字体库
+      - img 图片文件
+    - index.html 主页面
+    - favicon.ico 图标
+- SmartMilitary
+    - eladmin-common 公共模块
+        - annotation 为系统自定义注解
+        - aspect 自定义注解的切面
+        - base 提供了Entity、DTO基类和mapstruct的通用mapper
+        - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
+        - exception 项目统一异常的处理
+        - utils 系统通用工具类
+    - eladmin-system 系统核心模块（系统启动入口）
+        - config 配置跨域与静态资源，与数据权限
+            - thread 线程池相关
+        - modules 系统相关模块(登录授权、系统监控、定时任务、运维管理等)
+    - eladmin-logging 系统日志模块
+    - eladmin-tools 系统第三方工具模块
+    - eladmin-generator 系统代码生成模块
+- 
 ```

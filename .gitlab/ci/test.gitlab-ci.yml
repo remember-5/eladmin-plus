@@ -1,4 +1,8 @@
 # =========== 测试环境 ===========
+
+# 环境变量
+variables:
+
 # 构建 Job
 test-build:
   stage: compile

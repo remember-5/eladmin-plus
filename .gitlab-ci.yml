@@ -10,7 +10,6 @@ stages:
 variables:
   MY_NAME: "wangjiahao"
 
-
 # 导入单个模版
 include:
   - local: .gitlab/ci/*.gitlab-ci.yml

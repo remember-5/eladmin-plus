@@ -29,6 +29,7 @@ import me.zhengjie.utils.AlipayUtils;
 import me.zhengjie.service.AliPayService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -60,6 +61,7 @@ public class AliPayController {
     @Log("配置支付宝")
     @ApiOperation("配置支付宝")
     @PutMapping
+    @PreAuthorize("@el.check('aliPay:configure')")
     public ResponseEntity<Object> updateConfig(@Validated @RequestBody AlipayConfig alipayConfig) {
         alipayService.config(alipayConfig);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -68,6 +70,7 @@ public class AliPayController {
     @Log("支付宝PC网页支付")
     @ApiOperation("PC网页支付")
     @PostMapping(value = "/toPayAsPC")
+    @PreAuthorize("@el.check('aliPay:test')")
     public ResponseEntity<String> toPayAsPc(@Validated @RequestBody TradeVo trade) throws Exception {
         AlipayConfig aliPay = alipayService.find();
         trade.setOutTradeNo(alipayUtils.getOrderCode());
@@ -78,6 +81,7 @@ public class AliPayController {
     @Log("支付宝手机网页支付")
     @ApiOperation("手机网页支付")
     @PostMapping(value = "/toPayAsWeb")
+    @PreAuthorize("@el.check('aliPay:test')")
     public ResponseEntity<String> toPayAsWeb(@Validated @RequestBody TradeVo trade) throws Exception {
         AlipayConfig alipay = alipayService.find();
         trade.setOutTradeNo(alipayUtils.getOrderCode());
