@@ -60,17 +60,17 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 
 ## 技术选型
 
-核心框架：SpringBoot
-ORM框架：Mybatis
-任务调度：Spring Task + Quartz
-权限安全：Spring Security
-网页即时通讯：WebSocket
-连接池：Druid（阿里开源）
-日志处理：SLF4J(日志门面框架)、logback
-缓存处理：Redis
-Excel表处理：POI+EasyExcel
-在线文档：Knife4j
-实体转换：mapstruct
+- 核心框架：SpringBoot
+- ORM框架：Mybatis
+- 任务调度：Spring Task + Quartz
+- 权限安全：Spring Security
+- 网页即时通讯：WebSocket
+- 连接池：Druid（阿里开源）
+- 日志处理：SLF4J(日志门面框架)、logback
+- 缓存处理：Redis
+- Excel表处理：POI+EasyExcel
+- 在线文档：Knife4j
+- 实体转换：mapstruct 
 
 ## 规定
 
