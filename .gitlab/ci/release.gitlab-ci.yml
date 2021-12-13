@@ -15,7 +15,7 @@ prod-build:
     - master
   cache:
     paths:
-      - eladmin-system/target/eladmin-template.jar
+      - ./eladmin-system/target/eladmin-template.jar
 
 # 生产环境打包
 prod-package:
@@ -34,6 +34,7 @@ prod-package:
     DRUID_USER: admin
     DRUID_PWD: QrVBDbu9rR7T3o
   script:
+    - echo $(pwd)
     # 停止服务
     - sh stop.sh
     # 删除jar包
