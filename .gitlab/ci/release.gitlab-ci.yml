@@ -15,7 +15,7 @@ prod-build:
     - master
   cache:
     paths:
-      - eladmin-*/target/*
+      - eladmin-system/target/eladmin-template.jar
 
 # 生产环境打包
 prod-package:
