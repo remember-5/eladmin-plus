@@ -45,17 +45,17 @@ prod-package:
     - cd /server/eladmin
     # 启动服务
     - 'nohup java -jar /server/eladmin/eladmin-template.jar \
-      --"DB_HOST=$DB_HOST" \
-      --"DB_PORT=$DB_PORT" \
-      --"DB_NAME=$DB_NAME" \
-      --"DB_USER=$DB_USER" \
-      --"DB_PWD=$DB_PWD" \
-      --"REDIS_HOST=$REDIS_HOST" \
-      --"REDIS_PORT=$REDIS_PORT" \
-      --"REDIS_PWD=$REDIS_PWD" \
-      --"REDIS_DB=$REDIS_DB" \
-      --"DRUID_USER=$DRUID_USER" \
-      --"DRUID_PWD=$DRUID_PWD" > nohup.out 2>&1 &'
+      --DB_HOST=$DB_HOST \
+      --DB_PORT=$DB_PORT \
+      --DB_NAME=$DB_NAME \
+      --DB_USER=$DB_USER \
+      --DB_PWD=$DB_PWD \
+      --REDIS_HOST=$REDIS_HOST \
+      --REDIS_PORT=$REDIS_PORT \
+      --REDIS_PWD=$REDIS_PWD \
+      --REDIS_DB=$REDIS_DB \
+      --DRUID_USER=$DRUID_USER \
+      --DRUID_PWD=$DRUID_PWD > nohup.out 2>&1 &'
   #    artifacts:
   #      paths:
   #        - target/*.jar
