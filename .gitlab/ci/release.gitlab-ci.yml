@@ -1,5 +1,9 @@
 # =========== 生产环境 ===========
 
+cache:
+  paths:
+    - ./eladmin-system/target/eladmin-template.jar
+
 # 构建
 prod-build:
   stage: compile
@@ -13,9 +17,7 @@ prod-build:
   #    - xxx
   only:
     - master
-  cache:
-    paths:
-      - ./eladmin-system/target/eladmin-template.jar
+
 
 # 生产环境打包
 prod-package:
