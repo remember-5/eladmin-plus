@@ -79,7 +79,7 @@ public class CmsColumnServiceImpl implements CmsColumnService {
         CmsColumnQueryCriteria criteria = new CmsColumnQueryCriteria();
         criteria.setFid(-1L);
         List<CmsColumnDto> cmsColumns = cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
-        if (cmsColumns != null && cmsColumns.size() > 0){
+        if (cmsColumns != null && !cmsColumns.isEmpty()){
             for (CmsColumnDto column : cmsColumns) {
                 // 取当前栏目id 做父id 查询栏目子集
                 column.setColumns(columnsTreeData(column.getId()));

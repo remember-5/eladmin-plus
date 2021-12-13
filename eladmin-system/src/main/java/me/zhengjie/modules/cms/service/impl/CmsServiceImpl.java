@@ -91,7 +91,7 @@ public class CmsServiceImpl implements CmsService {
      */
     private String getColumnNames(Long id){
         List<CmsColumnDto> cmsColumnDtos = cmsColumnService.columnsTreeData(id);
-        StringBuffer stringBuffer=new StringBuffer();
+        StringBuilder stringBuffer=new StringBuilder();
         for (CmsColumnDto cmsColumnDto : cmsColumnDtos) {
             stringBuffer.append(cmsColumnDto.getColumnName());
             stringBuffer.append(',');

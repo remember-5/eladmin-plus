@@ -156,7 +156,7 @@ public class UserController {
 
     @ApiOperation("修改密码")
     @PostMapping(value = "/updatePass")
-    public ResponseEntity<Object> updatePass(@RequestBody UserPassVo passVo) throws Exception {
+    public ResponseEntity<Object> updatePass(@RequestBody UserPassVo passVo) {
         RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
         String oldPass = new String(rsa.decrypt(passVo.getOldPass(), KeyType.PrivateKey));
         String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
@@ -189,7 +189,7 @@ public class UserController {
     @Log("修改邮箱")
     @ApiOperation("修改邮箱")
     @PostMapping(value = "/updateEmail/{code}")
-    public ResponseEntity<Object> updateEmail(@PathVariable String code, @RequestBody User user) throws Exception {
+    public ResponseEntity<Object> updateEmail(@PathVariable String code, @RequestBody User user) {
         RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
         String password = new String(rsa.decrypt(user.getPassword(),KeyType.PrivateKey));
         UserDto userDto = userService.findByName(SecurityUtils.getCurrentUsername());
