@@ -40,7 +40,7 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <knife4j.version>2.0.9</knife4j.version>
         <ip2region.version>1.7.2</ip2region.version>
-        <p6spy.version>3.9.1</p6spy.version>
+        <p6spy-starter.version>1.7.1</p6spy-starter.version>
     </properties>
 
     <dependencies>
@@ -115,11 +115,11 @@
             <optional>true</optional>
         </dependency>
 
-        <!--监控sql日志-->
+        <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
         <dependency>
-            <groupId>p6spy</groupId>
-            <artifactId>p6spy</artifactId>
-            <version>${p6spy.version}</version>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>p6spy-spring-boot-starter</artifactId>
+            <version>${p6spy-starter.version}</version>
         </dependency>
 
         <dependency>
