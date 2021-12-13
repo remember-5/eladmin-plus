@@ -32,7 +32,7 @@
         <java.version>1.8</java.version>
         <log4jdbc.version>1.16</log4jdbc.version>
         <fastjson.version>1.2.76</fastjson.version>
-        <druid.version>1.1.24</druid.version>
+        <druid.version>1.2.8</druid.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
@@ -114,13 +114,6 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-
-        <!--监控sql日志-->
-<!--        <dependency>-->
-<!--            <groupId>org.bgee.log4jdbc-log4j2</groupId>-->
-<!--            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>-->
-<!--            <version>${log4jdbc.version}</version>-->
-<!--        </dependency>-->
 
         <!--监控sql日志-->
         <dependency>
