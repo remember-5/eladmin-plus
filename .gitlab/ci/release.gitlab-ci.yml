@@ -7,8 +7,6 @@ prod-build:
     - echo "=============== 开始编译构建任务 ==============="
     # 清缓存
     - mvn clean
-    # 打包
-    - mvn package
   #  tags:
   #    - xxx
   only:
@@ -31,6 +29,8 @@ prod-package:
     DRUID_USER: admin
     DRUID_PWD: QrVBDbu9rR7T3o
   script:
+    # 打包
+    - mvn package
     # 停止服务
     - sh stop.sh
     # 删除jar包
