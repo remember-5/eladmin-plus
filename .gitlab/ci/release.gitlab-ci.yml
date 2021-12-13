@@ -20,7 +20,7 @@ prod-build:
   script:
     - echo "=============== 开始编译构建任务 ==============="
     - $MAVEN_HOME/bin/mvn compile
-    - echo '$DB_HOST'
+    - echo $DB_HOST
   #  tags:
   #    - xxx
   only:
