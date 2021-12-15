@@ -9,12 +9,10 @@ import me.zhengjie.modules.test.repository.BlogArticleRepository;
 import me.zhengjie.modules.test.service.impl.BlogArticleServiceImpl;
 import me.zhengjie.result.R;
 import org.apache.http.entity.ContentType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -24,8 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 @Slf4j
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest()
 public class EladminSystemApplicationTests {
 
     @Autowired
@@ -41,7 +38,6 @@ public class EladminSystemApplicationTests {
 
     @Test
     public void contextLoads() {
-
         // select
         blogArticleMapper.selectList(new QueryWrapper<>()).forEach(System.err::println);
         List<BlogArticle> list = blogArticleService.list();
