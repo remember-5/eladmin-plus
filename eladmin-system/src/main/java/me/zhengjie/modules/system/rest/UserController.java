@@ -173,10 +173,22 @@ public class UserController {
 
     @ApiOperation("重置密码")
     @PostMapping(value = "/resetPass")
+    @PreAuthorize("@el.check()")
     public ResponseEntity<Object> resetPass(@RequestBody Long userId) {
         String password = "123456";
         UserDto user = userService.findById(userId);
         userService.updatePass(user.getUsername(), passwordEncoder.encode(password));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @ApiOperation("修改密码")
+    @PostMapping(value = "/updateUserPass")
+    @PreAuthorize("@el.check()")
+    public ResponseEntity<Object> updateUserPass(@RequestBody UserPassVo passVo) {
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
+        String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
+        UserDto user = userService.findById(passVo.getUserId());
+        userService.updatePass(user.getUsername(), passwordEncoder.encode(newPass));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

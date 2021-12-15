@@ -29,4 +29,6 @@ public class UserPassVo {
     private String oldPass;
 
     private String newPass;
+
+    private Long userId;
 }
