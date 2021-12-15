@@ -35,7 +35,7 @@ public interface ResourcesManagementRepository extends JpaRepository<ResourcesMa
      * @param id 资源配置id
      */
     @Modifying
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Query(value = "update ResourcesManagement set enabled=0 where id=?1 ")
     void updateById(Long id);
 

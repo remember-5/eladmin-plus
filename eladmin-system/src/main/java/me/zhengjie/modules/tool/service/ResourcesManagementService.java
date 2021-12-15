@@ -37,7 +37,7 @@ public interface ResourcesManagementService {
     /**
      * 导入文件
      * @param file /
-     * @exception IOException /
+     * @throws IOException IOException
      */
     void importData(MultipartFile file) throws IOException;
 

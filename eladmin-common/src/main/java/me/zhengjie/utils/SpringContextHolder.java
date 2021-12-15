@@ -57,7 +57,7 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
      * @param name /
      * @return /
      */
-    //@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     public static <T> T getBean(String name) {
         assertContextInjected();
         try {
@@ -92,7 +92,10 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
         return result;
     }
 
-    //获取上下文
+    /**
+     * 获取上下文
+     * @return /
+     */
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }

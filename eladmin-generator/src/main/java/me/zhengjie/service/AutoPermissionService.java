@@ -9,7 +9,7 @@ import me.zhengjie.domain.GenConfig;
 public interface AutoPermissionService {
 
     /**
-     * /
+     * 生成权限
      * @param genConfig /
      * @return /
      */

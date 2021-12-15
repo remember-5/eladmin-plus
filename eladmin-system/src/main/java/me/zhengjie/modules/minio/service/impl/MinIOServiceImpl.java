@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.InputStream;
 
 import static me.zhengjie.modules.minio.config.MinIOCode.UPLOAD_FAILED;
-import static me.zhengjie.modules.minio.utils.BASE64DecodedMultipartFile.base64ToMultipart;
+import static me.zhengjie.modules.minio.utils.Base64DecodedMultipartFile.base64ToMultipart;
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.fileToMultipartFile;
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.inputStreamToFile;
 

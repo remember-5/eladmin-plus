@@ -67,7 +67,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     private final ResourcesManagementMapper resourcesManagementMapper;
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void importData(MultipartFile file) throws IOException{
         String fileName = IdUtil.simpleUUID() + ".xlsx";
         ExcelReader reader = ExcelUtil.getReader(FileUtil.inputStreamToFile(file.getResource().getInputStream(),fileName));
@@ -88,7 +88,7 @@ public class ResourcesManagementServiceImpl implements ResourcesManagementServic
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResourcesManagementDto findById(Long id) {
         ResourcesManagement resourcesManagement = resourcesManagementRepository.findById(id).orElseGet(ResourcesManagement::new);
         ValidationUtil.isNull(resourcesManagement.getId(), "ResourcesManagement", "id", id);

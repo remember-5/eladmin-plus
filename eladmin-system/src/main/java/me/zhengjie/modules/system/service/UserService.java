@@ -52,7 +52,7 @@ public interface UserService {
      * 编辑用户
      *
      * @param resources /
-     * @exception Exception /
+     * @throws  Exception /
      */
     void update(User resources) throws Exception;
 

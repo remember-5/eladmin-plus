@@ -16,7 +16,6 @@
 package me.zhengjie.modules.tool.repository;
 
 import me.zhengjie.modules.tool.domain.MessageNotification;
-import me.zhengjie.modules.tool.domain.ResourcesManagement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -38,7 +37,7 @@ public interface MessageNotificationRepository extends JpaRepository<MessageNoti
      * @param id           消息id
      */
     @Modifying
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Query(value = "update MessageNotification set messageState = ?1 where id=?2 ")
     void updateById(Integer messageState, Long id);
 

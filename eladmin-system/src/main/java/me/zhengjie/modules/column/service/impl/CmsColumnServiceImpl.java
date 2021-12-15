@@ -89,7 +89,7 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public CmsColumnDto findById(Long id) {
         CmsColumn cmsColumn = cmsColumnRepository.findById(id).orElseGet(CmsColumn::new);
         ValidationUtil.isNull(cmsColumn.getId(),"CmsColumn","id",id);

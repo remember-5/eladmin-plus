@@ -70,7 +70,7 @@ public class MessageNotificationServiceImpl implements MessageNotificationServic
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public MessageNotificationDto findById(Long id) {
         MessageNotification messageNotification = messageNotificationRepository.findById(id).orElseGet(MessageNotification::new);
         ValidationUtil.isNull(messageNotification.getId(), "MessageNotification", "id", id);

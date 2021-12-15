@@ -18,24 +18,26 @@ public interface BlogArticleRepository {
 
 
     /**
-     * @return
-     * @SelectProvider @UpdateProvider ...
      * 参数可以传实体，也可以单独传入
+     *
+     * @return /
      */
     @SelectProvider(value = BlogArticleProvider.class, method = "findAll")
     List<BlogArticle> findAll();
 
     /**
-     * /
-     * @param title /
+     * 保存文章
+     *
+     * @param title   /
      * @param content /
-     * @param date /
+     * @param date    /
      */
     @InsertProvider(value = BlogArticleProvider.class, method = "save")
     void save(String title, String content, Date date);
 
     /**
-     *  /
+     * 保存实体
+     *
      * @param blogArticle /
      */
     @InsertProvider(value = BlogArticleProvider.class, method = "saveEntity")
@@ -43,15 +45,14 @@ public interface BlogArticleRepository {
 
     /**
      * 可以这样写sql
-     *
-     * @return
-     * @Select @Insert @Update @Delete...
+     * @return /
      */
     @Select("SELECT * FROM eladmin.blog_article WHERE 1=1")
     List<BlogArticle> myFind();
 
     /**
-     * /
+     * 查找
+     *
      * @param id /
      * @return /
      */

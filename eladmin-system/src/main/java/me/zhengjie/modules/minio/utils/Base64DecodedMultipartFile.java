@@ -9,11 +9,11 @@ import java.io.*;
  * @author fly
  * @date 2020/12/4 16:57
  */
-public class BASE64DecodedMultipartFile implements MultipartFile {
+public class Base64DecodedMultipartFile implements MultipartFile {
     private final byte[] imgContent;
     private final String header;
 
-    public BASE64DecodedMultipartFile(byte[] imgContent, String header) {
+    public Base64DecodedMultipartFile(byte[] imgContent, String header) {
         this.imgContent = imgContent;
         this.header = header.split(";")[0];
     }
@@ -68,7 +68,7 @@ public class BASE64DecodedMultipartFile implements MultipartFile {
                     b[i] += 256;
                 }
             }
-            return new BASE64DecodedMultipartFile(b, baseStrs[0]);
+            return new Base64DecodedMultipartFile(b, baseStrs[0]);
         } catch (IOException e) {
             e.printStackTrace();
             return null;

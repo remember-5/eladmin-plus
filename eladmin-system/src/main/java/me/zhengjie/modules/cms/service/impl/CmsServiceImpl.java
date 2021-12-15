@@ -70,7 +70,7 @@ public class CmsServiceImpl implements CmsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public CmsDto findById(Long id) {
         Cms cms = cmsRepository.findById(id).orElseGet(Cms::new);
         ValidationUtil.isNull(cms.getId(),"Cms","id",id);
