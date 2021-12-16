@@ -1,11 +1,10 @@
 # =========== 开发环境 ===========
 
-# 环境变量
-variables:
-
 # 开发环境啥也不干
 dev-build:
   stage: compile
+  # 环境变量
+  variables:
   script:
     - echo "=============== $MY_NAME ==============="
   only:

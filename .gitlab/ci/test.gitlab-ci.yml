@@ -1,11 +1,10 @@
 # =========== 测试环境 ===========
 
-# 环境变量
-variables:
-
 # 构建 Job
 test-build:
   stage: compile
+  # 环境变量
+  variables:
   script:
     - echo "=============== 开始编译构建任务 ==============="
     - $MAVEN_HOME/bin/mvn compile
