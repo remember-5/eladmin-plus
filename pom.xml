@@ -118,6 +118,18 @@
             <optional>true</optional>
         </dependency>
 
+        <!--   SpringBoot 参数校验 新版本没有自动导入validation 程序包     -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- 保证 Spring AOP 相关的依赖包 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+        </dependency>
+
         <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
         <dependency>
             <groupId>com.github.gavlyukovskiy</groupId>

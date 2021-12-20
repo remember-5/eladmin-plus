@@ -57,7 +57,7 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 - [x] 增加CMS功能
 - [x] RSA密码加密解密分不同环境的配置
 - [x] 使用p6spy更高效的记录日志
-
+- [ ] 参数校验 
 ## 技术选型
 
 - 核心框架：SpringBoot
