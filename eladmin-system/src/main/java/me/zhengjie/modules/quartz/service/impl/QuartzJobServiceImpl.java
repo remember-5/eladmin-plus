@@ -40,8 +40,8 @@ import java.util.*;
  * @author Zheng Jie
  * @date 2019-01-07
  */
+@Service
 @RequiredArgsConstructor
-@Service(value = "quartzJobService")
 public class QuartzJobServiceImpl implements QuartzJobService {
 
     private final QuartzJobRepository quartzJobRepository;

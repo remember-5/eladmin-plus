@@ -26,7 +26,6 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 /**
  * api页面 /doc.html
@@ -35,7 +34,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
  * @date 2018-11-23
  */
 @Configuration
-@EnableSwagger2WebMvc
 @RequiredArgsConstructor
 public class Knife4jConfig {
 

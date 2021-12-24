@@ -11,7 +11,7 @@ import io.minio.messages.Bucket;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.tool.domain.ResourcesManagement;
-import me.zhengjie.modules.tool.service.ResourcesManagementService;
+import me.zhengjie.modules.tool.service.impl.ResourcesManagementServiceImpl;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +35,7 @@ import static me.zhengjie.utils.SpringContextHolder.getBean;
 @RequiredArgsConstructor
 public class MinIOUtils {
 
-    private final ResourcesManagementService managementService;
+    private final ResourcesManagementServiceImpl managementService;
 
     /**
      * 上传文件

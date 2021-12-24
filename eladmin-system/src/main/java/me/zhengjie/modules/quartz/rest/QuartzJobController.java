@@ -22,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.quartz.domain.QuartzJob;
-import me.zhengjie.modules.quartz.service.QuartzJobService;
 import me.zhengjie.modules.quartz.service.dto.JobQueryCriteria;
+import me.zhengjie.modules.quartz.service.impl.QuartzJobServiceImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +47,7 @@ import java.util.Set;
 public class QuartzJobController {
 
     private static final String ENTITY_NAME = "quartzJob";
-    private final QuartzJobService quartzJobService;
+    private final QuartzJobServiceImpl quartzJobService;
 
     @ApiOperation("查询定时任务")
     @GetMapping

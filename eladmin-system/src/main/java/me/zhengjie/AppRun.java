@@ -43,7 +43,6 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableTransactionManagement // 开启事物
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-//@MapperScan("me.zhengjie.modules.test")
 @EnableAspectJAutoProxy(exposeProxy = true) // Aop
 public class AppRun {
 
