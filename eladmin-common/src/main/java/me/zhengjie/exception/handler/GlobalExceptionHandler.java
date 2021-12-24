@@ -19,17 +19,24 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.exception.EntityExistException;
 import me.zhengjie.exception.EntityNotFoundException;
+import me.zhengjie.result.R;
+import me.zhengjie.result.ResultEnum;
 import me.zhengjie.utils.ThrowableUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.Objects;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * @author Zheng Jie
@@ -112,4 +119,53 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ApiError> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, HttpStatus.valueOf(apiError.getStatus()));
     }
+
+    /**
+     * 原生javax.validation报错信息
+     * @param ex 报错详情
+     * @return /
+     */
+    @ResponseBody
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public R constraintViolationExceptionHandler(ConstraintViolationException ex) {
+        log.debug("[constraintViolationExceptionHandler]", ex);
+        // 拼接错误
+        StringBuilder detailMessage = new StringBuilder();
+        for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations()) {
+            // 使用 ; 分隔多个错误
+            if (detailMessage.length() > 0) {
+                detailMessage.append(";");
+            }
+            // 拼接内容到其中，这个不包含报错字段
+            // detailMessage.append(constraintViolation.getPropertyPath());
+            // detailMessage.append(":");
+            detailMessage.append(constraintViolation.getMessage());
+        }
+        // 包装 CommonResult 结果
+        return new R().code(ResultEnum.A0400.code).message(detailMessage.toString());
+    }
+
+    /**
+     * org.springframework.validation 异常信息捕捉
+     * @param ex 报错详情
+     * @return /
+     */
+    @ResponseBody
+    @ExceptionHandler(value = BindException.class)
+    public R bindExceptionHandler(BindException ex) {
+        log.debug("[bindExceptionHandler]", ex);
+        // 拼接错误
+        StringBuilder detailMessage = new StringBuilder();
+        for (ObjectError objectError : ex.getAllErrors()) {
+            // 使用 ; 分隔多个错误
+            if (detailMessage.length() > 0) {
+                detailMessage.append(";");
+            }
+            // 拼接内容到其中
+            detailMessage.append(objectError.getDefaultMessage());
+        }
+        // 包装 CommonResult 结果
+        return new R().code(ResultEnum.A0400.code).message(detailMessage.toString());
+    }
+
 }

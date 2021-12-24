@@ -29,7 +29,7 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 
 ## 新增功能列表
 
-- [x] admin重置普通用户密码
+- [x] admin重置/修改普通用户密码
 - [x] 安全拦截配置更改到菜单中
 - [x] 支持生成excel模版和上传excel批量导入
 - [x] 生成代码时可选择生成菜单
@@ -57,14 +57,16 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 - [x] 增加CMS功能
 - [x] RSA密码加密解密分不同环境的配置
 - [x] 使用p6spy更高效的记录日志
-- [ ] 参数校验 
+- [x] validation 参数校验 
+- [x] 集成Netty
+
 ## 技术选型
 
 - 核心框架：SpringBoot
 - ORM框架：Mybatis
 - 任务调度：Spring Task + Quartz
 - 权限安全：Spring Security
-- 网页即时通讯：WebSocket
+- 网页即时通讯：Netty(WebSocket)
 - 连接池：Druid（阿里开源）
 - 日志处理：SLF4J(日志门面框架)、logback
 - 缓存处理：Redis

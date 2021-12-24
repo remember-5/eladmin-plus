@@ -21,7 +21,6 @@ public class CaptchaUtils {
 
     private final LoginProperties loginProperties;
 
-
     /**
      * 获取验证码生产类
      *
