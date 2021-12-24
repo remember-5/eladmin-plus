@@ -15,17 +15,22 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 ```
 
 启动前，请加入环境变量：
-`DB_HOST` 数据库地址，默认 127.0.0.1
-`DB_PORT` 数据库端口，默认 3306
-`DB_NAME` 数据库名称，默认 eladmin
-`DB_USER` 数据库用户名，默认 root
-`DB_PWD` 用户名密码，默认 123456
-`REDIS_HOST` Redis地址，默认127.0.0.1
-`REDIS_PORT` Redis端口，默认6379
-`REDIS_PWD` Redis密码，默认没有密码
-`REDIS_DB` Redis的DB，默认 0
-`DRUID_USER` druid用户，默认 admin
-`DRUID_PWD` druid密码，默认 12345
+
+| 变量名称   | 说明         | 默认值         |
+| :--------- | ------------ | -------------- |
+| DB_HOST    | 数据库地址   | 默认 127.0.0.1 |
+| DB_PORT    | 数据库端口   | 默认 3306      |
+| DB_NAME    | 数据库名称   | 默认 eladmin   |
+| DB_USER    | 数据库用户名 | 默认 root      |
+| DB_PWD     | 用户名密码   | 默认 123456    |
+| REDIS_HOST | Redis地址    | 默认127.0.0.1  |
+| REDIS_PORT | Redis端口    | 默认6379       |
+| REDIS_PWD  | Redis密码    | 默认没有密码   |
+| REDIS_DB   | Redis的DB    | 默认 0         |
+| DRUID_USER | druid用户    | 默认 admin     |
+| DRUID_PWD  | druid密码    | 默认 123456     |
+
+
 
 ## 新增功能列表
 
@@ -43,12 +48,7 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 - [x] websocket消息通知
 - [x] 集成dahan短信接口
 - [x] 支持打包为docker镜像
-- [ ] 多租户
-- [ ] 导入导出模版支持多表
-- [ ] 代码生成支持动态数据源
 - [x] 多数据源支持
-- [ ] 增加oauth2的支持(单独分支)
-- [ ] 支持工作流
 - [x] redis-utils支持lset，zset，geo方法
 - [x] 可动态配置获取IP地址
 - [x] 升级为使用knife4j
@@ -59,6 +59,11 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 - [x] 使用p6spy更高效的记录日志
 - [x] validation 参数校验 
 - [x] 集成Netty
+- [ ] 多租户
+- [ ] 导入导出模版支持多表
+- [ ] 代码生成支持动态数据源
+- [ ] 增加oauth2的支持(单独分支)
+- [ ] 支持工作流
 
 ## 技术选型
 
