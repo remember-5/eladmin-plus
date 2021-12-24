@@ -55,3 +55,8 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true
+
+webSocket:
+  netty:
+    port: 58080
+    path: /webSocket

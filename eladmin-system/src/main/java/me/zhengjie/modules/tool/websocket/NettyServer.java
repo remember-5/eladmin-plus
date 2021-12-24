@@ -41,13 +41,13 @@ public class NettyServer{
     /**
      * 端口号
      */
-    @Value("${webSocket.netty.port:58080}")
+    @Value("${webSocket.netty.port}")
     private int port;
 
     /**
      * webSocket路径
      */
-    @Value("${webSocket.netty.path:/webSocket}")
+    @Value("${webSocket.netty.path}")
     private String webSocketPath;
 
     @Autowired

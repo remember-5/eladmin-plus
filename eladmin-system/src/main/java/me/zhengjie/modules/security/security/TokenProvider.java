@@ -115,6 +115,18 @@ public class TokenProvider implements InitializingBean {
         }
     }
 
+    /**
+     * 检查token是否过期
+     * @param token 需要检查的token
+     */
+    public Boolean checkToken(String token) {
+        // 判断是否续期token,计算token的过期时间
+        long time = redisUtils.getExpire(properties.getOnlineKey() + token) * 1000;
+        Date expireDate = DateUtil.offset(new Date(), DateField.MILLISECOND, (int) time);
+        // 判断当前时间与过期时间的时间差
+        return expireDate.getTime() > System.currentTimeMillis();
+    }
+
     public String getToken(HttpServletRequest request) {
         final String requestHeader = request.getHeader(properties.getHeader());
         if (requestHeader != null && requestHeader.startsWith(properties.getTokenStartWith())) {
