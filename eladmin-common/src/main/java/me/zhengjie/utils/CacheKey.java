@@ -55,4 +55,14 @@ public interface CacheKey {
      * 数据字典
      */
     String DICT_NAME = "dict::name:";
+
+    /**
+     * redis发布订阅topic：发送给指定用户
+     */
+    String PUSH_MESSAGE_TO_ONE = "PushMessageToOne";
+
+    /**
+     * redis发布订阅topic：发送给所有用户
+     */
+    String PUSH_MESSAGE_TO_ALL = "PushMessageToAll";
 }

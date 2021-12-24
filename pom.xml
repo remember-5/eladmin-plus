@@ -42,6 +42,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <ip2region.version>1.7.2</ip2region.version>
         <p6spy-starter.version>1.7.1</p6spy-starter.version>
+        <netty.version>4.1.33.Final</netty.version>
     </properties>
 
     <dependencies>
@@ -226,6 +227,13 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
+        </dependency>
+
+        <!--   netty     -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
         </dependency>
 
     </dependencies>
