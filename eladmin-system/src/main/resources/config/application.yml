@@ -60,3 +60,9 @@ webSocket:
   netty:
     port: 58080
     path: /webSocket
+
+# 日志配置文件
+logging:
+  config: classpath:log4j2-spring.xml
+  level:
+    root: INFO
