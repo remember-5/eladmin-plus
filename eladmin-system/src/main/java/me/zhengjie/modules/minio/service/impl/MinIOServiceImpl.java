@@ -41,11 +41,11 @@ public class MinIOServiceImpl implements MinIOService {
         if (ObjectUtil.isNotNull(file)) {
             String newFileUrl = minIOUtils.upload(file);
             if (newFileUrl != UPLOAD_FAILED && !UPLOAD_FAILED.equals(newFileUrl)) {
-                return new R().resultEnum(ResultEnum.A00000).data(newFileUrl);
+                return R.success(newFileUrl);
             }
-            return new R().resultEnum(ResultEnum.A0500);
+            return R.fail(ResultEnum.A0500);
         }
-        return new R().resultEnum(ResultEnum.A0400);
+        return R.fail(ResultEnum.A0500);
     }
 
     /**
@@ -78,7 +78,7 @@ public class MinIOServiceImpl implements MinIOService {
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
-            return new R().resultEnum(ResultEnum.A0500);
+            return R.fail(ResultEnum.A0500);
         }
     }
 
@@ -86,10 +86,10 @@ public class MinIOServiceImpl implements MinIOService {
     public R removeObject(String objectName) {
         try {
             minIOUtils.removeObject(objectName);
-            return new R().resultEnum(ResultEnum.A00000);
+            return R.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return new R().resultEnum(ResultEnum.A0500);
+            return R.fail(ResultEnum.A0500);
         }
     }
 
