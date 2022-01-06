@@ -13,10 +13,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,8 +29,10 @@ import java.net.InetSocketAddress;
 
 @Slf4j
 @Component
-public class NettyServer{
+@RequiredArgsConstructor
+public class NettyServer {
 
+    private final WebSocketHandler webSocketHandler;
     /**
      * webSocket协议名
      */
@@ -50,8 +50,6 @@ public class NettyServer{
     @Value("${webSocket.netty.path}")
     private String webSocketPath;
 
-    @Autowired
-    private WebSocketHandler webSocketHandler;
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workGroup;
@@ -64,7 +62,7 @@ public class NettyServer{
         workGroup = new NioEventLoopGroup();
         ServerBootstrap bootstrap = new ServerBootstrap();
         // bossGroup辅助客户端的tcp连接请求, workGroup负责与客户端之前的读写操作
-        bootstrap.group(bossGroup,workGroup);
+        bootstrap.group(bossGroup, workGroup);
         // 设置NIO类型的channel
         bootstrap.channel(NioServerSocketChannel.class);
         // 设置监听端口
@@ -88,7 +86,7 @@ public class NettyServer{
                 ch.pipeline().addLast(new HttpObjectAggregator(8192));
 
                 //针对客户端，若10s内无读事件则触发心跳处理方法HeartBeatHandler#userEventTriggered
-                ch.pipeline().addLast(new IdleStateHandler(10 , 0 , 0));
+                ch.pipeline().addLast(new IdleStateHandler(10, 0, 0));
                 //自定义空闲状态检测(自定义心跳检测handler)
                 ch.pipeline().addLast(new HeartBeatHandler());
                 /*
@@ -105,7 +103,7 @@ public class NettyServer{
         });
         // 配置完成，开始绑定server，通过调用sync同步方法阻塞直到绑定成功
         ChannelFuture channelFuture = bootstrap.bind().sync();
-        log.info("Server started and listen on:{}",channelFuture.channel().localAddress());
+        log.info("Server started and listen on:{}", channelFuture.channel().localAddress());
         // 对关闭通道进行监听
         channelFuture.channel().closeFuture().sync();
     }
@@ -115,13 +113,14 @@ public class NettyServer{
      */
     @PreDestroy
     public void destroy() throws InterruptedException {
-        if(bossGroup != null){
+        if (bossGroup != null) {
             bossGroup.shutdownGracefully().sync();
         }
-        if(workGroup != null){
+        if (workGroup != null) {
             workGroup.shutdownGracefully().sync();
         }
     }
+
     @PostConstruct()
     public void init() {
         //需要开启一个新的线程来执行netty server 服务器

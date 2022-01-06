@@ -1,8 +1,10 @@
 package me.zhengjie.modules.minio.utils;
 
+import cn.hutool.core.io.IoUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 
@@ -13,6 +15,7 @@ import static me.zhengjie.modules.minio.config.MinIOCode.FILE;
  * @Author fly
  * @Date 2021/4/7 16:13
  */
+@Slf4j
 public class MinIOFileUtil {
 
     /**
@@ -32,21 +35,30 @@ public class MinIOFileUtil {
     /**
      * inputStream 转 File
      */
-    public static File inputStreamToFile(InputStream ins, String name) throws Exception {
+    public static File inputStreamToFile(InputStream ins, String name) {
         File file = new File(SYS_TEM_DIR + name);
-        if (file.exists()) {
+        OutputStream os = null;
+        try {
+            if (file.exists()) {
+                return file;
+            }
+            os = new FileOutputStream(file);
+            int bytesRead;
+            int len = 8192;
+            byte[] buffer = new byte[len];
+            while ((bytesRead = ins.read(buffer, 0, len)) != -1) {
+                os.write(buffer, 0, bytesRead);
+            }
             return file;
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            return null;
+        } finally {
+            IoUtil.close(os);
+            IoUtil.close(ins);
         }
-        OutputStream os = new FileOutputStream(file);
-        int bytesRead;
-        int len = 8192;
-        byte[] buffer = new byte[len];
-        while ((bytesRead = ins.read(buffer, 0, len)) != -1) {
-            os.write(buffer, 0, bytesRead);
-        }
-        os.close();
-        ins.close();
-        return file;
+
+
     }
 
     /**

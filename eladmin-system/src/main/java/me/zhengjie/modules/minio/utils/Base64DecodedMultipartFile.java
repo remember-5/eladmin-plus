@@ -1,5 +1,6 @@
 package me.zhengjie.modules.minio.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
@@ -9,6 +10,7 @@ import java.io.*;
  * @author fly
  * @date 2020/12/4 16:57
  */
+@Slf4j
 public class Base64DecodedMultipartFile implements MultipartFile {
     private final byte[] imgContent;
     private final String header;
@@ -70,7 +72,7 @@ public class Base64DecodedMultipartFile implements MultipartFile {
             }
             return new Base64DecodedMultipartFile(b, baseStrs[0]);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return null;
         }
     }
