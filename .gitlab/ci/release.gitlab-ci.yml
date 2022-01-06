@@ -64,4 +64,4 @@ prod-package:
   #    tags:
   #      - xxx
   only:
-    - master
+    - main
