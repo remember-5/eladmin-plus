@@ -59,6 +59,7 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456;REDIS_
 - [x] 使用p6spy更高效的记录日志
 - [x] validation 参数校验 
 - [x] 集成Netty
+- [x] 分离打包
 - [ ] 多租户
 - [ ] 导入导出模版支持多表
 - [ ] 代码生成支持动态数据源
