@@ -31,7 +31,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <log4jdbc.version>1.16</log4jdbc.version>
         <fastjson.version>1.2.76</fastjson.version>
         <druid.version>1.2.8</druid.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
@@ -42,8 +41,9 @@
         <knife4j.version>3.0.3</knife4j.version>
         <ip2region.version>1.7.2</ip2region.version>
         <p6spy-starter.version>1.7.1</p6spy-starter.version>
-        <netty.version>4.1.72.Final</netty.version>
         <log4j2.version>2.17.1</log4j2.version>
+        <yauaa.version>6.7</yauaa.version>
+        <easyexcel.version>3.0.5</easyexcel.version>
     </properties>
 
     <dependencies>
@@ -66,7 +66,6 @@
             </exclusions>
         </dependency>
 
-
         <!--全局排除spring-boot-starter-logging内的所有依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,7 +78,6 @@
             </exclusions>
         </dependency>
 
-
         <!-- 引入log4j2依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -91,6 +89,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <!--lombok插件-->
@@ -168,6 +172,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!--   netty     -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
+
         <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
         <dependency>
             <groupId>com.github.gavlyukovskiy</groupId>
@@ -188,35 +198,24 @@
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.lionsoul</groupId>
-            <artifactId>ip2region</artifactId>
-            <version>${ip2region.version}</version>
-        </dependency>
 
-        <!-- =========================  hutool要用 excel工具  start  ========================= -->
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.17</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.17</version>
-        </dependency>
-        <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.12.0</version>
-        </dependency>
-        <!-- =========================  hutool要用 excel工具  end  ========================= -->
 
         <!-- fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>${ip2region.version}</version>
         </dependency>
 
         <!--mapStruct依赖-->
@@ -248,20 +247,13 @@
         <dependency>
             <groupId>nl.basjes.parse.useragent</groupId>
             <artifactId>yauaa</artifactId>
-            <version>5.23</version>
+            <version>${yauaa.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
-        </dependency>
-
-        <!--   netty     -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>${netty.version}</version>
         </dependency>
 
     </dependencies>

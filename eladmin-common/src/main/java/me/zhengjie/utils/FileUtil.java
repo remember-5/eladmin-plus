@@ -206,6 +206,9 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
     }
 
     /**
+     * 使用hutool工具的excel导出
+     * see https://hutool.cn/docs/#/poi/%E6%A6%82%E8%BF%B0
+     * 因为项目里面包含了easyExcel（里面包含了poi和xercesImpl）所以不需要在单独引用依赖
      * 导出excel
      */
     public static void downloadExcel(List<Map<String, Object>> list, HttpServletResponse response) throws IOException {
@@ -239,8 +242,8 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         //response为HttpServletResponse对象
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
         //template.xlsx是弹出下载对话框的文件名，不能为中文，中文请自行编码
-        response.setHeader("Content-Disposition","attachment;filename=template.xlsx");
-        ServletOutputStream out=response.getOutputStream();
+        response.setHeader("Content-Disposition", "attachment;filename=template.xlsx");
+        ServletOutputStream out = response.getOutputStream();
         //out为OutputStream，需要写出到的目标流
         writer.flush(out, true);
         //关闭writer，释放内存
