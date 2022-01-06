@@ -1,6 +1,7 @@
 package me.zhengjie.modules.minio.utils;
 
 import cn.hutool.core.img.ImgUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -19,6 +20,7 @@ import java.net.URL;
  * @Author fly
  * @Date 2020/12/16 18:16
  */
+@Slf4j
 public class UrlTurnMultipartFileUtil {
 
     public static final String MEDIA_TYPE_MP3 = "mp3";
@@ -61,7 +63,8 @@ public class UrlTurnMultipartFileUtil {
                 is.close();
             }
         } catch (IOException e) {
-            throw new RuntimeException("文件下载失败", e);
+            log.error("文件下载失败, {}", e.getMessage());
+            return null;
         }
 
         return new CommonsMultipartFile(item);

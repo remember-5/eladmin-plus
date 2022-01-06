@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.InputStream;
 
-import static me.zhengjie.modules.minio.config.MinIOCode.UPLOAD_FAILED;
 import static me.zhengjie.modules.minio.utils.Base64DecodedMultipartFile.base64ToMultipart;
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.fileToMultipartFile;
 import static me.zhengjie.modules.minio.utils.MinIOFileUtil.inputStreamToFile;
@@ -40,10 +39,7 @@ public class MinIOServiceImpl implements MinIOService {
     public R uploadFile(MultipartFile file) {
         if (ObjectUtil.isNotNull(file)) {
             String newFileUrl = minIOUtils.upload(file);
-            if (newFileUrl != UPLOAD_FAILED && !UPLOAD_FAILED.equals(newFileUrl)) {
-                return R.success(newFileUrl);
-            }
-            return R.fail(ResultEnum.A0500);
+            return null != newFileUrl ? R.success(newFileUrl) : R.fail(ResultEnum.A0500);
         }
         return R.fail(ResultEnum.A0500);
     }
@@ -56,8 +52,7 @@ public class MinIOServiceImpl implements MinIOService {
      */
     @Override
     public R uploadFile(String fileData) {
-        MultipartFile file = base64ToMultipart(fileData);
-        return uploadFile(file);
+        return uploadFile(base64ToMultipart(fileData));
     }
 
     /**
@@ -77,7 +72,6 @@ public class MinIOServiceImpl implements MinIOService {
             return uploadFile(multipartFile);
         } catch (Exception e) {
             log.error(e.getMessage());
-            e.printStackTrace();
             return R.fail(ResultEnum.A0500);
         }
     }
@@ -88,7 +82,7 @@ public class MinIOServiceImpl implements MinIOService {
             minIOUtils.removeObject(objectName);
             return R.success();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return R.fail(ResultEnum.A0500);
         }
     }
@@ -98,7 +92,7 @@ public class MinIOServiceImpl implements MinIOService {
         try {
             return minIOUtils.getObject(objectName);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return null;
         }
     }

@@ -11,6 +11,10 @@ import java.util.Date;
  */
 public class BlogArticleProvider {
 
+    /**
+     * 拼接sql
+     * @return /
+     */
     public String findAll() {
         return new SQL()
                 .SELECT("*")
@@ -18,6 +22,14 @@ public class BlogArticleProvider {
                 .WHERE("1=1").toString();
     }
 
+
+    /**
+     * 拼接参数
+     * @param title /
+     * @param content /
+     * @param date /
+     * @return /
+     */
     public String save(String title, String content, Date date) {
         return new SQL()
                 .INSERT_INTO("blog_article")
@@ -26,6 +38,11 @@ public class BlogArticleProvider {
                 .VALUES("create_date", "${date}").toString();
     }
 
+    /**
+     * 接收实体
+     * @param blogArticle /
+     * @return /
+     */
     public String saveEntity(BlogArticle blogArticle) {
         return new SQL()
                 .INSERT_INTO("blog_article")

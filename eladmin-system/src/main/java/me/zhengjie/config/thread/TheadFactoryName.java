@@ -43,8 +43,7 @@ public class TheadFactoryName implements ThreadFactory {
         group = (s != null) ? s.getThreadGroup() :
                 Thread.currentThread().getThreadGroup();
         //此时namePrefix就是 name + 第几个用这个工厂创建线程池的
-        this.namePrefix = name +
-                POOL_NUMBER.getAndIncrement();
+        this.namePrefix = name + POOL_NUMBER.getAndIncrement();
     }
 
     @Override

@@ -36,8 +36,7 @@ import me.zhengjie.modules.mnt.service.mapstruct.DeployMapper;
 import me.zhengjie.modules.mnt.util.ExecuteShellUtil;
 import me.zhengjie.modules.mnt.util.ScpClientUtil;
 import me.zhengjie.modules.mnt.websocket.MsgType;
-import me.zhengjie.modules.mnt.websocket.SocketMsg;
-import me.zhengjie.modules.mnt.websocket.WebSocketServer;
+import me.zhengjie.modules.tool.websocket.WebSocketServers;
 import me.zhengjie.utils.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -236,7 +235,9 @@ public class DeployServiceImpl implements DeployService {
 
     private void sendMsg(String msg, MsgType msgType) {
         try {
-            WebSocketServer.sendInfo(new SocketMsg(msg, msgType), "deploy");
+            // TODO 这个MsgType没有做处理
+            WebSocketServers.sendMessage(msg,"deploy");
+            //WebSocketServer.sendInfo(new SocketMsg(msg, msgType), "deploy");
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }

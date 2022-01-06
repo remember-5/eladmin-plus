@@ -28,7 +28,7 @@ import static me.zhengjie.modules.minio.config.MinIOCode.*;
 import static me.zhengjie.utils.SpringContextHolder.getBean;
 
 /**
- * @author wangjiahao 
+ * @author wangjiahao
  */
 @Slf4j
 @Component
@@ -51,7 +51,7 @@ public class MinIOUtils {
         //获取原始文件名称后缀
         String suffix = originalFilename.substring(originalFilename.lastIndexOf(StrUtil.DOT));
         //新文件名称
-        String newFileName = UUID.randomUUID(true).toString() + suffix;
+        String newFileName = UUID.randomUUID(true) + suffix;
         //获取当前日期作为文件夹名
         String packageName = LocalDate.now().toString();
         // 上传文件
@@ -73,7 +73,7 @@ public class MinIOUtils {
         //获取原始文件名称后缀
         String suffix = originalFilename.substring(originalFilename.lastIndexOf(StrUtil.DOT));
         //新文件名称
-        String newFileName = UUID.randomUUID(true).toString() + suffix;
+        String newFileName = UUID.randomUUID(true) + suffix;
         // 上传文件
         return uploadFile(file, packageName, newFileName);
     }
@@ -95,11 +95,11 @@ public class MinIOUtils {
     }
 
     /**
-     * @Author: fly
-     * @Description: 上传文件至minio服务器
-     * @Date: 2020/10/15
-     * @Param: [file, bucket, packageName, fileName]文件，文件分区名，文件夹名，文件名
-     * @Return: String 文件url
+     * 上传文件至minio服务器
+     * @param file 文件
+     * @param packageName  文件夹名
+     * @param fileName  文件名
+     * @return  String 文件url
      */
     public String uploadFile(MultipartFile file, String packageName, String fileName) {
         String fileType = Objects.requireNonNull(file.getContentType());
@@ -113,9 +113,8 @@ public class MinIOUtils {
             MinioClient minioClient = getBean(MINIO_CLIENT);
             minioClient.putObject(bucket, packageName + SLASH + fileName, file.getInputStream(), putObjectOptions);
         } catch (Exception e) {
-            log.error(UPLOAD_FAILED);
-            e.printStackTrace();
-            return UPLOAD_FAILED;
+            log.error(e.getMessage());
+            return null;
         }
         if (byMinioEnabled.getIsPrefix() == 1) {
             if (byMinioEnabled.getIsHttps() == 1) {
@@ -146,26 +145,20 @@ public class MinIOUtils {
 
 
     /**
-     * @Author: fly
-     * @Description: 检查文件分区是否存在，如果没有就创建
-     * @Date: 2020/10/15
-     * @Param: [bucket]文件分区名字
-     * @Return: void
+     * 检查文件分区是否存在，如果没有就创建
+     * @param bucket 文件分区名字
      */
     private void bucketExists(String bucket) {
-        boolean bucketisExist = false;
         MinioClient minioClient = getBean(MINIO_CLIENT);
         try {
-            bucketisExist = minioClient.bucketExists(bucket);
-            if (bucketisExist) {
+            if (minioClient.bucketExists(bucket)) {
                 log.error("文件分区已存在");
-            } else {
-                log.info("文件分区未存在,正在创建分区{}", bucket);
-                minioClient.makeBucket(bucket);
+                return;
             }
+            log.info("文件分区未存在,正在创建分区{}", bucket);
+            minioClient.makeBucket(bucket);
         } catch (Exception e) {
-            log.error("文件分区{}异常", bucket);
-            e.printStackTrace();
+            log.error("文件分区 {} 异常, {}", bucket, e.getMessage());
         }
     }
 

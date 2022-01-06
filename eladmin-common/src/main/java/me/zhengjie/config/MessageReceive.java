@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author fly
  * @date 2021-12-24
  */
+@Slf4j
 @Component
 public class MessageReceive {
 
@@ -25,7 +27,7 @@ public class MessageReceive {
     public void getMessageToOne(String object) {
         Jackson2JsonRedisSerializer serializer = getSerializer(NettyPushMessageBody.class);
         NettyPushMessageBody pushMessageBody = (NettyPushMessageBody) serializer.deserialize(object.getBytes());
-        System.out.println("订阅消息,发送给指定用户：" + pushMessageBody.toString());
+        log.info("订阅消息,发送给指定用户：{}", pushMessageBody.toString());
 
         // 推送消息
         String message = pushMessageBody.getMessage();
@@ -45,7 +47,7 @@ public class MessageReceive {
     public void getMessageToAll(String object) {
         Jackson2JsonRedisSerializer serializer = getSerializer(String.class);
         String message = (String) serializer.deserialize(object.getBytes());
-        System.out.println("订阅消息，发送给所有用户：" + message);
+        log.info("订阅消息，发送给所有用户：{}",message);
         NettyConfig.getChannelGroup().writeAndFlush(new TextWebSocketFrame(message));
     }
 

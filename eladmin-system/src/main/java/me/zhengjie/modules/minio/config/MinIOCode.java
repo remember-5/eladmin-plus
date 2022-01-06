@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 public class MinIOCode {
 
 
-    /**
-     * 文件上传失败
-     */
-    public static final String UPLOAD_FAILED = "文件上传失败";
+//    /**
+//     * 文件上传失败
+//     */
+//    public static final String UPLOAD_FAILED = "文件上传失败";
     /**
      * /
      */
