@@ -1,0 +1,69 @@
+# =========== 生产环境 ===========
+
+cache:
+  paths:
+    - ./eladmin-system/target/eladmin-template.jar
+
+# 生产环境构建
+prod-build:
+  stage: compile
+  script:
+    - echo "=============== 开始编译构建任务 ==============="
+    # 清缓存
+    - mvn clean
+    # 打包
+    - mvn package
+  #  tags:
+  #    - xxx
+  only:
+    - main
+
+
+# 生产环境打包
+prod-package:
+  stage: package
+  # 环境变量
+  variables:
+#    DB_HOST:
+#    DB_PORT:
+#    DB_NAME:
+#    DB_USER:
+#    DB_PWD:
+#    DB_SCHEMA:
+#    REDIS_HOST:
+#    REDIS_PORT:
+#    REDIS_PWD:
+#    REDIS_DB:
+#    DRUID_USER:
+#    DRUID_PWD:
+  script:
+    - echo $(pwd)
+    # 停止服务
+    - sh stop.sh
+    # 删除jar包
+    - rm -rf /server/eladmin/eladmin-template.jar
+    # copy到指定位置
+    - cp ./eladmin-system/target/eladmin-template.jar /server/eladmin
+    - cp start.sh /server/eladmin
+    - cd /server/eladmin
+    # 启动服务
+    - nohup java -jar /server/eladmin/eladmin-template.jar \
+      --DB_HOST="$DB_HOST" \
+      --DB_PORT="$DB_PORT" \
+      --DB_NAME="$DB_NAME" \
+      --DB_USER="$DB_USER" \
+      --DB_PWD="$DB_PWD" \
+      --DB_SCHEMA="$DB_SCHEMA" \
+      --REDIS_HOST="$REDIS_HOST" \
+      --REDIS_PORT="$REDIS_PORT" \
+      --REDIS_PWD="$REDIS_PWD" \
+      --REDIS_DB="$REDIS_DB" \
+      --DRUID_USER="$DRUID_USER" \
+      --DRUID_PWD="$DRUID_PWD" > nohup.out 2>&1 &
+  #    artifacts:
+  #      paths:
+  #        - target/*.jar
+  #    tags:
+  #      - xxx
+  only:
+    - main
