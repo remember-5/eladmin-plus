@@ -12,7 +12,7 @@
  Target Server Version : 140000
  File Encoding         : 65001
 
- Date: 10/05/2022 17:39:21
+ Date: 10/05/2022 17:53:51
 */
 
 
@@ -230,17 +230,6 @@ CACHE 1;
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_message_notification_id_seq";
 CREATE SEQUENCE "t_message_notification_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for t_resources_management_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "t_resources_management_id_seq";
-CREATE SEQUENCE "t_resources_management_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -1433,52 +1422,6 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_resources_management
--- ----------------------------
-DROP TABLE IF EXISTS "t_resources_management";
-CREATE TABLE "t_resources_management" (
-  "id" int4 NOT NULL DEFAULT nextval('eladmin_template_schema.t_resources_management_id_seq'::regclass),
-  "type" int4,
-  "num" varchar(255) COLLATE "pg_catalog"."default",
-  "url" varchar(255) COLLATE "pg_catalog"."default",
-  "port" int4,
-  "bucket" varchar(255) COLLATE "pg_catalog"."default",
-  "accesskey" varchar(255) COLLATE "pg_catalog"."default",
-  "secretkey" varchar(255) COLLATE "pg_catalog"."default",
-  "enabled" bool,
-  "is_prefix" bool,
-  "prefix_str" varchar(255) COLLATE "pg_catalog"."default",
-  "is_https" bool,
-  "remarks" varchar(255) COLLATE "pg_catalog"."default",
-  "create_date" timestamp(6),
-  "update_date" timestamp(6),
-  "is_deleted" bool
-)
-;
-COMMENT ON COLUMN "t_resources_management"."type" IS '分类';
-COMMENT ON COLUMN "t_resources_management"."num" IS '资源编号';
-COMMENT ON COLUMN "t_resources_management"."url" IS '资源地址';
-COMMENT ON COLUMN "t_resources_management"."port" IS '端口号';
-COMMENT ON COLUMN "t_resources_management"."bucket" IS '空间名';
-COMMENT ON COLUMN "t_resources_management"."accesskey" IS 'accessKey';
-COMMENT ON COLUMN "t_resources_management"."secretkey" IS 'secretKey';
-COMMENT ON COLUMN "t_resources_management"."enabled" IS '启用状态(1启用/0禁用)';
-COMMENT ON COLUMN "t_resources_management"."is_prefix" IS '是否需要自定义前缀(1是/0否)';
-COMMENT ON COLUMN "t_resources_management"."prefix_str" IS '自定义前缀';
-COMMENT ON COLUMN "t_resources_management"."is_https" IS '是否为https(1是/0否)';
-COMMENT ON COLUMN "t_resources_management"."remarks" IS '备注';
-COMMENT ON COLUMN "t_resources_management"."create_date" IS '创建时间';
-COMMENT ON COLUMN "t_resources_management"."update_date" IS '修改时间';
-COMMENT ON COLUMN "t_resources_management"."is_deleted" IS '1 表示删除，0 表示未删除';
-COMMENT ON TABLE "t_resources_management" IS '对象存储';
-
--- ----------------------------
--- Records of t_resources_management
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for tool_alipay_config
 -- ----------------------------
 DROP TABLE IF EXISTS "tool_alipay_config";
@@ -1810,13 +1753,6 @@ SELECT setval('"t_message_notification_id_seq"', 1, false);
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-ALTER SEQUENCE "t_resources_management_id_seq"
-OWNED BY "t_resources_management"."id";
-SELECT setval('"t_resources_management_id_seq"', 1, false);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
 ALTER SEQUENCE "tool_local_storage_storage_id_seq"
 OWNED BY "tool_local_storage"."storage_id";
 SELECT setval('"tool_local_storage_storage_id_seq"', 1, false);
@@ -1996,11 +1932,6 @@ ALTER TABLE "t_cms_column" ADD CONSTRAINT "t_cms_column_pkey" PRIMARY KEY ("colu
 -- Primary Key structure for table t_message_notification
 -- ----------------------------
 ALTER TABLE "t_message_notification" ADD CONSTRAINT "t_message_notification_pkey" PRIMARY KEY ("id");
-
--- ----------------------------
--- Primary Key structure for table t_resources_management
--- ----------------------------
-ALTER TABLE "t_resources_management" ADD CONSTRAINT "t_resources_management_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table tool_alipay_config
