@@ -12,7 +12,7 @@
  Target Server Version : 140000
  File Encoding         : 65001
 
- Date: 18/04/2022 14:24:42
+ Date: 10/05/2022 17:53:51
 */
 
 
@@ -237,10 +237,10 @@ START 1
 CACHE 1;
 
 -- ----------------------------
--- Sequence structure for t_resources_management_id_seq
+-- Sequence structure for tool_local_storage_storage_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "t_resources_management_id_seq";
-CREATE SEQUENCE "t_resources_management_id_seq" 
+DROP SEQUENCE IF EXISTS "tool_local_storage_storage_id_seq";
+CREATE SEQUENCE "tool_local_storage_storage_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -248,10 +248,10 @@ START 1
 CACHE 1;
 
 -- ----------------------------
--- Sequence structure for tool_local_storage_storage_id_seq
+-- Sequence structure for tool_minio_config_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tool_local_storage_storage_id_seq";
-CREATE SEQUENCE "tool_local_storage_storage_id_seq" 
+DROP SEQUENCE IF EXISTS "tool_minio_config_id_seq";
+CREATE SEQUENCE "tool_minio_config_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -290,12 +290,12 @@ CREATE TABLE "app_version" (
 COMMENT ON COLUMN "app_version"."version_name" IS '版本号  这里设定为只有基础功能或大改动时才会有改动';
 COMMENT ON COLUMN "app_version"."build_code" IS '打包号  这里设定wgt包改动或功能性改动';
 COMMENT ON COLUMN "app_version"."is_new" IS '是否最新';
-COMMENT ON COLUMN "app_version"."is_deleted" IS '是否删除';
+COMMENT ON COLUMN "app_version"."is_deleted" IS '逻辑删除';
 COMMENT ON COLUMN "app_version"."content" IS '升级说明';
 COMMENT ON COLUMN "app_version"."url" IS '下载链接';
 COMMENT ON COLUMN "app_version"."create_date" IS '创建时间';
 COMMENT ON COLUMN "app_version"."update_date" IS '更新时间';
-COMMENT ON COLUMN "app_version"."is_must" IS '是否必须更新';
+COMMENT ON COLUMN "app_version"."is_must" IS '是否是必须更新';
 COMMENT ON COLUMN "app_version"."res_type" IS '资源类型 1、app 2、wgt';
 COMMENT ON TABLE "app_version" IS 'App版本';
 
@@ -864,7 +864,6 @@ INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", 
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (11, 10, 0, 1, '图标库', 'Icons', 'components/icons/index', 51, 'icon', 'icon', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-19 13:38:49', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (14, 36, 2, 1, '邮件工具', 'Email', 'tools/email/index', 35, 'email', 'email', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-27 10:13:09', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (15, 10, 0, 1, '富文本', 'Editor', 'components/Editor', 52, 'fwb', 'tinymce', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-27 11:58:25', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (18, 36, 3, 1, '存储管理', 'Storage', 'tools/storage/index', 34, 'qiniu', 'storage', 'f', 'f', 'f', 'storage:list', NULL, NULL, '2018-12-31 11:12:15', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (19, 36, 2, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 37, 'alipay', 'aliPay', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-31 14:52:38', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (21, NULL, 2, 0, '多级菜单', NULL, '', 900, 'menu', 'nested', 'f', 'f', 't', NULL, NULL, 'admin', '2019-01-04 16:22:03', '2021-12-10 16:14:19');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (22, 21, 2, 0, '二级菜单1', NULL, '', 999, 'menu', 'menu1', 'f', 'f', 'f', NULL, NULL, 'admin', '2019-01-04 16:23:29', '2020-06-21 17:27:20');
@@ -877,7 +876,6 @@ INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", 
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (33, 10, 0, 1, 'Markdown', 'Markdown', 'components/MarkDown', 53, 'markdown', 'markdown', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-08 13:46:44', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (34, 10, 0, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 54, 'dev', 'yaml', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-08 15:49:40', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (35, 1, 3, 1, '部门管理', 'Dept', 'system/dept/index', 6, 'dept', 'dept', 'f', 'f', 'f', 'dept:list', NULL, NULL, '2019-03-25 09:46:00', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (36, NULL, 8, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 10:57:35', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (37, 1, 3, 1, '岗位管理', 'Job', 'system/job/index', 7, 'Steve-Jobs', 'job', 'f', 'f', 'f', 'job:list', NULL, NULL, '2019-03-29 13:51:18', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (38, 36, 0, 1, '接口文档', 'Swagger', 'tools/swagger/index', 36, 'swagger', 'swagger2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 19:57:53', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (39, 1, 3, 1, '字典管理', 'Dict', 'system/dict/index', 8, 'dictionary', 'dict', 'f', 'f', 'f', 'dict:list', NULL, NULL, '2019-04-10 11:49:04', NULL);
@@ -929,11 +927,6 @@ INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", 
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (113, 98, 0, 2, '数据库编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:edit', NULL, NULL, '2019-11-17 11:12:58', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (114, 98, 0, 2, '数据库删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:del', NULL, NULL, '2019-11-17 11:13:14', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (116, 36, 0, 1, '生成预览', 'Preview', 'generator/preview', 999, 'java', 'generator/preview/:tableName', 'f', 't', 't', NULL, NULL, NULL, '2019-11-26 14:54:36', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (120, 36, 4, 1, '存储资源管理', 'ResourcesManagement', 'resources/index', 38, 'dept', 'resourcesManagement', 'f', 'f', 'f', 'resourcesManagement:list', 'admin', 'admin', '2021-04-12 16:27:31', '2021-04-14 09:45:42');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (121, 120, 0, 2, '新增存储对象', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'resourcesManagement:add', 'admin', 'admin', '2021-04-14 11:21:51', '2021-04-14 11:21:51');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (122, 120, 0, 2, '修改存储对象', NULL, NULL, 2, NULL, NULL, 'f', 'f', 'f', 'resourcesManagement:edit', 'admin', 'admin', '2021-04-14 11:22:13', '2021-04-14 11:22:13');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (123, 120, 0, 2, '删除存储对象', NULL, NULL, 3, NULL, NULL, 'f', 'f', 'f', 'resourcesManagement:del', 'admin', 'admin', '2021-04-14 11:22:42', '2021-04-14 11:22:42');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (124, 120, 0, 2, '修改存储对象状态', NULL, NULL, 4, NULL, NULL, 'f', 'f', 'f', 'resourcesManagement:switchs', 'admin', 'admin', '2021-04-14 11:23:15', '2021-04-14 11:23:15');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (125, NULL, 4, 0, '文章管理', NULL, NULL, 999, 'develop', 'cms', 'f', 'f', 'f', NULL, 'admin', 'admin', '2021-11-30 14:54:18', '2021-11-30 14:54:18');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (126, 125, 3, 1, '文章列表', NULL, 'cms/index', 999, NULL, 'cmsIndex', 'f', 'f', 'f', 'cms:list', 'admin', 'admin', '2021-11-30 14:55:17', '2021-11-30 19:42:02');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (127, 125, 0, 1, '文章发布', 'AddCms', 'cms/insert', 999, NULL, 'addCms', 'f', 'f', 't', 'cms:add', 'admin', 'admin', '2021-11-30 15:18:38', '2021-11-30 18:59:19');
@@ -959,6 +952,9 @@ INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", 
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (149, 147, 0, 2, 'app版本修改', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:edit', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (150, 147, 0, 2, 'app版本删除', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:del', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (151, 147, 0, 2, 'app版本导入', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:importData', 'test', 'test', '2022-03-02 16:01:27', '2022-03-02 16:01:27');
+INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (36, NULL, 7, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 10:57:35', NULL);
+INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (4, 18, 0, 2, '修改minio配置', NULL, NULL, 5, NULL, NULL, 'f', 'f', 'f', 'minioConfig:edit', 'test', 'test', '2022-05-10 15:18:20.199', '2022-05-10 15:43:54.138');
+INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (18, 36, 4, 1, '存储管理', 'Storage', 'tools/storage/index', 34, 'qiniu', 'storage', 'f', 'f', 'f', 'storage:list', NULL, 'test', '2018-12-31 11:12:15', '2022-05-10 15:16:30.565');
 COMMIT;
 
 -- ----------------------------
@@ -1069,8 +1065,8 @@ COMMENT ON TABLE "sys_role" IS '角色表';
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_role" ("role_id", "name", "level", "description", "data_scope", "create_by", "update_by", "create_time", "update_time") VALUES (1, '超级管理员', 1, '-', '自定义', NULL, 'admin', '2018-11-23 11:04:37', '2021-12-10 16:14:58');
 INSERT INTO "sys_role" ("role_id", "name", "level", "description", "data_scope", "create_by", "update_by", "create_time", "update_time") VALUES (2, '普通用户', 2, '-', '本级', NULL, 'test', '2018-11-23 13:09:06', '2022-04-18 13:49:47.197');
+INSERT INTO "sys_role" ("role_id", "name", "level", "description", "data_scope", "create_by", "update_by", "create_time", "update_time") VALUES (1, '超级管理员', 1, '-', '自定义', NULL, 'test', '2018-11-23 11:04:37', '2022-05-10 15:44:12.905');
 COMMIT;
 
 -- ----------------------------
@@ -1178,11 +1174,6 @@ INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (112, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (113, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (114, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (116, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (120, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (121, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (122, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (123, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (124, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (125, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (126, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (127, 1);
@@ -1210,6 +1201,7 @@ INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (150, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (151, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (1, 2);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (2, 2);
+INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (4, 1);
 COMMIT;
 
 -- ----------------------------
@@ -1259,8 +1251,8 @@ COMMENT ON TABLE "sys_user" IS '系统用户';
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_user" ("user_id", "dept_id", "username", "nick_name", "gender", "phone", "email", "avatar_name", "avatar_path", "password", "is_admin", "enabled", "create_by", "update_by", "pwd_reset_time", "create_time", "update_time") VALUES (1, 2, 'admin', '管理员', '男', '18888888888', '201507802@qq.com', 'avatar.png', 'http://118.25.95.207:9000/eladmin/2021-11-30/a5a676dd-3b31-46d1-a906-4d0cf5762e4d.png', '$2a$10$nz5y.NQnk50QsUCtgtgjlOqEnnzH.WMzBqiE51FA7C49KcEu3UfG6', 'f', 't', NULL, 'admin', '2021-12-09 17:43:28', '2018-08-23 09:11:56', '2021-11-30 18:59:07');
-INSERT INTO "sys_user" ("user_id", "dept_id", "username", "nick_name", "gender", "phone", "email", "avatar_name", "avatar_path", "password", "is_admin", "enabled", "create_by", "update_by", "pwd_reset_time", "create_time", "update_time") VALUES (2, 2, 'test', '测试1', '男', '18888888882', '231@qq.com', NULL, NULL, '$2a$10$dBgPJaqznDC/W3xRfyUoPuosqIQqYKOTYHcnjz1F/ydctURcELgaS', 'f', 't', 'admin', 'test', '2021-12-15 14:48:52', '2020-05-05 11:15:49', '2022-04-18 13:52:52.769');
+INSERT INTO "sys_user" ("user_id", "dept_id", "username", "nick_name", "gender", "phone", "email", "avatar_name", "avatar_path", "password", "is_admin", "enabled", "create_by", "update_by", "pwd_reset_time", "create_time", "update_time") VALUES (2, 2, 'test', '测试1', '男', '18888888882', '231@qq.com', NULL, NULL, '$2a$10$dBgPJaqznDC/W3xRfyUoPuosqIQqYKOTYHcnjz1F/ydctURcELgaS', 'f', 't', 'admin', 'test1', '2021-12-15 14:48:52', '2020-05-05 11:15:49', '2022-05-09 10:38:59.672');
+INSERT INTO "sys_user" ("user_id", "dept_id", "username", "nick_name", "gender", "phone", "email", "avatar_name", "avatar_path", "password", "is_admin", "enabled", "create_by", "update_by", "pwd_reset_time", "create_time", "update_time") VALUES (1, 2, 'admin', '管理员', '男', '18888888888', '201507802@qq.com', 'avatar.png', 'http://118.25.95.207:9000/eladmin/2021-11-30/a5a676dd-3b31-46d1-a906-4d0cf5762e4d.png', '$2a$10$nz5y.NQnk50QsUCtgtgjlOqEnnzH.WMzBqiE51FA7C49KcEu3UfG6', 'f', 't', NULL, 'test', '2021-12-09 17:43:28', '2018-08-23 09:11:56', '2022-05-10 16:05:00.849');
 COMMIT;
 
 -- ----------------------------
@@ -1280,8 +1272,8 @@ COMMENT ON TABLE "sys_users_jobs" IS '岗位关联表';
 -- Records of sys_users_jobs
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (1, 11);
 INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (2, 12);
+INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (1, 11);
 COMMIT;
 
 -- ----------------------------
@@ -1301,8 +1293,8 @@ COMMENT ON TABLE "sys_users_roles" IS '用户角色关联';
 -- Records of sys_users_roles
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_users_roles" ("user_id", "role_id") VALUES (1, 1);
 INSERT INTO "sys_users_roles" ("user_id", "role_id") VALUES (2, 1);
+INSERT INTO "sys_users_roles" ("user_id", "role_id") VALUES (1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -1430,52 +1422,6 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for t_resources_management
--- ----------------------------
-DROP TABLE IF EXISTS "t_resources_management";
-CREATE TABLE "t_resources_management" (
-  "id" int4 NOT NULL DEFAULT nextval('eladmin_template_schema.t_resources_management_id_seq'::regclass),
-  "type" int4,
-  "num" varchar(255) COLLATE "pg_catalog"."default",
-  "url" varchar(255) COLLATE "pg_catalog"."default",
-  "port" int4,
-  "bucket" varchar(255) COLLATE "pg_catalog"."default",
-  "accesskey" varchar(255) COLLATE "pg_catalog"."default",
-  "secretkey" varchar(255) COLLATE "pg_catalog"."default",
-  "enabled" bool,
-  "is_prefix" bool,
-  "prefix_str" varchar(255) COLLATE "pg_catalog"."default",
-  "is_https" bool,
-  "remarks" varchar(255) COLLATE "pg_catalog"."default",
-  "create_date" timestamp(6),
-  "update_date" timestamp(6),
-  "is_deleted" bool
-)
-;
-COMMENT ON COLUMN "t_resources_management"."type" IS '分类';
-COMMENT ON COLUMN "t_resources_management"."num" IS '资源编号';
-COMMENT ON COLUMN "t_resources_management"."url" IS '资源地址';
-COMMENT ON COLUMN "t_resources_management"."port" IS '端口号';
-COMMENT ON COLUMN "t_resources_management"."bucket" IS '空间名';
-COMMENT ON COLUMN "t_resources_management"."accesskey" IS 'accessKey';
-COMMENT ON COLUMN "t_resources_management"."secretkey" IS 'secretKey';
-COMMENT ON COLUMN "t_resources_management"."enabled" IS '启用状态(1启用/0禁用)';
-COMMENT ON COLUMN "t_resources_management"."is_prefix" IS '是否需要自定义前缀(1是/0否)';
-COMMENT ON COLUMN "t_resources_management"."prefix_str" IS '自定义前缀';
-COMMENT ON COLUMN "t_resources_management"."is_https" IS '是否为https(1是/0否)';
-COMMENT ON COLUMN "t_resources_management"."remarks" IS '备注';
-COMMENT ON COLUMN "t_resources_management"."create_date" IS '创建时间';
-COMMENT ON COLUMN "t_resources_management"."update_date" IS '修改时间';
-COMMENT ON COLUMN "t_resources_management"."is_deleted" IS '1 表示删除，0 表示未删除';
-COMMENT ON TABLE "t_resources_management" IS '对象存储';
-
--- ----------------------------
--- Records of t_resources_management
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for tool_alipay_config
 -- ----------------------------
 DROP TABLE IF EXISTS "tool_alipay_config";
@@ -1578,6 +1524,32 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
+-- Table structure for tool_minio_config
+-- ----------------------------
+DROP TABLE IF EXISTS "tool_minio_config";
+CREATE TABLE "tool_minio_config" (
+  "id" int4 NOT NULL DEFAULT nextval('eladmin_template_schema.tool_minio_config_id_seq'::regclass),
+  "host" varchar(255) COLLATE "pg_catalog"."default",
+  "bucket" varchar(255) COLLATE "pg_catalog"."default",
+  "access_key" varchar(255) COLLATE "pg_catalog"."default",
+  "secret_key" varchar(255) COLLATE "pg_catalog"."default"
+)
+;
+COMMENT ON COLUMN "tool_minio_config"."id" IS '自增主键ID';
+COMMENT ON COLUMN "tool_minio_config"."host" IS '地址+端口';
+COMMENT ON COLUMN "tool_minio_config"."bucket" IS '空间名';
+COMMENT ON COLUMN "tool_minio_config"."access_key" IS 'aKey';
+COMMENT ON COLUMN "tool_minio_config"."secret_key" IS 'sKey';
+COMMENT ON TABLE "tool_minio_config" IS 'Minio配置';
+
+-- ----------------------------
+-- Records of tool_minio_config
+-- ----------------------------
+BEGIN;
+INSERT INTO "tool_minio_config" ("id", "host", "bucket", "access_key", "secret_key") VALUES (1, 'http://xxx.xxx.xxx.xxx:9000', 'aaa', '1234567', '7654321');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for tool_qiniu_config
 -- ----------------------------
 DROP TABLE IF EXISTS "tool_qiniu_config";
@@ -1604,6 +1576,7 @@ COMMENT ON TABLE "tool_qiniu_config" IS '七牛云配置';
 -- Records of tool_qiniu_config
 -- ----------------------------
 BEGIN;
+INSERT INTO "tool_qiniu_config" ("config_id", "access_key", "bucket", "host", "secret_key", "type", "zone") VALUES (1, '1231', '12321', 'https://asdasd.com', '12321', '公开', '华北');
 COMMIT;
 
 -- ----------------------------
@@ -1649,7 +1622,7 @@ SELECT setval('"app_version_id_seq"', 1, false);
 -- ----------------------------
 ALTER SEQUENCE "code_column_config_column_id_seq"
 OWNED BY "code_column_config"."column_id";
-SELECT setval('"code_column_config_column_id_seq"', 1, false);
+SELECT setval('"code_column_config_column_id_seq"', 51, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1726,7 +1699,7 @@ SELECT setval('"sys_log_log_id_seq"', 1, true);
 -- ----------------------------
 ALTER SEQUENCE "sys_menu_menu_id_seq"
 OWNED BY "sys_menu"."menu_id";
-SELECT setval('"sys_menu_menu_id_seq"', 1, true);
+SELECT setval('"sys_menu_menu_id_seq"', 153, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1780,16 +1753,16 @@ SELECT setval('"t_message_notification_id_seq"', 1, false);
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-ALTER SEQUENCE "t_resources_management_id_seq"
-OWNED BY "t_resources_management"."id";
-SELECT setval('"t_resources_management_id_seq"', 1, false);
+ALTER SEQUENCE "tool_local_storage_storage_id_seq"
+OWNED BY "tool_local_storage"."storage_id";
+SELECT setval('"tool_local_storage_storage_id_seq"', 1, false);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-ALTER SEQUENCE "tool_local_storage_storage_id_seq"
-OWNED BY "tool_local_storage"."storage_id";
-SELECT setval('"tool_local_storage_storage_id_seq"', 1, false);
+ALTER SEQUENCE "tool_minio_config_id_seq"
+OWNED BY "tool_minio_config"."id";
+SELECT setval('"tool_minio_config_id_seq"', 1, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1961,11 +1934,6 @@ ALTER TABLE "t_cms_column" ADD CONSTRAINT "t_cms_column_pkey" PRIMARY KEY ("colu
 ALTER TABLE "t_message_notification" ADD CONSTRAINT "t_message_notification_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
--- Primary Key structure for table t_resources_management
--- ----------------------------
-ALTER TABLE "t_resources_management" ADD CONSTRAINT "t_resources_management_pkey" PRIMARY KEY ("id");
-
--- ----------------------------
 -- Primary Key structure for table tool_alipay_config
 -- ----------------------------
 ALTER TABLE "tool_alipay_config" ADD CONSTRAINT "tool_alipay_config_pkey" PRIMARY KEY ("config_id");
@@ -1979,6 +1947,11 @@ ALTER TABLE "tool_email_config" ADD CONSTRAINT "tool_email_config_pkey" PRIMARY 
 -- Primary Key structure for table tool_local_storage
 -- ----------------------------
 ALTER TABLE "tool_local_storage" ADD CONSTRAINT "tool_local_storage_pkey" PRIMARY KEY ("storage_id");
+
+-- ----------------------------
+-- Primary Key structure for table tool_minio_config
+-- ----------------------------
+ALTER TABLE "tool_minio_config" ADD CONSTRAINT "tool_minio_config_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table tool_qiniu_config
