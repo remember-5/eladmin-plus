@@ -54,7 +54,7 @@ public class AliPayController {
     private final AliPayService alipayService;
 
     @GetMapping
-    public ResponseEntity<AlipayConfig> queryConfig() {
+    public ResponseEntity<AlipayConfig> queryAliConfig() {
         return new ResponseEntity<>(alipayService.find(), HttpStatus.OK);
     }
 
@@ -62,7 +62,7 @@ public class AliPayController {
     @ApiOperation("配置支付宝")
     @PutMapping
     @PreAuthorize("@el.check('aliPay:configure')")
-    public ResponseEntity<Object> updateConfig(@Validated @RequestBody AlipayConfig alipayConfig) {
+    public ResponseEntity<Object> updateAliPayConfig(@Validated @RequestBody AlipayConfig alipayConfig) {
         alipayService.config(alipayConfig);
         return new ResponseEntity<>(HttpStatus.OK);
     }

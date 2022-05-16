@@ -49,25 +49,25 @@ public class CaptchaUtils {
         Captcha captcha;
         synchronized (this) {
             switch (captchaCode.getType()) {
-                case arithmetic:
+                case ARITHMETIC:
                     // 算术类型 https://gitee.com/whvse/EasyCaptcha
                     captcha = new FixedArithmeticCaptcha(captchaCode.getWidth(), captchaCode.getHeight());
                     // 几位数运算，默认是两位
                     captcha.setLen(captchaCode.getLength());
                     break;
-                case chinese:
+                case CHINESE:
                     captcha = new ChineseCaptcha(captchaCode.getWidth(), captchaCode.getHeight());
                     captcha.setLen(captchaCode.getLength());
                     break;
-                case chinese_gif:
+                case CHINESE_GIF:
                     captcha = new ChineseGifCaptcha(captchaCode.getWidth(), captchaCode.getHeight());
                     captcha.setLen(captchaCode.getLength());
                     break;
-                case gif:
+                case GIF:
                     captcha = new GifCaptcha(captchaCode.getWidth(), captchaCode.getHeight());
                     captcha.setLen(captchaCode.getLength());
                     break;
-                case spec:
+                case SPEC:
                     captcha = new SpecCaptcha(captchaCode.getWidth(), captchaCode.getHeight());
                     captcha.setLen(captchaCode.getLength());
                     break;

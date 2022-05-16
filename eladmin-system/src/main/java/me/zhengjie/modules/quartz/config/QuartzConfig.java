@@ -47,28 +47,11 @@ public class QuartzConfig {
 
         @Override
         protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
-
-            //调用父类的方法
+            //调用父类的方法，把Job注入到spring中
             Object jobInstance = super.createJobInstance(bundle);
             capableBeanFactory.autowireBean(jobInstance);
             return jobInstance;
         }
     }
 
-    /**
-     * 注入scheduler到spring
-     *
-     * @param quartzJobFactory /
-     * @return Scheduler
-     * @throws Exception /
-     */
-    @Bean(name = "scheduler")
-    public Scheduler scheduler(QuartzJobFactory quartzJobFactory) throws Exception {
-        SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
-        factoryBean.setJobFactory(quartzJobFactory);
-        factoryBean.afterPropertiesSet();
-        Scheduler scheduler = factoryBean.getScheduler();
-        scheduler.start();
-        return scheduler;
-    }
 }

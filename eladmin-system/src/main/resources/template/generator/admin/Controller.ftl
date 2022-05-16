@@ -31,13 +31,11 @@ public class ${className}Controller {
 
     private final ${className}Service ${changeClassName}Service;
 
-
-
     @GetMapping
     @Log("查询${apiAlias}")
     @ApiOperation("查询${apiAlias}")
     @PreAuthorize("@el.check('${changeClassName}:list')")
-    public ResponseEntity<Object> query(${className}QueryCriteria criteria, Pageable pageable){
+    public ResponseEntity<Object> query${className}(${className}QueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(${changeClassName}Service.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
@@ -45,7 +43,7 @@ public class ${className}Controller {
     @Log("新增${apiAlias}")
     @ApiOperation("新增${apiAlias}")
     @PreAuthorize("@el.check('${changeClassName}:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody ${className} resources){
+    public ResponseEntity<Object> create${className}(@Validated @RequestBody ${className} resources){
         return new ResponseEntity<>(${changeClassName}Service.create(resources),HttpStatus.CREATED);
     }
 
@@ -53,7 +51,7 @@ public class ${className}Controller {
     @Log("修改${apiAlias}")
     @ApiOperation("修改${apiAlias}")
     @PreAuthorize("@el.check('${changeClassName}:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody ${className} resources){
+    public ResponseEntity<Object> update${className}(@Validated @RequestBody ${className} resources){
         ${changeClassName}Service.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -62,7 +60,7 @@ public class ${className}Controller {
     @ApiOperation("删除${apiAlias}")
     @PreAuthorize("@el.check('${changeClassName}:del')")
     @DeleteMapping
-    public ResponseEntity<Object> delete(@RequestBody ${pkColumnType}[] ids) {
+    public ResponseEntity<Object> delete${className}(@RequestBody ${pkColumnType}[] ids) {
         ${changeClassName}Service.deleteAll(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -71,7 +69,7 @@ public class ${className}Controller {
     @ApiOperation("导入数据模板")
     @GetMapping(value = "/downloadTemplate")
     @PreAuthorize("@el.check('${changeClassName}:importData')")
-    public void downloadTemplate(HttpServletResponse response) throws IOException {
+    public void downloadImport${className}Template(HttpServletResponse response) throws IOException {
         List<Object> rows = CollUtil.newArrayList(new ${className}());
         FileUtil.downloadTemplate(rows,response);
     }
@@ -80,7 +78,7 @@ public class ${className}Controller {
     @ApiOperation("导入数据")
     @PostMapping(value = "/importData")
     @PreAuthorize("@el.check('${changeClassName}:importData')")
-    public ResponseEntity<Object> importData(@RequestParam("file") MultipartFile file) throws IOException{
+    public ResponseEntity<Object> import${className}(@RequestParam("file") MultipartFile file) throws IOException{
         ${changeClassName}Service.importData(file);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -89,7 +87,7 @@ public class ${className}Controller {
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('${changeClassName}:list')")
-    public void download(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
+    public void export${className}(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
         ${changeClassName}Service.download(${changeClassName}Service.queryAll(criteria), response);
     }
 

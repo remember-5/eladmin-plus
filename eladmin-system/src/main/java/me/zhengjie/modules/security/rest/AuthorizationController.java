@@ -30,7 +30,7 @@ import me.zhengjie.annotation.rest.AnonymousDeleteMapping;
 import me.zhengjie.annotation.rest.AnonymousGetMapping;
 import me.zhengjie.annotation.rest.AnonymousPostMapping;
 import me.zhengjie.properties.RsaProperties;
-import me.zhengjie.entity.LoginProperties;
+import me.zhengjie.properties.LoginProperties;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.security.security.TokenProvider;
 import me.zhengjie.modules.security.service.OnlineUserService;
@@ -129,7 +129,7 @@ public class AuthorizationController {
         String uuid = jwtProperties.getCodeKey() + IdUtil.simpleUUID();
         //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
         String captchaValue = captcha.text();
-        if (captcha.getCharType() - 1 == CaptchaTypeEnum.arithmetic.ordinal() && captchaValue.contains(".")) {
+        if (captcha.getCharType() - 1 == CaptchaTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
             captchaValue = captchaValue.split("\\.")[0];
         }
         // 保存

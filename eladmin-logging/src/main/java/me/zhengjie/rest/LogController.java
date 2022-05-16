@@ -47,7 +47,7 @@ public class LogController {
     @ApiOperation("导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('logs:list')")
-    public void download(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
+    public void exportLog(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
         criteria.setLogType("INFO");
         logService.download(logService.queryAll(criteria), response);
     }
@@ -56,7 +56,7 @@ public class LogController {
     @ApiOperation("导出错误数据")
     @GetMapping(value = "/error/download")
     @PreAuthorize("@el.check('errorlogs:list')")
-    public void downloadErrorLog(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
+    public void exportErrorLog(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
         criteria.setLogType("ERROR");
         logService.download(logService.queryAll(criteria), response);
     }
@@ -64,7 +64,7 @@ public class LogController {
     @GetMapping
     @ApiOperation("日志查询")
     @PreAuthorize("@el.check('logs:list')")
-    public ResponseEntity<Object> query(LogQueryCriteria criteria, Pageable pageable) {
+    public ResponseEntity<Object> queryLog(LogQueryCriteria criteria, Pageable pageable) {
         criteria.setLogType("INFO");
         return new ResponseEntity<>(logService.queryAll(criteria, pageable), HttpStatus.OK);
     }
@@ -88,7 +88,7 @@ public class LogController {
     @GetMapping(value = "/error/{id}")
     @ApiOperation("日志异常详情查询")
     @PreAuthorize("@el.check('errorlogs:details')")
-    public ResponseEntity<Object> queryErrorLogs(@PathVariable Long id) {
+    public ResponseEntity<Object> queryErrorLogDetail(@PathVariable Long id) {
         return new ResponseEntity<>(logService.findByErrDetail(id), HttpStatus.OK);
     }
 
