@@ -42,10 +42,10 @@ import java.lang.reflect.Method;
 @Component
 public class LimitAspect {
 
-    private final RedisTemplate<Object, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private static final Logger logger = LoggerFactory.getLogger(LimitAspect.class);
 
-    public LimitAspect(RedisTemplate<Object, Object> redisTemplate) {
+    public LimitAspect(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -69,7 +69,7 @@ public class LimitAspect {
             }
         }
 
-        ImmutableList<Object> keys = ImmutableList.of(StringUtils.join(limit.prefix(), "_", key, "_", request.getRequestURI().replace("/", "_")));
+        ImmutableList<String> keys = ImmutableList.of(StringUtils.join(limit.prefix(), "_", key, "_", request.getRequestURI().replace("/", "_")));
 
         String luaScript = buildLuaScript();
         RedisScript<Number> redisScript = new DefaultRedisScript<>(luaScript, Number.class);

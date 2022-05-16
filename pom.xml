@@ -47,6 +47,7 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
         <minio.verison>8.4.0</minio.verison>
+        <redisson.version>3.16.8</redisson.version>
 
         <okhttp3.version>4.8.1</okhttp3.version>
         <p6spy-starter.version>1.8.0</p6spy-starter.version>
@@ -286,6 +287,12 @@
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.verison}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
 
         </dependencies>
