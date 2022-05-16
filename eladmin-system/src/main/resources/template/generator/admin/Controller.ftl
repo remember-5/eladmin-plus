@@ -1,18 +1,3 @@
-/*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
 package ${package}.rest;
 
 import cn.hutool.core.collection.CollUtil;
@@ -35,7 +20,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 /**
-* @website https://el-admin.vip
 * @author ${author}
 * @date ${date}
 **/
@@ -47,31 +31,7 @@ public class ${className}Controller {
 
     private final ${className}Service ${changeClassName}Service;
 
-    @Log("导入数据模板")
-    @ApiOperation("导入数据模板")
-    @GetMapping(value = "/downloadTemplate")
-    @PreAuthorize("@el.check('${changeClassName}:importData')")
-    public void downloadTemplate(HttpServletResponse response) throws IOException {
-        List<Object> rows = CollUtil.newArrayList(new ${className}());
-        FileUtil.downloadTemplate(rows,response);
-    }
 
-    @Log("导入数据")
-    @ApiOperation("导入数据")
-    @PostMapping(value = "/importData")
-    @PreAuthorize("@el.check('${changeClassName}:importData')")
-    public ResponseEntity<Object> importData(@RequestParam("file") MultipartFile file) throws IOException{
-        ${changeClassName}Service.importData(file);
-        return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-    @Log("导出数据")
-    @ApiOperation("导出数据")
-    @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('${changeClassName}:list')")
-    public void download(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
-        ${changeClassName}Service.download(${changeClassName}Service.queryAll(criteria), response);
-    }
 
     @GetMapping
     @Log("查询${apiAlias}")
@@ -106,4 +66,31 @@ public class ${className}Controller {
         ${changeClassName}Service.deleteAll(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Log("导入数据模板")
+    @ApiOperation("导入数据模板")
+    @GetMapping(value = "/downloadTemplate")
+    @PreAuthorize("@el.check('${changeClassName}:importData')")
+    public void downloadTemplate(HttpServletResponse response) throws IOException {
+        List<Object> rows = CollUtil.newArrayList(new ${className}());
+        FileUtil.downloadTemplate(rows,response);
+    }
+
+    @Log("导入数据")
+    @ApiOperation("导入数据")
+    @PostMapping(value = "/importData")
+    @PreAuthorize("@el.check('${changeClassName}:importData')")
+    public ResponseEntity<Object> importData(@RequestParam("file") MultipartFile file) throws IOException{
+        ${changeClassName}Service.importData(file);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Log("导出数据")
+    @ApiOperation("导出数据")
+    @GetMapping(value = "/download")
+    @PreAuthorize("@el.check('${changeClassName}:list')")
+    public void download(HttpServletResponse response, ${className}QueryCriteria criteria) throws IOException {
+        ${changeClassName}Service.download(${changeClassName}Service.queryAll(criteria), response);
+    }
+
 }
