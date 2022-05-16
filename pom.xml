@@ -34,11 +34,19 @@
         <skipTests>true</skipTests>
 
         <spring.boot.version>2.5.13</spring.boot.version>
-        <fastjson.version>1.2.80</fastjson.version>
         <druid.version>1.2.9</druid.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
+
+        <hutool.version>5.7.22</hutool.version>
+        <guava.version>31.1-jre</guava.version>
+        <fastjson.version>1.2.80</fastjson.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <dynamic.version>3.4.0</dynamic.version>
+        <easy-captcha.version>1.6.2</easy-captcha.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <minio.verison>8.4.0</minio.verison>
 
         <okhttp3.version>4.8.1</okhttp3.version>
         <p6spy-starter.version>1.8.0</p6spy-starter.version>
@@ -46,8 +54,6 @@
         <yauaa.version>6.12</yauaa.version>
         <easyexcel.version>3.0.5</easyexcel.version>
         <mica-ip2region.version>2.5.6</mica-ip2region.version>
-
-
     </properties>
 
     <dependencies>
@@ -121,12 +127,7 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
-        <!-- postgres依赖包  -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+
 
         <!-- =========================  参数校验  start  ========================= -->
         <!-- 保证 Spring AOP 相关的依赖包 -->
@@ -149,7 +150,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!--   netty     -->
+        <!--   netty   -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
@@ -167,19 +168,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>${easyexcel.version}</version>
-        </dependency>
-
-        <!-- fastjson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
         </dependency>
 
         <dependency>
@@ -237,6 +225,69 @@
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp3.version}</version>
             </dependency>
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!--工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!--     guava       -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!--   easyexcel         -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <!--在引用时请在maven中央仓库搜索2.X最新版本号-->
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <!-- 多数据源 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic.version}</version>
+            </dependency>
+
+            <!-- Java图形验证码 -->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.verison}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

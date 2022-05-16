@@ -10,10 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <hutool.version>5.7.22</hutool.version>
-        <guava.version>31.1-jre</guava.version>
-        <knife4j.version>3.0.3</knife4j.version>
-        <commons-io.version>2.11.0</commons-io.version>
+
     </properties>
 
     <artifactId>eladmin-common</artifactId>
@@ -24,20 +21,29 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
         </dependency>
 
+        <!--guava-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <!--   easyexcel         -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <!--在引用时请在maven中央仓库搜索2.X最新版本号-->
-            <version>${knife4j.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -50,7 +56,6 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${commons-io.version}</version>
         </dependency>
 
     </dependencies>
