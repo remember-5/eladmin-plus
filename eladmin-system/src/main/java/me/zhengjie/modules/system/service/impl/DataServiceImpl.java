@@ -24,7 +24,6 @@ import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.utils.enums.DataScopeEnum;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -50,7 +49,6 @@ public class DataServiceImpl implements DataService {
      * @return /
      */
     @Override
-    @Cacheable(key = "'user:' + #p0.id")
     public List<Long> getDeptIds(UserDto user) {
         // 用于存储部门id
         Set<Long> deptIds = new HashSet<>();

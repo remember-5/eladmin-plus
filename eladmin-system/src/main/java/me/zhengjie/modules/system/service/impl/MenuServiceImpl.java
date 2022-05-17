@@ -36,7 +36,6 @@ import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.mapstruct.MenuMapper;
 import me.zhengjie.utils.*;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,7 +83,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Cacheable(key = "'id:' + #p0")
     public MenuDto findById(long id) {
         Menu menu = menuRepository.findById(id).orElseGet(Menu::new);
         ValidationUtil.isNull(menu.getId(), "Menu", "id", id);
@@ -97,7 +95,6 @@ public class MenuServiceImpl implements MenuService {
      * @return /
      */
     @Override
-    @Cacheable(key = "'user:' + #p0")
     public List<MenuDto> findByUser(Long currentUserId) {
         List<RoleSmallDto> roles = roleService.findByUsersId(currentUserId);
         Set<Long> roleIds = roles.stream().map(RoleSmallDto::getId).collect(Collectors.toSet());

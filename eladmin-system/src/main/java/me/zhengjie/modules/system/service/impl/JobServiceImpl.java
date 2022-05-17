@@ -29,7 +29,6 @@ import me.zhengjie.modules.system.service.mapstruct.JobMapper;
 import me.zhengjie.utils.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -66,7 +65,6 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @Cacheable(key = "'id:' + #p0")
     public JobDto findById(Long id) {
         Job job = jobRepository.findById(id).orElseGet(Job::new);
         ValidationUtil.isNull(job.getId(), "Job", "id", id);
@@ -111,7 +109,7 @@ public class JobServiceImpl implements JobService {
         for (JobDto jobDTO : jobDtos) {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("岗位名称", jobDTO.getName());
-            map.put("岗位状态", jobDTO.getEnabled() ? "启用" : "停用");
+            map.put("岗位状态", Boolean.TRUE.equals(jobDTO.getEnabled()) ? "启用" : "停用");
             map.put("创建日期", jobDTO.getCreateTime());
             list.add(map);
         }
