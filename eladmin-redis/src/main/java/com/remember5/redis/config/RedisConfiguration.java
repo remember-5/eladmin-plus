@@ -53,19 +53,6 @@ import java.time.Duration;
 public class RedisConfiguration {
 
     /**
-     * 设置 redis 数据默认过期时间，默认2小时
-     * 设置@cacheable 序列化方式
-     */
-    @Bean
-    public RedisCacheConfiguration redisCacheConfiguration() {
-        FastJsonRedisSerializer<Object> fastJsonRedisSerializer = new FastJsonRedisSerializer<>(Object.class);
-        RedisCacheConfiguration configuration = RedisCacheConfiguration.defaultCacheConfig();
-        configuration = configuration.serializeValuesWith(RedisSerializationContext.
-                SerializationPair.fromSerializer(fastJsonRedisSerializer)).entryTtl(Duration.ofHours(2));
-        return configuration;
-    }
-
-    /**
      *  创建 RedisTemplate Bean，使用 JSON 序列化方式
      * @param redisConnectionFactory /
      * @return redisTemplate
@@ -101,7 +88,5 @@ public class RedisConfiguration {
         config.setCodec(new JsonJacksonCodec());
         return Redisson.create(config);
     }
-
-
 
 }

@@ -19,13 +19,12 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import me.zhengjie.properties.IpProperties;
 import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 import net.dreamlu.mica.ip2region.core.IpInfo;
 import nl.basjes.parse.useragent.UserAgent;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
-import org.springframework.beans.factory.annotation.Value;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -40,9 +39,6 @@ import java.util.Enumeration;
  */
 @Slf4j
 public class StringUtils extends org.apache.commons.lang3.StringUtils {
-
-    @Value("${ip.local-parsing}")
-    private static Boolean ipLocal;
 
     private static final char SEPARATOR = '_';
     private static final String UNKNOWN = "unknown";
@@ -177,7 +173,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * 根据ip获取详细地址
      */
     public static String getCityInfo(String ip) {
-        if (ipLocal) {
+        if (IpProperties.localParsing) {
             return getLocalCityInfo(ip);
         } else {
             return getHttpCityInfo(ip);

@@ -30,7 +30,6 @@ import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.QueryHelp;
 import me.zhengjie.utils.ValidationUtil;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -79,7 +78,6 @@ public class DictDetailServiceImpl implements DictDetailService {
     }
 
     @Override
-    @Cacheable(key = "'name:' + #p0")
     public List<DictDetailDto> getDictByName(String name) {
         return dictDetailMapper.toDto(dictDetailRepository.findByDictName(name));
     }

@@ -26,8 +26,6 @@ import me.zhengjie.modules.tool.domain.vo.TradeVo;
 import me.zhengjie.modules.tool.repository.AliPayRepository;
 import me.zhengjie.modules.tool.service.AliPayService;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,14 +43,12 @@ public class AliPayServiceImpl implements AliPayService {
     private final AliPayRepository alipayRepository;
 
     @Override
-    @Cacheable(key = "'config'")
     public AlipayConfig find() {
         Optional<AlipayConfig> alipayConfig = alipayRepository.findById(1L);
         return alipayConfig.orElseGet(AlipayConfig::new);
     }
 
     @Override
-    @CachePut(key = "'config'")
     @Transactional(rollbackFor = Exception.class)
     public AlipayConfig config(AlipayConfig alipayConfig) {
         alipayConfig.setId(1L);
