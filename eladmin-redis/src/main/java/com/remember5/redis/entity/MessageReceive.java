@@ -29,7 +29,7 @@ public class MessageReceive {
     public void getMessageToOne(String object) {
         Jackson2JsonRedisSerializer serializer = getSerializer(NettyPushMessageBody.class);
         NettyPushMessageBody pushMessageBody = (NettyPushMessageBody) serializer.deserialize(object.getBytes());
-        log.info("订阅消息,发送给指定用户：{}", pushMessageBody.toString());
+        log.info("订阅消息,发送给指定用户: {}", pushMessageBody.toString());
 
         // 推送消息
         String message = pushMessageBody.getMessage();
@@ -49,7 +49,7 @@ public class MessageReceive {
     public void getMessageToAll(String object) {
         Jackson2JsonRedisSerializer serializer = getSerializer(String.class);
         String message = (String) serializer.deserialize(object.getBytes());
-        log.info("订阅消息，发送给所有用户：{}",message);
+        log.info("订阅消息，发送给所有用户: {}",message);
         NettyConfig.getChannelGroup().writeAndFlush(new TextWebSocketFrame(message));
     }
 

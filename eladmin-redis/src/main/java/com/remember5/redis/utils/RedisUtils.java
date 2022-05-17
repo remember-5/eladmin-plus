@@ -95,6 +95,9 @@ public class RedisUtils {
     public long increment(String key, long delta){
         return redisTemplate.opsForValue().increment(key, delta);
     }
+    public double increment(String key, double delta){
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
 
     public long decrement(String key, long delta){
         return redisTemplate.opsForValue().decrement(key, delta);
