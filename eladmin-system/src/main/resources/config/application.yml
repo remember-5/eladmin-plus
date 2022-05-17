@@ -2,7 +2,7 @@ spring:
   application:
     name: SystemApiApplication
   profiles:
-    active: dev
+    active: prod
   freemarker:
     check-template-location: false
   jackson:
