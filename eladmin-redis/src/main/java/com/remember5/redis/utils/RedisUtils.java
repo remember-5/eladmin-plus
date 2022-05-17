@@ -39,11 +39,9 @@ import java.util.concurrent.TimeUnit;
 @Component
 @SuppressWarnings({"unchecked", "all"})
 public class RedisUtils {
-    private RedisTemplate<Object, Object> redisTemplate;
-//    @Value("${jwt.online-key}")
-//    private String onlineKey;
+    private RedisTemplate<String, Object> redisTemplate;
 
-    public RedisUtils(RedisTemplate<Object, Object> redisTemplate) {
+    public RedisUtils(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -90,8 +88,19 @@ public class RedisUtils {
      * @param key 键 不能为null
      * @return 时间(秒) 返回0代表为永久有效
      */
-    public long getExpire(Object key) {
+    public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
+    }
+
+    public long increment(String key, long delta){
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+    public double increment(String key, double delta){
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+
+    public long decrement(String key, long delta){
+        return redisTemplate.opsForValue().decrement(key, delta);
     }
 
     /**
@@ -209,7 +218,7 @@ public class RedisUtils {
                 log.debug(new StringBuilder("删除缓存：").append(keys[0]).append("，结果：").append(result).toString());
                 log.debug("--------------------------------------------");
             } else {
-                Set<Object> keySet = new HashSet<>();
+                Set<String> keySet = new HashSet<>();
                 for (String key : keys) {
                     keySet.addAll(redisTemplate.keys(key));
                 }
@@ -724,7 +733,7 @@ public class RedisUtils {
      * @param ids    id
      */
     public void delByKeys(String prefix, Set<Long> ids) {
-        Set<Object> keys = new HashSet<>();
+        Set<String> keys = new HashSet<>();
         for (Long id : ids) {
             keys.addAll(redisTemplate.keys(new StringBuffer(prefix).append(id).toString()));
         }

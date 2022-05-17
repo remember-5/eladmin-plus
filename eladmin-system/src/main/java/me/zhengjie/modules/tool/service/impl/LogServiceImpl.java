@@ -50,7 +50,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class LogServiceImpl implements LogService {
-    private static final Logger log = LoggerFactory.getLogger(LogServiceImpl.class);
     private final LogRepository logRepository;
     private final LogErrorMapper logErrorMapper;
     private final LogSmallMapper logSmallMapper;
@@ -79,7 +78,9 @@ public class LogServiceImpl implements LogService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(String username, String browser, String ip, ProceedingJoinPoint joinPoint, Log log) {
-
+        if (log == null) {
+            throw new IllegalArgumentException("Log 不能为 null!");
+        }
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         me.zhengjie.annotation.Log aopLog = method.getAnnotation(me.zhengjie.annotation.Log.class);
@@ -87,11 +88,7 @@ public class LogServiceImpl implements LogService {
         // 方法路径
         String methodName = joinPoint.getTarget().getClass().getName() + "." + signature.getName() + "()";
 
-        // 描述
-        if (log != null) {
-            log.setDescription(aopLog.value());
-        }
-        assert log != null;
+        log.setDescription(aopLog.value());
         log.setRequestIp(ip);
 
         log.setAddress(StringUtils.getCityInfo(log.getRequestIp()));
@@ -126,7 +123,7 @@ public class LogServiceImpl implements LogService {
                 argList.add(map);
             }
         }
-        if (argList.size() == 0) {
+        if (argList.isEmpty()) {
             return "";
         }
         return argList.size() == 1 ? JSONUtil.toJsonStr(argList.get(0)) : JSONUtil.toJsonStr(argList);

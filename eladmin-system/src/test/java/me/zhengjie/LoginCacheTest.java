@@ -14,6 +14,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+
+import static me.zhengjie.modules.security.service.UserDetailsServiceImpl.executor;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LoginCacheTest {
@@ -61,5 +64,25 @@ public class LoginCacheTest {
         writer.close();
         //此处记得关闭输出Servlet流
         IoUtil.close(out);
+    }
+
+    @Test
+    public void testCacheManager() throws InterruptedException {
+        int size = 1000;
+        CountDownLatch latch = new CountDownLatch(size);
+        for (int i = 0; i < size; i++) {
+            int mod = i % 10;
+            executor.submit(() -> {
+                try {
+                    Thread.sleep(mod * 2 + (int) (Math.random() * 10000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                userDetailsService.loadUserByUsername("admin" + mod);
+                latch.countDown();
+                System.out.println("剩余未完成数量" + latch.getCount());
+            });
+        }
+        latch.await();
     }
 }

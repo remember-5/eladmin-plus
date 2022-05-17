@@ -14,21 +14,23 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <easy-captcha.version>1.6.2</easy-captcha.version>
+
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>me.zhengjie</groupId>
             <artifactId>eladmin-common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
         <!-- Java图形验证码 -->
         <dependency>
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
-            <version>${easy-captcha.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

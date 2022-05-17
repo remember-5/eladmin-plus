@@ -12,7 +12,7 @@
  Target Server Version : 140000
  File Encoding         : 65001
 
- Date: 10/05/2022 17:53:51
+ Date: 17/05/2022 15:58:02
 */
 
 
@@ -20,7 +20,18 @@
 -- Sequence structure for app_version_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "app_version_id_seq";
-CREATE SEQUENCE "app_version_id_seq" 
+CREATE SEQUENCE "app_version_id_seq"
+INCREMENT 1
+MINVALUE  1
+MAXVALUE 2147483647
+START 1
+CACHE 1;
+
+-- ----------------------------
+-- Sequence structure for app_version_v2_id_seq
+-- ----------------------------
+DROP SEQUENCE IF EXISTS "app_version_v2_id_seq";
+CREATE SEQUENCE "app_version_v2_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -31,7 +42,7 @@ CACHE 1;
 -- Sequence structure for code_column_config_column_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "code_column_config_column_id_seq";
-CREATE SEQUENCE "code_column_config_column_id_seq" 
+CREATE SEQUENCE "code_column_config_column_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -42,7 +53,7 @@ CACHE 1;
 -- Sequence structure for code_gen_config_config_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "code_gen_config_config_id_seq";
-CREATE SEQUENCE "code_gen_config_config_id_seq" 
+CREATE SEQUENCE "code_gen_config_config_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -53,7 +64,7 @@ CACHE 1;
 -- Sequence structure for m_user_user_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "m_user_user_id_seq";
-CREATE SEQUENCE "m_user_user_id_seq" 
+CREATE SEQUENCE "m_user_user_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -64,7 +75,7 @@ CACHE 1;
 -- Sequence structure for mnt_app_app_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_app_app_id_seq";
-CREATE SEQUENCE "mnt_app_app_id_seq" 
+CREATE SEQUENCE "mnt_app_app_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -75,7 +86,7 @@ CACHE 1;
 -- Sequence structure for mnt_deploy_deploy_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_deploy_deploy_id_seq";
-CREATE SEQUENCE "mnt_deploy_deploy_id_seq" 
+CREATE SEQUENCE "mnt_deploy_deploy_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -86,7 +97,7 @@ CACHE 1;
 -- Sequence structure for mnt_server_server_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_server_server_id_seq";
-CREATE SEQUENCE "mnt_server_server_id_seq" 
+CREATE SEQUENCE "mnt_server_server_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -97,7 +108,7 @@ CACHE 1;
 -- Sequence structure for sys_dept_dept_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_dept_dept_id_seq";
-CREATE SEQUENCE "sys_dept_dept_id_seq" 
+CREATE SEQUENCE "sys_dept_dept_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -108,7 +119,7 @@ CACHE 1;
 -- Sequence structure for sys_dict_detail_detail_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_dict_detail_detail_id_seq";
-CREATE SEQUENCE "sys_dict_detail_detail_id_seq" 
+CREATE SEQUENCE "sys_dict_detail_detail_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -119,7 +130,7 @@ CACHE 1;
 -- Sequence structure for sys_dict_dict_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_dict_dict_id_seq";
-CREATE SEQUENCE "sys_dict_dict_id_seq" 
+CREATE SEQUENCE "sys_dict_dict_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -130,7 +141,7 @@ CACHE 1;
 -- Sequence structure for sys_job_job_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_job_job_id_seq";
-CREATE SEQUENCE "sys_job_job_id_seq" 
+CREATE SEQUENCE "sys_job_job_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -141,7 +152,7 @@ CACHE 1;
 -- Sequence structure for sys_log_log_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_log_log_id_seq";
-CREATE SEQUENCE "sys_log_log_id_seq" 
+CREATE SEQUENCE "sys_log_log_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -152,7 +163,7 @@ CACHE 1;
 -- Sequence structure for sys_menu_menu_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_menu_menu_id_seq";
-CREATE SEQUENCE "sys_menu_menu_id_seq" 
+CREATE SEQUENCE "sys_menu_menu_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -163,7 +174,7 @@ CACHE 1;
 -- Sequence structure for sys_quartz_job_job_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_quartz_job_job_id_seq";
-CREATE SEQUENCE "sys_quartz_job_job_id_seq" 
+CREATE SEQUENCE "sys_quartz_job_job_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -174,7 +185,7 @@ CACHE 1;
 -- Sequence structure for sys_quartz_log_log_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_quartz_log_log_id_seq";
-CREATE SEQUENCE "sys_quartz_log_log_id_seq" 
+CREATE SEQUENCE "sys_quartz_log_log_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -185,7 +196,7 @@ CACHE 1;
 -- Sequence structure for sys_role_role_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_role_role_id_seq";
-CREATE SEQUENCE "sys_role_role_id_seq" 
+CREATE SEQUENCE "sys_role_role_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -196,7 +207,7 @@ CACHE 1;
 -- Sequence structure for sys_user_user_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_user_user_id_seq";
-CREATE SEQUENCE "sys_user_user_id_seq" 
+CREATE SEQUENCE "sys_user_user_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -207,7 +218,7 @@ CACHE 1;
 -- Sequence structure for t_cms_cms_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_cms_cms_id_seq";
-CREATE SEQUENCE "t_cms_cms_id_seq" 
+CREATE SEQUENCE "t_cms_cms_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -218,7 +229,7 @@ CACHE 1;
 -- Sequence structure for t_cms_column_column_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_cms_column_column_id_seq";
-CREATE SEQUENCE "t_cms_column_column_id_seq" 
+CREATE SEQUENCE "t_cms_column_column_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -229,7 +240,7 @@ CACHE 1;
 -- Sequence structure for t_message_notification_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_message_notification_id_seq";
-CREATE SEQUENCE "t_message_notification_id_seq" 
+CREATE SEQUENCE "t_message_notification_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -240,18 +251,7 @@ CACHE 1;
 -- Sequence structure for tool_local_storage_storage_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "tool_local_storage_storage_id_seq";
-CREATE SEQUENCE "tool_local_storage_storage_id_seq" 
-INCREMENT 1
-MINVALUE  1
-MAXVALUE 2147483647
-START 1
-CACHE 1;
-
--- ----------------------------
--- Sequence structure for tool_minio_config_id_seq
--- ----------------------------
-DROP SEQUENCE IF EXISTS "tool_minio_config_id_seq";
-CREATE SEQUENCE "tool_minio_config_id_seq" 
+CREATE SEQUENCE "tool_local_storage_storage_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -262,7 +262,7 @@ CACHE 1;
 -- Sequence structure for tool_qiniu_content_content_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "tool_qiniu_content_content_id_seq";
-CREATE SEQUENCE "tool_qiniu_content_content_id_seq" 
+CREATE SEQUENCE "tool_qiniu_content_content_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -301,6 +301,35 @@ COMMENT ON TABLE "app_version" IS 'App版本';
 
 -- ----------------------------
 -- Records of app_version
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for app_version_v2
+-- ----------------------------
+DROP TABLE IF EXISTS "app_version_v2";
+CREATE TABLE "app_version_v2" (
+  "id" int4 NOT NULL DEFAULT nextval('eladmin_template_schema.app_version_v2_id_seq'::regclass),
+  "version" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "version_code" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
+  "version_info" varchar(4096) COLLATE "pg_catalog"."default",
+  "updata_type" varchar(32) COLLATE "pg_catalog"."default" NOT NULL,
+  "res_url" varchar(1024) COLLATE "pg_catalog"."default" NOT NULL,
+  "platform" varchar(16) COLLATE "pg_catalog"."default" NOT NULL,
+  "create_date" date NOT NULL
+)
+;
+COMMENT ON COLUMN "app_version_v2"."version" IS '版本';
+COMMENT ON COLUMN "app_version_v2"."version_code" IS '版本号';
+COMMENT ON COLUMN "app_version_v2"."version_info" IS '版本信息';
+COMMENT ON COLUMN "app_version_v2"."updata_type" IS ' 更新类型 forcibly 强制更新 solicit 弹窗确认更新 silent 静默更新';
+COMMENT ON COLUMN "app_version_v2"."res_url" IS '下载地址';
+COMMENT ON COLUMN "app_version_v2"."platform" IS '平台';
+COMMENT ON COLUMN "app_version_v2"."create_date" IS '创建时间';
+
+-- ----------------------------
+-- Records of app_version_v2
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -632,13 +661,13 @@ COMMENT ON TABLE "sys_dept" IS '部门';
 -- Records of sys_dept
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (2, 7, 1, '研发部', 3, '1', 'admin', 'admin', '2019-03-25 09:15:32', '2020-08-02 14:48:47');
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (5, 7, 0, '运维部', 4, '1', 'admin', 'admin', '2019-03-25 09:20:44', '2020-05-17 14:27:27');
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (6, 8, 0, '测试部', 6, '1', 'admin', 'admin', '2019-03-25 09:52:18', '2020-06-08 11:59:21');
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (7, NULL, 2, '华南分部', 0, '1', 'admin', 'admin', '2019-03-25 11:04:50', '2020-06-08 12:08:56');
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (8, NULL, 2, '华北分部', 1, '1', 'admin', 'admin', '2019-03-25 11:04:53', '2020-05-14 12:54:00');
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (15, 8, 0, 'UI部门', 7, '1', 'admin', 'admin', '2020-05-13 22:56:53', '2020-05-14 12:54:13');
-INSERT INTO "sys_dept" ("dept_id", "pid", "sub_count", "name", "dept_sort", "enabled", "create_by", "update_by", "create_time", "update_time") VALUES (17, 2, 0, '研发一组', 999, '1', 'admin', 'admin', '2020-08-02 14:49:07', '2020-08-02 14:49:07');
+INSERT INTO "sys_dept" VALUES (2, 7, 1, '研发部', 3, '1', 'admin', 'admin', '2019-03-25 09:15:32', '2020-08-02 14:48:47');
+INSERT INTO "sys_dept" VALUES (5, 7, 0, '运维部', 4, '1', 'admin', 'admin', '2019-03-25 09:20:44', '2020-05-17 14:27:27');
+INSERT INTO "sys_dept" VALUES (6, 8, 0, '测试部', 6, '1', 'admin', 'admin', '2019-03-25 09:52:18', '2020-06-08 11:59:21');
+INSERT INTO "sys_dept" VALUES (7, NULL, 2, '华南分部', 0, '1', 'admin', 'admin', '2019-03-25 11:04:50', '2020-06-08 12:08:56');
+INSERT INTO "sys_dept" VALUES (8, NULL, 2, '华北分部', 1, '1', 'admin', 'admin', '2019-03-25 11:04:53', '2020-05-14 12:54:00');
+INSERT INTO "sys_dept" VALUES (15, 8, 0, 'UI部门', 7, '1', 'admin', 'admin', '2020-05-13 22:56:53', '2020-05-14 12:54:13');
+INSERT INTO "sys_dept" VALUES (17, 2, 0, '研发一组', 999, '1', 'admin', 'admin', '2020-08-02 14:49:07', '2020-08-02 14:49:07');
 COMMIT;
 
 -- ----------------------------
@@ -668,14 +697,16 @@ COMMENT ON TABLE "sys_dict" IS '数据字典';
 -- Records of sys_dict
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (1, 'user_status', '用户状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (4, 'dept_status', '部门状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (5, 'job_status', '岗位状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (6, 'resource_status', '存储资源状态', 'admin', 'admin', '2021-04-12 15:41:43', '2021-04-12 16:57:00');
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (7, 'resources_type', '存储资源类型', 'admin', 'admin', '2021-04-12 16:56:56', '2021-04-12 16:56:56');
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (8, 'message_level', '消息级别', 'admin', 'admin', '2021-04-19 17:00:40', '2021-04-19 17:00:40');
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (9, 'message_label', '消息标签', 'admin', 'admin', '2021-04-19 17:01:19', '2021-04-19 17:01:19');
-INSERT INTO "sys_dict" ("dict_id", "name", "description", "create_by", "update_by", "create_time", "update_time") VALUES (10, 'message_state', '消息状态', 'admin', 'admin', '2021-04-19 17:02:24', '2021-04-19 17:02:24');
+INSERT INTO "sys_dict" VALUES (1, 'user_status', '用户状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO "sys_dict" VALUES (4, 'dept_status', '部门状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO "sys_dict" VALUES (5, 'job_status', '岗位状态', NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO "sys_dict" VALUES (6, 'resource_status', '存储资源状态', 'admin', 'admin', '2021-04-12 15:41:43', '2021-04-12 16:57:00');
+INSERT INTO "sys_dict" VALUES (7, 'resources_type', '存储资源类型', 'admin', 'admin', '2021-04-12 16:56:56', '2021-04-12 16:56:56');
+INSERT INTO "sys_dict" VALUES (8, 'message_level', '消息级别', 'admin', 'admin', '2021-04-19 17:00:40', '2021-04-19 17:00:40');
+INSERT INTO "sys_dict" VALUES (9, 'message_label', '消息标签', 'admin', 'admin', '2021-04-19 17:01:19', '2021-04-19 17:01:19');
+INSERT INTO "sys_dict" VALUES (10, 'message_state', '消息状态', 'admin', 'admin', '2021-04-19 17:02:24', '2021-04-19 17:02:24');
+INSERT INTO "sys_dict" VALUES (2, 'app_ver_type', 'app版本类型', 'admin', 'admin', '2022-05-16 11:08:18.455', '2022-05-16 11:08:18.455');
+INSERT INTO "sys_dict" VALUES (3, 'platform_type', '系统标识', 'admin', 'admin', '2022-05-16 14:47:55.801', '2022-05-16 14:47:55.801');
 COMMIT;
 
 -- ----------------------------
@@ -709,25 +740,33 @@ COMMENT ON TABLE "sys_dict_detail" IS '数据字典详情';
 -- Records of sys_dict_detail
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (1, 1, '激活', 'true', 1, NULL, NULL, '2019-10-27 20:31:36', NULL);
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (2, 1, '禁用', 'false', 2, NULL, NULL, NULL, NULL);
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (3, 4, '启用', 'true', 1, NULL, NULL, NULL, NULL);
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (4, 4, '停用', 'false', 2, NULL, NULL, '2019-10-27 20:31:36', NULL);
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (5, 5, '启用', 'true', 1, NULL, NULL, NULL, NULL);
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (6, 5, '停用', 'false', 2, NULL, NULL, '2019-10-27 20:31:36', NULL);
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (7, 6, '启用', '1', 1, 'admin', 'admin', '2021-04-12 15:41:53', '2021-04-12 15:41:53');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (8, 6, '禁用', '0', 0, 'admin', 'admin', '2021-04-12 15:42:00', '2021-04-12 15:42:00');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (9, 7, 'minIO', '1', 1, 'admin', 'admin', '2021-04-12 16:57:12', '2021-04-12 16:57:12');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (10, 7, '七牛云', '2', 2, 'admin', 'admin', '2021-04-12 16:57:22', '2021-04-12 16:57:22');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (11, 7, '阿里云', '3', 3, 'admin', 'admin', '2021-04-12 16:57:29', '2021-04-12 16:57:29');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (12, 8, '紧急', '0', 0, 'admin', 'admin', '2021-04-19 17:00:57', '2021-04-19 17:00:57');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (13, 8, '普通', '1', 1, 'admin', 'admin', '2021-04-19 17:01:06', '2021-04-19 17:01:06');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (14, 9, '错误', '0', 0, 'admin', 'admin', '2021-04-19 17:01:34', '2021-04-19 17:01:34');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (15, 9, '普通', '1', 1, 'admin', 'admin', '2021-04-19 17:01:44', '2021-04-19 17:01:44');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (16, 9, '待办', '2', 2, 'admin', 'admin', '2021-04-19 17:02:12', '2021-04-19 17:02:12');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (17, 10, '未查看', '0', 0, 'admin', 'admin', '2021-04-19 17:02:46', '2021-04-19 17:02:46');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (18, 10, '进行中', '1', 1, 'admin', 'admin', '2021-04-19 17:02:55', '2021-04-19 17:02:55');
-INSERT INTO "sys_dict_detail" ("detail_id", "dict_id", "label", "value", "dict_sort", "create_by", "update_by", "create_time", "update_time") VALUES (19, 10, '已处理', '2', 2, 'admin', 'admin', '2021-04-19 17:03:02', '2021-04-19 17:03:02');
+INSERT INTO "sys_dict_detail" VALUES (1, 1, '激活', 'true', 1, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO "sys_dict_detail" VALUES (2, 1, '禁用', 'false', 2, NULL, NULL, NULL, NULL);
+INSERT INTO "sys_dict_detail" VALUES (3, 4, '启用', 'true', 1, NULL, NULL, NULL, NULL);
+INSERT INTO "sys_dict_detail" VALUES (4, 4, '停用', 'false', 2, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO "sys_dict_detail" VALUES (5, 5, '启用', 'true', 1, NULL, NULL, NULL, NULL);
+INSERT INTO "sys_dict_detail" VALUES (6, 5, '停用', 'false', 2, NULL, NULL, '2019-10-27 20:31:36', NULL);
+INSERT INTO "sys_dict_detail" VALUES (7, 6, '启用', '1', 1, 'admin', 'admin', '2021-04-12 15:41:53', '2021-04-12 15:41:53');
+INSERT INTO "sys_dict_detail" VALUES (8, 6, '禁用', '0', 0, 'admin', 'admin', '2021-04-12 15:42:00', '2021-04-12 15:42:00');
+INSERT INTO "sys_dict_detail" VALUES (9, 7, 'minIO', '1', 1, 'admin', 'admin', '2021-04-12 16:57:12', '2021-04-12 16:57:12');
+INSERT INTO "sys_dict_detail" VALUES (10, 7, '七牛云', '2', 2, 'admin', 'admin', '2021-04-12 16:57:22', '2021-04-12 16:57:22');
+INSERT INTO "sys_dict_detail" VALUES (11, 7, '阿里云', '3', 3, 'admin', 'admin', '2021-04-12 16:57:29', '2021-04-12 16:57:29');
+INSERT INTO "sys_dict_detail" VALUES (12, 8, '紧急', '0', 0, 'admin', 'admin', '2021-04-19 17:00:57', '2021-04-19 17:00:57');
+INSERT INTO "sys_dict_detail" VALUES (13, 8, '普通', '1', 1, 'admin', 'admin', '2021-04-19 17:01:06', '2021-04-19 17:01:06');
+INSERT INTO "sys_dict_detail" VALUES (14, 9, '错误', '0', 0, 'admin', 'admin', '2021-04-19 17:01:34', '2021-04-19 17:01:34');
+INSERT INTO "sys_dict_detail" VALUES (15, 9, '普通', '1', 1, 'admin', 'admin', '2021-04-19 17:01:44', '2021-04-19 17:01:44');
+INSERT INTO "sys_dict_detail" VALUES (16, 9, '待办', '2', 2, 'admin', 'admin', '2021-04-19 17:02:12', '2021-04-19 17:02:12');
+INSERT INTO "sys_dict_detail" VALUES (17, 10, '未查看', '0', 0, 'admin', 'admin', '2021-04-19 17:02:46', '2021-04-19 17:02:46');
+INSERT INTO "sys_dict_detail" VALUES (18, 10, '进行中', '1', 1, 'admin', 'admin', '2021-04-19 17:02:55', '2021-04-19 17:02:55');
+INSERT INTO "sys_dict_detail" VALUES (19, 10, '已处理', '2', 2, 'admin', 'admin', '2021-04-19 17:03:02', '2021-04-19 17:03:02');
+INSERT INTO "sys_dict_detail" VALUES (22, 2, '强制更新', 'forcibly', 1, 'admin', 'admin', '2022-05-16 12:50:42.725', '2022-05-16 12:50:42.725');
+INSERT INTO "sys_dict_detail" VALUES (23, 2, '弹窗确认更新', 'solicit', 999, 'admin', 'admin', '2022-05-16 12:55:57.612', '2022-05-16 12:55:57.612');
+INSERT INTO "sys_dict_detail" VALUES (24, 2, '静默更新', 'silent', 999, 'admin', 'admin', '2022-05-16 12:56:16.373', '2022-05-16 12:56:16.373');
+INSERT INTO "sys_dict_detail" VALUES (28, 3, 'windows', 'windows', 999, 'admin', 'admin', '2022-05-16 14:52:22.434', '2022-05-16 14:52:22.434');
+INSERT INTO "sys_dict_detail" VALUES (27, 3, 'mac', 'mac', 999, 'admin', 'admin', '2022-05-16 14:52:03.868', '2022-05-16 14:52:34.404');
+INSERT INTO "sys_dict_detail" VALUES (26, 3, 'android', 'android', 999, 'admin', 'admin', '2022-05-16 14:49:26.326', '2022-05-16 14:52:40.359');
+INSERT INTO "sys_dict_detail" VALUES (25, 3, 'ios', 'ios', 999, 'admin', 'admin', '2022-05-16 14:48:32.441', '2022-05-16 14:52:45.41');
+INSERT INTO "sys_dict_detail" VALUES (29, 3, 'linux', 'linux', 999, 'admin', 'admin', '2022-05-16 14:52:58.377', '2022-05-16 14:52:58.377');
 COMMIT;
 
 -- ----------------------------
@@ -759,10 +798,10 @@ COMMENT ON TABLE "sys_job" IS '岗位';
 -- Records of sys_job
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (8, '人事专员', 't', 3, NULL, NULL, '2019-03-29 14:52:28', NULL);
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (10, '产品经理', 't', 4, NULL, NULL, '2019-03-29 14:55:51', NULL);
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (11, '全栈开发', 't', 2, NULL, 'admin', '2019-03-31 13:39:30', '2020-05-05 11:33:43');
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (12, '软件测试', 't', 5, NULL, 'admin', '2019-03-31 13:39:43', '2020-05-10 19:56:26');
+INSERT INTO "sys_job" VALUES (8, '人事专员', 't', 3, NULL, NULL, '2019-03-29 14:52:28', NULL);
+INSERT INTO "sys_job" VALUES (10, '产品经理', 't', 4, NULL, NULL, '2019-03-29 14:55:51', NULL);
+INSERT INTO "sys_job" VALUES (11, '全栈开发', 't', 2, NULL, 'admin', '2019-03-31 13:39:30', '2020-05-05 11:33:43');
+INSERT INTO "sys_job" VALUES (12, '软件测试', 't', 5, NULL, 'admin', '2019-03-31 13:39:43', '2020-05-10 19:56:26');
 COMMIT;
 
 -- ----------------------------
@@ -853,108 +892,113 @@ COMMENT ON TABLE "sys_menu" IS '系统菜单';
 -- Records of sys_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (1, NULL, 7, 0, '系统管理', NULL, NULL, 1, 'system', 'system', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-18 15:11:29', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (2, 1, 3, 1, '用户管理', 'User', 'system/user/index', 2, 'peoples', 'user', 'f', 'f', 'f', 'user:list', NULL, NULL, '2018-12-18 15:14:44', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (3, 1, 3, 1, '角色管理', 'Role', 'system/role/index', 3, 'role', 'role', 'f', 'f', 'f', 'roles:list', NULL, NULL, '2018-12-18 15:16:07', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (5, 1, 3, 1, '菜单管理', 'Menu', 'system/menu/index', 5, 'menu', 'menu', 'f', 'f', 'f', 'menu:list', NULL, NULL, '2018-12-18 15:17:28', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (6, NULL, 5, 0, '系统监控', NULL, NULL, 10, 'monitor', 'monitor', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-18 15:17:48', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (7, 6, 1, 1, '操作日志', 'Log', 'monitor/log/index', 11, 'log', 'logs', 'f', 't', 'f', 'logs:list', NULL, 'admin', '2018-12-18 15:18:26', '2021-12-10 15:48:23');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (9, 6, 0, 1, 'SQL监控', 'Sql', 'monitor/sql/index', 18, 'sqlMonitor', 'druid', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-18 15:19:34', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (10, NULL, 5, 0, '组件管理', NULL, NULL, 50, 'zujian', 'components', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-19 13:38:16', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (11, 10, 0, 1, '图标库', 'Icons', 'components/icons/index', 51, 'icon', 'icon', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-19 13:38:49', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (14, 36, 2, 1, '邮件工具', 'Email', 'tools/email/index', 35, 'email', 'email', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-27 10:13:09', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (15, 10, 0, 1, '富文本', 'Editor', 'components/Editor', 52, 'fwb', 'tinymce', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-27 11:58:25', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (19, 36, 2, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 37, 'alipay', 'aliPay', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-31 14:52:38', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (21, NULL, 2, 0, '多级菜单', NULL, '', 900, 'menu', 'nested', 'f', 'f', 't', NULL, NULL, 'admin', '2019-01-04 16:22:03', '2021-12-10 16:14:19');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (22, 21, 2, 0, '二级菜单1', NULL, '', 999, 'menu', 'menu1', 'f', 'f', 'f', NULL, NULL, 'admin', '2019-01-04 16:23:29', '2020-06-21 17:27:20');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (23, 21, 0, 1, '二级菜单2', NULL, 'nested/menu2/index', 999, 'menu', 'menu2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-01-04 16:23:57', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (24, 22, 0, 1, '三级菜单1', 'Test', 'nested/menu1/menu1-1', 999, 'menu', 'menu1-1', 'f', 'f', 'f', NULL, NULL, NULL, '2019-01-04 16:24:48', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (27, 22, 0, 1, '三级菜单2', NULL, 'nested/menu1/menu1-2', 999, 'menu', 'menu1-2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-01-07 17:27:32', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (28, 1, 3, 1, '任务调度', 'Timing', 'system/timing/index', 999, 'timing', 'timing', 'f', 'f', 'f', 'timing:list', NULL, NULL, '2019-01-07 20:34:40', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (30, 36, 0, 1, '代码生成', 'GeneratorIndex', 'generator/index', 32, 'dev', 'generator', 'f', 't', 'f', NULL, NULL, NULL, '2019-01-11 15:45:55', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (32, 6, 2, 1, '异常日志', 'ErrorLog', 'monitor/log/errorLog', 12, 'error', 'errorLog', 'f', 'f', 'f', 'errorlogs:list', NULL, 'admin', '2019-01-13 13:49:03', '2021-12-10 15:48:32');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (33, 10, 0, 1, 'Markdown', 'Markdown', 'components/MarkDown', 53, 'markdown', 'markdown', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-08 13:46:44', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (34, 10, 0, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 54, 'dev', 'yaml', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-08 15:49:40', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (35, 1, 3, 1, '部门管理', 'Dept', 'system/dept/index', 6, 'dept', 'dept', 'f', 'f', 'f', 'dept:list', NULL, NULL, '2019-03-25 09:46:00', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (37, 1, 3, 1, '岗位管理', 'Job', 'system/job/index', 7, 'Steve-Jobs', 'job', 'f', 'f', 'f', 'job:list', NULL, NULL, '2019-03-29 13:51:18', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (38, 36, 0, 1, '接口文档', 'Swagger', 'tools/swagger/index', 36, 'swagger', 'swagger2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 19:57:53', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (39, 1, 3, 1, '字典管理', 'Dict', 'system/dict/index', 8, 'dictionary', 'dict', 'f', 'f', 'f', 'dict:list', NULL, NULL, '2019-04-10 11:49:04', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (41, 6, 1, 1, '在线用户', 'OnlineUser', 'monitor/online/index', 10, 'Steve-Jobs', 'online', 'f', 'f', 'f', 'online:list', NULL, 'admin', '2019-10-26 22:08:43', '2021-12-10 15:09:37');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (44, 2, 0, 2, '用户新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'user:add', NULL, NULL, '2019-10-29 10:59:46', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (45, 2, 0, 2, '用户编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'user:edit', NULL, NULL, '2019-10-29 11:00:08', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (46, 2, 0, 2, '用户删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'user:del', NULL, NULL, '2019-10-29 11:00:23', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (48, 3, 0, 2, '角色创建', NULL, '', 2, '', '', 'f', 'f', 'f', 'roles:add', NULL, NULL, '2019-10-29 12:45:34', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (49, 3, 0, 2, '角色修改', NULL, '', 3, '', '', 'f', 'f', 'f', 'roles:edit', NULL, NULL, '2019-10-29 12:46:16', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (50, 3, 0, 2, '角色删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'roles:del', NULL, NULL, '2019-10-29 12:46:51', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (52, 5, 0, 2, '菜单新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'menu:add', NULL, NULL, '2019-10-29 12:55:07', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (53, 5, 0, 2, '菜单编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'menu:edit', NULL, NULL, '2019-10-29 12:55:40', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (54, 5, 0, 2, '菜单删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'menu:del', NULL, NULL, '2019-10-29 12:56:00', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (56, 35, 0, 2, '部门新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'dept:add', NULL, NULL, '2019-10-29 12:57:09', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (57, 35, 0, 2, '部门编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'dept:edit', NULL, NULL, '2019-10-29 12:57:27', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (58, 35, 0, 2, '部门删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'dept:del', NULL, NULL, '2019-10-29 12:57:41', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (60, 37, 0, 2, '岗位新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'job:add', NULL, NULL, '2019-10-29 12:58:27', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (61, 37, 0, 2, '岗位编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'job:edit', NULL, NULL, '2019-10-29 12:58:45', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (62, 37, 0, 2, '岗位删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'job:del', NULL, NULL, '2019-10-29 12:59:04', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (64, 39, 0, 2, '字典新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'dict:add', NULL, NULL, '2019-10-29 13:00:17', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (65, 39, 0, 2, '字典编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'dict:edit', NULL, NULL, '2019-10-29 13:00:42', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (66, 39, 0, 2, '字典删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'dict:del', NULL, NULL, '2019-10-29 13:00:59', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (73, 28, 0, 2, '任务新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'timing:add', NULL, NULL, '2019-10-29 13:07:28', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (74, 28, 0, 2, '任务编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'timing:edit', NULL, NULL, '2019-10-29 13:07:41', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (75, 28, 0, 2, '任务删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'timing:del', NULL, NULL, '2019-10-29 13:07:54', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (77, 18, 0, 2, '上传文件', NULL, '', 2, '', '', 'f', 'f', 'f', 'storage:add', NULL, NULL, '2019-10-29 13:09:09', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (78, 18, 0, 2, '文件编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'storage:edit', NULL, NULL, '2019-10-29 13:09:22', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (79, 18, 0, 2, '文件删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'storage:del', NULL, NULL, '2019-10-29 13:09:34', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (80, 6, 0, 1, '服务监控', 'ServerMonitor', 'monitor/server/index', 14, 'codeConsole', 'server', 'f', 'f', 'f', 'monitor:list', NULL, 'admin', '2019-11-07 13:06:39', '2020-05-04 18:20:50');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (82, 36, 0, 1, '生成配置', 'GeneratorConfig', 'generator/config', 33, 'dev', 'generator/config/:tableName', 'f', 't', 't', '', NULL, NULL, '2019-11-17 20:08:56', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (83, 10, 0, 1, '图表库', 'Echarts', 'components/Echarts', 50, 'chart', 'echarts', 'f', 't', 'f', '', NULL, NULL, '2019-11-21 09:04:32', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (90, NULL, 5, 1, '运维管理', 'Mnt', '', 20, 'mnt', 'mnt', 'f', 'f', 'f', NULL, NULL, NULL, '2019-11-09 10:31:08', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (92, 90, 3, 1, '服务器', 'ServerDeploy', 'mnt/server/index', 22, 'server', 'mnt/serverDeploy', 'f', 'f', 'f', 'serverDeploy:list', NULL, NULL, '2019-11-10 10:29:25', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (93, 90, 3, 1, '应用管理', 'App', 'mnt/app/index', 23, 'app', 'mnt/app', 'f', 'f', 'f', 'app:list', NULL, NULL, '2019-11-10 11:05:16', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (94, 90, 3, 1, '部署管理', 'Deploy', 'mnt/deploy/index', 24, 'deploy', 'mnt/deploy', 'f', 'f', 'f', 'deploy:list', NULL, NULL, '2019-11-10 15:56:55', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (97, 90, 1, 1, '部署备份', 'DeployHistory', 'mnt/deployHistory/index', 25, 'backup', 'mnt/deployHistory', 'f', 'f', 'f', 'deployHistory:list', NULL, NULL, '2019-11-10 16:49:44', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (98, 90, 3, 1, '数据库管理', 'Database', 'mnt/database/index', 26, 'database', 'mnt/database', 'f', 'f', 'f', 'database:list', NULL, NULL, '2019-11-10 20:40:04', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (102, 97, 0, 2, '删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'deployHistory:del', NULL, NULL, '2019-11-17 09:32:48', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (103, 92, 0, 2, '服务器新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'serverDeploy:add', NULL, NULL, '2019-11-17 11:08:33', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (104, 92, 0, 2, '服务器编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'serverDeploy:edit', NULL, NULL, '2019-11-17 11:08:57', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (105, 92, 0, 2, '服务器删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'serverDeploy:del', NULL, NULL, '2019-11-17 11:09:15', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (106, 93, 0, 2, '应用新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'app:add', NULL, NULL, '2019-11-17 11:10:03', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (107, 93, 0, 2, '应用编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'app:edit', NULL, NULL, '2019-11-17 11:10:28', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (108, 93, 0, 2, '应用删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'app:del', NULL, NULL, '2019-11-17 11:10:55', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (109, 94, 0, 2, '部署新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'deploy:add', NULL, NULL, '2019-11-17 11:11:22', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (110, 94, 0, 2, '部署编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'deploy:edit', NULL, NULL, '2019-11-17 11:11:41', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (111, 94, 0, 2, '部署删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'deploy:del', NULL, NULL, '2019-11-17 11:12:01', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (112, 98, 0, 2, '数据库新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:add', NULL, NULL, '2019-11-17 11:12:43', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (113, 98, 0, 2, '数据库编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:edit', NULL, NULL, '2019-11-17 11:12:58', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (114, 98, 0, 2, '数据库删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:del', NULL, NULL, '2019-11-17 11:13:14', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (116, 36, 0, 1, '生成预览', 'Preview', 'generator/preview', 999, 'java', 'generator/preview/:tableName', 'f', 't', 't', NULL, NULL, NULL, '2019-11-26 14:54:36', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (125, NULL, 4, 0, '文章管理', NULL, NULL, 999, 'develop', 'cms', 'f', 'f', 'f', NULL, 'admin', 'admin', '2021-11-30 14:54:18', '2021-11-30 14:54:18');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (126, 125, 3, 1, '文章列表', NULL, 'cms/index', 999, NULL, 'cmsIndex', 'f', 'f', 'f', 'cms:list', 'admin', 'admin', '2021-11-30 14:55:17', '2021-11-30 19:42:02');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (127, 125, 0, 1, '文章发布', 'AddCms', 'cms/insert', 999, NULL, 'addCms', 'f', 'f', 't', 'cms:add', 'admin', 'admin', '2021-11-30 15:18:38', '2021-11-30 18:59:19');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (128, 125, 0, 1, '修改文章', 'EditCms', 'cms/editorCms', 999, NULL, 'editCms', 'f', 'f', 't', 'cms:edit', 'admin', 'admin', '2021-11-30 15:19:05', '2021-11-30 18:59:30');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (129, 125, 4, 1, '栏目管理', 'CmsColumn', 'column/index', 999, NULL, 'cmsColumn', 'f', 'f', 'f', 'cmsColumn:list', 'admin', 'admin', '2021-11-30 16:44:28', '2021-11-30 19:53:20');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (130, 126, 0, 2, '审核', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cms:edit', 'admin', 'admin', '2021-11-30 19:11:56', '2021-11-30 19:36:17');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (131, 126, 0, 2, '删除文章', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cms:del', 'admin', 'admin', '2021-11-30 19:45:46', '2021-11-30 19:45:46');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (132, 126, 0, 2, '新增cms', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cms:add', 'admin', 'admin', '2021-11-30 19:46:35', '2021-11-30 19:46:54');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (133, 129, 0, 2, '新增顶级栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:addFirstLevelColumn', 'admin', 'admin', '2021-11-30 19:54:29', '2021-11-30 19:54:29');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (134, 129, 0, 2, '新增栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:add', 'admin', 'admin', '2021-11-30 19:54:52', '2021-11-30 19:54:52');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (135, 129, 0, 2, '删除栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:del', 'admin', 'admin', '2021-11-30 19:55:15', '2021-11-30 19:55:15');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (136, 129, 0, 2, '修改栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:edit', 'admin', 'admin', '2021-11-30 19:55:34', '2021-11-30 19:55:34');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (137, 41, 0, 2, '踢出在线用户', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'online:del', 'admin', 'admin', '2021-12-10 15:10:11', '2021-12-10 15:54:35');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (138, 7, 0, 2, '清空info日志', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'logs:del', 'admin', 'admin', '2021-12-10 15:52:50', '2021-12-10 15:54:09');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (139, 32, 0, 2, '清空error日志', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'errorlogs:del', 'admin', 'admin', '2021-12-10 15:53:33', '2021-12-10 15:53:33');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (140, 32, 0, 2, '查看error日志详情', NULL, NULL, 1, NULL, NULL, 'f', 'f', 'f', 'errorlogs:details', 'admin', 'admin', '2021-12-10 15:53:56', '2021-12-10 15:53:56');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (141, 14, 0, 2, '配置邮件', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'email:configure', 'admin', 'admin', '2021-12-10 16:09:17', '2021-12-10 16:09:17');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (142, 14, 0, 2, '发送邮件', NULL, NULL, 1, NULL, NULL, 'f', 'f', 'f', 'email:send', 'admin', 'admin', '2021-12-10 16:09:43', '2021-12-10 16:09:43');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (143, 19, 0, 2, '配置支付宝', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'aliPay:configure', 'admin', 'admin', '2021-12-10 16:10:04', '2021-12-10 16:10:04');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (144, 19, 0, 2, '支付宝测试', NULL, NULL, 1, NULL, NULL, 'f', 'f', 'f', 'aliPay:test', 'admin', 'admin', '2021-12-10 16:10:29', '2021-12-10 16:10:29');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (147, 146, 4, 1, 'app版本', NULL, 'appVersion/index', 999, NULL, '/sysSet/appVer', 'f', 'f', 'f', 'version:list', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:07:34');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (148, 147, 0, 2, 'app版本添加', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:add', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (149, 147, 0, 2, 'app版本修改', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:edit', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (150, 147, 0, 2, 'app版本删除', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:del', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (151, 147, 0, 2, 'app版本导入', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:importData', 'test', 'test', '2022-03-02 16:01:27', '2022-03-02 16:01:27');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (36, NULL, 7, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 10:57:35', NULL);
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (4, 18, 0, 2, '修改minio配置', NULL, NULL, 5, NULL, NULL, 'f', 'f', 'f', 'minioConfig:edit', 'test', 'test', '2022-05-10 15:18:20.199', '2022-05-10 15:43:54.138');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (18, 36, 4, 1, '存储管理', 'Storage', 'tools/storage/index', 34, 'qiniu', 'storage', 'f', 'f', 'f', 'storage:list', NULL, 'test', '2018-12-31 11:12:15', '2022-05-10 15:16:30.565');
+INSERT INTO "sys_menu" VALUES (2, 1, 3, 1, '用户管理', 'User', 'system/user/index', 2, 'peoples', 'user', 'f', 'f', 'f', 'user:list', NULL, NULL, '2018-12-18 15:14:44', NULL);
+INSERT INTO "sys_menu" VALUES (3, 1, 3, 1, '角色管理', 'Role', 'system/role/index', 3, 'role', 'role', 'f', 'f', 'f', 'roles:list', NULL, NULL, '2018-12-18 15:16:07', NULL);
+INSERT INTO "sys_menu" VALUES (5, 1, 3, 1, '菜单管理', 'Menu', 'system/menu/index', 5, 'menu', 'menu', 'f', 'f', 'f', 'menu:list', NULL, NULL, '2018-12-18 15:17:28', NULL);
+INSERT INTO "sys_menu" VALUES (6, NULL, 5, 0, '系统监控', NULL, NULL, 10, 'monitor', 'monitor', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-18 15:17:48', NULL);
+INSERT INTO "sys_menu" VALUES (7, 6, 1, 1, '操作日志', 'Log', 'monitor/log/index', 11, 'log', 'logs', 'f', 't', 'f', 'logs:list', NULL, 'admin', '2018-12-18 15:18:26', '2021-12-10 15:48:23');
+INSERT INTO "sys_menu" VALUES (9, 6, 0, 1, 'SQL监控', 'Sql', 'monitor/sql/index', 18, 'sqlMonitor', 'druid', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-18 15:19:34', NULL);
+INSERT INTO "sys_menu" VALUES (10, NULL, 5, 0, '组件管理', NULL, NULL, 50, 'zujian', 'components', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-19 13:38:16', NULL);
+INSERT INTO "sys_menu" VALUES (11, 10, 0, 1, '图标库', 'Icons', 'components/icons/index', 51, 'icon', 'icon', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-19 13:38:49', NULL);
+INSERT INTO "sys_menu" VALUES (14, 36, 2, 1, '邮件工具', 'Email', 'tools/email/index', 35, 'email', 'email', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-27 10:13:09', NULL);
+INSERT INTO "sys_menu" VALUES (15, 10, 0, 1, '富文本', 'Editor', 'components/Editor', 52, 'fwb', 'tinymce', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-27 11:58:25', NULL);
+INSERT INTO "sys_menu" VALUES (19, 36, 2, 1, '支付宝工具', 'AliPay', 'tools/aliPay/index', 37, 'alipay', 'aliPay', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-31 14:52:38', NULL);
+INSERT INTO "sys_menu" VALUES (21, NULL, 2, 0, '多级菜单', NULL, '', 900, 'menu', 'nested', 'f', 'f', 't', NULL, NULL, 'admin', '2019-01-04 16:22:03', '2021-12-10 16:14:19');
+INSERT INTO "sys_menu" VALUES (22, 21, 2, 0, '二级菜单1', NULL, '', 999, 'menu', 'menu1', 'f', 'f', 'f', NULL, NULL, 'admin', '2019-01-04 16:23:29', '2020-06-21 17:27:20');
+INSERT INTO "sys_menu" VALUES (23, 21, 0, 1, '二级菜单2', NULL, 'nested/menu2/index', 999, 'menu', 'menu2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-01-04 16:23:57', NULL);
+INSERT INTO "sys_menu" VALUES (24, 22, 0, 1, '三级菜单1', 'Test', 'nested/menu1/menu1-1', 999, 'menu', 'menu1-1', 'f', 'f', 'f', NULL, NULL, NULL, '2019-01-04 16:24:48', NULL);
+INSERT INTO "sys_menu" VALUES (27, 22, 0, 1, '三级菜单2', NULL, 'nested/menu1/menu1-2', 999, 'menu', 'menu1-2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-01-07 17:27:32', NULL);
+INSERT INTO "sys_menu" VALUES (28, 1, 3, 1, '任务调度', 'Timing', 'system/timing/index', 999, 'timing', 'timing', 'f', 'f', 'f', 'timing:list', NULL, NULL, '2019-01-07 20:34:40', NULL);
+INSERT INTO "sys_menu" VALUES (30, 36, 0, 1, '代码生成', 'GeneratorIndex', 'generator/index', 32, 'dev', 'generator', 'f', 't', 'f', NULL, NULL, NULL, '2019-01-11 15:45:55', NULL);
+INSERT INTO "sys_menu" VALUES (32, 6, 2, 1, '异常日志', 'ErrorLog', 'monitor/log/errorLog', 12, 'error', 'errorLog', 'f', 'f', 'f', 'errorlogs:list', NULL, 'admin', '2019-01-13 13:49:03', '2021-12-10 15:48:32');
+INSERT INTO "sys_menu" VALUES (33, 10, 0, 1, 'Markdown', 'Markdown', 'components/MarkDown', 53, 'markdown', 'markdown', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-08 13:46:44', NULL);
+INSERT INTO "sys_menu" VALUES (34, 10, 0, 1, 'Yaml编辑器', 'YamlEdit', 'components/YamlEdit', 54, 'dev', 'yaml', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-08 15:49:40', NULL);
+INSERT INTO "sys_menu" VALUES (35, 1, 3, 1, '部门管理', 'Dept', 'system/dept/index', 6, 'dept', 'dept', 'f', 'f', 'f', 'dept:list', NULL, NULL, '2019-03-25 09:46:00', NULL);
+INSERT INTO "sys_menu" VALUES (37, 1, 3, 1, '岗位管理', 'Job', 'system/job/index', 7, 'Steve-Jobs', 'job', 'f', 'f', 'f', 'job:list', NULL, NULL, '2019-03-29 13:51:18', NULL);
+INSERT INTO "sys_menu" VALUES (38, 36, 0, 1, '接口文档', 'Swagger', 'tools/swagger/index', 36, 'swagger', 'swagger2', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 19:57:53', NULL);
+INSERT INTO "sys_menu" VALUES (39, 1, 3, 1, '字典管理', 'Dict', 'system/dict/index', 8, 'dictionary', 'dict', 'f', 'f', 'f', 'dict:list', NULL, NULL, '2019-04-10 11:49:04', NULL);
+INSERT INTO "sys_menu" VALUES (41, 6, 1, 1, '在线用户', 'OnlineUser', 'monitor/online/index', 10, 'Steve-Jobs', 'online', 'f', 'f', 'f', 'online:list', NULL, 'admin', '2019-10-26 22:08:43', '2021-12-10 15:09:37');
+INSERT INTO "sys_menu" VALUES (44, 2, 0, 2, '用户新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'user:add', NULL, NULL, '2019-10-29 10:59:46', NULL);
+INSERT INTO "sys_menu" VALUES (45, 2, 0, 2, '用户编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'user:edit', NULL, NULL, '2019-10-29 11:00:08', NULL);
+INSERT INTO "sys_menu" VALUES (46, 2, 0, 2, '用户删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'user:del', NULL, NULL, '2019-10-29 11:00:23', NULL);
+INSERT INTO "sys_menu" VALUES (48, 3, 0, 2, '角色创建', NULL, '', 2, '', '', 'f', 'f', 'f', 'roles:add', NULL, NULL, '2019-10-29 12:45:34', NULL);
+INSERT INTO "sys_menu" VALUES (49, 3, 0, 2, '角色修改', NULL, '', 3, '', '', 'f', 'f', 'f', 'roles:edit', NULL, NULL, '2019-10-29 12:46:16', NULL);
+INSERT INTO "sys_menu" VALUES (50, 3, 0, 2, '角色删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'roles:del', NULL, NULL, '2019-10-29 12:46:51', NULL);
+INSERT INTO "sys_menu" VALUES (52, 5, 0, 2, '菜单新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'menu:add', NULL, NULL, '2019-10-29 12:55:07', NULL);
+INSERT INTO "sys_menu" VALUES (53, 5, 0, 2, '菜单编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'menu:edit', NULL, NULL, '2019-10-29 12:55:40', NULL);
+INSERT INTO "sys_menu" VALUES (54, 5, 0, 2, '菜单删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'menu:del', NULL, NULL, '2019-10-29 12:56:00', NULL);
+INSERT INTO "sys_menu" VALUES (56, 35, 0, 2, '部门新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'dept:add', NULL, NULL, '2019-10-29 12:57:09', NULL);
+INSERT INTO "sys_menu" VALUES (57, 35, 0, 2, '部门编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'dept:edit', NULL, NULL, '2019-10-29 12:57:27', NULL);
+INSERT INTO "sys_menu" VALUES (58, 35, 0, 2, '部门删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'dept:del', NULL, NULL, '2019-10-29 12:57:41', NULL);
+INSERT INTO "sys_menu" VALUES (60, 37, 0, 2, '岗位新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'job:add', NULL, NULL, '2019-10-29 12:58:27', NULL);
+INSERT INTO "sys_menu" VALUES (61, 37, 0, 2, '岗位编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'job:edit', NULL, NULL, '2019-10-29 12:58:45', NULL);
+INSERT INTO "sys_menu" VALUES (62, 37, 0, 2, '岗位删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'job:del', NULL, NULL, '2019-10-29 12:59:04', NULL);
+INSERT INTO "sys_menu" VALUES (64, 39, 0, 2, '字典新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'dict:add', NULL, NULL, '2019-10-29 13:00:17', NULL);
+INSERT INTO "sys_menu" VALUES (65, 39, 0, 2, '字典编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'dict:edit', NULL, NULL, '2019-10-29 13:00:42', NULL);
+INSERT INTO "sys_menu" VALUES (66, 39, 0, 2, '字典删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'dict:del', NULL, NULL, '2019-10-29 13:00:59', NULL);
+INSERT INTO "sys_menu" VALUES (73, 28, 0, 2, '任务新增', NULL, '', 2, '', '', 'f', 'f', 'f', 'timing:add', NULL, NULL, '2019-10-29 13:07:28', NULL);
+INSERT INTO "sys_menu" VALUES (74, 28, 0, 2, '任务编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'timing:edit', NULL, NULL, '2019-10-29 13:07:41', NULL);
+INSERT INTO "sys_menu" VALUES (75, 28, 0, 2, '任务删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'timing:del', NULL, NULL, '2019-10-29 13:07:54', NULL);
+INSERT INTO "sys_menu" VALUES (77, 18, 0, 2, '上传文件', NULL, '', 2, '', '', 'f', 'f', 'f', 'storage:add', NULL, NULL, '2019-10-29 13:09:09', NULL);
+INSERT INTO "sys_menu" VALUES (78, 18, 0, 2, '文件编辑', NULL, '', 3, '', '', 'f', 'f', 'f', 'storage:edit', NULL, NULL, '2019-10-29 13:09:22', NULL);
+INSERT INTO "sys_menu" VALUES (79, 18, 0, 2, '文件删除', NULL, '', 4, '', '', 'f', 'f', 'f', 'storage:del', NULL, NULL, '2019-10-29 13:09:34', NULL);
+INSERT INTO "sys_menu" VALUES (80, 6, 0, 1, '服务监控', 'ServerMonitor', 'monitor/server/index', 14, 'codeConsole', 'server', 'f', 'f', 'f', 'monitor:list', NULL, 'admin', '2019-11-07 13:06:39', '2020-05-04 18:20:50');
+INSERT INTO "sys_menu" VALUES (82, 36, 0, 1, '生成配置', 'GeneratorConfig', 'generator/config', 33, 'dev', 'generator/config/:tableName', 'f', 't', 't', '', NULL, NULL, '2019-11-17 20:08:56', NULL);
+INSERT INTO "sys_menu" VALUES (83, 10, 0, 1, '图表库', 'Echarts', 'components/Echarts', 50, 'chart', 'echarts', 'f', 't', 'f', '', NULL, NULL, '2019-11-21 09:04:32', NULL);
+INSERT INTO "sys_menu" VALUES (90, NULL, 5, 1, '运维管理', 'Mnt', '', 20, 'mnt', 'mnt', 'f', 'f', 'f', NULL, NULL, NULL, '2019-11-09 10:31:08', NULL);
+INSERT INTO "sys_menu" VALUES (92, 90, 3, 1, '服务器', 'ServerDeploy', 'mnt/server/index', 22, 'server', 'mnt/serverDeploy', 'f', 'f', 'f', 'serverDeploy:list', NULL, NULL, '2019-11-10 10:29:25', NULL);
+INSERT INTO "sys_menu" VALUES (93, 90, 3, 1, '应用管理', 'App', 'mnt/app/index', 23, 'app', 'mnt/app', 'f', 'f', 'f', 'app:list', NULL, NULL, '2019-11-10 11:05:16', NULL);
+INSERT INTO "sys_menu" VALUES (94, 90, 3, 1, '部署管理', 'Deploy', 'mnt/deploy/index', 24, 'deploy', 'mnt/deploy', 'f', 'f', 'f', 'deploy:list', NULL, NULL, '2019-11-10 15:56:55', NULL);
+INSERT INTO "sys_menu" VALUES (97, 90, 1, 1, '部署备份', 'DeployHistory', 'mnt/deployHistory/index', 25, 'backup', 'mnt/deployHistory', 'f', 'f', 'f', 'deployHistory:list', NULL, NULL, '2019-11-10 16:49:44', NULL);
+INSERT INTO "sys_menu" VALUES (98, 90, 3, 1, '数据库管理', 'Database', 'mnt/database/index', 26, 'database', 'mnt/database', 'f', 'f', 'f', 'database:list', NULL, NULL, '2019-11-10 20:40:04', NULL);
+INSERT INTO "sys_menu" VALUES (102, 97, 0, 2, '删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'deployHistory:del', NULL, NULL, '2019-11-17 09:32:48', NULL);
+INSERT INTO "sys_menu" VALUES (103, 92, 0, 2, '服务器新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'serverDeploy:add', NULL, NULL, '2019-11-17 11:08:33', NULL);
+INSERT INTO "sys_menu" VALUES (104, 92, 0, 2, '服务器编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'serverDeploy:edit', NULL, NULL, '2019-11-17 11:08:57', NULL);
+INSERT INTO "sys_menu" VALUES (1, NULL, 8, 0, '系统管理', NULL, NULL, 1, 'system', 'system', 'f', 'f', 'f', NULL, NULL, NULL, '2018-12-18 15:11:29', NULL);
+INSERT INTO "sys_menu" VALUES (105, 92, 0, 2, '服务器删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'serverDeploy:del', NULL, NULL, '2019-11-17 11:09:15', NULL);
+INSERT INTO "sys_menu" VALUES (106, 93, 0, 2, '应用新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'app:add', NULL, NULL, '2019-11-17 11:10:03', NULL);
+INSERT INTO "sys_menu" VALUES (107, 93, 0, 2, '应用编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'app:edit', NULL, NULL, '2019-11-17 11:10:28', NULL);
+INSERT INTO "sys_menu" VALUES (108, 93, 0, 2, '应用删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'app:del', NULL, NULL, '2019-11-17 11:10:55', NULL);
+INSERT INTO "sys_menu" VALUES (109, 94, 0, 2, '部署新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'deploy:add', NULL, NULL, '2019-11-17 11:11:22', NULL);
+INSERT INTO "sys_menu" VALUES (110, 94, 0, 2, '部署编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'deploy:edit', NULL, NULL, '2019-11-17 11:11:41', NULL);
+INSERT INTO "sys_menu" VALUES (111, 94, 0, 2, '部署删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'deploy:del', NULL, NULL, '2019-11-17 11:12:01', NULL);
+INSERT INTO "sys_menu" VALUES (112, 98, 0, 2, '数据库新增', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:add', NULL, NULL, '2019-11-17 11:12:43', NULL);
+INSERT INTO "sys_menu" VALUES (113, 98, 0, 2, '数据库编辑', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:edit', NULL, NULL, '2019-11-17 11:12:58', NULL);
+INSERT INTO "sys_menu" VALUES (114, 98, 0, 2, '数据库删除', NULL, '', 999, '', '', 'f', 'f', 'f', 'database:del', NULL, NULL, '2019-11-17 11:13:14', NULL);
+INSERT INTO "sys_menu" VALUES (116, 36, 0, 1, '生成预览', 'Preview', 'generator/preview', 999, 'java', 'generator/preview/:tableName', 'f', 't', 't', NULL, NULL, NULL, '2019-11-26 14:54:36', NULL);
+INSERT INTO "sys_menu" VALUES (125, NULL, 4, 0, '文章管理', NULL, NULL, 999, 'develop', 'cms', 'f', 'f', 'f', NULL, 'admin', 'admin', '2021-11-30 14:54:18', '2021-11-30 14:54:18');
+INSERT INTO "sys_menu" VALUES (126, 125, 3, 1, '文章列表', NULL, 'cms/index', 999, NULL, 'cmsIndex', 'f', 'f', 'f', 'cms:list', 'admin', 'admin', '2021-11-30 14:55:17', '2021-11-30 19:42:02');
+INSERT INTO "sys_menu" VALUES (127, 125, 0, 1, '文章发布', 'AddCms', 'cms/insert', 999, NULL, 'addCms', 'f', 'f', 't', 'cms:add', 'admin', 'admin', '2021-11-30 15:18:38', '2021-11-30 18:59:19');
+INSERT INTO "sys_menu" VALUES (128, 125, 0, 1, '修改文章', 'EditCms', 'cms/editorCms', 999, NULL, 'editCms', 'f', 'f', 't', 'cms:edit', 'admin', 'admin', '2021-11-30 15:19:05', '2021-11-30 18:59:30');
+INSERT INTO "sys_menu" VALUES (129, 125, 4, 1, '栏目管理', 'CmsColumn', 'column/index', 999, NULL, 'cmsColumn', 'f', 'f', 'f', 'cmsColumn:list', 'admin', 'admin', '2021-11-30 16:44:28', '2021-11-30 19:53:20');
+INSERT INTO "sys_menu" VALUES (130, 126, 0, 2, '审核', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cms:edit', 'admin', 'admin', '2021-11-30 19:11:56', '2021-11-30 19:36:17');
+INSERT INTO "sys_menu" VALUES (131, 126, 0, 2, '删除文章', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cms:del', 'admin', 'admin', '2021-11-30 19:45:46', '2021-11-30 19:45:46');
+INSERT INTO "sys_menu" VALUES (132, 126, 0, 2, '新增cms', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cms:add', 'admin', 'admin', '2021-11-30 19:46:35', '2021-11-30 19:46:54');
+INSERT INTO "sys_menu" VALUES (133, 129, 0, 2, '新增顶级栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:addFirstLevelColumn', 'admin', 'admin', '2021-11-30 19:54:29', '2021-11-30 19:54:29');
+INSERT INTO "sys_menu" VALUES (134, 129, 0, 2, '新增栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:add', 'admin', 'admin', '2021-11-30 19:54:52', '2021-11-30 19:54:52');
+INSERT INTO "sys_menu" VALUES (135, 129, 0, 2, '删除栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:del', 'admin', 'admin', '2021-11-30 19:55:15', '2021-11-30 19:55:15');
+INSERT INTO "sys_menu" VALUES (136, 129, 0, 2, '修改栏目', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'cmsColumn:edit', 'admin', 'admin', '2021-11-30 19:55:34', '2021-11-30 19:55:34');
+INSERT INTO "sys_menu" VALUES (137, 41, 0, 2, '踢出在线用户', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'online:del', 'admin', 'admin', '2021-12-10 15:10:11', '2021-12-10 15:54:35');
+INSERT INTO "sys_menu" VALUES (138, 7, 0, 2, '清空info日志', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'logs:del', 'admin', 'admin', '2021-12-10 15:52:50', '2021-12-10 15:54:09');
+INSERT INTO "sys_menu" VALUES (139, 32, 0, 2, '清空error日志', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'errorlogs:del', 'admin', 'admin', '2021-12-10 15:53:33', '2021-12-10 15:53:33');
+INSERT INTO "sys_menu" VALUES (140, 32, 0, 2, '查看error日志详情', NULL, NULL, 1, NULL, NULL, 'f', 'f', 'f', 'errorlogs:details', 'admin', 'admin', '2021-12-10 15:53:56', '2021-12-10 15:53:56');
+INSERT INTO "sys_menu" VALUES (141, 14, 0, 2, '配置邮件', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'email:configure', 'admin', 'admin', '2021-12-10 16:09:17', '2021-12-10 16:09:17');
+INSERT INTO "sys_menu" VALUES (142, 14, 0, 2, '发送邮件', NULL, NULL, 1, NULL, NULL, 'f', 'f', 'f', 'email:send', 'admin', 'admin', '2021-12-10 16:09:43', '2021-12-10 16:09:43');
+INSERT INTO "sys_menu" VALUES (143, 19, 0, 2, '配置支付宝', NULL, NULL, 0, NULL, NULL, 'f', 'f', 'f', 'aliPay:configure', 'admin', 'admin', '2021-12-10 16:10:04', '2021-12-10 16:10:04');
+INSERT INTO "sys_menu" VALUES (144, 19, 0, 2, '支付宝测试', NULL, NULL, 1, NULL, NULL, 'f', 'f', 'f', 'aliPay:test', 'admin', 'admin', '2021-12-10 16:10:29', '2021-12-10 16:10:29');
+INSERT INTO "sys_menu" VALUES (147, 146, 4, 1, 'app版本', NULL, 'appVersion/index', 999, NULL, '/sysSet/appVer', 'f', 'f', 'f', 'version:list', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:07:34');
+INSERT INTO "sys_menu" VALUES (148, 147, 0, 2, 'app版本添加', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:add', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
+INSERT INTO "sys_menu" VALUES (149, 147, 0, 2, 'app版本修改', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:edit', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
+INSERT INTO "sys_menu" VALUES (150, 147, 0, 2, 'app版本删除', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:del', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
+INSERT INTO "sys_menu" VALUES (151, 147, 0, 2, 'app版本导入', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:importData', 'test', 'test', '2022-03-02 16:01:27', '2022-03-02 16:01:27');
+INSERT INTO "sys_menu" VALUES (36, NULL, 7, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 10:57:35', NULL);
+INSERT INTO "sys_menu" VALUES (157, 154, 0, 2, '版本管理删除', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:del', 'admin', 'admin', '2022-05-16 13:04:31.152', '2022-05-16 13:04:31.152');
+INSERT INTO "sys_menu" VALUES (158, 154, 0, 2, '版本管理导入', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:importData', 'admin', 'admin', '2022-05-16 13:04:31.186', '2022-05-16 13:04:31.186');
+INSERT INTO "sys_menu" VALUES (154, 1, 4, 1, '版本管理', NULL, 'appVersionV2/index', 999, NULL, 'systemSet/appverv2', 'f', 'f', 'f', 'appVersionV2:list', 'admin', 'admin', '2022-05-16 13:04:31.021', '2022-05-16 13:04:31.021');
+INSERT INTO "sys_menu" VALUES (4, 18, 0, 2, '修改minio配置', NULL, NULL, 5, NULL, NULL, 'f', 'f', 'f', 'minioConfig:edit', 'test', 'test', '2022-05-10 15:18:20.199', '2022-05-10 15:43:54.138');
+INSERT INTO "sys_menu" VALUES (18, 36, 4, 1, '存储管理', 'Storage', 'tools/storage/index', 34, 'qiniu', 'storage', 'f', 'f', 'f', 'storage:list', NULL, 'test', '2018-12-31 11:12:15', '2022-05-10 15:16:30.565');
+INSERT INTO "sys_menu" VALUES (155, 154, 0, 2, '版本管理添加', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:add', 'admin', 'admin', '2022-05-16 13:04:31.077', '2022-05-16 13:04:31.077');
+INSERT INTO "sys_menu" VALUES (156, 154, 0, 2, '版本管理修改', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:edit', 'admin', 'admin', '2022-05-16 13:04:31.117', '2022-05-16 13:04:31.117');
 COMMIT;
 
 -- ----------------------------
@@ -1002,10 +1046,10 @@ COMMENT ON TABLE "sys_quartz_job" IS '定时任务';
 -- Records of sys_quartz_job
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (2, 'testTask', '0/5 * * * * ?', 't', '测试1', 'run1', 'test', '带参测试，多参使用json', '测试', NULL, NULL, NULL, NULL, 'admin', '2019-08-22 14:08:29', '2020-05-24 13:58:33');
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (3, 'testTask', '0/5 * * * * ?', 't', '测试', 'run', '', '不带参测试', 'Zheng Jie', '', '5,6', '1', NULL, 'admin', '2019-09-26 16:44:39', '2020-05-24 14:48:12');
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (5, 'Test', '0/5 * * * * ?', 't', '任务告警测试', 'run', NULL, '测试', 'test', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:32:41', '2020-05-05 20:36:13');
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (6, 'testTask', '0/5 * * * * ?', 't', '测试3', 'run2', NULL, '测试3', 'Zheng Jie', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:35:41', '2020-05-05 20:36:07');
+INSERT INTO "sys_quartz_job" VALUES (2, 'testTask', '0/5 * * * * ?', 't', '测试1', 'run1', 'test', '带参测试，多参使用json', '测试', NULL, NULL, NULL, NULL, 'admin', '2019-08-22 14:08:29', '2020-05-24 13:58:33');
+INSERT INTO "sys_quartz_job" VALUES (3, 'testTask', '0/5 * * * * ?', 't', '测试', 'run', '', '不带参测试', 'Zheng Jie', '', '5,6', '1', NULL, 'admin', '2019-09-26 16:44:39', '2020-05-24 14:48:12');
+INSERT INTO "sys_quartz_job" VALUES (5, 'Test', '0/5 * * * * ?', 't', '任务告警测试', 'run', NULL, '测试', 'test', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:32:41', '2020-05-05 20:36:13');
+INSERT INTO "sys_quartz_job" VALUES (6, 'testTask', '0/5 * * * * ?', 't', '测试3', 'run2', NULL, '测试3', 'Zheng Jie', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:35:41', '2020-05-05 20:36:07');
 COMMIT;
 
 -- ----------------------------
@@ -1065,8 +1109,8 @@ COMMENT ON TABLE "sys_role" IS '角色表';
 -- Records of sys_role
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_role" ("role_id", "name", "level", "description", "data_scope", "create_by", "update_by", "create_time", "update_time") VALUES (2, '普通用户', 2, '-', '本级', NULL, 'test', '2018-11-23 13:09:06', '2022-04-18 13:49:47.197');
-INSERT INTO "sys_role" ("role_id", "name", "level", "description", "data_scope", "create_by", "update_by", "create_time", "update_time") VALUES (1, '超级管理员', 1, '-', '自定义', NULL, 'test', '2018-11-23 11:04:37', '2022-05-10 15:44:12.905');
+INSERT INTO "sys_role" VALUES (2, '普通用户', 2, '-', '本级', NULL, 'test', '2018-11-23 13:09:06', '2022-04-18 13:49:47.197');
+INSERT INTO "sys_role" VALUES (1, '超级管理员', 1, '-', '自定义', NULL, 'admin', '2018-11-23 11:04:37', '2022-05-16 13:04:31.708');
 COMMIT;
 
 -- ----------------------------
@@ -1103,105 +1147,110 @@ COMMENT ON TABLE "sys_roles_menus" IS '角色菜单关联';
 -- Records of sys_roles_menus
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (1, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (2, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (3, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (5, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (6, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (7, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (9, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (10, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (11, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (14, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (15, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (18, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (19, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (28, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (30, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (32, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (33, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (34, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (35, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (36, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (37, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (38, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (39, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (41, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (44, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (45, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (46, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (48, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (49, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (50, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (52, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (53, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (54, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (56, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (57, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (58, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (60, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (61, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (62, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (64, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (65, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (66, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (73, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (74, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (75, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (77, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (78, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (79, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (80, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (82, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (83, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (90, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (92, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (93, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (94, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (97, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (98, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (102, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (103, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (104, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (105, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (106, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (107, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (108, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (109, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (110, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (111, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (112, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (113, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (114, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (116, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (125, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (126, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (127, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (128, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (129, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (130, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (131, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (132, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (133, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (134, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (135, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (136, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (137, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (138, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (139, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (140, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (141, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (142, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (143, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (144, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (147, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (148, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (149, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (150, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (151, 1);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (1, 2);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (2, 2);
-INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (4, 1);
+INSERT INTO "sys_roles_menus" VALUES (1, 1);
+INSERT INTO "sys_roles_menus" VALUES (2, 1);
+INSERT INTO "sys_roles_menus" VALUES (3, 1);
+INSERT INTO "sys_roles_menus" VALUES (5, 1);
+INSERT INTO "sys_roles_menus" VALUES (6, 1);
+INSERT INTO "sys_roles_menus" VALUES (7, 1);
+INSERT INTO "sys_roles_menus" VALUES (9, 1);
+INSERT INTO "sys_roles_menus" VALUES (10, 1);
+INSERT INTO "sys_roles_menus" VALUES (11, 1);
+INSERT INTO "sys_roles_menus" VALUES (14, 1);
+INSERT INTO "sys_roles_menus" VALUES (15, 1);
+INSERT INTO "sys_roles_menus" VALUES (18, 1);
+INSERT INTO "sys_roles_menus" VALUES (19, 1);
+INSERT INTO "sys_roles_menus" VALUES (28, 1);
+INSERT INTO "sys_roles_menus" VALUES (30, 1);
+INSERT INTO "sys_roles_menus" VALUES (32, 1);
+INSERT INTO "sys_roles_menus" VALUES (33, 1);
+INSERT INTO "sys_roles_menus" VALUES (34, 1);
+INSERT INTO "sys_roles_menus" VALUES (35, 1);
+INSERT INTO "sys_roles_menus" VALUES (36, 1);
+INSERT INTO "sys_roles_menus" VALUES (37, 1);
+INSERT INTO "sys_roles_menus" VALUES (38, 1);
+INSERT INTO "sys_roles_menus" VALUES (39, 1);
+INSERT INTO "sys_roles_menus" VALUES (41, 1);
+INSERT INTO "sys_roles_menus" VALUES (44, 1);
+INSERT INTO "sys_roles_menus" VALUES (45, 1);
+INSERT INTO "sys_roles_menus" VALUES (46, 1);
+INSERT INTO "sys_roles_menus" VALUES (48, 1);
+INSERT INTO "sys_roles_menus" VALUES (49, 1);
+INSERT INTO "sys_roles_menus" VALUES (50, 1);
+INSERT INTO "sys_roles_menus" VALUES (52, 1);
+INSERT INTO "sys_roles_menus" VALUES (53, 1);
+INSERT INTO "sys_roles_menus" VALUES (54, 1);
+INSERT INTO "sys_roles_menus" VALUES (56, 1);
+INSERT INTO "sys_roles_menus" VALUES (57, 1);
+INSERT INTO "sys_roles_menus" VALUES (58, 1);
+INSERT INTO "sys_roles_menus" VALUES (60, 1);
+INSERT INTO "sys_roles_menus" VALUES (61, 1);
+INSERT INTO "sys_roles_menus" VALUES (62, 1);
+INSERT INTO "sys_roles_menus" VALUES (64, 1);
+INSERT INTO "sys_roles_menus" VALUES (65, 1);
+INSERT INTO "sys_roles_menus" VALUES (66, 1);
+INSERT INTO "sys_roles_menus" VALUES (73, 1);
+INSERT INTO "sys_roles_menus" VALUES (74, 1);
+INSERT INTO "sys_roles_menus" VALUES (75, 1);
+INSERT INTO "sys_roles_menus" VALUES (77, 1);
+INSERT INTO "sys_roles_menus" VALUES (78, 1);
+INSERT INTO "sys_roles_menus" VALUES (79, 1);
+INSERT INTO "sys_roles_menus" VALUES (80, 1);
+INSERT INTO "sys_roles_menus" VALUES (82, 1);
+INSERT INTO "sys_roles_menus" VALUES (83, 1);
+INSERT INTO "sys_roles_menus" VALUES (90, 1);
+INSERT INTO "sys_roles_menus" VALUES (92, 1);
+INSERT INTO "sys_roles_menus" VALUES (93, 1);
+INSERT INTO "sys_roles_menus" VALUES (94, 1);
+INSERT INTO "sys_roles_menus" VALUES (97, 1);
+INSERT INTO "sys_roles_menus" VALUES (98, 1);
+INSERT INTO "sys_roles_menus" VALUES (102, 1);
+INSERT INTO "sys_roles_menus" VALUES (103, 1);
+INSERT INTO "sys_roles_menus" VALUES (104, 1);
+INSERT INTO "sys_roles_menus" VALUES (105, 1);
+INSERT INTO "sys_roles_menus" VALUES (106, 1);
+INSERT INTO "sys_roles_menus" VALUES (107, 1);
+INSERT INTO "sys_roles_menus" VALUES (108, 1);
+INSERT INTO "sys_roles_menus" VALUES (109, 1);
+INSERT INTO "sys_roles_menus" VALUES (110, 1);
+INSERT INTO "sys_roles_menus" VALUES (111, 1);
+INSERT INTO "sys_roles_menus" VALUES (112, 1);
+INSERT INTO "sys_roles_menus" VALUES (113, 1);
+INSERT INTO "sys_roles_menus" VALUES (114, 1);
+INSERT INTO "sys_roles_menus" VALUES (116, 1);
+INSERT INTO "sys_roles_menus" VALUES (125, 1);
+INSERT INTO "sys_roles_menus" VALUES (126, 1);
+INSERT INTO "sys_roles_menus" VALUES (127, 1);
+INSERT INTO "sys_roles_menus" VALUES (128, 1);
+INSERT INTO "sys_roles_menus" VALUES (129, 1);
+INSERT INTO "sys_roles_menus" VALUES (130, 1);
+INSERT INTO "sys_roles_menus" VALUES (131, 1);
+INSERT INTO "sys_roles_menus" VALUES (132, 1);
+INSERT INTO "sys_roles_menus" VALUES (133, 1);
+INSERT INTO "sys_roles_menus" VALUES (134, 1);
+INSERT INTO "sys_roles_menus" VALUES (135, 1);
+INSERT INTO "sys_roles_menus" VALUES (136, 1);
+INSERT INTO "sys_roles_menus" VALUES (137, 1);
+INSERT INTO "sys_roles_menus" VALUES (138, 1);
+INSERT INTO "sys_roles_menus" VALUES (139, 1);
+INSERT INTO "sys_roles_menus" VALUES (140, 1);
+INSERT INTO "sys_roles_menus" VALUES (141, 1);
+INSERT INTO "sys_roles_menus" VALUES (142, 1);
+INSERT INTO "sys_roles_menus" VALUES (143, 1);
+INSERT INTO "sys_roles_menus" VALUES (144, 1);
+INSERT INTO "sys_roles_menus" VALUES (147, 1);
+INSERT INTO "sys_roles_menus" VALUES (148, 1);
+INSERT INTO "sys_roles_menus" VALUES (149, 1);
+INSERT INTO "sys_roles_menus" VALUES (150, 1);
+INSERT INTO "sys_roles_menus" VALUES (151, 1);
+INSERT INTO "sys_roles_menus" VALUES (1, 2);
+INSERT INTO "sys_roles_menus" VALUES (2, 2);
+INSERT INTO "sys_roles_menus" VALUES (4, 1);
+INSERT INTO "sys_roles_menus" VALUES (154, 1);
+INSERT INTO "sys_roles_menus" VALUES (155, 1);
+INSERT INTO "sys_roles_menus" VALUES (156, 1);
+INSERT INTO "sys_roles_menus" VALUES (157, 1);
+INSERT INTO "sys_roles_menus" VALUES (158, 1);
 COMMIT;
 
 -- ----------------------------
@@ -1251,8 +1300,8 @@ COMMENT ON TABLE "sys_user" IS '系统用户';
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_user" ("user_id", "dept_id", "username", "nick_name", "gender", "phone", "email", "avatar_name", "avatar_path", "password", "is_admin", "enabled", "create_by", "update_by", "pwd_reset_time", "create_time", "update_time") VALUES (2, 2, 'test', '测试1', '男', '18888888882', '231@qq.com', NULL, NULL, '$2a$10$dBgPJaqznDC/W3xRfyUoPuosqIQqYKOTYHcnjz1F/ydctURcELgaS', 'f', 't', 'admin', 'test1', '2021-12-15 14:48:52', '2020-05-05 11:15:49', '2022-05-09 10:38:59.672');
-INSERT INTO "sys_user" ("user_id", "dept_id", "username", "nick_name", "gender", "phone", "email", "avatar_name", "avatar_path", "password", "is_admin", "enabled", "create_by", "update_by", "pwd_reset_time", "create_time", "update_time") VALUES (1, 2, 'admin', '管理员', '男', '18888888888', '201507802@qq.com', 'avatar.png', 'http://118.25.95.207:9000/eladmin/2021-11-30/a5a676dd-3b31-46d1-a906-4d0cf5762e4d.png', '$2a$10$nz5y.NQnk50QsUCtgtgjlOqEnnzH.WMzBqiE51FA7C49KcEu3UfG6', 'f', 't', NULL, 'test', '2021-12-09 17:43:28', '2018-08-23 09:11:56', '2022-05-10 16:05:00.849');
+INSERT INTO "sys_user" VALUES (2, 2, 'test', '测试1', '男', '18888888882', '231@qq.com', NULL, NULL, '$2a$10$dBgPJaqznDC/W3xRfyUoPuosqIQqYKOTYHcnjz1F/ydctURcELgaS', 'f', 't', 'admin', 'test1', '2021-12-15 14:48:52', '2020-05-05 11:15:49', '2022-05-09 10:38:59.672');
+INSERT INTO "sys_user" VALUES (1, 2, 'admin', '管理员', '男', '18888888888', '201507802@qq.com', 'avatar.png', 'http://118.25.95.207:9000/eladmin/2021-11-30/a5a676dd-3b31-46d1-a906-4d0cf5762e4d.png', '$2a$10$nz5y.NQnk50QsUCtgtgjlOqEnnzH.WMzBqiE51FA7C49KcEu3UfG6', 'f', 't', NULL, 'test', '2021-12-09 17:43:28', '2018-08-23 09:11:56', '2022-05-10 16:05:00.849');
 COMMIT;
 
 -- ----------------------------
@@ -1272,8 +1321,8 @@ COMMENT ON TABLE "sys_users_jobs" IS '岗位关联表';
 -- Records of sys_users_jobs
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (2, 12);
-INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (1, 11);
+INSERT INTO "sys_users_jobs" VALUES (2, 12);
+INSERT INTO "sys_users_jobs" VALUES (1, 11);
 COMMIT;
 
 -- ----------------------------
@@ -1293,8 +1342,8 @@ COMMENT ON TABLE "sys_users_roles" IS '用户角色关联';
 -- Records of sys_users_roles
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_users_roles" ("user_id", "role_id") VALUES (2, 1);
-INSERT INTO "sys_users_roles" ("user_id", "role_id") VALUES (1, 1);
+INSERT INTO "sys_users_roles" VALUES (2, 1);
+INSERT INTO "sys_users_roles" VALUES (1, 1);
 COMMIT;
 
 -- ----------------------------
@@ -1456,7 +1505,7 @@ COMMENT ON TABLE "tool_alipay_config" IS '支付宝配置类';
 -- Records of tool_alipay_config
 -- ----------------------------
 BEGIN;
-INSERT INTO "tool_alipay_config" ("config_id", "app_id", "charset", "format", "gateway_url", "notify_url", "private_key", "public_key", "return_url", "sign_type", "sys_service_provider_id") VALUES (1, '2016091700532697', 'utf-8', 'JSON', 'https://openapi.alipaydev.com/gateway.do', 'http://api.auauz.net/api/aliPay/notify', 'MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC5js8sInU10AJ0cAQ8UMMyXrQ+oHZEkVt5lBwsStmTJ7YikVYgbskx1YYEXTojRsWCb+SH/kDmDU4pK/u91SJ4KFCRMF2411piYuXU/jF96zKrADznYh/zAraqT6hvAIVtQAlMHN53nx16rLzZ/8jDEkaSwT7+HvHiS+7sxSojnu/3oV7BtgISoUNstmSe8WpWHOaWv19xyS+Mce9MY4BfseFhzTICUymUQdd/8hXA28/H6osUfAgsnxAKv7Wil3aJSgaJczWuflYOve0dJ3InZkhw5Cvr0atwpk8YKBQjy5CdkoHqvkOcIB+cYHXJKzOE5tqU7inSwVbHzOLQ3XbnAgMBAAECggEAVJp5eT0Ixg1eYSqFs9568WdetUNCSUchNxDBu6wxAbhUgfRUGZuJnnAll63OCTGGck+EGkFh48JjRcBpGoeoHLL88QXlZZbC/iLrea6gcDIhuvfzzOffe1RcZtDFEj9hlotg8dQj1tS0gy9pN9g4+EBH7zeu+fyv+qb2e/v1l6FkISXUjpkD7RLQr3ykjiiEw9BpeKb7j5s7Kdx1NNIzhkcQKNqlk8JrTGDNInbDM6inZfwwIO2R1DHinwdfKWkvOTODTYa2MoAvVMFT9Bec9FbLpoWp7ogv1JMV9svgrcF9XLzANZ/OQvkbe9TV9GWYvIbxN6qwQioKCWO4GPnCAQKBgQDgW5MgfhX8yjXqoaUy/d1VjI8dHeIyw8d+OBAYwaxRSlCfyQ+tieWcR2HdTzPca0T0GkWcKZm0ei5xRURgxt4DUDLXNh26HG0qObbtLJdu/AuBUuCqgOiLqJ2f1uIbrz6OZUHns+bT/jGW2Ws8+C13zTCZkZt9CaQsrp3QOGDx5wKBgQDTul39hp3ZPwGNFeZdkGoUoViOSd5Lhowd5wYMGAEXWRLlU8z+smT5v0POz9JnIbCRchIY2FAPKRdVTICzmPk2EPJFxYTcwaNbVqL6lN7J2IlXXMiit5QbiLauo55w7plwV6LQmKm9KV7JsZs5XwqF7CEovI7GevFzyD3w+uizAQKBgC3LY1eRhOlpWOIAhpjG6qOoohmeXOphvdmMlfSHq6WYFqbWwmV4rS5d/6LNpNdL6fItXqIGd8I34jzql49taCmi+A2nlR/E559j0mvM20gjGDIYeZUz5MOE8k+K6/IcrhcgofgqZ2ZED1ksHdB/E8DNWCswZl16V1FrfvjeWSNnAoGAMrBplCrIW5xz+J0Hm9rZKrs+AkK5D4fUv8vxbK/KgxZ2KaUYbNm0xv39c+PZUYuFRCz1HDGdaSPDTE6WeWjkMQd5mS6ikl9hhpqFRkyh0d0fdGToO9yLftQKOGE/q3XUEktI1XvXF0xyPwNgUCnq0QkpHyGVZPtGFxwXiDvpvgECgYA5PoB+nY8iDiRaJNko9w0hL4AeKogwf+4TbCw+KWVEn6jhuJa4LFTdSqp89PktQaoVpwv92el/AhYjWOl/jVCm122f9b7GyoelbjMNolToDwe5pF5RnSpEuDdLy9MfE8LnE3PlbE7E5BipQ3UjSebkgNboLHH/lNZA5qvEtvbfvQ==', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAut9evKRuHJ/2QNfDlLwvN/S8l9hRAgPbb0u61bm4AtzaTGsLeMtScetxTWJnVvAVpMS9luhEJjt+Sbk5TNLArsgzzwARgaTKOLMT1TvWAK5EbHyI+eSrc3s7Awe1VYGwcubRFWDm16eQLv0k7iqiw+4mweHSz/wWyvBJVgwLoQ02btVtAQErCfSJCOmt0Q/oJQjj08YNRV4EKzB19+f5A+HQVAKy72dSybTzAK+3FPtTtNen/+b5wGeat7c32dhYHnGorPkPeXLtsqqUTp1su5fMfd4lElNdZaoCI7osZxWWUo17vBCZnyeXc9fk0qwD9mK6yRAxNbrY72Xx5VqIqwIDAQAB', 'http://api.auauz.net/api/aliPay/return', 'RSA2', '2088102176044281');
+INSERT INTO "tool_alipay_config" VALUES (1, '2016091700532697', 'utf-8', 'JSON', 'https://openapi.alipaydev.com/gateway.do', 'http://api.auauz.net/api/aliPay/notify', 'MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC5js8sInU10AJ0cAQ8UMMyXrQ+oHZEkVt5lBwsStmTJ7YikVYgbskx1YYEXTojRsWCb+SH/kDmDU4pK/u91SJ4KFCRMF2411piYuXU/jF96zKrADznYh/zAraqT6hvAIVtQAlMHN53nx16rLzZ/8jDEkaSwT7+HvHiS+7sxSojnu/3oV7BtgISoUNstmSe8WpWHOaWv19xyS+Mce9MY4BfseFhzTICUymUQdd/8hXA28/H6osUfAgsnxAKv7Wil3aJSgaJczWuflYOve0dJ3InZkhw5Cvr0atwpk8YKBQjy5CdkoHqvkOcIB+cYHXJKzOE5tqU7inSwVbHzOLQ3XbnAgMBAAECggEAVJp5eT0Ixg1eYSqFs9568WdetUNCSUchNxDBu6wxAbhUgfRUGZuJnnAll63OCTGGck+EGkFh48JjRcBpGoeoHLL88QXlZZbC/iLrea6gcDIhuvfzzOffe1RcZtDFEj9hlotg8dQj1tS0gy9pN9g4+EBH7zeu+fyv+qb2e/v1l6FkISXUjpkD7RLQr3ykjiiEw9BpeKb7j5s7Kdx1NNIzhkcQKNqlk8JrTGDNInbDM6inZfwwIO2R1DHinwdfKWkvOTODTYa2MoAvVMFT9Bec9FbLpoWp7ogv1JMV9svgrcF9XLzANZ/OQvkbe9TV9GWYvIbxN6qwQioKCWO4GPnCAQKBgQDgW5MgfhX8yjXqoaUy/d1VjI8dHeIyw8d+OBAYwaxRSlCfyQ+tieWcR2HdTzPca0T0GkWcKZm0ei5xRURgxt4DUDLXNh26HG0qObbtLJdu/AuBUuCqgOiLqJ2f1uIbrz6OZUHns+bT/jGW2Ws8+C13zTCZkZt9CaQsrp3QOGDx5wKBgQDTul39hp3ZPwGNFeZdkGoUoViOSd5Lhowd5wYMGAEXWRLlU8z+smT5v0POz9JnIbCRchIY2FAPKRdVTICzmPk2EPJFxYTcwaNbVqL6lN7J2IlXXMiit5QbiLauo55w7plwV6LQmKm9KV7JsZs5XwqF7CEovI7GevFzyD3w+uizAQKBgC3LY1eRhOlpWOIAhpjG6qOoohmeXOphvdmMlfSHq6WYFqbWwmV4rS5d/6LNpNdL6fItXqIGd8I34jzql49taCmi+A2nlR/E559j0mvM20gjGDIYeZUz5MOE8k+K6/IcrhcgofgqZ2ZED1ksHdB/E8DNWCswZl16V1FrfvjeWSNnAoGAMrBplCrIW5xz+J0Hm9rZKrs+AkK5D4fUv8vxbK/KgxZ2KaUYbNm0xv39c+PZUYuFRCz1HDGdaSPDTE6WeWjkMQd5mS6ikl9hhpqFRkyh0d0fdGToO9yLftQKOGE/q3XUEktI1XvXF0xyPwNgUCnq0QkpHyGVZPtGFxwXiDvpvgECgYA5PoB+nY8iDiRaJNko9w0hL4AeKogwf+4TbCw+KWVEn6jhuJa4LFTdSqp89PktQaoVpwv92el/AhYjWOl/jVCm122f9b7GyoelbjMNolToDwe5pF5RnSpEuDdLy9MfE8LnE3PlbE7E5BipQ3UjSebkgNboLHH/lNZA5qvEtvbfvQ==', 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAut9evKRuHJ/2QNfDlLwvN/S8l9hRAgPbb0u61bm4AtzaTGsLeMtScetxTWJnVvAVpMS9luhEJjt+Sbk5TNLArsgzzwARgaTKOLMT1TvWAK5EbHyI+eSrc3s7Awe1VYGwcubRFWDm16eQLv0k7iqiw+4mweHSz/wWyvBJVgwLoQ02btVtAQErCfSJCOmt0Q/oJQjj08YNRV4EKzB19+f5A+HQVAKy72dSybTzAK+3FPtTtNen/+b5wGeat7c32dhYHnGorPkPeXLtsqqUTp1su5fMfd4lElNdZaoCI7osZxWWUo17vBCZnyeXc9fk0qwD9mK6yRAxNbrY72Xx5VqIqwIDAQAB', 'http://api.auauz.net/api/aliPay/return', 'RSA2', '2088102176044281');
 COMMIT;
 
 -- ----------------------------
@@ -1524,32 +1573,6 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
--- Table structure for tool_minio_config
--- ----------------------------
-DROP TABLE IF EXISTS "tool_minio_config";
-CREATE TABLE "tool_minio_config" (
-  "id" int4 NOT NULL DEFAULT nextval('eladmin_template_schema.tool_minio_config_id_seq'::regclass),
-  "host" varchar(255) COLLATE "pg_catalog"."default",
-  "bucket" varchar(255) COLLATE "pg_catalog"."default",
-  "access_key" varchar(255) COLLATE "pg_catalog"."default",
-  "secret_key" varchar(255) COLLATE "pg_catalog"."default"
-)
-;
-COMMENT ON COLUMN "tool_minio_config"."id" IS '自增主键ID';
-COMMENT ON COLUMN "tool_minio_config"."host" IS '地址+端口';
-COMMENT ON COLUMN "tool_minio_config"."bucket" IS '空间名';
-COMMENT ON COLUMN "tool_minio_config"."access_key" IS 'aKey';
-COMMENT ON COLUMN "tool_minio_config"."secret_key" IS 'sKey';
-COMMENT ON TABLE "tool_minio_config" IS 'Minio配置';
-
--- ----------------------------
--- Records of tool_minio_config
--- ----------------------------
-BEGIN;
-INSERT INTO "tool_minio_config" ("id", "host", "bucket", "access_key", "secret_key") VALUES (1, 'http://xxx.xxx.xxx.xxx:9000', 'aaa', '1234567', '7654321');
-COMMIT;
-
--- ----------------------------
 -- Table structure for tool_qiniu_config
 -- ----------------------------
 DROP TABLE IF EXISTS "tool_qiniu_config";
@@ -1576,7 +1599,7 @@ COMMENT ON TABLE "tool_qiniu_config" IS '七牛云配置';
 -- Records of tool_qiniu_config
 -- ----------------------------
 BEGIN;
-INSERT INTO "tool_qiniu_config" ("config_id", "access_key", "bucket", "host", "secret_key", "type", "zone") VALUES (1, '1231', '12321', 'https://asdasd.com', '12321', '公开', '华北');
+INSERT INTO "tool_qiniu_config" VALUES (1, '1231', '12321', 'https://asdasd.com', '12321', '公开', '华北');
 COMMIT;
 
 -- ----------------------------
@@ -1616,6 +1639,13 @@ COMMIT;
 ALTER SEQUENCE "app_version_id_seq"
 OWNED BY "app_version"."id";
 SELECT setval('"app_version_id_seq"', 1, false);
+
+-- ----------------------------
+-- Alter sequences owned by
+-- ----------------------------
+ALTER SEQUENCE "app_version_v2_id_seq"
+OWNED BY "app_version_v2"."id";
+SELECT setval('"app_version_v2_id_seq"', 2, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1699,7 +1729,7 @@ SELECT setval('"sys_log_log_id_seq"', 1, true);
 -- ----------------------------
 ALTER SEQUENCE "sys_menu_menu_id_seq"
 OWNED BY "sys_menu"."menu_id";
-SELECT setval('"sys_menu_menu_id_seq"', 153, true);
+SELECT setval('"sys_menu_menu_id_seq"', 159, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1760,13 +1790,6 @@ SELECT setval('"tool_local_storage_storage_id_seq"', 1, false);
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
-ALTER SEQUENCE "tool_minio_config_id_seq"
-OWNED BY "tool_minio_config"."id";
-SELECT setval('"tool_minio_config_id_seq"', 1, true);
-
--- ----------------------------
--- Alter sequences owned by
--- ----------------------------
 ALTER SEQUENCE "tool_qiniu_content_content_id_seq"
 OWNED BY "tool_qiniu_content"."content_id";
 SELECT setval('"tool_qiniu_content_content_id_seq"', 1, false);
@@ -1775,6 +1798,11 @@ SELECT setval('"tool_qiniu_content_content_id_seq"', 1, false);
 -- Primary Key structure for table app_version
 -- ----------------------------
 ALTER TABLE "app_version" ADD CONSTRAINT "app_version_pkey" PRIMARY KEY ("id");
+
+-- ----------------------------
+-- Primary Key structure for table app_version_v2
+-- ----------------------------
+ALTER TABLE "app_version_v2" ADD CONSTRAINT "app_version_v2_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Indexes structure for table code_column_config
@@ -1947,11 +1975,6 @@ ALTER TABLE "tool_email_config" ADD CONSTRAINT "tool_email_config_pkey" PRIMARY 
 -- Primary Key structure for table tool_local_storage
 -- ----------------------------
 ALTER TABLE "tool_local_storage" ADD CONSTRAINT "tool_local_storage_pkey" PRIMARY KEY ("storage_id");
-
--- ----------------------------
--- Primary Key structure for table tool_minio_config
--- ----------------------------
-ALTER TABLE "tool_minio_config" ADD CONSTRAINT "tool_minio_config_pkey" PRIMARY KEY ("id");
 
 -- ----------------------------
 -- Primary Key structure for table tool_qiniu_config

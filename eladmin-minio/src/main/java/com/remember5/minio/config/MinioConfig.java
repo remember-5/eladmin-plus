@@ -1,9 +1,10 @@
 package com.remember5.minio.config;
 
-import cn.hutool.core.util.StrUtil;
 import com.remember5.minio.properties.MinioProperties;
 import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Bean;
 
 /**
  * @author wangjiahao
@@ -11,18 +12,17 @@ import lombok.RequiredArgsConstructor;
  */
 //@Configuration
 @RequiredArgsConstructor
-//@ConditionalOnExpression(value = "T(org.apache.commons.lang3.StringUtils).isNotEmpty('${minio.host}')")
 public class MinioConfig {
 
     private final MinioProperties minioProperties;
 
-//    @Bean
+    @Bean
+    @ConditionalOnExpression(value = "T(org.apache.commons.lang3.StringUtils).isNotEmpty('${minio.host}')")
     public MinioClient getMinioClient() {
-        boolean flag = StrUtil.isNotBlank(minioProperties.getHost());
-        return flag ? MinioClient.builder()
+        return MinioClient.builder()
                 .endpoint(minioProperties.getHost())
                 .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build() : null;
+                .build();
     }
 
 }

@@ -37,7 +37,7 @@ public class QuartzManage {
 
     private static final String JOB_NAME = "TASK_";
 
-    @Resource(name = "scheduler")
+    @Resource
     private Scheduler scheduler;
 
     public void addJob(QuartzJob quartzJob) {

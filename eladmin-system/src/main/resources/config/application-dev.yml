@@ -86,6 +86,8 @@ spring:
     database: ${REDIS_DB:0}
     #连接超时时间
     timeout: 5000
+    redisson:
+      file: classpath:redisson.yaml
 
 # 登录相关配置
 login:
@@ -275,7 +277,7 @@ decorator:
       custom-appender-class:
 
 minio:
-  host:
-  bucket:
-  access-key:
-  secret-key:
+  host: ${MINIO_HOST}
+  bucket: ${MINIO_BUCKET}
+  access-key: ${MINIO_AK}
+  secret-key: ${MINIO_SK}

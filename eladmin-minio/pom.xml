@@ -15,9 +15,6 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-
-        <minio.verison>8.4.0</minio.verison>
-        <okhttp3.version>4.8.1</okhttp3.version>
     </properties>
 
     <developers>
@@ -39,7 +36,6 @@
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
-            <version>${minio.verison}</version>
         </dependency>
 
         <dependency>

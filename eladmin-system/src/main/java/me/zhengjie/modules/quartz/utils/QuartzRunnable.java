@@ -48,6 +48,7 @@ public class QuartzRunnable implements Callable<Object> {
     }
 
     @Override
+    @SuppressWarnings("all")
     public Object call() throws Exception {
         ReflectionUtils.makeAccessible(method);
         if (StringUtils.isNotBlank(params)) {

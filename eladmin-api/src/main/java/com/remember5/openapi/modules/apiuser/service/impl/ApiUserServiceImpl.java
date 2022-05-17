@@ -183,7 +183,7 @@ public class ApiUserServiceImpl implements ApiUserService {
         String uuid = jwtProperties.getCodeKey() + IdUtil.simpleUUID();
         //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
         String captchaValue = captcha.text();
-        if (captcha.getCharType() - 1 == CaptchaTypeEnum.arithmetic.ordinal() && captchaValue.contains(".")) {
+        if (captcha.getCharType() - 1 == CaptchaTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
             captchaValue = captchaValue.split("\\.")[0];
         }
         // 保存

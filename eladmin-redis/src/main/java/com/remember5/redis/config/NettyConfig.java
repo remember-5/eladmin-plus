@@ -32,19 +32,19 @@ public class NettyConfig {
      * 定义一个channel组，管理所有的channel
      * GlobalEventExecutor.INSTANCE 是全局的事件执行器，是一个单例
      */
-    private static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static ChannelGroup CHANNEL_GROUP = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     /**
      * 存放用户与Chanel的对应信息，用于给指定用户发送消息
      */
-    private static ConcurrentHashMap<String, Channel> userChannelMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, Channel> USER_CHANNEL_MAP = new ConcurrentHashMap<>();
 
     /**
      * 获取channel组
      * @return /
      */
     public static ChannelGroup getChannelGroup() {
-        return channelGroup;
+        return CHANNEL_GROUP;
     }
 
     /**
@@ -52,7 +52,7 @@ public class NettyConfig {
      * @return /
      */
     public static ConcurrentHashMap<String,Channel> getUserChannelMap(){
-        return userChannelMap;
+        return USER_CHANNEL_MAP;
     }
 
 
@@ -63,7 +63,7 @@ public class NettyConfig {
      * @param redisConnectionFactory /
      * @param listenerAdapter1 /
      * @param listenerAdapter2 /
-     * @return
+     * @return /
      */
     @Bean
     public RedisMessageListenerContainer container(RedisConnectionFactory redisConnectionFactory,

@@ -41,22 +41,9 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!--   分布式锁     -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-integration</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.integration</groupId>
-            <artifactId>spring-integration-redis</artifactId>
-        </dependency>
-
-        <!--   配置读取     -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
         </dependency>
 
         <!--spring boot 集成redis所需common-pool2-->

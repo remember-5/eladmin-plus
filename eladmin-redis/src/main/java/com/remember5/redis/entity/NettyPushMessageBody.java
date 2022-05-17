@@ -13,6 +13,5 @@ public class NettyPushMessageBody implements Serializable {
 
     private static final long serialVersionUID = 8783105942749912792L;
     private String userId;
-
     private String message;
 }

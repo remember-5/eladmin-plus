@@ -16,6 +16,7 @@
 package me.zhengjie.modules.quartz.service.impl;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.remember5.redis.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.exception.BadRequestException;
@@ -135,6 +136,10 @@ public class QuartzJobServiceImpl implements QuartzJobService {
     @Transactional(rollbackFor = Exception.class)
     public void executionSubJob(String[] tasks) throws InterruptedException {
         for (String id : tasks) {
+            if (StrUtil.isBlank(id)) {
+                // 如果是手动清除子任务id，会出现id为空字符串的问题
+                continue;
+            }
             QuartzJob quartzJob = findById(Long.parseLong(id));
             // 执行任务
             String uuid = IdUtil.simpleUUID();
