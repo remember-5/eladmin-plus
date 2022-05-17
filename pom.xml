@@ -39,21 +39,21 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
 
-        <hutool.version>5.7.22</hutool.version>
+        <hutool.version>5.8.1</hutool.version>
         <guava.version>31.1-jre</guava.version>
         <fastjson.version>1.2.80</fastjson.version>
         <knife4j.version>3.0.3</knife4j.version>
         <dynamic.version>3.4.0</dynamic.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <minio.verison>8.4.0</minio.verison>
+        <minio.verison>8.4.1</minio.verison>
         <redisson.version>3.16.8</redisson.version>
 
         <okhttp3.version>4.8.1</okhttp3.version>
         <p6spy-starter.version>1.8.0</p6spy-starter.version>
         <log4j2.version>2.17.2</log4j2.version>
         <yauaa.version>6.12</yauaa.version>
-        <easyexcel.version>3.0.5</easyexcel.version>
+        <easyexcel.version>3.1.0</easyexcel.version>
         <mica-ip2region.version>2.5.6</mica-ip2region.version>
     </properties>
 
