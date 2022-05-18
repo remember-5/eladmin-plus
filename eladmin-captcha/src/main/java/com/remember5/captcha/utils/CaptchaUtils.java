@@ -1,7 +1,7 @@
 package com.remember5.captcha.utils;
 
 
-import com.remember5.captcha.config.CaptchaCode;
+import com.remember5.captcha.properties.CaptchaCodeProperties;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +19,14 @@ import java.awt.*;
 @RequiredArgsConstructor
 public class CaptchaUtils {
 
-    private final CaptchaCode captchaCode;
+    private final CaptchaCodeProperties captchaCode;
 
     /**
      * 获取验证码生产类
      *
      * @return /
      */
-    public CaptchaCode getCaptchaCode() {
+    public CaptchaCodeProperties getCaptchaCode() {
         return captchaCode;
     }
 
@@ -45,7 +45,7 @@ public class CaptchaUtils {
      * @param captchaCode 验证码配置信息
      * @return /
      */
-    private Captcha switchCaptcha(CaptchaCode captchaCode) {
+    private Captcha switchCaptcha(CaptchaCodeProperties captchaCode) {
         Captcha captcha;
         synchronized (this) {
             switch (captchaCode.getType()) {

@@ -18,20 +18,24 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 
 启动前，请加入环境变量：
 
-| 变量名称   | 说明         | 默认值         |
-| :--------- | ------------ | -------------- |
-| DB_HOST    | 数据库地址   | 默认 127.0.0.1 |
-| DB_PORT    | 数据库端口   | 默认 3306      |
-| DB_NAME    | 数据库名称   | 默认 eladmin   |
-| DB_USER    | 数据库用户名 | 默认 root      |
-| DB_PWD     | 用户名密码   | 默认 123456    |
-| DB_SCHEMA  | chema       | 默认 eladmin    |
-| REDIS_HOST | Redis地址    | 默认127.0.0.1  |
-| REDIS_PORT | Redis端口    | 默认6379       |
-| REDIS_PWD  | Redis密码    | 默认没有密码   |
-| REDIS_DB   | Redis的DB    | 默认 0         |
-| DRUID_USER | druid用户    | 默认 admin     |
-| DRUID_PWD  | druid密码    | 默认 123456     |
+| 变量名称         | 说明              | 默认值          |
+|:-------------|-----------------|--------------|
+| DB_HOST      | 数据库地址           | 默认 127.0.0.1 |
+| DB_PORT      | 数据库端口           | 默认 3306      |
+| DB_NAME      | 数据库名称           | 默认 eladmin   |
+| DB_USER      | 数据库用户名          | 默认 root      |
+| DB_PWD       | 用户名密码           | 默认 123456    |
+| DB_SCHEMA    | schema          | 默认 eladmin   |
+| REDIS_HOST   | Redis地址         | 默认127.0.0.1  |
+| REDIS_PORT   | Redis端口         | 默认6379       |
+| REDIS_PWD    | Redis密码         | 默认没有密码       |
+| REDIS_DB     | Redis的DB        | 默认 0         |
+| DRUID_USER   | druid用户         | 默认 admin     |
+| DRUID_PWD    | druid密码         | 默认 123456    |
+| MINIO_HOST   | minio地址         | 默认 无         |
+| MINIO_BUCKET | minio桶          | 默认 无         |
+| MINIO_AK     | minio的AccessKey | 默认 无         |
+| MINIO_SK     | minio的SecretKey | 默认 无         |
 
 
 
@@ -69,10 +73,9 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - [ ] 代码生成支持动态数据源
 - [ ] 增加oauth2的支持(单独分支)
 - [ ] 支持工作流
-- [ ] postgres 生成代码
+- [x] postgres 生成代码
 
 ## 技术选型
-
 - 核心框架：SpringBoot
 - ORM框架：Mybatis
 - 任务调度：Spring Task + Quartz
@@ -85,36 +88,11 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - 在线文档：Knife4j
 - 实体转换：mapstruct 
 
-## 规定
-
-1. 代码可读性
-2. 代码健壮性
-3. 代码可运行性
-
-### 分支定义
-
-单独的模块，请单独开启分支, 注意每个分支的`SQL`有差异，详可查看具体分支下的`sql`->`eladmin.sql`
-
-维护人负责代码的维护，修复和发布,代码
-
-![分支图示](docs/image.png)
-
-
-* `main` postgres版本的eladmin，包含api 的服务
-* `el-mysql` mysql版本的eladmin ，包含api 的服务
-
-## 多分支
-
-
 ## 贡献者列表
-
 感谢以下伙伴的付出(排名不分先后)
 * [wangjiahao](https://github.com/remember-5)
 * [fly](https://github.com/Y914612354)
 * [tianhh](https://github.com/tianhhuan)
-* [jinjun]()
-
-
 
 ## 主要特性
 - 使用最新技术栈，社区资源丰富。
@@ -156,61 +134,6 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - 存储资源管理：管理minio、七牛云、阿里云OSS
 - 文章列表：内置功能强大的高效编辑器，提高书写速度，集成了文件上传和审核功能。
 - 栏目管理：管理文章的栏目，可以随心配置栏目
-
-## 项目结构
-项目采用按功能分模块的开发方式，结构如下
-
-- `protal` 为门户页面，需要配合nginx或者其他服务一起启用
-
-- `admin-page` 为后台系统的页面，需要配合nginx或者其他服务一起启用
-
-- `eladmin-common` 为系统的公共模块，各种工具类，公共配置存在该模块
-
-- `eladmin-system` 为系统核心模块也是项目入口模块，也是最终需要打包部署的模块
-
-- `eladmin-logging` 为系统的日志模块，其他模块如果需要记录日志需要引入该模块
-
-- `eladmin-tools` 为第三方工具模块，包含：图床、邮件、云存储、本地存储、支付宝
-
-- `eladmin-generator` 为系统的代码生成模块，代码生成的模板在 system 模块中
-
-## 详细结构
-
-```
-
-- admin-page
-  - static 静态文件
-    - css css样式文件
-    - js js代码文件
-    - font 字体库
-    - img 图片文件
-  - index.html 主页面
-  - favicon.ico 图标
-- portal
-    - static 静态文件
-      - css css样式文件
-      - js js代码文件
-      - font 字体库
-      - img 图片文件
-    - index.html 主页面
-    - favicon.ico 图标
-- SmartMilitary
-    - eladmin-common 公共模块
-        - annotation 为系统自定义注解
-        - aspect 自定义注解的切面
-        - base 提供了Entity、DTO基类和mapstruct的通用mapper
-        - config 自定义权限实现、redis配置、swagger配置、Rsa配置等
-        - exception 项目统一异常的处理
-        - utils 系统通用工具类
-    - eladmin-system 系统核心模块（系统启动入口）
-        - config 配置跨域与静态资源，与数据权限
-            - thread 线程池相关
-        - modules 系统相关模块(登录授权、系统监控、定时任务、运维管理等)
-    - eladmin-logging 系统日志模块
-    - eladmin-tools 系统第三方工具模块
-    - eladmin-generator 系统代码生成模块
-- 
-```
 
 
 ## 使用教程
