@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
  */
 //@Configuration
 @RequiredArgsConstructor
-public class MinioConfig {
+public class MinioConfiguration {
 
     private final MinioProperties minioProperties;
 

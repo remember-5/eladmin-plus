@@ -1,9 +1,11 @@
-package com.remember5.minio.server;
+package com.remember5.minio.utils;
 
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.ContentType;
+import cn.hutool.http.HttpUtil;
 import com.remember5.minio.properties.MinioProperties;
 import io.minio.*;
 import io.minio.errors.*;
@@ -12,16 +14,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static cn.hutool.http.ContentType.OCTET_STREAM;
 
 /**
  * @author wangjiahao
@@ -43,7 +50,7 @@ public class MinioUtils {
      * 上传文件,文件夹名取日期,文件名取UUID
      *
      * @param file 文件
-     * @return /
+     * @return 保存结果
      */
     public Boolean upload(MultipartFile file, String bucket) throws IOException {
         //获取原始文件名称  XX.png   XX.png
@@ -60,13 +67,34 @@ public class MinioUtils {
     }
 
     /**
-     * 上传文件
+     * @param url    需要下载的文件地址
+     * @param bucket 桶名称
+     * @return 保存结果
+     */
+    public Boolean upload(String url, String bucket) {
+        File file = HttpUtil.downloadFileFromUrl(url, FileUtil.getTmpDirPath());
+        return upload(file, bucket);
+    }
+
+    /**
+     * 有个文件类型，参考https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+     *
+     * @param file   文件
+     * @param bucket 桶
+     * @return 保存结果
+     */
+    public Boolean upload(File file, String bucket) {
+        return upload(file, bucket, file.getName(), file.length(), URLConnection.getFileNameMap().getContentTypeFor(file.getName()));
+    }
+
+    /**
+     * 上传
      * 文件夹名取日期
      * 文件名自定义
      *
      * @param fileName 文件名
      * @param file     文件
-     * @return /
+     * @return 保存结果
      */
     public Boolean upload(MultipartFile file, String bucket, String fileName) throws IOException {
         return upload(file.getInputStream(), bucket, fileName, file.getSize(), file.getContentType());
@@ -84,7 +112,7 @@ public class MinioUtils {
      * @param fileSize        filesize
      * @param fileType        filetype
      * @param bucket          bucket
-     * @return /
+     * @return 保存结果
      */
     public Boolean upload(InputStream fileInputStream, String bucket, String fileName, Long fileSize, String fileType) {
         //文件分区名
@@ -95,11 +123,10 @@ public class MinioUtils {
                             .bucket(bucket)
                             .object(fileName)
                             .stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND)
-                            .contentType(fileType)
+//                            .contentType(fileType)
                             .build()
             );
             return true;
-
         } catch (Exception e) {
             log.error(e.getMessage());
             return false;

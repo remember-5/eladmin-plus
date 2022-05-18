@@ -1,4 +1,4 @@
-package com.remember5.minio.server;
+package com.remember5.minio.entity;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
