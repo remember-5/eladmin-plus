@@ -1,13 +1,10 @@
 package com.remember5.openapi.minio;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
 import com.remember5.minio.properties.MinioProperties;
 import com.remember5.minio.utils.MinioUtils;
 import com.remember5.openapi.OpenApiApplication;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.hc.core5.http.ContentType;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Assertions;
@@ -15,15 +12,12 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URLConnection;
 import java.util.List;
 
 /**
@@ -59,14 +53,16 @@ public class TestMinio {
     }
 
     @Test
-    void testFileMime(){
-        List<String> list = Lists.list(
-                "aa.mp4", "bb.png", "cc.mp3"
+    void testFileMime() {
+        List<String> list = Lists.list("aa.mp4",
+                "bb.png",
+                "cc.mp3",
+                "a.pdf",
+                "a.xlsx",
+                "a.doc"
         );
         for (String s : list) {
             System.err.println(FileUtil.getMimeType(s));
         }
-
-
     }
 }

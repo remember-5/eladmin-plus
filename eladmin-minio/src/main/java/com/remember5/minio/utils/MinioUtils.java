@@ -4,7 +4,6 @@ package com.remember5.minio.utils;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpUtil;
 import com.remember5.minio.properties.MinioProperties;
 import io.minio.*;
@@ -14,21 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.activation.MimetypesFileTypeMap;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import static cn.hutool.http.ContentType.OCTET_STREAM;
 
 /**
  * @author wangjiahao
@@ -84,7 +78,7 @@ public class MinioUtils {
      * @return 保存结果
      */
     public Boolean upload(File file, String bucket) {
-        return upload(file, bucket, file.getName(), file.length(), URLConnection.getFileNameMap().getContentTypeFor(file.getName()));
+        return upload(file, bucket, file.getName(), file.length());
     }
 
     /**
@@ -97,11 +91,11 @@ public class MinioUtils {
      * @return 保存结果
      */
     public Boolean upload(MultipartFile file, String bucket, String fileName) throws IOException {
-        return upload(file.getInputStream(), bucket, fileName, file.getSize(), file.getContentType());
+        return upload(file.getInputStream(), bucket, fileName, file.getSize());
     }
 
-    public Boolean upload(File file, String bucket, String fileName, Long fileSize, String fileType) {
-        return upload(FileUtil.getInputStream(file), bucket, fileName, fileSize, fileType);
+    public Boolean upload(File file, String bucket, String fileName, Long fileSize) {
+        return upload(FileUtil.getInputStream(file), bucket, fileName, fileSize);
     }
 
     /**
@@ -110,11 +104,10 @@ public class MinioUtils {
      * @param fileInputStream inputs stream
      * @param fileName        filename
      * @param fileSize        filesize
-     * @param fileType        filetype
      * @param bucket          bucket
      * @return 保存结果
      */
-    public Boolean upload(InputStream fileInputStream, String bucket, String fileName, Long fileSize, String fileType) {
+    public Boolean upload(InputStream fileInputStream, String bucket, String fileName, Long fileSize) {
         //文件分区名
         bucketExists(bucket);
         try {
@@ -123,7 +116,7 @@ public class MinioUtils {
                             .bucket(bucket)
                             .object(fileName)
                             .stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND)
-//                            .contentType(fileType)
+                            .contentType(FileUtil.getMimeType(fileName))
                             .build()
             );
             return true;

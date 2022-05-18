@@ -1,8 +1,8 @@
 package com.remember5.minio.entity;
 
+import cn.hutool.core.codec.Base64Decoder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Decoder;
 
 import java.io.*;
 
@@ -61,19 +61,13 @@ public class Base64DecodedMultipartFile implements MultipartFile {
     }
 
     public static MultipartFile base64ToMultipart(String base64) {
-        try {
-            String[] baseStrs = base64.split(",");
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] b = decoder.decodeBuffer(baseStrs[1]);
-            for (int i = 0; i < b.length; ++i) {
-                if (b[i] < 0) {
-                    b[i] += 256;
-                }
+        String[] baseStrs = base64.split(",");
+        byte[] b = Base64Decoder.decode(baseStrs[1]);
+        for (int i = 0; i < b.length; ++i) {
+            if (b[i] < 0) {
+                b[i] += 256;
             }
-            return new Base64DecodedMultipartFile(b, baseStrs[0]);
-        } catch (IOException e) {
-            log.error(e.getMessage());
-            return null;
         }
+        return new Base64DecodedMultipartFile(b, baseStrs[0]);
     }
 }
