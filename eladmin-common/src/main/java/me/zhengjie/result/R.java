@@ -62,7 +62,7 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> success(String code, T data, String message) {
-        return new R<T>(code, data, message);
+        return new R<>(code, data, message);
     }
 
     public static <T> R<T> fail(REnum rEnum) {
@@ -74,6 +74,6 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> fail(String code, T data, String message) {
-        return new R<T>(code, data, message);
+        return new R<>(code, data, message);
     }
 }

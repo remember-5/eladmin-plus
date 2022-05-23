@@ -17,10 +17,9 @@ package me.zhengjie.utils;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReUtil;
+import lombok.NoArgsConstructor;
 import me.zhengjie.exception.BadRequestException;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
-
-import java.util.concurrent.BlockingDeque;
 
 /**
  * 验证工具
@@ -28,12 +27,12 @@ import java.util.concurrent.BlockingDeque;
  * @author Zheng Jie
  * @date 2018-11-23
  */
+@NoArgsConstructor
 public class ValidationUtil {
-
     /**
      * see
      */
-    public static String PATTERN_PHONE = "^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[0-35-9]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[0-35-9]\\d{2}|6[2567]\\d{2}|4(?:(?:10|4[01])\\d{3}|[68]\\d{4}|[579]\\d{2}))\\d{6}$";
+    public static final String PATTERN_PHONE = "^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[0-35-9]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[0-35-9]\\d{2}|6[2567]\\d{2}|4(?:(?:10|4[01])\\d{3}|[68]\\d{4}|[579]\\d{2}))\\d{6}$";
     /**
      * 验证空
      */

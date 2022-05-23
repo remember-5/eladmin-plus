@@ -61,7 +61,7 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
         // 类型为0 登录 类型为 1 消息通知
         if (socketHead.getType() == 0) {
             String token = socketHead.getToken().replace("Bearer ", "");
-            if (!tokenProvider.checkToken(token)) {
+            if (Boolean.FALSE.equals(tokenProvider.checkToken(token))) {
                 log.info("Token异常：{}", token);
                 // 删除通道
                 NettyConfig.getChannelGroup().remove(ctx.channel());
