@@ -66,7 +66,7 @@ public class DeptServiceImpl implements DeptService {
                 criteria.setPidIsNull(true);
             }
             List<Field> fields = QueryHelp.getAllFields(criteria.getClass(), new ArrayList<>());
-            List<String> fieldNames = new ArrayList<String>() {{
+            List<String> fieldNames = new ArrayList<>() {{
                 add("pidIsNull");
                 add("enabled");
             }};
@@ -117,7 +117,7 @@ public class DeptServiceImpl implements DeptService {
         // 清理缓存
         updateSubCnt(resources.getPid());
         // 清理自定义角色权限的datascope缓存
-        delCaches(resources.getPid());
+        delCaches(resources.getId());
     }
 
     @Override
