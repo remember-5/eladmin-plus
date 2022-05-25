@@ -66,7 +66,7 @@ public class DeptServiceImpl implements DeptService {
                 criteria.setPidIsNull(true);
             }
             List<Field> fields = QueryHelp.getAllFields(criteria.getClass(), new ArrayList<>());
-            List<String> fieldNames = new ArrayList<>() {{
+            List<String> fieldNames = new ArrayList<String>() {{
                 add("pidIsNull");
                 add("enabled");
             }};
