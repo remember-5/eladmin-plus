@@ -24,6 +24,7 @@
 
     <properties>
         <java.version>8</java.version>
+
         <!-- 插件相关配置 -->
         <maven.compiler.target>8</maven.compiler.target>
         <maven.compiler.source>8</maven.compiler.source>
@@ -48,8 +49,9 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
         <minio.verison>8.4.1</minio.verison>
+        <!-- 如升级请查看文档 https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
         <redisson.version>3.16.8</redisson.version>
-
+        <!--主要是解决minio的依赖问题-->
         <okhttp3.version>4.8.1</okhttp3.version>
         <p6spy-starter.version>1.8.0</p6spy-starter.version>
         <log4j2.version>2.17.2</log4j2.version>
@@ -59,7 +61,7 @@
     </properties>
 
     <dependencies>
-        <!--Spring boot 核心-->
+        <!--Spring boot Jpa 核心-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -103,12 +105,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
         <!--lombok插件-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -128,8 +124,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
-
-
 
         <!-- =========================  参数校验  start  ========================= -->
         <!-- 保证 Spring AOP 相关的依赖包 -->
@@ -158,26 +152,6 @@
             <artifactId>netty-all</artifactId>
         </dependency>
 
-        <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
-        <dependency>
-            <groupId>com.github.gavlyukovskiy</groupId>
-            <artifactId>p6spy-spring-boot-starter</artifactId>
-            <version>${p6spy-starter.version}</version>
-        </dependency>
-
-        <!-- druid数据源驱动 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.dreamlu</groupId>
-            <artifactId>mica-ip2region</artifactId>
-            <version>${mica-ip2region.version}</version>
-        </dependency>
-
         <!--mapStruct依赖-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -203,16 +177,11 @@
             <version>${yauaa.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
-        </dependency>
-
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!--  spring boot dependency    -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -235,7 +204,7 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-            <!--工具包-->
+            <!--hutool工具包-->
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
@@ -296,6 +265,33 @@
                 <version>${redisson.version}</version>
             </dependency>
 
+            <!--    mybatis-plus 插件    -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- druid数据源驱动 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
+            <dependency>
+                <groupId>com.github.gavlyukovskiy</groupId>
+                <artifactId>p6spy-spring-boot-starter</artifactId>
+                <version>${p6spy-starter.version}</version>
+            </dependency>
+
+            <!--   ip定位     -->
+            <dependency>
+                <groupId>net.dreamlu</groupId>
+                <artifactId>mica-ip2region</artifactId>
+                <version>${mica-ip2region.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -319,6 +315,7 @@
         </pluginManagement>
     </build>
 
+    <!-- 配置依赖仓库 -->
     <repositories>
         <repository>
             <id>public</id>
@@ -330,6 +327,7 @@
         </repository>
     </repositories>
 
+    <!--  配置插件仓库地址  -->
     <pluginRepositories>
         <pluginRepository>
             <id>public</id>
@@ -343,4 +341,5 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+
 </project>
