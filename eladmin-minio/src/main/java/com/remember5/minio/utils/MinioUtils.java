@@ -34,10 +34,7 @@ public class MinioUtils {
     private MinioProperties minioProperties;
 
     private MinioClient initClient() {
-        return MinioClient.builder()
-                .endpoint(minioProperties.getHost())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
+        return MinioClient.builder().endpoint(minioProperties.getHost()).credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey()).build();
     }
 
     /**
@@ -111,14 +108,7 @@ public class MinioUtils {
         //文件分区名
         bucketExists(bucket);
         try {
-            initClient().putObject(
-                    PutObjectArgs.builder()
-                            .bucket(bucket)
-                            .object(fileName)
-                            .stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND)
-                            .contentType(FileUtil.getMimeType(fileName))
-                            .build()
-            );
+            initClient().putObject(PutObjectArgs.builder().bucket(bucket).object(fileName).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(FileUtil.getMimeType(fileName)).build());
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -191,10 +181,7 @@ public class MinioUtils {
      * @return ⼆进制流
      */
     public InputStream getObject(String bucket, String objectName) throws Exception {
-        return initClient().getObject(GetObjectArgs.builder()
-                .bucket(bucket)
-                .object(objectName)
-                .build());
+        return initClient().getObject(GetObjectArgs.builder().bucket(bucket).object(objectName).build());
     }
 
     /**
@@ -205,8 +192,7 @@ public class MinioUtils {
      * @param stream     文件流
      * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#putObject
      */
-    public void putObject(String bucketName, String objectName, InputStream stream) throws
-            Exception {
+    public void putObject(String bucketName, String objectName, InputStream stream) throws Exception {
         initClient().putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, stream.available(), StrUtil.INDEX_NOT_FOUND).contentType(objectName.substring(objectName.lastIndexOf("."))).build());
     }
 
@@ -220,8 +206,7 @@ public class MinioUtils {
      * @param contextType 类型
      * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#putObject
      */
-    public void putObject(String bucketName, String objectName, InputStream stream, long
-            size, String contextType) throws Exception {
+    public void putObject(String bucketName, String objectName, InputStream stream, long size, String contextType) throws Exception {
         initClient().putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, size, StrUtil.INDEX_NOT_FOUND).contentType(contextType).build());
     }
 
@@ -243,11 +228,7 @@ public class MinioUtils {
      * @throws Exception https://docs.minio.io/cn/java-client-apireference.html#removeObject
      */
     public void removeObject(String bucketName, String objectName) throws ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException, ServerException, io.minio.errors.InsufficientDataException, io.minio.errors.InternalException {
-        initClient().removeObject(RemoveObjectArgs.builder()
-                .bucket(bucketName)
-                .object(objectName)
-                .versionId("version-id")
-                .build());
+        initClient().removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).versionId("version-id").build());
         log.info("删除 {} 文件成功", objectName);
     }
 

@@ -53,7 +53,6 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - [x] 支持mybatis-plus
 - [x] 自定义上传头像
 - [x] websocket消息通知
-- [x] 集成dahan短信接口
 - [x] 支持打包为docker镜像
 - [x] 多数据源支持
 - [x] redis-utils支持lset，zset，geo方法
@@ -68,12 +67,13 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - [x] 集成Netty
 - [x] 依赖和代码分离打包
 - [x] 使用最新版log4j2
+- [x] postgres 生成代码
 - [ ] 多租户
 - [ ] 导入导出模版支持多表
 - [ ] 代码生成支持动态数据源
 - [ ] 增加oauth2的支持(单独分支)
 - [ ] 支持工作流
-- [x] postgres 生成代码
+
 
 ## 技术选型
 - 核心框架：SpringBoot

@@ -58,6 +58,7 @@
         <yauaa.version>6.12</yauaa.version>
         <easyexcel.version>3.1.0</easyexcel.version>
         <mica-ip2region.version>2.6.7</mica-ip2region.version>
+        <qcloud-cos.version>5.6.89</qcloud-cos.version>
     </properties>
 
     <dependencies>
@@ -291,6 +292,13 @@
                 <groupId>net.dreamlu</groupId>
                 <artifactId>mica-ip2region</artifactId>
                 <version>${mica-ip2region.version}</version>
+            </dependency>
+
+            <!--  tencent oss     -->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${qcloud-cos.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

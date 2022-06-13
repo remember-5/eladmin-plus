@@ -48,6 +48,12 @@
             <artifactId>okhttp</artifactId>
         </dependency>
 
+
+        <!--   oss     -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
