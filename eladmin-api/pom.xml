@@ -47,6 +47,12 @@
             <version>${project.parent.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>me.zhengjie</groupId>
+            <artifactId>eladmin-push</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- 多数据源 -->
         <dependency>
             <groupId>com.baomidou</groupId>

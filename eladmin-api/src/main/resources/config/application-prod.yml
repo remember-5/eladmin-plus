@@ -267,3 +267,10 @@ minio:
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}
   secret-key: ${MINIO_SK}
+
+getui:
+  maxConnections: 200
+  appid:
+  appkey:
+  masterSecret:
+  domain: https://restapi.getui.com/v2/

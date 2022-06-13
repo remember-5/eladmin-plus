@@ -17,6 +17,7 @@
         <module>eladmin-redis</module>
         <module>eladmin-minio</module>
         <module>eladmin-captcha</module>
+        <module>eladmin-push</module>
     </modules>
 
     <name>EL-ADMIN 后台管理</name>
