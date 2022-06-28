@@ -23,6 +23,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 限流注解，基于redis实现
+ *
  * @author jacky
  */
 @Target(ElementType.METHOD)
