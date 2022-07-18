@@ -13,7 +13,14 @@
     <name>核心模块</name>
 
     <properties>
-        <jjwt.version>0.11.1</jjwt.version>
+        <java.version>8</java.version>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <jjwt.version>0.11.5</jjwt.version>
         <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <oshi.version>5.7.1</oshi.version>
         <jna.version>5.8.0</jna.version>
@@ -22,7 +29,7 @@
         <mail.version>1.4.7</mail.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <alipay.version>4.9.153.ALL</alipay.version>
-        <configuration.version>1.9</configuration.version>
+        <configuration.version>1.10</configuration.version>
     </properties>
 
     <dependencies>
@@ -158,6 +165,30 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <!--    mybatis-plus 插件    -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!-- druid数据源驱动 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
+        <dependency>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>p6spy-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!--   ip定位     -->
+<!--        <dependency>-->
+<!--            <groupId>net.dreamlu</groupId>-->
+<!--            <artifactId>mica-ip2region</artifactId>-->
+<!--        </dependency>-->
 
     </dependencies>
 

@@ -1,5 +1,8 @@
 package com.remember5.openapi;
 
+import cn.hutool.extra.spring.SpringUtil;
+import com.getui.push.v2.sdk.ApiHelper;
+import com.getui.push.v2.sdk.api.PushApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,10 +20,14 @@ import org.springframework.context.annotation.ComponentScan;
         "com.remember5.redis.*",
         "com.remember5.captcha.*",
         "com.remember5.minio.*",
+        "com.remember5.push.*",
 })
 @SpringBootApplication
 public class OpenApiApplication {
     public static void main(String[] args) {
         SpringApplication.run(OpenApiApplication.class, args);
+        ApiHelper apiHelper = SpringUtil.getBean(ApiHelper.class);
+        PushApi pushApi = apiHelper.creatApi(PushApi.class);
+        System.err.println(pushApi);
     }
 }

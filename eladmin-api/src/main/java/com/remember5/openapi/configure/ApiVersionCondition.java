@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  */
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
 
-    private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile(".*v(\\d+).*");
-    
+    private static final Pattern VERSION_PREFIX_PATTERN = Pattern.compile(".*v(\\d+).*");
+
     private int apiVersion;
 
     public ApiVersionCondition(int apiVersion) {

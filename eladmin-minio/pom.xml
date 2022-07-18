@@ -10,11 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>eladmin-minio</artifactId>
-    <description>minio</description>
+    <name>对象存储</name>
+    <description>minio和oss等工具类</description>
 
     <properties>
+        <java.version>8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <developers>
@@ -43,6 +48,12 @@
             <artifactId>okhttp</artifactId>
         </dependency>
 
+
+        <!--   oss     -->
+        <dependency>
+            <groupId>com.qcloud</groupId>
+            <artifactId>cos_api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -18,7 +18,7 @@ package me.zhengjie.modules.security.rest;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.remember5.captcha.entity.CaptchaTypeEnum;
+import com.remember5.captcha.enums.CaptchaTypeEnum;
 import com.remember5.captcha.utils.CaptchaUtils;
 import com.remember5.redis.utils.RedisUtils;
 import com.wf.captcha.base.Captcha;

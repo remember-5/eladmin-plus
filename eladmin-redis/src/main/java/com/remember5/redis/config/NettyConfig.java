@@ -106,4 +106,6 @@ public class NettyConfig {
         //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“MessageReceive ”
         return new MessageListenerAdapter(messageReceive, "getMessageToAll");
     }
+
+    // TODO 发送群组的概念
 }
