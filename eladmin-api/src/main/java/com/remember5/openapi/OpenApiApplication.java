@@ -28,6 +28,5 @@ public class OpenApiApplication {
         SpringApplication.run(OpenApiApplication.class, args);
         ApiHelper apiHelper = SpringUtil.getBean(ApiHelper.class);
         PushApi pushApi = apiHelper.creatApi(PushApi.class);
-        System.err.println(pushApi);
     }
 }

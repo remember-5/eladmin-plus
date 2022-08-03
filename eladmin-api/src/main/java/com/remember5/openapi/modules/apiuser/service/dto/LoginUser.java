@@ -2,6 +2,7 @@ package com.remember5.openapi.modules.apiuser.service.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -13,6 +14,7 @@ import java.io.Serializable;
 public class LoginUser implements Serializable {
 
     /** 手机号 */
+    @NotBlank
     private String phone;
 
     /** 用户名 */

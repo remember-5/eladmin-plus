@@ -9,3 +9,4 @@ https://doc.xiaominfo.com/knife4j/
 
 # Validation注解
 https://www.iocoder.cn/Spring-Boot/Validation/?self
+https://www.cnblogs.com/sueyyyy/p/12865578.html
