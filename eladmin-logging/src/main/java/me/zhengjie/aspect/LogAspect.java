@@ -17,7 +17,7 @@ package me.zhengjie.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.domain.Log;
-import me.zhengjie.service.LogService;
+import me.zhengjie.service.impl.LogServiceImpl;
 import me.zhengjie.utils.RequestHolder;
 import me.zhengjie.utils.SecurityUtils;
 import me.zhengjie.utils.StringUtils;
@@ -41,11 +41,11 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 public class LogAspect {
 
-    private final LogService logService;
+    private final LogServiceImpl logService;
 
     ThreadLocal<Long> currentTime = new ThreadLocal<>();
 
-    public LogAspect(LogService logService) {
+    public LogAspect(LogServiceImpl logService) {
         this.logService = logService;
     }
 

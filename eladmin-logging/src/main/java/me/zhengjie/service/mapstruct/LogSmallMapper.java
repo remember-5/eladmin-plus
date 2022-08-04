@@ -13,29 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package me.zhengjie.modules.tool.service.dto;
+package me.zhengjie.service.mapstruct;
 
-import lombok.Data;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
+import me.zhengjie.base.BaseMapper;
+import me.zhengjie.domain.Log;
+import me.zhengjie.service.dto.LogSmallDTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 /**
  * @author Zheng Jie
  * @date 2019-5-22
  */
-@Data
-public class LogSmallDTO implements Serializable {
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface LogSmallMapper extends BaseMapper<LogSmallDTO, Log> {
 
-    private String description;
-
-    private String requestIp;
-
-    private Long time;
-
-    private String address;
-
-    private String browser;
-
-    private Timestamp createTime;
 }

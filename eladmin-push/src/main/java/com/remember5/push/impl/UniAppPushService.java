@@ -28,18 +28,17 @@ import java.util.Set;
  * @author wangjiahao
  * @date 2022/5/27 19:23
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UniAppPushService implements PushService<UniAppPushClient> {
 
 
-    @Autowired
+    @Autowired(required = false)
     private ApiHelper apiHelper;
 
     @Override
     public boolean push(UniAppPushClient cid) {
-
         return mypush(cid.getCids(), cid.getTitle(), cid.getContext(), cid.getPage());
     }
 

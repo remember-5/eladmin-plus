@@ -17,14 +17,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
 /**
  * @author wangjiahao
  */
 @Slf4j
 @Api(tags = "API用户管理")
-@Validated
 @RestController
 @RequestMapping("user")
 @RequiredArgsConstructor
@@ -36,7 +34,7 @@ public class ApiUserController {
     @Log("注册")
     @ApiOperation("注册")
     @PostMapping(value = "register")
-    public R register(@RequestBody @Valid LoginUser user) {
+    public R register(@RequestBody @Validated LoginUser user) {
         return apiUserService.register(user);
     }
 

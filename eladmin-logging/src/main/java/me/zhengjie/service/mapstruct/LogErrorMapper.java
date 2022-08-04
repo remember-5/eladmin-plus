@@ -13,11 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package me.zhengjie.modules.tool.service.mapstruct;
+package me.zhengjie.service.mapstruct;
 
 import me.zhengjie.base.BaseMapper;
 import me.zhengjie.domain.Log;
-import me.zhengjie.modules.tool.service.dto.LogErrorDTO;
+import me.zhengjie.service.dto.LogErrorDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

@@ -269,6 +269,7 @@ minio:
   secret-key: ${MINIO_SK}
 
 getui:
+  enable: false
   maxConnections: 200
   appid:
   appkey:
