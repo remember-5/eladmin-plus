@@ -23,6 +23,7 @@ import me.zhengjie.exception.EntityNotFoundException;
 import me.zhengjie.result.R;
 import me.zhengjie.result.REnum;
 import me.zhengjie.utils.ThrowableUtil;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,9 +35,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.Objects;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -100,19 +101,34 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * 处理所有接口数据验证异常
+     * 处理所有接口数据验证异常,优先级会最高
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public R handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         // 打印堆栈信息
-        log.error(ThrowableUtil.getStackTrace(e));
-        String[] str = Objects.requireNonNull(e.getBindingResult().getAllErrors().get(0).getCodes())[1].split("\\.");
-        String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-        String msg = "不能为空";
-        if (msg.equals(message)) {
-            message = str[1] + ":" + message;
+//        log.error(ThrowableUtil.getStackTrace(e));
+//        String[] str = Objects.requireNonNull(e.getBindingResult().getAllErrors().get(0).getCodes())[1].split("\\.");
+//        String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
+//        String msg = "不能为空";
+//        if (msg.equals(message)) {
+//            message = str[1] + ":" + message;
+//        }
+//        return buildResponseEntity(ApiError.error(message));
+
+        // 拼接错误
+        StringBuilder detailMessage = new StringBuilder();
+        for (ObjectError objectError : e.getAllErrors()) {
+            // 使用 ; 分隔多个错误
+            if (detailMessage.length() > 0) {
+                detailMessage.append(";");
+            }
+            // 拼接内容到其中，这个不包含报错字段
+            detailMessage.append(((DefaultMessageSourceResolvable) objectError.getArguments()[0]).getDefaultMessage());
+            detailMessage.append(":");
+            // 拼接内容到其中
+            detailMessage.append(objectError.getDefaultMessage());
         }
-        return buildResponseEntity(ApiError.error(message));
+        return R.fail(REnum.A0400.code, null, detailMessage.toString());
     }
 
     /**
@@ -124,12 +140,13 @@ public class GlobalExceptionHandler {
 
     /**
      * 原生javax.validation报错信息
+     *
      * @param ex 报错详情
      * @return /
      */
     @ResponseBody
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public R constraintViolationExceptionHandler(ConstraintViolationException ex) {
+    public R constraintViolationExceptionHandler(HttpServletRequest req, ConstraintViolationException ex) {
         log.debug("[constraintViolationExceptionHandler]", ex);
         // 拼接错误
         StringBuilder detailMessage = new StringBuilder();
@@ -139,8 +156,8 @@ public class GlobalExceptionHandler {
                 detailMessage.append(";");
             }
             // 拼接内容到其中，这个不包含报错字段
-            // detailMessage.append(constraintViolation.getPropertyPath());
-            // detailMessage.append(":");
+            detailMessage.append(constraintViolation.getPropertyPath());
+            detailMessage.append(":");
             detailMessage.append(constraintViolation.getMessage());
         }
         // 包装 CommonResult 结果
@@ -149,6 +166,7 @@ public class GlobalExceptionHandler {
 
     /**
      * org.springframework.validation 异常信息捕捉
+     *
      * @param ex 报错详情
      * @return /
      */
@@ -167,7 +185,7 @@ public class GlobalExceptionHandler {
             detailMessage.append(objectError.getDefaultMessage());
         }
         // 包装 CommonResult 结果
-        return R.fail(REnum.A0400);
+        return R.fail(REnum.A0400.code, null, detailMessage.toString());
     }
 
     /**

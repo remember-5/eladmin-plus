@@ -13,20 +13,31 @@ import java.io.Serializable;
 @Data
 public class LoginUser implements Serializable {
 
-    /** 手机号 */
-    @NotBlank
+    /**
+     * 手机号
+     */
+    @NotBlank(message = "手机号不能为空")
     private String phone;
 
-    /** 用户名 */
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空")
     private String username;
 
-    /** 密码 */
+    /**
+     * 密码
+     */
     private String password;
 
-    /** 短信验证码 */
+    /**
+     * 短信验证码
+     */
     private String smsCode;
 
-    /** 登录方式类型 1.手机号密码 2.手机号验证码 3.一键登录认证方式等 */
+    /**
+     * 登录方式类型 1.手机号密码 2.手机号验证码 3.一键登录认证方式等
+     */
     private Integer loginType;
 
     private String code;
