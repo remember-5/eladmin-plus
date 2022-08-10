@@ -133,20 +133,20 @@ jwt:
   # 放行接口
   permit:
     defaults-url:
-      - "/swagger-ui.html" # swagger 文档
-      - "/swagger-resources/**"
-      - "/webjars/**"
-      - "/*/api-docs"
-      - "/avatar/**" # 文件
-      - "/file/**"
-      - "/druid/**" # 阿里巴巴 druid
+      - /swagger-ui.html # swagger 文档
+      - /swagger-resources/**
+      - /webjars/**
+      - /*/api-docs
+      - /avatar/** # 文件
+      - /file/**
+      - /druid/** # 阿里巴巴 druid
     get-url:
-      - "/*.html"
-      - "/**/*.html"
-      - "/**/*.css"
-      - "/**/*.js"
-      - "/webSocket/**"
-      - "/ws/**"
+      - /*.html
+      - /**/*.html
+      - /**/*.css
+      - /**/*.js
+      - /webSocket/**
+      - /ws/**
       - /favicon.ico
       - /v2/api-docs/**
       - /user/code

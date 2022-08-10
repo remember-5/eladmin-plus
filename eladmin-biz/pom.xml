@@ -9,11 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eladmin-logging</artifactId>
-    <name>日志模块</name>
+    <groupId>com.remember5.biz</groupId>
+    <artifactId>eladmin-biz</artifactId>
+    <name>核心业务</name>
+    <description>核心业务</description>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>1.8</java.version>
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -22,11 +24,4 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>me.zhengjie</groupId>
-            <artifactId>eladmin-common</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-    </dependencies>
 </project>

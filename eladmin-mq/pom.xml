@@ -9,11 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>eladmin-logging</artifactId>
-    <name>日志模块</name>
+    <groupId>com.remember5.mq</groupId>
+    <artifactId>eladmin-mq</artifactId>
+    <name>消息队列</name>
+    <description>使用消息队列</description>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>1.8</java.version>
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -22,11 +24,14 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+
     <dependencies>
+        <!-- ———————————— mq ————————————  -->
         <dependency>
-            <groupId>me.zhengjie</groupId>
-            <artifactId>eladmin-common</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
     </dependencies>
+
+
 </project>

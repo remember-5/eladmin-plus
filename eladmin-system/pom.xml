@@ -14,6 +14,7 @@
 
     <properties>
         <java.version>8</java.version>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
@@ -21,8 +22,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <jjwt.version>0.11.5</jjwt.version>
-        <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <oshi.version>5.7.1</oshi.version>
+        <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <jna.version>5.8.0</jna.version>
         <dynamic.version>3.4.0</dynamic.version>
         <minio.verison>8.3.5</minio.verison>

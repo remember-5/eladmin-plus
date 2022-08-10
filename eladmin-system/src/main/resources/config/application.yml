@@ -1,8 +1,10 @@
 spring:
+  main:
+    banner-mode: off
   application:
     name: SystemApiApplication
   profiles:
-    active: prod
+    active: dev
   freemarker:
     check-template-location: false
   jackson:

@@ -18,6 +18,9 @@
         <module>eladmin-minio</module>
         <module>eladmin-captcha</module>
         <module>eladmin-push</module>
+        <module>eladmin-es</module>
+        <module>eladmin-mq</module>
+        <module>eladmin-biz</module>
     </modules>
 
     <name>EL-ADMIN 后台管理</name>
@@ -36,7 +39,7 @@
         <!--   跳过测试    -->
         <skipTests>true</skipTests>
 
-        <spring.boot.version>2.5.13</spring.boot.version>
+        <spring.boot.version>2.5.14</spring.boot.version>
         <druid.version>1.2.9</druid.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
@@ -111,7 +114,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -119,12 +121,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!-- spring boot 缓存 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
         <!-- =========================  参数校验  start  ========================= -->
@@ -181,6 +177,8 @@
 
     </dependencies>
 
+
+    <!--  依赖版本管理，并不会直接注入引用  -->
     <dependencyManagement>
         <dependencies>
             <!--  spring boot dependency    -->
@@ -220,7 +218,7 @@
                 <version>${guava.version}</version>
             </dependency>
 
-            <!--   easyexcel         -->
+            <!--   EasyExcel         -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
@@ -295,7 +293,7 @@
                 <version>${mica-ip2region.version}</version>
             </dependency>
 
-            <!--  tencent oss     -->
+            <!--  Tencent oss     -->
             <dependency>
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos_api</artifactId>
@@ -305,6 +303,7 @@
     </dependencyManagement>
 
 
+    <!--  打包相关  -->
     <build>
         <pluginManagement>
             <plugins>
