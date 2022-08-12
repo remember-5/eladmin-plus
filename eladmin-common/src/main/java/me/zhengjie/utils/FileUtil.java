@@ -171,8 +171,8 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            CloseUtil.close(os);
-            CloseUtil.close(ins);
+            IoUtil.close(os);
+            IoUtil.close(ins);
         }
         return file;
     }
@@ -313,7 +313,7 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
             log.error(e.getMessage(), e);
             return null;
         } finally {
-            CloseUtil.close(in);
+            IoUtil.close(in);
         }
         return b;
     }

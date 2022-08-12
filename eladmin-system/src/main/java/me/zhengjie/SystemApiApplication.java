@@ -17,12 +17,10 @@ package me.zhengjie;
 
 import io.swagger.annotations.Api;
 import me.zhengjie.utils.SpringContextHolder;
-import me.zhengjie.utils.SpringContextUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -61,8 +59,9 @@ public class SystemApiApplication {
 //        // 或者在 application.yml 添加文件路径，方便 kill，kill `cat /home/eladmin/app.pid`
 //        springApplication.addListeners(new ApplicationPidFileWriter());
 //        springApplication.run(args);
-        ApplicationContext app = SpringApplication.run(SystemApiApplication.class, args);
-        SpringContextUtil.setApplicationContext(app);
+//        ApplicationContext app = SpringApplication.run(SystemApiApplication.class, args);
+//        SpringContextUtil.setApplicationContext(app);
+        SpringApplication.run(SystemApiApplication.class, args);
     }
 
     @Bean

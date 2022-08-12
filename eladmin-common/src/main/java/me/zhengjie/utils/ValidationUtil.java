@@ -50,8 +50,17 @@ public class ValidationUtil {
         return new EmailValidator().isValid(email, null);
     }
 
+    /**
+     * 验证是否喂手机号
+     * @param phone 手机号码
+     * @return boolean
+     */
     public static boolean isPhone(String phone){
         return ReUtil.isMatch(PATTERN_PHONE, phone);
     }
+
+
+
+
 
 }

@@ -5,8 +5,7 @@ import com.remember5.captcha.properties.CaptchaCodeProperties;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
-import me.zhengjie.exception.BadConfigurationException;
-import me.zhengjie.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
@@ -72,7 +71,8 @@ public class CaptchaUtils {
                     captcha.setLen(captchaCode.getLength());
                     break;
                 default:
-                    throw new BadConfigurationException("验证码配置信息错误！正确配置查看 captchaCodeEnum ");
+//                    throw new BadConfigurationException("验证码配置信息错误！正确配置查看 captchaCodeEnum ");
+                    throw new RuntimeException("Invalid captcha验证码配置信息错误！正确配置查看 captchaCodeEnum ");
             }
         }
         if (StringUtils.isNotBlank(captchaCode.getFontName())) {
