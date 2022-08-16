@@ -75,10 +75,9 @@ public class EladminSystemApplicationTests {
 //        repository.findAll().forEach(System.err::println);
 
 //        repository.myFind().forEach(System.err::println);
-        repository.myFind(3).forEach(System.err::println);
+//        repository.myFind(3).forEach(System.err::println);
 
-        // TODO 暂时不行，不知道为啥
-        repository.saveEntity(new BlogArticle(null, "provide_entity", "provide_entity", null));
+//        repository.saveEntity(new BlogArticle(null, "provide_entity", "provide_entity", null));
 
 
         // save
