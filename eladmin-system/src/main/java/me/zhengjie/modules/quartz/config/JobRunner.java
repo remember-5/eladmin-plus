@@ -15,7 +15,6 @@
  */
 package me.zhengjie.modules.quartz.config;
 
-import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.quartz.domain.QuartzJob;
 import me.zhengjie.modules.quartz.repository.QuartzJobRepository;

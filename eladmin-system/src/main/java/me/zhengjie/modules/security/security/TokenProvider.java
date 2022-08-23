@@ -117,6 +117,7 @@ public class TokenProvider implements InitializingBean {
 
     /**
      * 检查token是否过期
+     *
      * @param token 需要检查的token
      */
     public Boolean checkToken(String token) {

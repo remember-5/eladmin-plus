@@ -23,6 +23,7 @@ public class MessageReceive {
 
     /**
      * 订阅消息,发送给指定用户
+     *
      * @param object /
      */
     public void getMessageToOne(String object) {
@@ -35,7 +36,7 @@ public class MessageReceive {
         String userId = pushMessageBody.getUserId();
         ConcurrentHashMap<String, Channel> userChannelMap = NettyConfig.getUserChannelMap();
         Channel channel = userChannelMap.get(userId);
-        if(!Objects.isNull(channel)){
+        if (!Objects.isNull(channel)) {
             // 如果该用户的客户端是与本服务器建立的channel,直接推送消息
             channel.writeAndFlush(new TextWebSocketFrame(message));
         }
@@ -43,16 +44,17 @@ public class MessageReceive {
 
     /**
      * 订阅消息，发送给所有用户
+     *
      * @param object /
      */
     public void getMessageToAll(String object) {
         Jackson2JsonRedisSerializer serializer = getSerializer(String.class);
         String message = (String) serializer.deserialize(object.getBytes());
-        log.info("订阅消息，发送给所有用户: {}",message);
+        log.info("订阅消息，发送给所有用户: {}", message);
         NettyConfig.getChannelGroup().writeAndFlush(new TextWebSocketFrame(message));
     }
 
-    private Jackson2JsonRedisSerializer getSerializer(Class clazz){
+    private Jackson2JsonRedisSerializer getSerializer(Class clazz) {
         //序列化对象（特别注意：发布的时候需要设置序列化；订阅方也需要设置序列化）
         Jackson2JsonRedisSerializer seria = new Jackson2JsonRedisSerializer(clazz);
         ObjectMapper objectMapper = new ObjectMapper();

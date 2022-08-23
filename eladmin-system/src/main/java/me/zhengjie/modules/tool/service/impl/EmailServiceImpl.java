@@ -45,6 +45,7 @@ public class EmailServiceImpl implements EmailService {
     private final EmailRepository emailRepository;
     public static final String KEY = "Passw0rdPassw0rd";
     private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, KEY.getBytes(StandardCharsets.UTF_8));
+
     @Override
     @CachePut(key = "'config'")
     @Transactional(rollbackFor = Exception.class)
@@ -79,7 +80,7 @@ public class EmailServiceImpl implements EmailService {
         account.setAuth(true);
         try {
             // 对称解密
-            account.setPass( new String(aes.decrypt(emailConfig.getPass())));
+            account.setPass(new String(aes.decrypt(emailConfig.getPass())));
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }

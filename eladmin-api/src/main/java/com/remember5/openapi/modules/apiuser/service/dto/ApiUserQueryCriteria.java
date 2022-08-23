@@ -14,7 +14,9 @@ public class ApiUserQueryCriteria {
     @Query
     private String phone;
 
-    /** 精确 */
+    /**
+     * 精确
+     */
     @Query
     private Boolean isDeleted = false;
 

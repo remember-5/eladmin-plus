@@ -19,15 +19,15 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ZipUtil;
 import lombok.RequiredArgsConstructor;
-import me.zhengjie.modules.generator.domain.GenConfig;
-import me.zhengjie.modules.generator.domain.ColumnInfo;
-import me.zhengjie.modules.generator.domain.vo.TableInfo;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.generator.domain.ColumnInfo;
+import me.zhengjie.modules.generator.domain.GenConfig;
+import me.zhengjie.modules.generator.domain.vo.TableInfo;
 import me.zhengjie.modules.generator.repository.ColumnInfoRepository;
 import me.zhengjie.modules.generator.service.AutoPermissionService;
 import me.zhengjie.modules.generator.service.GeneratorService;
-import me.zhengjie.utils.FileUtil;
 import me.zhengjie.modules.generator.utils.GenUtil;
+import me.zhengjie.utils.FileUtil;
 import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.StringUtils;
 import org.slf4j.Logger;
@@ -61,6 +61,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 
     private final ColumnInfoRepository columnInfoRepository;
     private final AutoPermissionService autoPermissionService;
+
     @Override
     public Object getTables() {
         // 使用预编译防止sql注入
@@ -74,12 +75,12 @@ public class GeneratorServiceImpl implements GeneratorService {
     @Override
     public Object getTables(String name, int[] startEnd) {
         // 使用预编译防止sql注入
-        String dbSchema= StringUtils.isNotEmpty(System.getenv("DB_SCHEMA"))?System.getenv("DB_SCHEMA"):"eladmin";
+        String dbSchema = StringUtils.isNotEmpty(System.getenv("DB_SCHEMA")) ? System.getenv("DB_SCHEMA") : "eladmin";
 
         String sql = "SELECT pt.tablename AS table_name, pc.comment as table_comment from pg_tables pt " +
                 " LEFT JOIN (SELECT relname,cast (obj_description (relfilenode, 'pg_class') as varchar) as comment  from pg_class ) pc " +
                 " ON pc.relname = pt.tablename " +
-                "where schemaname= '"+dbSchema+"'"+
+                "where schemaname= '" + dbSchema + "'" +
                 "AND tablename LIKE ?";
         Query query = em.createNativeQuery(sql);
         query.setFirstResult(startEnd[0]);

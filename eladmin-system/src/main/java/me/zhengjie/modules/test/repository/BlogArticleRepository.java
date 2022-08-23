@@ -45,6 +45,7 @@ public interface BlogArticleRepository {
 
     /**
      * 可以这样写sql
+     *
      * @return /
      */
     @Select("SELECT * FROM eladmin.blog_article WHERE 1=1")

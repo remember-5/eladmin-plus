@@ -2,6 +2,7 @@ package me.zhengjie.utils;
 
 /**
  * 密码检查配置类
+ *
  * @author wangjiahao
  * @date 2022/8/12 15:29
  */
@@ -97,12 +98,12 @@ public class PasswordCheckConfig {
     /**
      * 键盘横向方向规则
      */
-    public static String[] KEYBOARD_HORIZONTAL_ARR = { "01234567890", "qwertyuiop", "asdfghjkl", "zxcvbnm", };
+    public static String[] KEYBOARD_HORIZONTAL_ARR = {"01234567890", "qwertyuiop", "asdfghjkl", "zxcvbnm",};
     /**
      * 键盘斜线方向规则
      */
-    public static String[] KEYBOARD_SLOPE_ARR = { "1qaz", "2wsx", "3edc", "4rfv", "5tgb", "6yhn", "7ujm", "8ik,",
-            "9ol.", "0p;/", "=[;.", "-pl,", "0okm", "9ijn", "8uhb", "7ygv", "6tfc", "5rdx", "4esz" };
+    public static String[] KEYBOARD_SLOPE_ARR = {"1qaz", "2wsx", "3edc", "4rfv", "5tgb", "6yhn", "7ujm", "8ik,",
+            "9ol.", "0p;/", "=[;.", "-pl,", "0okm", "9ijn", "8uhb", "7ygv", "6tfc", "5rdx", "4esz"};
 
     /**
      * 是否检测常用词库
@@ -112,7 +113,7 @@ public class PasswordCheckConfig {
     /**
      * 常用词库
      */
-    public static String[] SIMPLE_WORDS = { "admin", "szim", "epicrouter", "password", "grouter", "dare", "root",
+    public static String[] SIMPLE_WORDS = {"admin", "szim", "epicrouter", "password", "grouter", "dare", "root",
             "guest", "user", "success", "pussy", "mustang", "fuckme", "jordan", "test", "hunter", "jennifer", "batman",
             "thomas", "soccer", "sexy", "killer", "george", "asshole", "fuckyou", "summer", "hello", "secret", "fucker",
             "enter", "cookie", "administrator",
@@ -120,6 +121,6 @@ public class PasswordCheckConfig {
             "xiaoming", "taobao", "iloveyou", "woaini", "982464",
             // 国外网民常用密码
             "monkey", "letmein", "trustno1", "dragon", "baseball", "master", "sunshine", "ashley", "bailey", "shadow",
-            "superman", "football", "michael", "qazwsx" };
+            "superman", "football", "michael", "qazwsx"};
 
 }

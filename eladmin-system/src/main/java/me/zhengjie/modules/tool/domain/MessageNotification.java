@@ -15,22 +15,19 @@
  */
 package me.zhengjie.modules.tool.domain;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import cn.hutool.core.bean.BeanUtil;
-import io.swagger.annotations.ApiModelProperty;
-import cn.hutool.core.bean.copier.CopyOptions;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.*;
-
-import java.sql.Timestamp;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * @author fly

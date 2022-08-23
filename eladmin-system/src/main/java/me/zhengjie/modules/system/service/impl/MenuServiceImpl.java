@@ -91,6 +91,7 @@ public class MenuServiceImpl implements MenuService {
 
     /**
      * 用户角色改变时需清理缓存
+     *
      * @param currentUserId /
      * @return /
      */
@@ -105,8 +106,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public MenuDto create(Menu resources) {
-        if(menuRepository.findByTitle(resources.getTitle()) != null){
-            throw new EntityExistException(Menu.class,"title",resources.getTitle());
+        if (menuRepository.findByTitle(resources.getTitle()) != null) {
+            throw new EntityExistException(Menu.class, "title", resources.getTitle());
         }
         if (StringUtils.isNotBlank(resources.getComponentName())) {
             if (menuRepository.findByComponentName(resources.getComponentName()) != null) {

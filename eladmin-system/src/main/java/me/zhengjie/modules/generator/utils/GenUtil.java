@@ -18,9 +18,9 @@ package me.zhengjie.modules.generator.utils;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.template.*;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.modules.generator.domain.GenConfig;
-import me.zhengjie.modules.generator.domain.ColumnInfo;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.generator.domain.ColumnInfo;
+import me.zhengjie.modules.generator.domain.GenConfig;
 import me.zhengjie.modules.generator.service.AutoPermissionService;
 import me.zhengjie.utils.FileUtil;
 import me.zhengjie.utils.StringUtils;
@@ -31,7 +31,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static me.zhengjie.utils.FileUtil.SYS_TEM_DIR;
 
@@ -170,9 +173,8 @@ public class GenUtil {
                 // 生成代码
                 genFile(file, template, genMap);
             }
-        }catch (Exception e)
-        {
-            if (e.getMessage().indexOf("pkColumnType")!=-1){
+        } catch (Exception e) {
+            if (e.getMessage().indexOf("pkColumnType") != -1) {
                 throw new BadRequestException("数据表缺少主键");
             }
         }

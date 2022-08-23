@@ -20,8 +20,8 @@ import com.remember5.redis.utils.RedisUtils;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.properties.RsaProperties;
 import me.zhengjie.properties.JwtProperties;
+import me.zhengjie.properties.RsaProperties;
 import me.zhengjie.result.R;
 import me.zhengjie.result.REnum;
 import me.zhengjie.utils.StringUtils;
@@ -255,6 +255,6 @@ public class ApiUserServiceImpl implements ApiUserService {
     @Override
     public boolean phoneExits(String phone) {
         long num = apiUserRepository.countByPhone(phone);
-        return num>0;
+        return num > 0;
     }
 }

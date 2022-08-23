@@ -16,15 +16,15 @@
 package me.zhengjie.modules.security.service;
 
 import lombok.RequiredArgsConstructor;
-import me.zhengjie.modules.security.security.UserCacheManager;
-import me.zhengjie.properties.LoginProperties;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.exception.EntityNotFoundException;
+import me.zhengjie.modules.security.security.UserCacheManager;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.system.service.DataService;
 import me.zhengjie.modules.system.service.RoleService;
 import me.zhengjie.modules.system.service.UserService;
 import me.zhengjie.modules.system.service.dto.UserDto;
+import me.zhengjie.properties.LoginProperties;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -45,6 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final DataService dataService;
     private final LoginProperties loginProperties;
     private final UserCacheManager USER_DTO_CACHE;
+
     public void setEnableCache(boolean enableCache) {
         this.loginProperties.setCacheEnable(enableCache);
     }

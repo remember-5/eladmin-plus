@@ -29,14 +29,14 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.annotation.rest.AnonymousDeleteMapping;
 import me.zhengjie.annotation.rest.AnonymousGetMapping;
 import me.zhengjie.annotation.rest.AnonymousPostMapping;
-import me.zhengjie.properties.RsaProperties;
-import me.zhengjie.properties.LoginProperties;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.security.security.TokenProvider;
 import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.properties.JwtProperties;
+import me.zhengjie.properties.LoginProperties;
+import me.zhengjie.properties.RsaProperties;
 import me.zhengjie.utils.SecurityUtils;
 import me.zhengjie.utils.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -77,12 +77,10 @@ public class AuthorizationController {
     private final CaptchaUtils captchaUtils;
 
 
-
-
     @ApiOperation("登录授权")
     @AnonymousPostMapping(value = "/login")
-    public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request)  {
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
+    public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) {
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
         // 密码解密
         String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
         // 查询验证码

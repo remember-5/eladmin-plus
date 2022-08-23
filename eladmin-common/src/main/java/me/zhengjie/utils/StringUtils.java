@@ -194,7 +194,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      */
     public static String getLocalCityInfo(String ip) {
         IpInfo ipInfo = IP_SEARCHER.memorySearch(ip);
-        if(ipInfo != null){
+        if (ipInfo != null) {
             return ipInfo.getAddress();
         }
         return null;

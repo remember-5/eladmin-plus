@@ -20,21 +20,23 @@ public class PushController {
 
     /**
      * 推送给所有用户
+     *
      * @param msg 消息
      */
     @PostMapping(value = "/pushAll")
-    public void pushToAll(@RequestParam("msg") String msg){
+    public void pushToAll(@RequestParam("msg") String msg) {
         pushService.pushMsgToAll(msg);
     }
 
     /**
      * 推送给指定用户
+     *
      * @param userId 用户id
-     * @param msg 消息
+     * @param msg    消息
      */
     @PostMapping(value = "pushOne")
-    public void pushMsgToOne(@RequestParam("userId") String userId,@RequestParam("msg") String msg){
-        pushService.pushMsgToOne(userId,msg);
+    public void pushMsgToOne(@RequestParam("userId") String userId, @RequestParam("msg") String msg) {
+        pushService.pushMsgToOne(userId, msg);
     }
 
 }

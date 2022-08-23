@@ -12,6 +12,7 @@ public interface MinioService {
 
     /**
      * 文件上传
+     *
      * @param file 文件
      * @return /
      */

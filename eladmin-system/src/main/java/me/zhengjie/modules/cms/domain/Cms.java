@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.cms.domain;
 
 import cn.hutool.core.bean.BeanUtil;
@@ -28,20 +28,20 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
-* @website https://el-admin.vip
-* @description /
-* @author zhangenrong
-* @date 2021-03-01
-**/
+ * @author zhangenrong
+ * @website https://el-admin.vip
+ * @description /
+ * @date 2021-03-01
+ **/
 @Entity
 @Data
-@Table(name="t_cms")
+@Table(name = "t_cms")
 public class Cms implements Serializable {
 
     @Id
     @Column(name = "cms_id")
     @ApiModelProperty(value = "主键")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "agent_id")
@@ -123,7 +123,7 @@ public class Cms implements Serializable {
     @ApiModelProperty(value = "备用字段")
     private String by5;
 
-    public void copy(Cms source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+    public void copy(Cms source) {
+        BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

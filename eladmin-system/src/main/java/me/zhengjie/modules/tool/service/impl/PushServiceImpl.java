@@ -25,25 +25,25 @@ public class PushServiceImpl implements PushService {
 
 
     @Override
-    public void pushMsgToOne(String userId, String msg){
+    public void pushMsgToOne(String userId, String msg) {
         ConcurrentHashMap<String, Channel> userChannelMap = NettyConfig.getUserChannelMap();
         Channel channel = userChannelMap.get(userId);
-        if(!Objects.isNull(channel)){
+        if (!Objects.isNull(channel)) {
             // 如果该用户的客户端是与本服务器建立的channel,直接推送消息
             channel.writeAndFlush(new TextWebSocketFrame(msg));
-        }else {
+        } else {
             // 发布，给其他服务器消费
             NettyPushMessageBody pushMessageBody = new NettyPushMessageBody();
             pushMessageBody.setUserId(userId);
             pushMessageBody.setMessage(msg);
-            redisTemplate.convertAndSend(CacheKey.PUSH_MESSAGE_TO_ONE,pushMessageBody);
+            redisTemplate.convertAndSend(CacheKey.PUSH_MESSAGE_TO_ONE, pushMessageBody);
         }
     }
 
     @Override
-    public void pushMsgToAll(String msg){
+    public void pushMsgToAll(String msg) {
         // 发布，给其他服务器消费
-        redisTemplate.convertAndSend(CacheKey.PUSH_MESSAGE_TO_ALL,msg);
+        redisTemplate.convertAndSend(CacheKey.PUSH_MESSAGE_TO_ALL, msg);
 //        NettyConfig.getChannelGroup().writeAndFlush(new TextWebSocketFrame(msg));
     }
 }

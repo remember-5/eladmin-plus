@@ -158,7 +158,7 @@ public class UserController {
     @ApiOperation("修改密码")
     @PostMapping(value = "/updatePass")
     public ResponseEntity<Object> updateUserPass(@RequestBody UserPassVo passVo) {
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
         String oldPass = new String(rsa.decrypt(passVo.getOldPass(), KeyType.PrivateKey));
         String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
         UserDto user = userService.findByName(SecurityUtils.getCurrentUsername());
@@ -186,7 +186,7 @@ public class UserController {
     @PostMapping(value = "/updateUserPass")
     @PreAuthorize("@el.check()")
     public ResponseEntity<Object> updateUserPassword(@RequestBody UserPassVo passVo) {
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
         String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
         UserDto user = userService.findById(passVo.getUserId());
         userService.updatePass(user.getUsername(), passwordEncoder.encode(newPass));
@@ -203,8 +203,8 @@ public class UserController {
     @ApiOperation("修改邮箱")
     @PostMapping(value = "/updateEmail/{code}")
     public ResponseEntity<Object> updateUserEmail(@PathVariable String code, @RequestBody User user) {
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(),null);
-        String password = new String(rsa.decrypt(user.getPassword(),KeyType.PrivateKey));
+        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
+        String password = new String(rsa.decrypt(user.getPassword(), KeyType.PrivateKey));
         UserDto userDto = userService.findByName(SecurityUtils.getCurrentUsername());
         if (!passwordEncoder.matches(password, userDto.getPassword())) {
             throw new BadRequestException("密码错误");

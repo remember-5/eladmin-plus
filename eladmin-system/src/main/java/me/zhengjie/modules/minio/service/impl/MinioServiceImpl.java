@@ -2,8 +2,8 @@ package me.zhengjie.modules.minio.service.impl;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.remember5.minio.properties.MinioProperties;
 import com.remember5.minio.entity.Base64DecodedMultipartFile;
+import com.remember5.minio.properties.MinioProperties;
 import com.remember5.minio.utils.MinioUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

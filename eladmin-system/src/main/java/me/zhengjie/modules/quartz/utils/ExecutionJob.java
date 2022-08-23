@@ -21,12 +21,11 @@ import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.remember5.redis.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.config.thread.ThreadPoolExecutorUtil;
-import me.zhengjie.modules.tool.domain.vo.EmailVo;
 import me.zhengjie.modules.quartz.domain.QuartzJob;
 import me.zhengjie.modules.quartz.domain.QuartzLog;
 import me.zhengjie.modules.quartz.repository.QuartzLogRepository;
 import me.zhengjie.modules.quartz.service.QuartzJobService;
+import me.zhengjie.modules.tool.domain.vo.EmailVo;
 import me.zhengjie.modules.tool.service.EmailService;
 import me.zhengjie.utils.SpringContextHolder;
 import me.zhengjie.utils.StringUtils;
@@ -42,7 +41,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 参考人人开源，https://gitee.com/renrenio/renren-security

@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.column.service.impl;
 
 import lombok.RequiredArgsConstructor;
@@ -40,10 +40,11 @@ import java.util.Map;
 
 
 /**
-* 服务实现
-* @author fly
-* @date 2021-03-02
-**/
+ * 服务实现
+ *
+ * @author fly
+ * @date 2021-03-02
+ **/
 @Service
 @RequiredArgsConstructor
 public class CmsColumnServiceImpl implements CmsColumnService {
@@ -52,19 +53,19 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     private final CmsColumnMapper cmsColumnMapper;
 
     @Override
-    public Map<String,Object> queryAll(CmsColumnQueryCriteria criteria, Pageable pageable){
-        Page<CmsColumn> page = cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Map<String, Object> queryAll(CmsColumnQueryCriteria criteria, Pageable pageable) {
+        Page<CmsColumn> page = cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(cmsColumnMapper::toDto));
     }
 
     @Override
-    public List<CmsColumnDto> queryAll(CmsColumnQueryCriteria criteria){
-        return cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<CmsColumnDto> queryAll(CmsColumnQueryCriteria criteria) {
+        return cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
-    public List<CmsColumnDto> columnsTreeData(Long columnFid){
+    public List<CmsColumnDto> columnsTreeData(Long columnFid) {
         List<CmsColumnDto> cmsColumns = cmsColumnMapper.toDto(cmsColumnRepository.queryTreeData(columnFid));
-        if (cmsColumns != null && cmsColumns.size() > 0){
+        if (cmsColumns != null && cmsColumns.size() > 0) {
             for (CmsColumnDto column : cmsColumns) {
                 // 取当前栏目id 做父id 查询栏目子集
                 column.setColumns(columnsTreeData(column.getId()));
@@ -73,13 +74,14 @@ public class CmsColumnServiceImpl implements CmsColumnService {
         }
         return null;
     }
+
     @Override
-    public List<CmsColumnDto> queryTreeData(){
+    public List<CmsColumnDto> queryTreeData() {
         // 查询顶级类目(项目)
         CmsColumnQueryCriteria criteria = new CmsColumnQueryCriteria();
         criteria.setFid(-1L);
-        List<CmsColumnDto> cmsColumns = cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
-        if (cmsColumns != null && !cmsColumns.isEmpty()){
+        List<CmsColumnDto> cmsColumns = cmsColumnMapper.toDto(cmsColumnRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
+        if (cmsColumns != null && !cmsColumns.isEmpty()) {
             for (CmsColumnDto column : cmsColumns) {
                 // 取当前栏目id 做父id 查询栏目子集
                 column.setColumns(columnsTreeData(column.getId()));
@@ -92,10 +94,9 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     @Transactional(rollbackFor = Exception.class)
     public CmsColumnDto findById(Long id) {
         CmsColumn cmsColumn = cmsColumnRepository.findById(id).orElseGet(CmsColumn::new);
-        ValidationUtil.isNull(cmsColumn.getId(),"CmsColumn","id",id);
+        ValidationUtil.isNull(cmsColumn.getId(), "CmsColumn", "id", id);
         return cmsColumnMapper.toDto(cmsColumn);
     }
-
 
 
     @Override
@@ -118,7 +119,7 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     @Transactional(rollbackFor = Exception.class)
     public void update(CmsColumn resources) {
         CmsColumn cmsColumn = cmsColumnRepository.findById(resources.getId()).orElseGet(CmsColumn::new);
-        ValidationUtil.isNull( cmsColumn.getId(),"CmsColumn","id",resources.getId());
+        ValidationUtil.isNull(cmsColumn.getId(), "CmsColumn", "id", resources.getId());
         cmsColumn.copy(resources);
         cmsColumnRepository.save(cmsColumn);
     }
@@ -134,7 +135,7 @@ public class CmsColumnServiceImpl implements CmsColumnService {
     public void download(List<CmsColumnDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (CmsColumnDto cmsColumn : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("父id", cmsColumn.getFid());
             map.put("栏目名", cmsColumn.getColumnName());
             map.put("创建时间", cmsColumn.getCreateTime());

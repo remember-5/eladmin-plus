@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.cms.service.impl;
 
 import lombok.RequiredArgsConstructor;
@@ -45,11 +45,11 @@ import static me.zhengjie.utils.SecurityUtils.getCurrentUsername;
 
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
-* @author zhangenrong
-* @date 2021-03-01
-**/
+ * @author zhangenrong
+ * @website https://el-admin.vip
+ * @description 服务实现
+ * @date 2021-03-01
+ **/
 @Service
 @RequiredArgsConstructor
 public class CmsServiceImpl implements CmsService {
@@ -58,22 +58,23 @@ public class CmsServiceImpl implements CmsService {
     private final CmsMapper cmsMapper;
 
     private final CmsColumnServiceImpl cmsColumnService;
+
     @Override
-    public Map<String,Object> queryAll(CmsQueryCriteria criteria, Pageable pageable){
-        Page<Cms> page = cmsRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
+    public Map<String, Object> queryAll(CmsQueryCriteria criteria, Pageable pageable) {
+        Page<Cms> page = cmsRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(cmsMapper::toDto));
     }
 
     @Override
-    public List<CmsDto> queryAll(CmsQueryCriteria criteria){
-        return cmsMapper.toDto(cmsRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+    public List<CmsDto> queryAll(CmsQueryCriteria criteria) {
+        return cmsMapper.toDto(cmsRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public CmsDto findById(Long id) {
         Cms cms = cmsRepository.findById(id).orElseGet(Cms::new);
-        ValidationUtil.isNull(cms.getId(),"Cms","id",id);
+        ValidationUtil.isNull(cms.getId(), "Cms", "id", id);
         return cmsMapper.toDto(cms);
     }
 
@@ -86,23 +87,25 @@ public class CmsServiceImpl implements CmsService {
 
     /**
      * 通过栏目id获取栏目组成的字符串以,分割
+     *
      * @param id
      * @return
      */
-    private String getColumnNames(Long id){
+    private String getColumnNames(Long id) {
         List<CmsColumnDto> cmsColumnDtos = cmsColumnService.columnsTreeData(id);
-        StringBuilder stringBuffer=new StringBuilder();
+        StringBuilder stringBuffer = new StringBuilder();
         for (CmsColumnDto cmsColumnDto : cmsColumnDtos) {
             stringBuffer.append(cmsColumnDto.getColumnName());
             stringBuffer.append(',');
         }
         return stringBuffer.toString();
     }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Cms resources) {
         Cms cms = cmsRepository.findById(resources.getId()).orElseGet(Cms::new);
-        ValidationUtil.isNull( cms.getId(),"Cms","id",resources.getId());
+        ValidationUtil.isNull(cms.getId(), "Cms", "id", resources.getId());
         cms.copy(resources);
         cmsRepository.save(cms);
     }
@@ -136,7 +139,7 @@ public class CmsServiceImpl implements CmsService {
     public void download(List<CmsDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (CmsDto cms : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("栏目", cms.getColumnId());
             map.put("作者", cms.getAuthor());
             map.put("内容标题", cms.getTitle());

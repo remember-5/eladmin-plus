@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 配置文件读取
+ *
  * @author wangjiahao
  */
 @Data
@@ -38,9 +39,6 @@ public class LoginProperties {
     private boolean singleLogin;
 
     private String defaultPassword;
-
-
-
 
 
 }

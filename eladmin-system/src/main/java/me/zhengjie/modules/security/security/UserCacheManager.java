@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 用户缓存
+ *
  * @author wangjiahao
  * @date 2022/5/16 12:18
  */
@@ -46,7 +47,7 @@ public class UserCacheManager {
         long now = System.currentTimeMillis();
         if (cache.size() < minEvictableSize ||
                 now < nextMinEvictableTime ||
-                        !expelLock.compareAndSet(true, false)) {
+                !expelLock.compareAndSet(true, false)) {
             return;
         }
         long oldestTime = now;

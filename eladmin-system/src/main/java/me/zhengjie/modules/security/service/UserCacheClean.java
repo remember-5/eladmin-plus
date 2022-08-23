@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 public class UserCacheClean {
 
     private final UserCacheManager userCacheManager;
+
     /**
      * 清理特定用户缓存信息<br>
      * 用户信息变更时

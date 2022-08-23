@@ -115,7 +115,7 @@ public class DeployController {
         } else {
             log.warn("没有找到相对应的文件");
         }
-            log.info("文件上传的原名称为: {}", Objects.requireNonNull(file).getOriginalFilename());
+        log.info("文件上传的原名称为: {}", Objects.requireNonNull(file).getOriginalFilename());
         Map<String, Object> map = new HashMap<>(2);
         map.put("errno", 0);
         map.put("id", fileName);

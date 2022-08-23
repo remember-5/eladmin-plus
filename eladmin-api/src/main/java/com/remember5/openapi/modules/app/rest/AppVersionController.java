@@ -15,12 +15,12 @@
  */
 package com.remember5.openapi.modules.app.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import com.remember5.openapi.modules.app.service.AppVersionService;
 import com.remember5.openapi.modules.app.service.dto.AppVersionDto;
 import com.remember5.openapi.modules.app.service.dto.AppVersionQueryCriteria;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.result.R;
 import me.zhengjie.result.REnum;

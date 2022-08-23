@@ -92,14 +92,15 @@ public class RedisUtils {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
-    public long increment(String key, long delta){
-        return redisTemplate.opsForValue().increment(key, delta);
-    }
-    public double increment(String key, double delta){
+    public long increment(String key, long delta) {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
-    public long decrement(String key, long delta){
+    public double increment(String key, double delta) {
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+
+    public long decrement(String key, long delta) {
         return redisTemplate.opsForValue().decrement(key, delta);
     }
 
@@ -181,12 +182,13 @@ public class RedisUtils {
 
     /**
      * 取差集并将差集放到key1
+     *
      * @param key1
      * @param key2
      */
-    public void sDiff(String key1,String key2){
+    public void sDiff(String key1, String key2) {
         try {
-            set(key1,redisTemplate.opsForSet().difference(key1,key2));
+            set(key1, redisTemplate.opsForSet().difference(key1, key2));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -194,17 +196,19 @@ public class RedisUtils {
 
     /**
      * SPOP 将随机元素从集合中移除并返回
+     *
      * @param key
      * @return
      */
-    public Object sPop(String key){
+    public Object sPop(String key) {
         try {
             return redisTemplate.opsForSet().pop(key);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
         }
     }
+
     /**
      * 删除缓存
      *
@@ -252,7 +256,7 @@ public class RedisUtils {
     public List<Object> multiGet(List<String> keys) {
         List list = redisTemplate.opsForValue().multiGet(Sets.newHashSet(keys));
         List resultList = Lists.newArrayList();
-        Optional.ofNullable(list).ifPresent(e-> list.forEach(ele-> Optional.ofNullable(ele).ifPresent(resultList::add)));
+        Optional.ofNullable(list).ifPresent(e -> list.forEach(ele -> Optional.ofNullable(ele).ifPresent(resultList::add)));
         return resultList;
     }
 

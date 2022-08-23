@@ -1,18 +1,18 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package me.zhengjie.modules.column.rest;
 
 import io.swagger.annotations.Api;
@@ -33,10 +33,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
-* @website https://el-admin.vip
-* @author fly
-* @date 2021-03-02
-**/
+ * @author fly
+ * @website https://el-admin.vip
+ * @date 2021-03-02
+ **/
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "栏目管理")
@@ -57,46 +57,46 @@ public class CmsColumnController {
     @Log("查询栏目管理")
     @ApiOperation("查询栏目管理")
     @PreAuthorize("@el.check('cmsColumn:list')")
-    public ResponseEntity<Object> query(CmsColumnQueryCriteria criteria, Pageable pageable){
-        return new ResponseEntity<>(cmsColumnService.queryAll(criteria,pageable),HttpStatus.OK);
+    public ResponseEntity<Object> query(CmsColumnQueryCriteria criteria, Pageable pageable) {
+        return new ResponseEntity<>(cmsColumnService.queryAll(criteria, pageable), HttpStatus.OK);
     }
 
     @GetMapping(value = "/query")
     @Log("查询子栏目")
     @ApiOperation("查询子栏目")
-    public ResponseEntity<Object> query(CmsColumnQueryCriteria criteria){
-        return new ResponseEntity<>(cmsColumnService.queryAll(criteria),HttpStatus.OK);
+    public ResponseEntity<Object> query(CmsColumnQueryCriteria criteria) {
+        return new ResponseEntity<>(cmsColumnService.queryAll(criteria), HttpStatus.OK);
     }
 
     @GetMapping(value = "/getTree")
     @Log("查询栏目树")
     @ApiOperation("查询栏目树")
     @PreAuthorize("@el.check('cmsColumn:list')")
-    public ResponseEntity<Object> queryTree(){
-        return new ResponseEntity<>(cmsColumnService.queryTreeData(),HttpStatus.OK);
+    public ResponseEntity<Object> queryTree() {
+        return new ResponseEntity<>(cmsColumnService.queryTreeData(), HttpStatus.OK);
     }
 
     @PostMapping
     @Log("新增栏目管理")
     @ApiOperation("新增栏目管理")
     @PreAuthorize("@el.check('cmsColumn:add')")
-    public ResponseEntity<Object> create(@Validated @RequestBody CmsColumn resources){
-        return new ResponseEntity<>(cmsColumnService.create(resources),HttpStatus.CREATED);
+    public ResponseEntity<Object> create(@Validated @RequestBody CmsColumn resources) {
+        return new ResponseEntity<>(cmsColumnService.create(resources), HttpStatus.CREATED);
     }
 
     @PostMapping(value = "/addFirstLevelColumn")
     @Log("新增顶级栏目")
     @ApiOperation("新增顶级栏目")
     @PreAuthorize("@el.check('cmsColumn:addFirstLevelColumn')")
-    public ResponseEntity<Object> createFirstLevelColumn(@Validated @RequestBody CmsColumn resources){
-        return new ResponseEntity<>(cmsColumnService.createFirstLevelColumn(resources),HttpStatus.CREATED);
+    public ResponseEntity<Object> createFirstLevelColumn(@Validated @RequestBody CmsColumn resources) {
+        return new ResponseEntity<>(cmsColumnService.createFirstLevelColumn(resources), HttpStatus.CREATED);
     }
 
     @PutMapping
     @Log("修改栏目管理")
     @ApiOperation("修改栏目管理")
     @PreAuthorize("@el.check('cmsColumn:edit')")
-    public ResponseEntity<Object> update(@Validated @RequestBody CmsColumn resources){
+    public ResponseEntity<Object> update(@Validated @RequestBody CmsColumn resources) {
         cmsColumnService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -16,11 +16,10 @@
 package me.zhengjie.modules.tool.service.dto;
 
 import lombok.Data;
+import me.zhengjie.annotation.Query;
 
 import java.sql.Timestamp;
 import java.util.List;
-
-import me.zhengjie.annotation.Query;
 
 /**
  * @author Zheng Jie

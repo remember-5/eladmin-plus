@@ -33,6 +33,7 @@ public class ValidationUtil {
      * see
      */
     public static final String PATTERN_PHONE = "^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[0-35-9]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[0-35-9]\\d{2}|6[2567]\\d{2}|4(?:(?:10|4[01])\\d{3}|[68]\\d{4}|[579]\\d{2}))\\d{6}$";
+
     /**
      * 验证空
      */
@@ -52,15 +53,13 @@ public class ValidationUtil {
 
     /**
      * 验证是否喂手机号
+     *
      * @param phone 手机号码
      * @return boolean
      */
-    public static boolean isPhone(String phone){
+    public static boolean isPhone(String phone) {
         return ReUtil.isMatch(PATTERN_PHONE, phone);
     }
-
-
-
 
 
 }

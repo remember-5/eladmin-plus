@@ -17,10 +17,6 @@ package me.zhengjie.modules.tool.service.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
-import me.zhengjie.annotation.Query;
-
 /**
  * @author fly
  * @website https://el-admin.vip

@@ -21,8 +21,8 @@ import com.remember5.redis.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.security.service.dto.OnlineUserDto;
-import me.zhengjie.properties.JwtProperties;
 import me.zhengjie.modules.tool.service.impl.EmailServiceImpl;
+import me.zhengjie.properties.JwtProperties;
 import me.zhengjie.utils.FileUtil;
 import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.StringUtils;
@@ -48,6 +48,7 @@ public class OnlineUserService {
     private final RedisUtils redisUtils;
 
     private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
+
     public OnlineUserService(JwtProperties jwtProperties, RedisUtils redisUtils) {
         this.jwtProperties = jwtProperties;
         this.redisUtils = redisUtils;

@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 配置跨域
+ *
  * @author wangjiahao
  */
 @Slf4j

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class IpProperties {
     public static boolean localParsing;
+
     @Value("${ip.local-parsing}")
     public void setIpLocal(boolean localParsing) {
         IpProperties.localParsing = localParsing;

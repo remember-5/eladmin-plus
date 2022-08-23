@@ -1,7 +1,7 @@
 package com.remember5.openapi.entity;
 
-import lombok.Data;
 import com.remember5.openapi.modules.apiuser.domain.ApiUser;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

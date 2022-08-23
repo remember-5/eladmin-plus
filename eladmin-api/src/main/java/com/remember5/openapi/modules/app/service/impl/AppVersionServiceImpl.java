@@ -1,27 +1,27 @@
 /*
-*  Copyright 2019-2020 Zheng Jie
-*
-*  Licensed under the Apache License, Version 2.0 (the "License");
-*  you may not use this file except in compliance with the License.
-*  You may obtain a copy of the License at
-*
-*  http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing, software
-*  distributed under the License is distributed on an "AS IS" BASIS,
-*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-*  See the License for the specific language governing permissions and
-*  limitations under the License.
-*/
+ *  Copyright 2019-2020 Zheng Jie
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
 package com.remember5.openapi.modules.app.service.impl;
 
 import com.remember5.openapi.modules.app.domain.AppVersion;
-import com.remember5.openapi.modules.app.service.dto.AppVersionDto;
-import com.remember5.openapi.modules.app.service.mapstruct.AppVersionMapper;
-import lombok.RequiredArgsConstructor;
 import com.remember5.openapi.modules.app.repository.AppVersionRepository;
 import com.remember5.openapi.modules.app.service.AppVersionService;
+import com.remember5.openapi.modules.app.service.dto.AppVersionDto;
 import com.remember5.openapi.modules.app.service.dto.AppVersionQueryCriteria;
+import com.remember5.openapi.modules.app.service.mapstruct.AppVersionMapper;
+import lombok.RequiredArgsConstructor;
 import me.zhengjie.utils.FileUtil;
 import me.zhengjie.utils.PageUtil;
 import me.zhengjie.utils.QueryHelp;
@@ -36,11 +36,11 @@ import java.io.IOException;
 import java.util.*;
 
 /**
-* @website https://el-admin.vip
-* @description 服务实现
-* @author tianhh
-* @date 2021-05-03
-**/
+ * @author tianhh
+ * @website https://el-admin.vip
+ * @description 服务实现
+ * @date 2021-05-03
+ **/
 @Service
 @RequiredArgsConstructor
 public class AppVersionServiceImpl implements AppVersionService {
@@ -49,31 +49,31 @@ public class AppVersionServiceImpl implements AppVersionService {
     private final AppVersionMapper appVersionMapper;
 
     @Override
-    public Map<String,Object> queryAll(AppVersionQueryCriteria criteria, Pageable pageable){
-        if (criteria!=null){
+    public Map<String, Object> queryAll(AppVersionQueryCriteria criteria, Pageable pageable) {
+        if (criteria != null) {
             criteria.setIsDeleted(false);
-        }else{
-            criteria=new AppVersionQueryCriteria();
+        } else {
+            criteria = new AppVersionQueryCriteria();
             criteria.setIsDeleted(false);
         }
         AppVersionQueryCriteria finalCriteria = criteria;
-        Page<AppVersion> page = appVersionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, finalCriteria,criteriaBuilder),pageable);
+        Page<AppVersion> page = appVersionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, finalCriteria, criteriaBuilder), pageable);
         return PageUtil.toPage(page.map(appVersionMapper::toDto));
     }
 
     @Override
-    public List<AppVersionDto> queryAll(AppVersionQueryCriteria criteria){
-        if (criteria.getIsDeleted() == null){
+    public List<AppVersionDto> queryAll(AppVersionQueryCriteria criteria) {
+        if (criteria.getIsDeleted() == null) {
             criteria.setIsDeleted(false);
         }
-        return appVersionMapper.toDto(appVersionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        return appVersionMapper.toDto(appVersionRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
     }
 
     @Override
     @Transactional
     public AppVersionDto findById(Integer id) {
         AppVersion appVersion = appVersionRepository.findById(id).orElseGet(AppVersion::new);
-        ValidationUtil.isNull(appVersion.getId(),"AppVersion","id",id);
+        ValidationUtil.isNull(appVersion.getId(), "AppVersion", "id", id);
         return appVersionMapper.toDto(appVersion);
     }
 
@@ -84,7 +84,7 @@ public class AppVersionServiceImpl implements AppVersionService {
         AppVersionQueryCriteria appVersionQueryCriteria = new AppVersionQueryCriteria();
         appVersionQueryCriteria.setIsNew(true);
         appVersionQueryCriteria.setResType(resources.getResType());
-        if (resources.getResType()==2){
+        if (resources.getResType() == 2) {
             appVersionQueryCriteria.setVersionName(resources.getVersionName());
         }
         List<AppVersionDto> appVersionDtos = queryAll(appVersionQueryCriteria);
@@ -103,9 +103,9 @@ public class AppVersionServiceImpl implements AppVersionService {
     @Transactional(rollbackFor = Exception.class)
     public void update(AppVersion resources) {
         AppVersion appVersion = appVersionRepository.findById(resources.getId()).orElseGet(AppVersion::new);
-        ValidationUtil.isNull( appVersion.getId(),"AppVersion","id",resources.getId());
+        ValidationUtil.isNull(appVersion.getId(), "AppVersion", "id", resources.getId());
         //首先判断是否为最新版本
-        if (resources.getIsNew()){
+        if (resources.getIsNew()) {
             AppVersionQueryCriteria appVersionQueryCriteria = new AppVersionQueryCriteria();
             appVersionQueryCriteria.setIsNew(true);
             appVersionQueryCriteria.setResType(resources.getResType());
@@ -116,8 +116,8 @@ public class AppVersionServiceImpl implements AppVersionService {
                 appVersionRepository.save(appVersion1);
             }
         }
-            appVersion.copy(resources);
-            appVersionRepository.save(appVersion);
+        appVersion.copy(resources);
+        appVersionRepository.save(appVersion);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class AppVersionServiceImpl implements AppVersionService {
     public void download(List<AppVersionDto> all, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
         for (AppVersionDto appVersion : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
+            Map<String, Object> map = new LinkedHashMap<>();
             map.put("版本号", appVersion.getVersionName());
             map.put("打包号", appVersion.getBuildCode());
             map.put("是否最新", appVersion.getIsNew());
@@ -143,7 +143,7 @@ public class AppVersionServiceImpl implements AppVersionService {
             map.put("升级说明", appVersion.getContent());
             map.put("下载链接", appVersion.getUrl());
             map.put("createDate", appVersion.getCreateDate());
-            map.put("updateDate",  appVersion.getUpdateDate());
+            map.put("updateDate", appVersion.getUpdateDate());
             map.put("是否是必须更新", appVersion.getIsMust());
             list.add(map);
         }

@@ -48,7 +48,7 @@ public class TokenFilter extends GenericFilterBean {
 
     /**
      * @param tokenProvider     Token
-     * @param jwtProperties        JWT
+     * @param jwtProperties     JWT
      * @param onlineUserService 用户在线
      * @param userCacheClean    用户缓存清理工具
      */

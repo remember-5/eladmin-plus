@@ -13,6 +13,7 @@ public class BlogArticleProvider {
 
     /**
      * 拼接sql
+     *
      * @return /
      */
     public String findAll() {
@@ -25,9 +26,10 @@ public class BlogArticleProvider {
 
     /**
      * 拼接参数
-     * @param title /
+     *
+     * @param title   /
      * @param content /
-     * @param date /
+     * @param date    /
      * @return /
      */
     public String save(String title, String content, Date date) {
@@ -40,6 +42,7 @@ public class BlogArticleProvider {
 
     /**
      * 接收实体
+     *
      * @param blogArticle /
      * @return /
      */

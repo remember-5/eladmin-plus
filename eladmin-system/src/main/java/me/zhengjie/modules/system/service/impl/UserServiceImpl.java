@@ -56,6 +56,7 @@ import java.util.stream.Collectors;
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
+    public static final String PHONE = "phone";
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final FileProperties properties;
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityExistException(User.class, "email", resources.getEmail());
         }
         if (userRepository.findByPhone(resources.getPhone()) != null) {
-            throw new EntityExistException(User.class, "phone", resources.getPhone());
+            throw new EntityExistException(User.class, PHONE, resources.getPhone());
         }
         userRepository.save(resources);
     }
@@ -114,7 +115,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityExistException(User.class, "email", resources.getEmail());
         }
         if (user3 != null && !user.getId().equals(user3.getId())) {
-            throw new EntityExistException(User.class, "phone", resources.getPhone());
+            throw new EntityExistException(User.class, PHONE, resources.getPhone());
         }
         // 如果用户的角色改变
         if (!resources.getRoles().equals(user.getRoles())) {
@@ -146,7 +147,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(resources.getId()).orElseGet(User::new);
         User user1 = userRepository.findByPhone(resources.getPhone());
         if (user1 != null && !user.getId().equals(user1.getId())) {
-            throw new EntityExistException(User.class, "phone", resources.getPhone());
+            throw new EntityExistException(User.class, PHONE, resources.getPhone());
         }
         user.setNickName(resources.getNickName());
         user.setPhone(resources.getPhone());

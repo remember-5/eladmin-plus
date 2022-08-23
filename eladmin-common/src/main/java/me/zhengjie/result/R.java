@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 /**
  * 统一返回
+ *
  * @author wangjiahao
  * @date 2021/12/30
  */

@@ -17,6 +17,7 @@ package me.zhengjie.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.google.common.collect.Lists;
 import com.remember5.redis.utils.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.exception.BadRequestException;
@@ -66,10 +67,8 @@ public class DeptServiceImpl implements DeptService {
                 criteria.setPidIsNull(true);
             }
             List<Field> fields = QueryHelp.getAllFields(criteria.getClass(), new ArrayList<>());
-            List<String> fieldNames = new ArrayList<String>() {{
-                add("pidIsNull");
-                add("enabled");
-            }};
+            ArrayList<String> fieldNames = Lists.newArrayList("pidIsNull", "enabled");
+
             for (Field field : fields) {
                 //设置对象的访问权限，保证对private的属性的访问
                 field.setAccessible(true);

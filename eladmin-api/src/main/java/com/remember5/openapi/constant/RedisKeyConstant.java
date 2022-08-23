@@ -5,9 +5,13 @@ package com.remember5.openapi.constant;
  * @date 2021/8/23 18:01
  */
 public class RedisKeyConstant {
-    /** access token */
+    /**
+     * access token
+     */
     public static final String USER_ACCESS_TOKEN = "JWT:TOKEN:ACCESS:";
-    /** refresh token */
+    /**
+     * refresh token
+     */
     public static final String USER_REFRESH_TOKEN = "JWT:TOKEN:REFRESH:";
 
     /**
