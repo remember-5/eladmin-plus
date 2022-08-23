@@ -95,6 +95,8 @@ login:
   cache-enable: true
   #  是否限制单用户登录
   single-login: false
+  # 默认密码
+  default-password: Eladmin2022!
 
 #  验证码
 captcha:

@@ -22,20 +22,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
-import me.zhengjie.properties.RsaProperties;
-import me.zhengjie.modules.system.domain.Dept;
-import me.zhengjie.modules.system.service.DataService;
-import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.system.domain.Dept;
+import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.modules.system.domain.vo.UserPassVo;
-import me.zhengjie.modules.system.service.DeptService;
-import me.zhengjie.modules.system.service.RoleService;
+import me.zhengjie.modules.system.service.*;
 import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.modules.system.service.dto.UserQueryCriteria;
-import me.zhengjie.modules.system.service.VerifyService;
-import me.zhengjie.utils.*;
-import me.zhengjie.modules.system.service.UserService;
+import me.zhengjie.properties.LoginProperties;
+import me.zhengjie.properties.RsaProperties;
+import me.zhengjie.utils.PageUtil;
+import me.zhengjie.utils.SecurityUtils;
 import me.zhengjie.utils.enums.CodeEnum;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -50,7 +48,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -69,6 +69,7 @@ public class UserController {
     private final DeptService deptService;
     private final RoleService roleService;
     private final VerifyService verificationCodeService;
+    private final LoginProperties loginProperties;
 
     @ApiOperation("导出用户数据")
     @GetMapping(value = "/download")
@@ -111,8 +112,8 @@ public class UserController {
     @PreAuthorize("@el.check('user:add')")
     public ResponseEntity<Object> createUser(@Validated @RequestBody User resources) {
         checkLevel(resources);
-        // 默认密码 123456
-        resources.setPassword(passwordEncoder.encode("123456"));
+        // 默认密码，在配置文件中
+        resources.setPassword(passwordEncoder.encode(loginProperties.getDefaultPassword()));
         userService.create(resources);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
