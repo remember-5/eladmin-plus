@@ -37,6 +37,7 @@ public interface CmsColumnRepository extends JpaRepository<CmsColumn, Long>, Jpa
      * @param columnId 栏目父id
      * @return 栏目子集
      */
+    // TODO change bool => 1 or 0
     @Query(value = "select * from t_cms_column  where fid = ? and is_deleted = false ", nativeQuery = true)
     List<CmsColumn> queryTreeData(Long columnId);
 
@@ -45,6 +46,7 @@ public interface CmsColumnRepository extends JpaRepository<CmsColumn, Long>, Jpa
      *
      * @param id /
      */
+    // TODO change bool => 1 or 0
     @Modifying
     @Transactional(rollbackFor = Exception.class)
     @Query(value = "update CmsColumn set isDeleted=true where id=?1 ")
