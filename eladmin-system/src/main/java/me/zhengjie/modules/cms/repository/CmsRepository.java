@@ -36,9 +36,8 @@ public interface CmsRepository extends JpaRepository<Cms, Long>, JpaSpecificatio
      *
      * @param id /
      */
-    // TODO change bool => 1 or 0
     @Modifying
     @Transactional(rollbackFor = Exception.class)
-    @Query(value = "update Cms set isDeleted=true where id=?1 ")
+    @Query(value = "update Cms set isDeleted='1' where id=?1 ")
     void updateById(Long id);
 }
