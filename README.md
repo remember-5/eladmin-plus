@@ -141,5 +141,15 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 ### 官方文档
 see https://el-admin.vip/
 
-### wiki
-see https://gitlab.remember5.top/nt1/wiki/-/wikis/eladmin/EL-ADMIN-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9
+## 生产环境注意事项
+
+### 需要修改以下配置
+1. 修改`RSA`的公钥和私钥
+2. 修改默认密码
+3. 修改前端默认登录的账号密码
+4. 关闭swagger
+5. 修改jwt时效时间，尽量缩短
+6. 
+
+### 安全事项：
+1. 禁止携带服务器，插件等明文信息在接口中
