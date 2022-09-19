@@ -45,8 +45,7 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - [x] 安全拦截配置更改到菜单中
 - [x] 支持生成excel模版和上传excel批量导入
 - [x] 生成代码时可选择生成菜单
-- [x] 自动发布
-- [x] 多样化配置CI/CD
+- [x] 配置GitLab CI/CD
 - [x] 集成minio
 - [x] 可动态配置的资源存储
 - [x] 支持图片上传及base64图片上传
@@ -60,7 +59,7 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - [x] 升级为使用knife4j
 - [x] 支持离线导出接口文档
 - [x] 更丰富的权限划分(基础的菜单权限)
-- [x] 增加CMS功能
+- [x] 增加简单CMS功能
 - [x] RSA密码加密解密分不同环境的配置
 - [x] 使用p6spy更高效的记录日志
 - [x] validation 参数校验 
