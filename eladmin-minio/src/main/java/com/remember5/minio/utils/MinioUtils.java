@@ -69,11 +69,11 @@ public class MinioUtils {
      *
      * @param file     文件
      * @param bucket   bucket
-     * @param fileName 文件名
+     * @param filename 文件名
      * @return 保存结果
      */
-    public Boolean upload(MultipartFile file, String bucket, String fileName) throws IOException {
-        return upload(file.getInputStream(), bucket, fileName, file.getSize());
+    public Boolean upload(MultipartFile file, String bucket, String filename) throws IOException {
+        return upload(file.getInputStream(), bucket, filename, file.getSize());
     }
 
     /**
@@ -85,8 +85,8 @@ public class MinioUtils {
         return upload(file, bucket, file.getName(), file.length());
     }
 
-    public Boolean upload(File file, String bucket, String fileName, Long fileSize) {
-        return upload(FileUtil.getInputStream(file), bucket, fileName, fileSize);
+    public Boolean upload(File file, String bucket, String filename, Long fileSize) {
+        return upload(FileUtil.getInputStream(file), bucket, filename, fileSize);
     }
 
     /**
@@ -94,35 +94,34 @@ public class MinioUtils {
      *
      * @param fileInputStream inputs stream
      * @param bucket          bucket
-     * @param fileName        filename
+     * @param filename        filename
      * @param fileSize        filesize
      * @return 保存结果
      */
-    public Boolean upload(InputStream fileInputStream, String bucket, String fileName, Long fileSize) {
-        final String mimeType = FileUtil.getMimeType(fileName);
+    public Boolean upload(InputStream fileInputStream, String bucket, String filename, Long fileSize) {
+        final String mimeType = getMimeType(filename);
         if (CharSequenceUtil.isNotBlank(mimeType)) {
-            return upload(fileInputStream, bucket, fileName, mimeType, fileSize);
+            return upload(fileInputStream, bucket, filename, mimeType, fileSize);
         }
 
-        return upload(fileInputStream, bucket, fileName, "application/octet-stream", fileSize);
+        return upload(fileInputStream, bucket, filename, "application/octet-stream", fileSize);
     }
 
     /**
      * 上传文件
      *
-     *
      * @param fileInputStream inputs stream
      * @param bucket          bucket
-     * @param fileName        filename
+     * @param filename        filename
      * @param contentType     文件类型，参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME 类型</a>
      * @param fileSize        filesize
      * @return 保存结果
      */
-    public Boolean upload(InputStream fileInputStream, String bucket, String fileName, String contentType, Long fileSize) {
+    public Boolean upload(InputStream fileInputStream, String bucket, String filename, String contentType, Long fileSize) {
         //文件分区名
         bucketExists(bucket);
         try {
-            initClient().putObject(PutObjectArgs.builder().bucket(bucket).object(fileName).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(contentType).build());
+            initClient().putObject(PutObjectArgs.builder().bucket(bucket).object(filename).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(contentType).build());
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -255,4 +254,19 @@ public class MinioUtils {
         initClient().removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).versionId("version-id").build());
         log.info("删除 {} 文件成功", objectName);
     }
+
+
+    private static String getMimeType(String filename) {
+        String mimeType = FileUtil.getMimeType(filename);
+
+        if (CharSequenceUtil.isBlank(mimeType)) {
+            if (CharSequenceUtil.endWithIgnoreCase(filename, ".wgt")) {
+                mimeType = "application/widget";
+            } else {
+                mimeType = "application/octet-stream";
+            }
+        }
+        return mimeType;
+    }
+
 }

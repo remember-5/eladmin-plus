@@ -174,7 +174,6 @@
             <artifactId>yauaa</artifactId>
             <version>${yauaa.version}</version>
         </dependency>
-
     </dependencies>
 
 

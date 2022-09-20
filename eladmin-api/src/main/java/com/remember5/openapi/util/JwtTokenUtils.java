@@ -76,7 +76,7 @@ public class JwtTokenUtils {
     /**
      * 根据token获取手机号
      *
-     * @return
+     * @return /
      */
     public String getPhoneByToken() {
         final String token = getTokenByRequest();
@@ -86,7 +86,7 @@ public class JwtTokenUtils {
     /**
      * 根据token获取手机号
      *
-     * @return
+     * @return /
      */
     public String getPhoneByToken(String token) {
         if (isTokenExpired(token)) {
