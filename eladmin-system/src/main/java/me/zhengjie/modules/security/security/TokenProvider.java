@@ -18,10 +18,11 @@ package me.zhengjie.modules.security.security;
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.jwt.JWT;
+import cn.hutool.jwt.JWTPayload;
+import cn.hutool.jwt.signers.JWTSigner;
+import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.remember5.redis.utils.RedisUtils;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.properties.JwtProperties;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,7 +32,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Key;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -46,8 +47,9 @@ public class TokenProvider implements InitializingBean {
     private final JwtProperties jwtProperties;
     private final RedisUtils redisUtils;
     public static final String AUTHORITIES_KEY = "user";
-    private JwtParser jwtParser;
-    private JwtBuilder jwtBuilder;
+
+    private JWTSigner signer;
+    private JWT jwt;
 
     public TokenProvider(JwtProperties jwtProperties, RedisUtils redisUtils) {
         this.jwtProperties = jwtProperties;
@@ -56,13 +58,8 @@ public class TokenProvider implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getBase64Secret());
-        Key key = Keys.hmacShaKeyFor(keyBytes);
-        jwtParser = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build();
-        jwtBuilder = Jwts.builder()
-                .signWith(key, SignatureAlgorithm.HS512);
+        signer = JWTSignerUtil.hs512(jwtProperties.getBase64Secret().getBytes(StandardCharsets.UTF_8));
+        jwt = JWT.create().setSigner(signer);
     }
 
     /**
@@ -70,15 +67,15 @@ public class TokenProvider implements InitializingBean {
      * Token 的时间有效性转到Redis 维护
      *
      * @param authentication /
-     * @return /
+     * @return token
      */
     public String createToken(Authentication authentication) {
-        return jwtBuilder
+        return jwt
                 // 加入ID确保生成的 Token 都不一致
-                .setId(IdUtil.simpleUUID())
-                .claim(AUTHORITIES_KEY, authentication.getName())
+                .setJWTId(IdUtil.simpleUUID())
                 .setSubject(authentication.getName())
-                .compact();
+                .setPayload(AUTHORITIES_KEY, authentication.getName())
+                .sign();
     }
 
     /**
@@ -88,15 +85,13 @@ public class TokenProvider implements InitializingBean {
      * @return /
      */
     Authentication getAuthentication(String token) {
-        Claims claims = getClaims(token);
-        User principal = new User(claims.getSubject(), "******", new ArrayList<>());
+        JWTPayload claims = getClaims(token);
+        User principal = new User(claims.getClaim("sub").toString(), "******", new ArrayList<>());
         return new UsernamePasswordAuthenticationToken(principal, token, new ArrayList<>());
     }
 
-    public Claims getClaims(String token) {
-        return jwtParser
-                .parseClaimsJws(token)
-                .getBody();
+    public JWTPayload getClaims(String token) {
+        return jwt.parse(token).getPayload();
     }
 
     /**

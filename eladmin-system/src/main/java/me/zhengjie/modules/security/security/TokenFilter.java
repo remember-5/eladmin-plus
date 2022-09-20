@@ -16,7 +16,7 @@
 package me.zhengjie.modules.security.security;
 
 import cn.hutool.core.util.StrUtil;
-import io.jsonwebtoken.ExpiredJwtException;
+import cn.hutool.jwt.JWTException;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.security.service.UserCacheClean;
@@ -70,12 +70,12 @@ public class TokenFilter extends GenericFilterBean {
             boolean cleanUserCache = false;
             try {
                 onlineUserDto = onlineUserService.getOne(jwtProperties.getOnlineKey() + token);
-            } catch (ExpiredJwtException e) {
+            } catch (JWTException e) {
                 log.error(e.getMessage());
                 cleanUserCache = true;
             } finally {
                 if (cleanUserCache || Objects.isNull(onlineUserDto)) {
-                    userCacheClean.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).get(TokenProvider.AUTHORITIES_KEY)));
+                    userCacheClean.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).getClaim(TokenProvider.AUTHORITIES_KEY)));
                 }
             }
             if (onlineUserDto != null && StringUtils.hasText(token)) {
