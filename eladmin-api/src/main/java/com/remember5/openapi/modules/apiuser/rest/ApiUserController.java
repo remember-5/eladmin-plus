@@ -2,6 +2,7 @@ package com.remember5.openapi.modules.apiuser.rest;
 
 import cn.hutool.core.lang.UUID;
 import com.remember5.openapi.constant.RedisKeyConstant;
+import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
 import com.remember5.redis.utils.RedisUtils;
@@ -60,9 +61,17 @@ public class ApiUserController {
         return apiUserService.loginBySms(user);
     }
 
-    @Log("微信一键登录")
-    @ApiOperation("微信一键登录")
-    @PostMapping(value = "loginByWx")
+
+    @Log("微信小程序code换取sessionKey")
+    @ApiOperation("微信小程序code换取sessionKey")
+    @PostMapping(value = "/wxMiniAppCode2Sessions")
+    public R wxCode2Sessions(@RequestBody WxLoginUser wxLoginInfo) {
+        return apiUserService.wxMiniAppCode2Sessions(wxLoginInfo);
+    }
+
+    @Log("微信小程序一键登录")
+    @ApiOperation("微信小程序一键登录")
+    @PostMapping(value = "wxMiniAppLogin")
     public R loginByWx(@RequestBody LoginUser user) {
 //        return apiUserService.loginByWx(user);
         return R.success();

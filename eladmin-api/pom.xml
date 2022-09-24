@@ -90,6 +90,12 @@
             <groupId>net.dreamlu</groupId>
             <artifactId>mica-ip2region</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+		</dependency>
+
     </dependencies>
 
     <build>

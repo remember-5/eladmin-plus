@@ -63,6 +63,7 @@
         <easyexcel.version>3.1.0</easyexcel.version>
         <mica-ip2region.version>2.6.7</mica-ip2region.version>
         <qcloud-cos.version>5.6.89</qcloud-cos.version>
+		<wx-java.version>4.4.0</wx-java.version>
     </properties>
 
     <dependencies>
@@ -298,6 +299,13 @@
                 <artifactId>cos_api</artifactId>
                 <version>${qcloud-cos.version}</version>
             </dependency>
+
+			<!--	https://github.com/Wechat-Group/WxJava/tree/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter		-->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+				<version>${wx-java.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 

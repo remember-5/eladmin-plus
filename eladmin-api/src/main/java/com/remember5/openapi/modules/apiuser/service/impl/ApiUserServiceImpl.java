@@ -1,15 +1,20 @@
 package com.remember5.openapi.modules.apiuser.service.impl;
 
+import cn.binarywang.wx.miniapp.api.WxMaService;
+import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
+import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonSyntaxException;
 import com.remember5.captcha.enums.CaptchaTypeEnum;
 import com.remember5.captcha.utils.CaptchaUtils;
 import com.remember5.openapi.constant.RedisKeyConstant;
 import com.remember5.openapi.modules.apiuser.domain.ApiUser;
+import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
@@ -20,6 +25,7 @@ import com.remember5.redis.utils.RedisUtils;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.zhengjie.properties.JwtProperties;
 import me.zhengjie.properties.RsaProperties;
 import me.zhengjie.result.R;
@@ -53,6 +59,7 @@ public class ApiUserServiceImpl implements ApiUserService {
     private final RedisUtils redisUtils;
     private final RsaProperties rsaProperties;
     private final CaptchaUtils captchaUtils;
+    private final WxMaService wxMaService;
 
     @Override
     public ApiUserDto findByPhone(String phone) {
@@ -256,5 +263,29 @@ public class ApiUserServiceImpl implements ApiUserService {
     public boolean phoneExits(String phone) {
         long num = apiUserRepository.countByPhone(phone);
         return num > 0;
+    }
+
+    @Override
+    public R wxMiniAppCode2Sessions(WxLoginUser wxLoginInfo) {
+        // jsCode换取sessionId
+        try {
+            final WxMaJscode2SessionResult wxMaJscode2SessionResult = wxMaService.jsCode2SessionInfo(wxLoginInfo.getWxCode());
+            return R.success(wxMaJscode2SessionResult.getSessionKey());
+        } catch (WxErrorException e) {
+            // 微信授权失败
+            return R.fail(REnum.A0311.code, "", "授权失败，请重新授权！");
+        }
+    }
+
+    @Override
+    public R wxMiniAppLogin(WxLoginUser wxLoginInfo) {
+        try {
+            // sessionId+encrypt+iv换取其他信息
+            final WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(wxLoginInfo.getSessionKey(), wxLoginInfo.getEncryptedData(), wxLoginInfo.getIv());
+            String phoneNumber = phoneNoInfo.getPhoneNumber();
+            return R.success(phoneNumber);
+        } catch (JsonSyntaxException e) {
+            return R.fail(REnum.A0001.code, "", "请重新授权！");
+        }
     }
 }
