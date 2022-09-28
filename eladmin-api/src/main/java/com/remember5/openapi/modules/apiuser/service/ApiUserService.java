@@ -4,7 +4,7 @@ import com.remember5.openapi.modules.apiuser.domain.ApiUser;
 import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
-import me.zhengjie.result.R;
+import com.remember5.core.result.R;
 
 /**
  * @author fly

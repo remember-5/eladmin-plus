@@ -4,19 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.zhengjie</groupId>
+    <groupId>com.remember5</groupId>
     <artifactId>eladmin</artifactId>
     <packaging>pom</packaging>
     <version>2.0.2</version>
 
     <modules>
-        <module>eladmin-common</module>
+        <module>eladmin-core</module>
         <module>eladmin-logging</module>
         <module>eladmin-system</module>
         <module>eladmin-api</module>
-        <module>eladmin-redis</module>
         <module>eladmin-minio</module>
-        <module>eladmin-captcha</module>
         <module>eladmin-push</module>
         <module>eladmin-es</module>
         <module>eladmin-mq</module>

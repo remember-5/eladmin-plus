@@ -18,7 +18,7 @@ package com.remember5.openapi.modules.app.service.mapstruct;
 
 import com.remember5.openapi.modules.app.domain.AppVersion;
 import com.remember5.openapi.modules.app.service.dto.AppVersionDto;
-import me.zhengjie.base.BaseMapper;
+import com.remember5.core.base.BaseMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

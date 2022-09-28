@@ -2,7 +2,7 @@ package com.remember5.openapi.redis;
 
 import cn.hutool.core.date.DateUtil;
 import com.remember5.openapi.OpenApiApplication;
-import com.remember5.redis.utils.RedisUtils;
+import com.remember5.core.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RBucket;

@@ -10,8 +10,12 @@ import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonSyntaxException;
-import com.remember5.captcha.enums.CaptchaTypeEnum;
-import com.remember5.captcha.utils.CaptchaUtils;
+import com.remember5.core.enums.CaptchaTypeEnum;
+import com.remember5.core.properties.JwtProperties;
+import com.remember5.core.properties.RsaProperties;
+import com.remember5.core.result.R;
+import com.remember5.core.result.REnum;
+import com.remember5.core.utils.*;
 import com.remember5.openapi.constant.RedisKeyConstant;
 import com.remember5.openapi.modules.apiuser.domain.ApiUser;
 import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
@@ -20,18 +24,10 @@ import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
 import com.remember5.openapi.modules.apiuser.service.mapstruct.ApiUserMapper;
-import com.remember5.openapi.util.JwtTokenUtils;
-import com.remember5.redis.utils.RedisUtils;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
-import me.zhengjie.properties.JwtProperties;
-import me.zhengjie.properties.RsaProperties;
-import me.zhengjie.result.R;
-import me.zhengjie.result.REnum;
-import me.zhengjie.utils.StringUtils;
-import me.zhengjie.utils.ValidationUtil;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,7 +50,7 @@ public class ApiUserServiceImpl implements ApiUserService {
     private final ApiUserRepository apiUserRepository;
     private final ApiUserMapper apiUserMapper;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenUtils jwtTokenUtils;
+    private final TokenProvider tokenProvider;
     private final JwtProperties jwtProperties;
     private final RedisUtils redisUtils;
     private final RsaProperties rsaProperties;
@@ -89,13 +85,13 @@ public class ApiUserServiceImpl implements ApiUserService {
         try {
             ApiUserDto apiUserDto = findByPhone(user.getPhone());
 //            ApiUserDto apiUserDto = apiUserMapper.toDto(apiUser);
-            accessToken = jwtTokenUtils.generateToken(apiUserDto);
+            accessToken = tokenProvider.createToken(apiUserDto.getPhone(),apiUserDto.getUsername());
 //            RedisUtils redisUtils = SpringContextHolder.getBean(RedisUtils.class);
             // 生成accessToken   保存到redis key = JWT:TOKEN:ACCESS:
             redisUtils.set(RedisKeyConstant.USER_ACCESS_TOKEN + accessToken, accessToken, jwtProperties.getTokenValidityInSeconds());
             tokenMap.put("access_token", accessToken);
             // 生成refreshToken  保存到redis key = JWT:TOKEN:REFRESH:
-            refreshToken = jwtTokenUtils.generateToken(apiUserDto);
+            refreshToken = tokenProvider.createToken(apiUserDto.getPhone(),apiUserDto.getUsername());
             redisUtils.set(RedisKeyConstant.USER_REFRESH_TOKEN + refreshToken, refreshToken, jwtProperties.getTokenValidityInSeconds());
             tokenMap.put("refresh_token", refreshToken);
             tokenMap.put("user_info", apiUser);

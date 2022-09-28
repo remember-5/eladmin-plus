@@ -5,7 +5,7 @@ import com.remember5.openapi.handler.RestAuthenticationEntryPoint;
 import com.remember5.openapi.handler.RestfulAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.properties.JwtProperties;
+import com.remember5.core.properties.JwtProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

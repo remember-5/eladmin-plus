@@ -1,7 +1,7 @@
 package com.remember5.openapi.modules.apiuser.service.dto;
 
 import lombok.Data;
-import me.zhengjie.annotation.Query;
+import com.remember5.core.annotation.Query;
 
 /**
  * @author fly

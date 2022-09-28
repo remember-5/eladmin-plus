@@ -5,7 +5,6 @@ import cn.hutool.jwt.JWTHeader;
 import cn.hutool.jwt.JWTUtil;
 import com.remember5.openapi.OpenApiApplication;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
-import com.remember5.openapi.util.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
