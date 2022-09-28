@@ -65,14 +65,14 @@ public class ApiUserController {
     @Log("微信小程序code换取sessionKey")
     @ApiOperation("微信小程序code换取sessionKey")
     @PostMapping(value = "/wxMiniAppCode2Sessions")
-    public R wxCode2Sessions(@RequestBody WxLoginUser wxLoginInfo) {
+    public R wxMiniAppCode2Sessions(@RequestBody WxLoginUser wxLoginInfo) {
         return apiUserService.wxMiniAppCode2Sessions(wxLoginInfo);
     }
 
     @Log("微信小程序一键登录")
     @ApiOperation("微信小程序一键登录")
     @PostMapping(value = "wxMiniAppLogin")
-    public R loginByWx(@RequestBody LoginUser user) {
+    public R wxMiniAppLogin(@RequestBody LoginUser user) {
 //        return apiUserService.loginByWx(user);
         return R.success();
     }
