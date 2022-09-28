@@ -278,9 +278,9 @@ getui:
 # see https://github.com/Wechat-Group/WxJava/tree/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter
 wx:
   miniapp:
-    appid:
-    secret:
-    aesKey: ''
+    appid: test
+    secret: test
+    aesKey: test
     msgDataFormat: 'JSON'                  # 消息格式，XML或者JSON.
     token: ''
     config-storage:

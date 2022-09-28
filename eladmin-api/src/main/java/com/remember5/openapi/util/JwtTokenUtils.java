@@ -65,7 +65,7 @@ public class JwtTokenUtils {
     public String generateToken(ApiUserDto apiUser) {
         return JWT.create()
                 .setSigner(JWTSignerUtil.hs512(jwtConfig.getBase64Secret().getBytes()))
-                .setPayload("sub", "1234567890")
+                .setPayload("sub", apiUser.getId())
                 .setPayload("id", apiUser.getId())
                 .setPayload("phone", apiUser.getPhone())
                 .setPayload("username", apiUser.getUsername())
