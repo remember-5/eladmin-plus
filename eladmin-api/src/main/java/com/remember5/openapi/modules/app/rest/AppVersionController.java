@@ -15,15 +15,15 @@
  */
 package com.remember5.openapi.modules.app.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import com.remember5.openapi.modules.app.service.AppVersionService;
 import com.remember5.openapi.modules.app.service.dto.AppVersionDto;
 import com.remember5.openapi.modules.app.service.dto.AppVersionQueryCriteria;
-import me.zhengjie.annotation.Log;
-import me.zhengjie.result.R;
-import me.zhengjie.result.REnum;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import com.remember5.logging.annotation.Log;
+import com.remember5.core.result.R;
+import com.remember5.core.result.REnum;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

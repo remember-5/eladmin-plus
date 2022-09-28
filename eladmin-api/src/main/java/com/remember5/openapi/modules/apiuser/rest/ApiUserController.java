@@ -1,20 +1,20 @@
 package com.remember5.openapi.modules.apiuser.rest;
 
 import cn.hutool.core.lang.UUID;
-import cn.hutool.core.util.IdcardUtil;
-import cn.hutool.core.util.ReUtil;
 import com.remember5.openapi.constant.RedisKeyConstant;
+import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
-import com.remember5.redis.utils.RedisUtils;
+import com.remember5.core.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.annotation.Log;
-import me.zhengjie.result.R;
-import me.zhengjie.result.REnum;
-import me.zhengjie.utils.ValidationUtil;
+import com.remember5.logging.annotation.Log;
+import com.remember5.core.result.R;
+import com.remember5.core.result.REnum;
+import com.remember5.core.utils.ValidationUtil;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ public class ApiUserController {
     @Log("注册")
     @ApiOperation("注册")
     @PostMapping(value = "register")
-    public R register(@RequestBody LoginUser user) {
+    public R register(@RequestBody @Validated LoginUser user) {
         return apiUserService.register(user);
     }
 
@@ -61,10 +61,18 @@ public class ApiUserController {
         return apiUserService.loginBySms(user);
     }
 
-    @Log("微信一键登录")
-    @ApiOperation("微信一键登录")
-    @PostMapping(value = "loginByWx")
-    public R loginByWx(@RequestBody LoginUser user) {
+
+    @Log("微信小程序code换取sessionKey")
+    @ApiOperation("微信小程序code换取sessionKey")
+    @PostMapping(value = "/wxMiniAppCode2Sessions")
+    public R wxMiniAppCode2Sessions(@RequestBody WxLoginUser wxLoginInfo) {
+        return apiUserService.wxMiniAppCode2Sessions(wxLoginInfo);
+    }
+
+    @Log("微信小程序一键登录")
+    @ApiOperation("微信小程序一键登录")
+    @PostMapping(value = "wxMiniAppLogin")
+    public R wxMiniAppLogin(@RequestBody LoginUser user) {
 //        return apiUserService.loginByWx(user);
         return R.success();
     }

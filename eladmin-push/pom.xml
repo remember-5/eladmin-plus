@@ -4,32 +4,34 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>eladmin</artifactId>
-        <groupId>me.zhengjie</groupId>
-        <version>2.0.0</version>
+        <groupId>com.remember5</groupId>
+        <version>2.0.2</version>
     </parent>
 
     <artifactId>eladmin-push</artifactId>
-    <name>eladmin-push</name>
-    <description>eladmin-push</description>
+    <name>推送服务</name>
+    <description>App推送服务，使用getui</description>
 
     <properties>
         <java.version>1.8</java.version>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <eladmin-common.version>2.0.0</eladmin-common.version>
+
         <getui.version>1.0.0.6</getui.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>me.zhengjie</groupId>
-            <artifactId>eladmin-common</artifactId>
-            <version>${eladmin-common.version}</version>
+            <groupId>com.remember5</groupId>
+            <artifactId>eladmin-core</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.getui.push/restful-sdk -->
+        <!-- 结合getui服务 https://mvnrepository.com/artifact/com.getui.push/restful-sdk -->
         <dependency>
             <groupId>com.getui.push</groupId>
             <artifactId>restful-sdk</artifactId>

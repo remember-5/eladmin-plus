@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>eladmin</artifactId>
-        <groupId>me.zhengjie</groupId>
-        <version>2.0.0</version>
+        <groupId>com.remember5</groupId>
+        <version>2.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -15,6 +15,7 @@
 
     <properties>
         <java.version>8</java.version>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
@@ -32,8 +33,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>me.zhengjie</groupId>
-            <artifactId>eladmin-common</artifactId>
+            <groupId>com.remember5</groupId>
+            <artifactId>eladmin-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
@@ -47,7 +48,6 @@
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
         </dependency>
-
 
         <!--   oss     -->
         <dependency>

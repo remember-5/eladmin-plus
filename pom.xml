@@ -4,20 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>me.zhengjie</groupId>
+    <groupId>com.remember5</groupId>
     <artifactId>eladmin</artifactId>
     <packaging>pom</packaging>
-    <version>2.0.0</version>
+    <version>2.0.2</version>
 
     <modules>
-        <module>eladmin-common</module>
+        <module>eladmin-core</module>
         <module>eladmin-logging</module>
         <module>eladmin-system</module>
         <module>eladmin-api</module>
-        <module>eladmin-redis</module>
         <module>eladmin-minio</module>
-        <module>eladmin-captcha</module>
         <module>eladmin-push</module>
+        <module>eladmin-es</module>
+        <module>eladmin-mq</module>
+        <module>eladmin-biz</module>
     </modules>
 
     <name>EL-ADMIN 后台管理</name>
@@ -36,13 +37,13 @@
         <!--   跳过测试    -->
         <skipTests>true</skipTests>
 
-        <spring.boot.version>2.5.13</spring.boot.version>
+        <spring.boot.version>2.5.14</spring.boot.version>
         <druid.version>1.2.9</druid.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
 
-        <hutool.version>5.8.1</hutool.version>
+        <hutool.version>5.8.8</hutool.version>
         <guava.version>31.1-jre</guava.version>
         <fastjson.version>1.2.83</fastjson.version>
         <knife4j.version>3.0.3</knife4j.version>
@@ -60,6 +61,7 @@
         <easyexcel.version>3.1.0</easyexcel.version>
         <mica-ip2region.version>2.6.7</mica-ip2region.version>
         <qcloud-cos.version>5.6.89</qcloud-cos.version>
+		<wx-java.version>4.4.0</wx-java.version>
     </properties>
 
     <dependencies>
@@ -111,7 +113,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -119,12 +120,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!-- spring boot 缓存 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
         <!-- =========================  参数校验  start  ========================= -->
@@ -178,9 +173,10 @@
             <artifactId>yauaa</artifactId>
             <version>${yauaa.version}</version>
         </dependency>
-
     </dependencies>
 
+
+    <!--  依赖版本管理，并不会直接注入引用  -->
     <dependencyManagement>
         <dependencies>
             <!--  spring boot dependency    -->
@@ -220,7 +216,7 @@
                 <version>${guava.version}</version>
             </dependency>
 
-            <!--   easyexcel         -->
+            <!--   EasyExcel         -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
@@ -295,16 +291,24 @@
                 <version>${mica-ip2region.version}</version>
             </dependency>
 
-            <!--  tencent oss     -->
+            <!--  Tencent oss     -->
             <dependency>
                 <groupId>com.qcloud</groupId>
                 <artifactId>cos_api</artifactId>
                 <version>${qcloud-cos.version}</version>
             </dependency>
+
+			<!--	https://github.com/Wechat-Group/WxJava/tree/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter		-->
+			<dependency>
+				<groupId>com.github.binarywang</groupId>
+				<artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+				<version>${wx-java.version}</version>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 
 
+    <!--  打包相关  -->
     <build>
         <pluginManagement>
             <plugins>

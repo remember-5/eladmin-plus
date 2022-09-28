@@ -28,18 +28,17 @@ import java.util.Set;
  * @author wangjiahao
  * @date 2022/5/27 19:23
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UniAppPushService implements PushService<UniAppPushClient> {
 
 
-    @Autowired
+    @Autowired(required = false)
     private ApiHelper apiHelper;
 
     @Override
     public boolean push(UniAppPushClient cid) {
-
         return mypush(cid.getCids(), cid.getTitle(), cid.getContext(), cid.getPage());
     }
 
@@ -48,7 +47,7 @@ public class UniAppPushService implements PushService<UniAppPushClient> {
         return false;
     }
 
-    private boolean mypush(Set<String> cids,String title,String context,String page) {
+    private boolean mypush(Set<String> cids, String title, String context, String page) {
         //根据cid进行单推
         PushDTO<Audience> pushDTO = new PushDTO<>();
         // 设置推送参数,应该是防止重复推送
@@ -96,7 +95,7 @@ public class UniAppPushService implements PushService<UniAppPushClient> {
         audienceDTO.setTaskid(msg.getData().getTaskId());
         audienceDTO.setAudience(audience);
         ApiResult<Map<String, Map<String, String>>> mapApiResult = pushApi.pushListByCid(audienceDTO);
-        if (mapApiResult.isSuccess()){
+        if (mapApiResult.isSuccess()) {
             mapApiResult.getData();
             log.info(mapApiResult.getData().toString());
             return true;

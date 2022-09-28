@@ -18,7 +18,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Data
-@Table(name="m_user")
+@Table(name = "m_user")
 public class ApiUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,7 +72,7 @@ public class ApiUser implements Serializable {
     @ApiModelProperty(value = "1 表示删除，0 表示未删除")
     private Boolean isDeleted;
 
-    public void copy(ApiUser source){
-        BeanUtil.copyProperties(source,this, CopyOptions.create().setIgnoreNullValue(true));
+    public void copy(ApiUser source) {
+        BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
 }

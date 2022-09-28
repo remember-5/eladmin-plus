@@ -1,11 +1,11 @@
 package ${package}.rest;
 
 import cn.hutool.core.collection.CollUtil;
-import me.zhengjie.annotation.Log;
+import Log;
 import ${package}.domain.${className};
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
-import me.zhengjie.utils.FileUtil;
+import FileUtil;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

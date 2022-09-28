@@ -1,4 +1,6 @@
 spring:
+  main:
+    banner-mode: off
   application:
     name: OpenApiApplication
   profiles:
@@ -25,6 +27,7 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号分隔
   typeAliasesPackage: me.zhengjie.modules.test
   global-config:
+    banner: off
     # 数据库相关配置
     db-config:
       #驼峰下划线转换

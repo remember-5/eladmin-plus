@@ -16,9 +16,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- * @see "https://cloud.tencent.com/document/product/436/10199"
  * @author wangjiahao
  * @date 2022/3/21 15:00
+ * @see "https://cloud.tencent.com/document/product/436/10199"
  */
 @Slf4j
 @Component
@@ -83,11 +83,10 @@ public class QCloudCosUtils {
     }
 
     /**
-     *
      * @param key
      * @return
      */
-    public static boolean removeFile(String key){
+    public static boolean removeFile(String key) {
         try {
             cosClient.deleteObject(BUCKETS_NAME, key);
         } catch (CosClientException e) {

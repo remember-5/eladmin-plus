@@ -1,13 +1,13 @@
 package com.remember5.openapi.filter;
 
 import cn.hutool.core.util.StrUtil;
+import com.remember5.core.utils.TokenProvider;
 import com.remember5.openapi.entity.ApiUserDetails;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
 import com.remember5.openapi.modules.apiuser.service.mapstruct.ApiUserMapper;
-import com.remember5.openapi.util.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.properties.JwtProperties;
+import com.remember5.core.properties.JwtProperties;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -36,7 +36,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Resource
     private ApiUserMapper apiUserMapper;
     @Resource
-    private JwtTokenUtils jwtTokenUtils;
+    private TokenProvider tokenProvider;
     @Resource
     private JwtProperties jwtProperties;
 
@@ -45,7 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String token = resolveToken(request);
         // 对于 Token 为空的不需要去查 Redis
         if (StrUtil.isNotBlank(token)) {
-            String phone = jwtTokenUtils.getPhoneByToken(token);
+            String phone = tokenProvider.getSubject(token);
             if (phone != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 ApiUserDto user = apiUserService.findByPhone(phone);
                 ApiUserDetails userDetails = new ApiUserDetails(apiUserMapper.toEntity(user));

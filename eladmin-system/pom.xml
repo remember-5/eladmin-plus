@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>eladmin</artifactId>
-        <groupId>me.zhengjie</groupId>
-        <version>2.0.0</version>
+        <groupId>com.remember5</groupId>
+        <version>2.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -14,6 +14,7 @@
 
     <properties>
         <java.version>8</java.version>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
@@ -21,8 +22,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <jjwt.version>0.11.5</jjwt.version>
-        <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <oshi.version>5.7.1</oshi.version>
+        <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <jna.version>5.8.0</jna.version>
         <dynamic.version>3.4.0</dynamic.version>
         <minio.verison>8.3.5</minio.verison>
@@ -36,25 +37,19 @@
 
         <!-- 同时需要common模块和logging模块只需要引入logging模块即可 -->
         <dependency>
-            <groupId>me.zhengjie</groupId>
+            <groupId>com.remember5</groupId>
             <artifactId>eladmin-logging</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>me.zhengjie</groupId>
-            <artifactId>eladmin-redis</artifactId>
+            <groupId>com.remember5.biz</groupId>
+            <artifactId>eladmin-biz</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>me.zhengjie</groupId>
-            <artifactId>eladmin-captcha</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>me.zhengjie</groupId>
+            <groupId>com.remember5</groupId>
             <artifactId>eladmin-minio</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -68,23 +63,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-        </dependency>
-
-        <!-- jwt -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jjwt.version}</version>
         </dependency>
 
         <!-- quartz -->
@@ -215,7 +193,7 @@
 <!--                        <manifest>-->
 <!--                            <addClasspath>true</addClasspath>-->
 <!--                            <classpathPrefix>lib/</classpathPrefix>-->
-<!--                            <mainClass>me.zhengjie.SystemApiApplication</mainClass>-->
+<!--                            <mainClass>SystemApiApplication</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
 <!--                </configuration>-->

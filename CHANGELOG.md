@@ -1,4 +1,21 @@
 # 更新日志
+
+
+## 2.0.2
+2022/09/24
+- 新增微信登录
+- 包重命名
+- `common` 更改为 `core`
+- 合并`redis`和`captcha`到`core`
+
+
+## 2.0.1
+2022/09/23
+- 修改minio上传不识别.wgt等格式，设置默认的`contentType`
+- 更新hutool版本
+- 修改jwt由hutool提供
+- 新增密码生成工具
+
 ## 2.0.0
 2022/04/26
 - 增加pg数据库支持，不再支持mysql，mysql可以使用`el-mysql`分支

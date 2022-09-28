@@ -14,8 +14,7 @@ public enum MachineType {
     ZFB("ZFB");
 
 
-
-    private  final String type;
+    private final String type;
 
     MachineType(String type) {
         this.type = type;

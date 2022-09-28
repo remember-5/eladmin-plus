@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 未认证异常拦截返回
+ *
  * @author wangjiahao
  * @date 2021/4/1
  */
@@ -19,8 +21,6 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-        // TODO add 返回结果
-//        response.getWriter().println(JSONUtil.parse(CommonResult.forbidden(e.getMessage())));
         response.getWriter().println("未认证！");
         response.getWriter().flush();
     }

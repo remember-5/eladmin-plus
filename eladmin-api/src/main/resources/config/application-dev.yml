@@ -133,20 +133,20 @@ jwt:
   # 放行接口
   permit:
     defaults-url:
-      - "/swagger-ui.html" # swagger 文档
-      - "/swagger-resources/**"
-      - "/webjars/**"
-      - "/*/api-docs"
-      - "/avatar/**" # 文件
-      - "/file/**"
-      - "/druid/**" # 阿里巴巴 druid
+      - /swagger-ui.html # swagger 文档
+      - /swagger-resources/**
+      - /webjars/**
+      - /*/api-docs
+      - /avatar/** # 文件
+      - /file/**
+      - /druid/** # 阿里巴巴 druid
     get-url:
-      - "/*.html"
-      - "/**/*.html"
-      - "/**/*.css"
-      - "/**/*.js"
-      - "/webSocket/**"
-      - "/ws/**"
+      - /*.html
+      - /**/*.html
+      - /**/*.css
+      - /**/*.js
+      - /webSocket/**
+      - /ws/**
       - /favicon.ico
       - /v2/api-docs/**
       - /user/code
@@ -266,3 +266,36 @@ minio:
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}
   secret-key: ${MINIO_SK}
+
+getui:
+  enable: false
+  maxConnections: 200
+  appid:
+  appkey:
+  masterSecret:
+  domain: https://restapi.getui.com/v2/
+
+# see https://github.com/Wechat-Group/WxJava/tree/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter
+wx:
+  miniapp:
+    appid: test
+    secret: test
+    aesKey: test
+    msgDataFormat: 'JSON'                  # 消息格式，XML或者JSON.
+    token: ''
+    config-storage:
+      key-prefix: 'wa'                  # 相关redis前缀配置: wa(默认)
+      type: RedisTemplate                     # 配置类型: Memory(默认), Jedis, RedisTemplate
+      redis:
+        database: ${REDIS_DB:0}
+        host: ${REDIS_HOST:127.0.0.1}
+        port: ${REDIS_PORT:6379}
+        password: ${REDIS_PWD:}
+        #连接超时时间
+        timeout: 5000
+      http-client-type: 'HttpClient'      # http客户端类型: HttpClient(默认), OkHttp, JoddHttp
+      http-proxy-host:
+      http-proxy-password:
+      http-proxy-port:
+      http-proxy-username:
+

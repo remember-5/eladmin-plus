@@ -65,5 +65,10 @@ prod-package:
   #        - target/*.jar
   #    tags:
   #      - xxx
+  # 跑几个节点就写几，区间是 2-50 ，比如有3个节点，tags 命名规范为 prod-node + 序号, prod-node1 prod-node2 prod-node3 如果写多，则找不到prod-node4的runner
+#  parallel: 3
+#  tags:
+#    # 前缀规范 prod-node + 序号(CI_NODE_INDEX为gitlab-runner提供的variables)
+#    - prod-node${CI_NODE_INDEX}
   only:
     - main

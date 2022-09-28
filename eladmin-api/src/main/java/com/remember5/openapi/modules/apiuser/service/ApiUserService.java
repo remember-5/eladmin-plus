@@ -1,9 +1,10 @@
 package com.remember5.openapi.modules.apiuser.service;
 
 import com.remember5.openapi.modules.apiuser.domain.ApiUser;
+import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
-import me.zhengjie.result.R;
+import com.remember5.core.result.R;
 
 /**
  * @author fly
@@ -59,19 +60,36 @@ public interface ApiUserService {
 
     /**
      * 账号登录
+     *
      * @param user /
      * @return /
      */
     R loginByAccount(LoginUser user);
 
-
     /**
      * 验证码登录
+     *
      * @param user /
      * @return /
      */
     R loginBySms(LoginUser user);
 
     boolean phoneExits(String phone);
+
+    /**
+     * 微信小程序 code换取session
+     * @param wxLoginInfo /
+     * @return /
+     */
+    R wxMiniAppCode2Sessions(WxLoginUser wxLoginInfo);
+
+    /**
+     * 微信小程序登录
+     * @param wxLoginInfo /
+     * @return /
+     */
+    R wxMiniAppLogin(WxLoginUser wxLoginInfo);
+
+
 
 }

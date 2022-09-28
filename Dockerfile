@@ -18,5 +18,7 @@ ENV ACTIVE=dev
 
 # 暴露端口
 EXPOSE 8000
+EXPOSE 58080
+
 #指定容器启动程序及参数   <ENTRYPOINT> "<CMD>"
 ENTRYPOINT ["java", "-jar", "app.jar","--spring.profiles.active=${ACTIVE}"]

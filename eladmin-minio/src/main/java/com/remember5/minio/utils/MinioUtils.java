@@ -3,6 +3,8 @@ package com.remember5.minio.utils;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.UUID;
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import com.remember5.minio.properties.MinioProperties;
@@ -33,43 +35,48 @@ public class MinioUtils {
     @Resource
     private MinioProperties minioProperties;
 
+    /**
+     * 创建Minio客户端连接
+     *
+     * @return Minio实例
+     */
     private MinioClient initClient() {
-        return MinioClient.builder().endpoint(minioProperties.getHost()).credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey()).build();
+        return MinioClient.builder()
+                .endpoint(minioProperties.getHost())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
     }
 
     /**
      * 上传文件,文件夹名取日期,文件名取UUID
      *
-     * @param file 文件
+     * @param file   文件
+     * @param bucket bucket
      * @return 保存结果
      */
     public Boolean upload(MultipartFile file, String bucket) throws IOException {
-        //获取原始文件名称  XX.png   XX.png
         String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
-        //获取原始文件名称后缀
-        String suffix = originalFilename.substring(originalFilename.lastIndexOf(StrUtil.DOT));
-        //新文件名称
-        String newFileName = UUID.randomUUID(true) + suffix;
+        String originalSuffix = originalFilename.substring(originalFilename.lastIndexOf(StrPool.DOT));
+        String newFilename = UUID.randomUUID(true) + originalSuffix;
         //获取当前日期作为文件夹名
         String packageName = LocalDate.now().toString();
-        // 上传文件
         // packageName + "/" + fileName
-        return upload(file, bucket, packageName + File.separator + newFileName);
+        return upload(file, bucket, packageName + File.separator + newFilename);
     }
 
     /**
-     * @param url    需要下载的文件地址
-     * @param bucket 桶名称
+     * 上传使用自定义文件名
+     *
+     * @param file     文件
+     * @param bucket   bucket
+     * @param filename 文件名
      * @return 保存结果
      */
-    public Boolean upload(String url, String bucket) {
-        File file = HttpUtil.downloadFileFromUrl(url, FileUtil.getTmpDirPath());
-        return upload(file, bucket);
+    public Boolean upload(MultipartFile file, String bucket, String filename) throws IOException {
+        return upload(file.getInputStream(), bucket, filename, file.getSize());
     }
 
     /**
-     * 有个文件类型，参考https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types
-     *
      * @param file   文件
      * @param bucket 桶
      * @return 保存结果
@@ -78,37 +85,43 @@ public class MinioUtils {
         return upload(file, bucket, file.getName(), file.length());
     }
 
-    /**
-     * 上传
-     * 文件夹名取日期
-     * 文件名自定义
-     *
-     * @param fileName 文件名
-     * @param file     文件
-     * @return 保存结果
-     */
-    public Boolean upload(MultipartFile file, String bucket, String fileName) throws IOException {
-        return upload(file.getInputStream(), bucket, fileName, file.getSize());
-    }
-
-    public Boolean upload(File file, String bucket, String fileName, Long fileSize) {
-        return upload(FileUtil.getInputStream(file), bucket, fileName, fileSize);
+    public Boolean upload(File file, String bucket, String filename, Long fileSize) {
+        return upload(FileUtil.getInputStream(file), bucket, filename, fileSize);
     }
 
     /**
      * 上传文件
      *
      * @param fileInputStream inputs stream
-     * @param fileName        filename
-     * @param fileSize        filesize
      * @param bucket          bucket
+     * @param filename        filename
+     * @param fileSize        filesize
      * @return 保存结果
      */
-    public Boolean upload(InputStream fileInputStream, String bucket, String fileName, Long fileSize) {
+    public Boolean upload(InputStream fileInputStream, String bucket, String filename, Long fileSize) {
+        final String mimeType = getMimeType(filename);
+        if (CharSequenceUtil.isNotBlank(mimeType)) {
+            return upload(fileInputStream, bucket, filename, mimeType, fileSize);
+        }
+
+        return upload(fileInputStream, bucket, filename, "application/octet-stream", fileSize);
+    }
+
+    /**
+     * 上传文件
+     *
+     * @param fileInputStream inputs stream
+     * @param bucket          bucket
+     * @param filename        filename
+     * @param contentType     文件类型，参考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME 类型</a>
+     * @param fileSize        filesize
+     * @return 保存结果
+     */
+    public Boolean upload(InputStream fileInputStream, String bucket, String filename, String contentType, Long fileSize) {
         //文件分区名
         bucketExists(bucket);
         try {
-            initClient().putObject(PutObjectArgs.builder().bucket(bucket).object(fileName).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(FileUtil.getMimeType(fileName)).build());
+            initClient().putObject(PutObjectArgs.builder().bucket(bucket).object(filename).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(contentType).build());
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -134,6 +147,16 @@ public class MinioUtils {
         }
     }
 
+
+    /**
+     * @param url    需要下载的文件地址
+     * @param bucket 桶名称
+     * @return 保存结果
+     */
+    public Boolean upload(String url, String bucket) {
+        File file = HttpUtil.downloadFileFromUrl(url, FileUtil.getTmpDirPath());
+        return upload(file, bucket);
+    }
 
     /**
      * 获取全部bucket
@@ -230,6 +253,20 @@ public class MinioUtils {
     public void removeObject(String bucketName, String objectName) throws ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException, ServerException, io.minio.errors.InsufficientDataException, io.minio.errors.InternalException {
         initClient().removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).versionId("version-id").build());
         log.info("删除 {} 文件成功", objectName);
+    }
+
+
+    private static String getMimeType(String filename) {
+        String mimeType = FileUtil.getMimeType(filename);
+
+        if (CharSequenceUtil.isBlank(mimeType)) {
+            if (CharSequenceUtil.endWithIgnoreCase(filename, ".wgt")) {
+                mimeType = "application/widget";
+            } else {
+                mimeType = "application/octet-stream";
+            }
+        }
+        return mimeType;
     }
 
 }
