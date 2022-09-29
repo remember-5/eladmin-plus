@@ -140,6 +140,7 @@ jwt:
       - /avatar/** # 文件
       - /file/**
       - /druid/** # 阿里巴巴 druid
+      - /version/**
     get-url:
       - /*.html
       - /**/*.html

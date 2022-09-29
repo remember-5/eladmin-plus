@@ -1,4 +1,4 @@
-package com.remember5.openapi.configure;
+package com.remember5.openapi.config;
 
 import com.remember5.openapi.filter.JwtAuthenticationTokenFilter;
 import com.remember5.openapi.handler.RestAuthenticationEntryPoint;

@@ -1,4 +1,4 @@
-package com.remember5.openapi.configure;
+package com.remember5.openapi.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;

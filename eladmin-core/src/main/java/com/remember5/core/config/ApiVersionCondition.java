@@ -1,4 +1,4 @@
-package com.remember5.openapi.configure;
+package com.remember5.core.config;
 
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 接口版本控制 v1.1 v1.2区分
+ * 接口版本控制 v1 v2区分
  * @author wangjiahao
  * @date 2022/4/26 10:20
  */

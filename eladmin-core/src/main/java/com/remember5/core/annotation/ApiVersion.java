@@ -1,4 +1,4 @@
-package com.remember5.openapi.annotation;
+package com.remember5.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

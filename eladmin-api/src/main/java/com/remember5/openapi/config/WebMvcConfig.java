@@ -1,4 +1,4 @@
-package com.remember5.openapi.configure;
+package com.remember5.openapi.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

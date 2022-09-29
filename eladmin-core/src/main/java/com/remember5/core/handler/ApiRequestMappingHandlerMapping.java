@@ -1,7 +1,7 @@
-package com.remember5.openapi.handler;
+package com.remember5.core.handler;
 
-import com.remember5.openapi.annotation.ApiVersion;
-import com.remember5.openapi.configure.ApiVersionCondition;
+import com.remember5.core.annotation.ApiVersion;
+import com.remember5.core.config.ApiVersionCondition;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import java.lang.reflect.Method;
 
 /**
- * https://blog.csdn.net/weixin_39255905/article/details/110391515
+ * <a href="https://blog.csdn.net/weixin_39255905/article/details/110391515">实现 API 版本控制</a>
  * 使用方法：
  * 在controller1上 RequestMapping("api/{version}/user")
  * 在controller2上 RequestMapping("api/{version}/user") ApiVersion(2)

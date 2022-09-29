@@ -1,6 +1,6 @@
-package com.remember5.openapi.configure;
+package com.remember5.core.config;
 
-import com.remember5.openapi.handler.ApiRequestMappingHandlerMapping;
+import com.remember5.core.handler.ApiRequestMappingHandlerMapping;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
