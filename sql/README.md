@@ -1,0 +1,1 @@
+- `postgres` 使用 `postgres-init.sql`

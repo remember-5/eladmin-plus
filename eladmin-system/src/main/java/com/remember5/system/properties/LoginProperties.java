@@ -38,6 +38,9 @@ public class LoginProperties {
      */
     private boolean singleLogin;
 
+    /**
+     * 默认密码
+     */
     private String defaultPassword;
 
 
