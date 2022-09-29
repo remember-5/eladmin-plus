@@ -1,6 +1,6 @@
 package com.remember5.core.utils;
 
-import com.remember5.core.config.PasswordCheckConfiguration;
+import com.remember5.core.properties.PasswordCheckProperties;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,13 +24,13 @@ public class PasswordCheckUtil {
         boolean flag = false;
 
         // 如未设置最大长度，仅判断最小长度即可
-        if ("".equals(PasswordCheckConfiguration.MAX_LENGTH)) {
-            if (password.length() >= Integer.parseInt(PasswordCheckConfiguration.MIN_LENGTH)) {
+        if ("".equals(PasswordCheckProperties.MAX_LENGTH)) {
+            if (password.length() >= Integer.parseInt(PasswordCheckProperties.MIN_LENGTH)) {
                 flag = true;
             }
         } else {
-            if (password.length() >= Integer.parseInt(PasswordCheckConfiguration.MIN_LENGTH)
-                    && password.length() <= Integer.parseInt(PasswordCheckConfiguration.MAX_LENGTH)) {
+            if (password.length() >= Integer.parseInt(PasswordCheckProperties.MIN_LENGTH)
+                    && password.length() <= Integer.parseInt(PasswordCheckProperties.MAX_LENGTH)) {
                 flag = true;
             }
         }
@@ -144,7 +144,7 @@ public class PasswordCheckUtil {
         int special_count = 0;
 
         for (int i = 0; i < chPass.length; i++) {
-            if (PasswordCheckConfiguration.CHECK_CONTAIN_SPECIAL_CHAR.indexOf(chPass[i]) != -1) {
+            if (PasswordCheckProperties.CHECK_CONTAIN_SPECIAL_CHAR.indexOf(chPass[i]) != -1) {
                 special_count++;
             }
         }
@@ -173,22 +173,22 @@ public class PasswordCheckUtil {
          * 键盘横向规则检测
          */
         boolean flag = false;
-        int arrLen = PasswordCheckConfiguration.KEYBOARD_HORIZONTAL_ARR.length;
-        int limit_num = Integer.parseInt(PasswordCheckConfiguration.LIMIT_HORIZONTAL_NUM_KEY);
+        int arrLen = PasswordCheckProperties.KEYBOARD_HORIZONTAL_ARR.length;
+        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_HORIZONTAL_NUM_KEY);
 
         for (int i = 0; i + limit_num <= n; i++) {
             String str = t_password.substring(i, i + limit_num);
             String distinguishStr = password.substring(i, i + limit_num);
 
             for (int j = 0; j < arrLen; j++) {
-                String configStr = PasswordCheckConfiguration.KEYBOARD_HORIZONTAL_ARR[j];
-                String revOrderStr = new StringBuffer(PasswordCheckConfiguration.KEYBOARD_HORIZONTAL_ARR[j]).reverse()
+                String configStr = PasswordCheckProperties.KEYBOARD_HORIZONTAL_ARR[j];
+                String revOrderStr = new StringBuffer(PasswordCheckProperties.KEYBOARD_HORIZONTAL_ARR[j]).reverse()
                         .toString();
 
                 // 检查包含字母(区分大小写)
-                if ("enable".equals(PasswordCheckConfiguration.CHECK_DISTINGGUISH_CASE)) {
+                if ("enable".equals(PasswordCheckProperties.CHECK_DISTINGGUISH_CASE)) {
                     // 考虑 大写键盘匹配的情况
-                    String upperStr = PasswordCheckConfiguration.KEYBOARD_HORIZONTAL_ARR[j].toUpperCase();
+                    String upperStr = PasswordCheckProperties.KEYBOARD_HORIZONTAL_ARR[j].toUpperCase();
                     if ((configStr.indexOf(distinguishStr) != -1) || (upperStr.indexOf(distinguishStr) != -1)) {
                         flag = true;
                         return flag;
@@ -229,20 +229,20 @@ public class PasswordCheckUtil {
          * 键盘斜线方向规则检测
          */
         boolean flag = false;
-        int arrLen = PasswordCheckConfiguration.KEYBOARD_SLOPE_ARR.length;
-        int limit_num = Integer.parseInt(PasswordCheckConfiguration.LIMIT_SLOPE_NUM_KEY);
+        int arrLen = PasswordCheckProperties.KEYBOARD_SLOPE_ARR.length;
+        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_SLOPE_NUM_KEY);
 
         for (int i = 0; i + limit_num <= n; i++) {
             String str = t_password.substring(i, i + limit_num);
             String distinguishStr = password.substring(i, i + limit_num);
             for (int j = 0; j < arrLen; j++) {
-                String configStr = PasswordCheckConfiguration.KEYBOARD_SLOPE_ARR[j];
-                String revOrderStr = new StringBuffer(PasswordCheckConfiguration.KEYBOARD_SLOPE_ARR[j]).reverse().toString();
+                String configStr = PasswordCheckProperties.KEYBOARD_SLOPE_ARR[j];
+                String revOrderStr = new StringBuffer(PasswordCheckProperties.KEYBOARD_SLOPE_ARR[j]).reverse().toString();
                 // 检测包含字母(区分大小写)
-                if ("enable".equals(PasswordCheckConfiguration.CHECK_DISTINGGUISH_CASE)) {
+                if ("enable".equals(PasswordCheckProperties.CHECK_DISTINGGUISH_CASE)) {
 
                     // 考虑 大写键盘匹配的情况
-                    String UpperStr = PasswordCheckConfiguration.KEYBOARD_SLOPE_ARR[j].toUpperCase();
+                    String UpperStr = PasswordCheckProperties.KEYBOARD_SLOPE_ARR[j].toUpperCase();
                     if ((configStr.indexOf(distinguishStr) != -1) || (UpperStr.indexOf(distinguishStr) != -1)) {
                         flag = true;
                         return flag;
@@ -278,12 +278,12 @@ public class PasswordCheckUtil {
     public static boolean checkSequentialChars(String password) {
         String t_password = new String(password);
         boolean flag = false;
-        int limit_num = Integer.parseInt(PasswordCheckConfiguration.LIMIT_LOGIC_NUM_CHAR);
+        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_LOGIC_NUM_CHAR);
         int normal_count = 0;
         int reversed_count = 0;
 
         // 检测包含字母(区分大小写)
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_DISTINGGUISH_CASE)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_DISTINGGUISH_CASE)) {
 
         } else {
             t_password = t_password.toLowerCase();
@@ -324,7 +324,7 @@ public class PasswordCheckUtil {
         int n = t_password.length();
         char[] pwdCharArr = t_password.toCharArray();
         boolean flag = false;
-        int limit_num = Integer.parseInt(PasswordCheckConfiguration.LIMIT_NUM_SAME_CHAR);
+        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_NUM_SAME_CHAR);
         int count = 0;
         for (int i = 0; i + limit_num <= n; i++) {
             count = 0;
@@ -347,7 +347,7 @@ public class PasswordCheckUtil {
      * @return 含有常见词库 返回true
      */
     public static boolean checkSimpleWord(String password) {
-        List<String> simpleWords = Arrays.asList(PasswordCheckConfiguration.SIMPLE_WORDS);
+        List<String> simpleWords = Arrays.asList(PasswordCheckProperties.SIMPLE_WORDS);
         return simpleWords.contains(password.toLowerCase());
     }
 
@@ -366,7 +366,7 @@ public class PasswordCheckUtil {
         /**
          * 检测长度
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_PASSWORD_LENGTH)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_PASSWORD_LENGTH)) {
             flag = checkPasswordLength(password);
             if (!flag) {
                 return false;
@@ -376,7 +376,7 @@ public class PasswordCheckUtil {
         /**
          * 检测包含数字
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_CONTAIN_DIGIT)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_CONTAIN_DIGIT)) {
             flag = checkContainDigit(password);
             if (!flag) {
                 return false;
@@ -386,7 +386,7 @@ public class PasswordCheckUtil {
         /**
          * 检测包含字母
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_CONTAIN_CASE)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_CONTAIN_CASE)) {
             flag = checkContainCase(password);
             if (!flag) {
                 return false;
@@ -396,9 +396,9 @@ public class PasswordCheckUtil {
         /**
          * 检测字母区分大小写
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_DISTINGGUISH_CASE)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_DISTINGGUISH_CASE)) {
             // 检测包含小写字母
-            if ("enable".equals(PasswordCheckConfiguration.CHECK_LOWER_CASE)) {
+            if ("enable".equals(PasswordCheckProperties.CHECK_LOWER_CASE)) {
                 flag = checkContainLowerCase(password);
                 if (!flag) {
                     return false;
@@ -406,7 +406,7 @@ public class PasswordCheckUtil {
             }
 
             // 检测包含大写字母
-            if ("enable".equals(PasswordCheckConfiguration.CHECK_UPPER_CASE)) {
+            if ("enable".equals(PasswordCheckProperties.CHECK_UPPER_CASE)) {
                 flag = checkContainUpperCase(password);
                 if (!flag) {
                     return false;
@@ -417,7 +417,7 @@ public class PasswordCheckUtil {
         /**
          * 检测包含特殊符号
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_CONTAIN_SPECIAL_CHAR)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_CONTAIN_SPECIAL_CHAR)) {
             flag = checkContainSpecialChar(password);
             if (!flag) {
                 return false;
@@ -427,7 +427,7 @@ public class PasswordCheckUtil {
         /**
          * 检测键盘横向连续
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_HORIZONTAL_KEY_SEQUENTIAL)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_HORIZONTAL_KEY_SEQUENTIAL)) {
             flag = checkLateralKeyboardSite(password);
             if (flag) {
                 return false;
@@ -437,7 +437,7 @@ public class PasswordCheckUtil {
         /**
          * 检测键盘斜向连续
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_SLOPE_KEY_SEQUENTIAL)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_SLOPE_KEY_SEQUENTIAL)) {
             flag = checkKeyboardSlantSite(password);
             if (flag) {
                 return false;
@@ -447,7 +447,7 @@ public class PasswordCheckUtil {
         /**
          * 检测逻辑位置连续
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_LOGIC_SEQUENTIAL)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_LOGIC_SEQUENTIAL)) {
             flag = checkSequentialChars(password);
             if (flag) {
                 return false;
@@ -457,7 +457,7 @@ public class PasswordCheckUtil {
         /**
          * 检测相邻字符是否相同
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_SEQUENTIAL_CHAR_SAME)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_SEQUENTIAL_CHAR_SAME)) {
             flag = checkSequentialSameChars(password);
             if (flag) {
                 return false;
@@ -467,7 +467,7 @@ public class PasswordCheckUtil {
         /**
          * 检测常用词库
          */
-        if ("enable".equals(PasswordCheckConfiguration.CHECK_SIMPLE_WORD)) {
+        if ("enable".equals(PasswordCheckProperties.CHECK_SIMPLE_WORD)) {
             flag = checkSimpleWord(password);
             if (flag) {
                 return false;

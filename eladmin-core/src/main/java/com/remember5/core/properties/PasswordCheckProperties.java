@@ -1,4 +1,4 @@
-package com.remember5.core.config;
+package com.remember5.core.properties;
 
 /**
  * 密码检查配置类
@@ -6,7 +6,7 @@ package com.remember5.core.config;
  * @author wangjiahao
  * @date 2022/8/12 15:29
  */
-public class PasswordCheckConfiguration {
+public class PasswordCheckProperties {
     /*
      * 是否检测密码口令长度
      */
