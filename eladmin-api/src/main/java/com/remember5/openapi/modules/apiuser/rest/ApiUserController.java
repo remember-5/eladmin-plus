@@ -1,6 +1,7 @@
 package com.remember5.openapi.modules.apiuser.rest;
 
 import cn.hutool.core.lang.UUID;
+import com.remember5.core.enums.LogChannelEnum;
 import com.remember5.openapi.constant.RedisKeyConstant;
 import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
@@ -47,7 +48,7 @@ public class ApiUserController {
         return R.success();
     }
 
-    @Log(value = "账号密码登录",channel = 2)
+    @Log(value = "账号密码登录",channel = LogChannelEnum.App)
     @ApiOperation("账号密码登录")
     @PostMapping(value = "loginByAccount")
     public R loginByAccount(@RequestBody LoginUser user) {

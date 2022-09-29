@@ -15,6 +15,8 @@
  */
 package com.remember5.logging.annotation;
 
+import com.remember5.core.enums.LogChannelEnum;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -29,5 +31,5 @@ import java.lang.annotation.Target;
 public @interface Log {
     String value() default "";
 
-    int channel() default 1;
+    LogChannelEnum channel() default LogChannelEnum.Sys;
 }

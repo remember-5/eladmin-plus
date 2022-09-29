@@ -2,12 +2,13 @@
 
 
 ## 2.0.2
-2022/09/24
+2022/09/29
 - 新增微信登录
-- 包重命名
-- `common` 更改为 `core`
-- 合并`redis`和`captcha`到`core`
-
+- 新增log注解中的channel(区分sys和api)
+- 修改包命名 `common` 更改为 `core`
+- 修改`redis`和`captcha`到`core`模块
+- 修改跨域配置到`core`模块
+- 修复redisson中db不是动态注入
 
 ## 2.0.1
 2022/09/23
