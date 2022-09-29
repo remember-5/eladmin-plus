@@ -49,6 +49,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 ApiUserDto user = apiUserService.findByPhone(phone);
                 ApiUserDetails userDetails = new ApiUserDetails(apiUserMapper.toEntity(user));
                 if (Objects.nonNull(user)) {
+                    // todo @log注解获取不到username
                     Authentication authentication = tokenProvider.getAuthentication(token);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
