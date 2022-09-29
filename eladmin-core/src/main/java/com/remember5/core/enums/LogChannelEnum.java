@@ -6,7 +6,9 @@ package com.remember5.core.enums;
  */
 public enum LogChannelEnum {
 
+    // 后台系统
     Sys(1),
+    // App渠道
     App(2);
 
 

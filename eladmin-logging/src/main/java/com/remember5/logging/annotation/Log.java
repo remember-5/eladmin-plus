@@ -29,7 +29,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Log {
+    /**
+     * 接口描述
+     * @return /
+     */
     String value() default "";
 
+    /**
+     * 渠道标识
+     * @return /
+     */
     LogChannelEnum channel() default LogChannelEnum.Sys;
 }
