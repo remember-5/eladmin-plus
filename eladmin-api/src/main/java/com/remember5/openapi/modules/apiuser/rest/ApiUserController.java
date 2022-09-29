@@ -47,7 +47,7 @@ public class ApiUserController {
         return R.success();
     }
 
-    @Log("账号密码登录")
+    @Log(value = "账号密码登录",channel = 2)
     @ApiOperation("账号密码登录")
     @PostMapping(value = "loginByAccount")
     public R loginByAccount(@RequestBody LoginUser user) {

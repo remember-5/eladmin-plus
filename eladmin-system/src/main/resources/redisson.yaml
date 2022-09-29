@@ -12,7 +12,7 @@ singleServerConfig:
   subscriptionConnectionPoolSize: 50
   connectionMinimumIdleSize: 32
   connectionPoolSize: 64
-  database: 13
+  database: ${REDIS_DB}
   dnsMonitoringInterval: 5000
 
 ---

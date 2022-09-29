@@ -46,11 +46,7 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAspectJAutoProxy(exposeProxy = true) // Aop
 @ComponentScan(basePackages = {
         "cn.hutool.extra.spring",
-        "com.remember5.minio.*",
-        "com.remember5.core.*",
-        "com.remember5.logging.*",
-        "com.remember5.system.*",
-        "com.remember5.biz.*",
+        "com.remember5.*",
 })
 @EnableJpaRepositories(basePackages = {
         "com.remember5.*",

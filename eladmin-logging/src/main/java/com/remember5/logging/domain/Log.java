@@ -86,6 +86,11 @@ public class Log implements Serializable {
     private Long time;
 
     /**
+     * 渠道类型 1=sys 2=app
+     */
+    private Integer channelId;
+
+    /**
      * 异常详细
      */
     private byte[] exceptionDetail;

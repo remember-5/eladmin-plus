@@ -44,4 +44,6 @@ public class LogErrorDTO implements Serializable {
     private String address;
 
     private Timestamp createTime;
+
+    private Integer channelId;
 }

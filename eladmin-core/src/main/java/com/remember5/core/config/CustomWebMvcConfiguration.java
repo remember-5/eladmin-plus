@@ -16,21 +16,44 @@
 package com.remember5.core.config;
 
 import com.remember5.core.handler.ApiRequestMappingHandlerMapping;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 /**
- * 注册ApiRequestMappingHandlerMapping
+ * WebMvcConfigurationSupport 和 WebMvcConfigurer
  *
  * @author wangjiahao
  * @date 2022/9/29 15:47
  */
+@Slf4j
 @Configuration
 public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
+    /**
+     * 注册ApiRequestMappingHandlerMapping
+     * @return
+     */
     @Override
     public RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
         return new ApiRequestMappingHandlerMapping();
+    }
+
+    /**
+     * 配置跨域
+     * @param registry
+     */
+    @Override
+    protected void addCorsMappings(CorsRegistry registry) {
+        log.info("跨域已设置");
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+//                .allowedOrigins("*")  // 在升级springboot2.5.8的时候要注释掉，使用上面这个
+                .allowedMethods("*")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }

@@ -21,11 +21,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author Zheng Jie
- * @date 2018-11-24
+ * @author wangjiahao
+ * @date 2022/09/29
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Log {
     String value() default "";
+
+    int channel() default 1;
 }

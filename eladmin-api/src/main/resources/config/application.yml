@@ -25,7 +25,7 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: me.zhengjie.modules.test
+  typeAliasesPackage: com.remember5.*
   global-config:
     banner: off
     # 数据库相关配置

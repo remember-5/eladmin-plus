@@ -820,7 +820,8 @@ CREATE TABLE "sys_log" (
   "address" varchar(255) COLLATE "pg_catalog"."default",
   "browser" varchar(255) COLLATE "pg_catalog"."default",
   "exception_detail" text COLLATE "pg_catalog"."default",
-  "create_time" timestamp(6)
+  "create_time" timestamp(6),
+  "channel_id" int4 NOT NULL
 )
 ;
 COMMENT ON COLUMN "sys_log"."log_id" IS 'ID';
@@ -835,6 +836,7 @@ COMMENT ON COLUMN "sys_log"."address" IS '地址';
 COMMENT ON COLUMN "sys_log"."browser" IS '浏览器';
 COMMENT ON COLUMN "sys_log"."exception_detail" IS '异常详细';
 COMMENT ON COLUMN "sys_log"."create_time" IS '创建日期';
+COMMENT ON COLUMN "eladmin_template_schema"."sys_log"."channel_id" IS '渠道类型 1=sys 2=app';
 COMMENT ON TABLE "sys_log" IS '系统日志';
 
 -- ----------------------------

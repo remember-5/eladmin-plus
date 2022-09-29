@@ -93,6 +93,7 @@ public class LogServiceImpl implements LogService {
         log.setUsername(username);
         log.setParams(getParameter(method, joinPoint.getArgs()));
         log.setBrowser(browser);
+        log.setChannelId(aopLog.channel());
         logRepository.save(log);
     }
 

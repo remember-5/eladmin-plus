@@ -1,16 +1,15 @@
 package com.remember5.openapi.filter;
 
 import cn.hutool.core.util.StrUtil;
+import com.remember5.core.properties.JwtProperties;
 import com.remember5.core.utils.TokenProvider;
 import com.remember5.openapi.entity.ApiUserDetails;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.ApiUserDto;
 import com.remember5.openapi.modules.apiuser.service.mapstruct.ApiUserMapper;
 import lombok.extern.slf4j.Slf4j;
-import com.remember5.core.properties.JwtProperties;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -50,8 +49,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 ApiUserDto user = apiUserService.findByPhone(phone);
                 ApiUserDetails userDetails = new ApiUserDetails(apiUserMapper.toEntity(user));
                 if (Objects.nonNull(user)) {
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    Authentication authentication = tokenProvider.getAuthentication(token);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
