@@ -7,17 +7,17 @@ import java.util.List;
 
 /**
  * 密码校验类
- * see https://www.jianshu.com/p/ab041d3763e2
+ * see <a href="https://www.jianshu.com/p/ab041d3763e2">弱密码检测工具</a>
  *
  * @author wangjiahao
  * @date 2022/8/12 15:29
  */
-public class PasswordCheckUtil {
+public class PasswordCheckUtils {
 
     /**
      * 检测密码中字符长度
      *
-     * @param password
+     * @param password 密码
      * @return 符合长度要求 返回
      */
     public static boolean checkPasswordLength(String password) {
@@ -41,20 +41,20 @@ public class PasswordCheckUtil {
     /**
      * 检查密码中是否包含数字
      *
-     * @param password
+     * @param password 密码
      * @return 包含数字 返回true
      */
     public static boolean checkContainDigit(String password) {
         char[] chPass = password.toCharArray();
         boolean flag = false;
-        int num_count = 0;
+        int numCount = 0;
 
         for (int i = 0; i < chPass.length; i++) {
             if (Character.isDigit(chPass[i])) {
-                num_count++;
+                numCount++;
             }
         }
-        if (num_count >= 1) {
+        if (numCount >= 1) {
             flag = true;
         }
         return flag;
@@ -63,21 +63,21 @@ public class PasswordCheckUtil {
     /**
      * 检查密码中是否包含字母(不区分大小写)
      *
-     * @param password
+     * @param password 密码
      * @return 包含字母 返回true
      */
     public static boolean checkContainCase(String password) {
         char[] chPass = password.toCharArray();
         boolean flag = false;
-        int char_count = 0;
+        int charCount = 0;
 
         for (int i = 0; i < chPass.length; i++) {
             if (Character.isLetter(chPass[i])) {
-                char_count++;
+                charCount++;
             }
         }
 
-        if (char_count >= 1) {
+        if (charCount >= 1) {
             flag = true;
         }
 
@@ -87,21 +87,21 @@ public class PasswordCheckUtil {
     /**
      * 检查密码中是否包含小写字母
      *
-     * @param password
+     * @param password 密码
      * @return 包含小写字母 返回true
      */
     public static boolean checkContainLowerCase(String password) {
         boolean flag = false;
         char[] chPass = password.toCharArray();
-        int char_count = 0;
+        int charCount = 0;
 
         for (int i = 0; i < chPass.length; i++) {
             if (Character.isLowerCase(chPass[i])) {
-                char_count++;
+                charCount++;
             }
         }
 
-        if (char_count >= 1) {
+        if (charCount >= 1) {
             flag = true;
         }
 
@@ -111,21 +111,21 @@ public class PasswordCheckUtil {
     /**
      * 检查密码中是否包含大写字母
      *
-     * @param password
+     * @param password 密码
      * @return 包含大写字母 返回true
      */
     public static boolean checkContainUpperCase(String password) {
         boolean flag = false;
         char[] chPass = password.toCharArray();
-        int char_count = 0;
+        int charCount = 0;
 
         for (int i = 0; i < chPass.length; i++) {
             if (Character.isUpperCase(chPass[i])) {
-                char_count++;
+                charCount++;
             }
         }
 
-        if (char_count >= 1) {
+        if (charCount >= 1) {
             flag = true;
         }
 
@@ -135,21 +135,21 @@ public class PasswordCheckUtil {
     /**
      * 检查密码中是否包含特殊字符
      *
-     * @param password
+     * @param password 密码
      * @return 包含特殊字符 返回true
      */
     public static boolean checkContainSpecialChar(String password) {
         boolean flag = false;
         char[] chPass = password.toCharArray();
-        int special_count = 0;
+        int specialCount = 0;
 
         for (int i = 0; i < chPass.length; i++) {
             if (PasswordCheckProperties.CHECK_CONTAIN_SPECIAL_CHAR.indexOf(chPass[i]) != -1) {
-                special_count++;
+                specialCount++;
             }
         }
 
-        if (special_count >= 1) {
+        if (specialCount >= 1) {
             flag = true;
         }
 
@@ -159,7 +159,7 @@ public class PasswordCheckUtil {
     /**
      * 键盘规则匹配器 横向连续检测
      *
-     * @param password
+     * @param password 密码
      * @return 含有横向连续字符串 返回true
      */
     public static boolean checkLateralKeyboardSite(String password) {
@@ -174,11 +174,11 @@ public class PasswordCheckUtil {
          */
         boolean flag = false;
         int arrLen = PasswordCheckProperties.KEYBOARD_HORIZONTAL_ARR.length;
-        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_HORIZONTAL_NUM_KEY);
+        int limitNum = Integer.parseInt(PasswordCheckProperties.LIMIT_HORIZONTAL_NUM_KEY);
 
-        for (int i = 0; i + limit_num <= n; i++) {
-            String str = t_password.substring(i, i + limit_num);
-            String distinguishStr = password.substring(i, i + limit_num);
+        for (int i = 0; i + limitNum <= n; i++) {
+            String str = t_password.substring(i, i + limitNum);
+            String distinguishStr = password.substring(i, i + limitNum);
 
             for (int j = 0; j < arrLen; j++) {
                 String configStr = PasswordCheckProperties.KEYBOARD_HORIZONTAL_ARR[j];
@@ -222,9 +222,9 @@ public class PasswordCheckUtil {
      * @return 含有斜向连续字符串 返回true
      */
     public static boolean checkKeyboardSlantSite(String password) {
-        String t_password = new String(password);
-        t_password = t_password.toLowerCase();
-        int n = t_password.length();
+        String tPassword = new String(password);
+        tPassword = tPassword.toLowerCase();
+        int n = tPassword.length();
         /**
          * 键盘斜线方向规则检测
          */
@@ -233,7 +233,7 @@ public class PasswordCheckUtil {
         int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_SLOPE_NUM_KEY);
 
         for (int i = 0; i + limit_num <= n; i++) {
-            String str = t_password.substring(i, i + limit_num);
+            String str = tPassword.substring(i, i + limit_num);
             String distinguishStr = password.substring(i, i + limit_num);
             for (int j = 0; j < arrLen; j++) {
                 String configStr = PasswordCheckProperties.KEYBOARD_SLOPE_ARR[j];
@@ -272,39 +272,39 @@ public class PasswordCheckUtil {
     /**
      * 评估a-z,z-a这样的连续字符
      *
-     * @param password
+     * @param password 密码
      * @return 含有a-z,z-a连续字符串 返回true
      */
     public static boolean checkSequentialChars(String password) {
-        String t_password = new String(password);
+        String tPassword = new String(password);
         boolean flag = false;
-        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_LOGIC_NUM_CHAR);
-        int normal_count = 0;
-        int reversed_count = 0;
+        int limitNum = Integer.parseInt(PasswordCheckProperties.LIMIT_LOGIC_NUM_CHAR);
+        int normalCount = 0;
+        int reversedCount = 0;
 
         // 检测包含字母(区分大小写)
         if ("enable".equals(PasswordCheckProperties.CHECK_DISTINGGUISH_CASE)) {
 
         } else {
-            t_password = t_password.toLowerCase();
+            tPassword = tPassword.toLowerCase();
         }
-        int n = t_password.length();
-        char[] pwdCharArr = t_password.toCharArray();
+        int n = tPassword.length();
+        char[] pwdCharArr = tPassword.toCharArray();
 
-        for (int i = 0; i + limit_num <= n; i++) {
-            normal_count = 0;
-            reversed_count = 0;
-            for (int j = 0; j < limit_num - 1; j++) {
+        for (int i = 0; i + limitNum <= n; i++) {
+            normalCount = 0;
+            reversedCount = 0;
+            for (int j = 0; j < limitNum - 1; j++) {
                 if (pwdCharArr[i + j + 1] - pwdCharArr[i + j] == 1) {
-                    normal_count++;
-                    if (normal_count == limit_num - 1) {
+                    normalCount++;
+                    if (normalCount == limitNum - 1) {
                         return true;
                     }
                 }
 
                 if (pwdCharArr[i + j] - pwdCharArr[i + j + 1] == 1) {
-                    reversed_count++;
-                    if (reversed_count == limit_num - 1) {
+                    reversedCount++;
+                    if (reversedCount == limitNum - 1) {
                         return true;
                     }
                 }
@@ -316,22 +316,22 @@ public class PasswordCheckUtil {
     /**
      * 评估aaaa, 1111这样的相同连续字符
      *
-     * @param password
+     * @param password 密码
      * @return 含有aaaa, 1111等连续字符串 返回true
      */
     public static boolean checkSequentialSameChars(String password) {
-        String t_password = new String(password);
-        int n = t_password.length();
-        char[] pwdCharArr = t_password.toCharArray();
+        String tPassword = new String(password);
+        int n = tPassword.length();
+        char[] pwdCharArr = tPassword.toCharArray();
         boolean flag = false;
-        int limit_num = Integer.parseInt(PasswordCheckProperties.LIMIT_NUM_SAME_CHAR);
+        int limitNum = Integer.parseInt(PasswordCheckProperties.LIMIT_NUM_SAME_CHAR);
         int count = 0;
-        for (int i = 0; i + limit_num <= n; i++) {
+        for (int i = 0; i + limitNum <= n; i++) {
             count = 0;
-            for (int j = 0; j < limit_num - 1; j++) {
+            for (int j = 0; j < limitNum - 1; j++) {
                 if (pwdCharArr[i + j] == pwdCharArr[i + j + 1]) {
                     count++;
-                    if (count == limit_num - 1) {
+                    if (count == limitNum - 1) {
                         return true;
                     }
                 }
@@ -343,7 +343,7 @@ public class PasswordCheckUtil {
     /**
      * 检测常用词库
      *
-     * @param password
+     * @param password 密码
      * @return 含有常见词库 返回true
      */
     public static boolean checkSimpleWord(String password) {
@@ -354,7 +354,7 @@ public class PasswordCheckUtil {
     /**
      * 评估密码中包含的字符类型是否符合要求
      *
-     * @param password
+     * @param password 密码
      * @return 符合要求 返回true
      */
     public static boolean evalPassword(String password) {

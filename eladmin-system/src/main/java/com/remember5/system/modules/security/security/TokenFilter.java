@@ -15,14 +15,14 @@
  */
 package com.remember5.system.modules.security.security;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.jwt.JWTException;
+import com.remember5.core.properties.JwtProperties;
 import com.remember5.core.utils.TokenProvider;
-import lombok.extern.slf4j.Slf4j;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.UserCacheClean;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;
-import com.remember5.core.properties.JwtProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -66,7 +66,7 @@ public class TokenFilter extends GenericFilterBean {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String token = resolveToken(httpServletRequest);
         // 对于 Token 为空的不需要去查 Redis
-        if (StrUtil.isNotBlank(token)) {
+        if (CharSequenceUtil.isNotBlank(token)) {
             OnlineUserDto onlineUserDto = null;
             boolean cleanUserCache = false;
             try {

@@ -55,12 +55,12 @@ public class TestRedis {
     }
 
     @Test
-    void testRedissonSet(){
+    void testRedissonSet() throws InterruptedException {
         RBucket<String> nameBucket = redissonClient.getBucket("name");
         nameBucket.set("wangjiahao");
         System.err.println(nameBucket.getCodec());
         System.err.println(redissonClient.getBucket("name").get());
-//        new CountDownLatch(1).await();
+        new CountDownLatch(1).await();
     }
 
     @Test

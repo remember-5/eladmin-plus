@@ -29,6 +29,9 @@ import java.net.URLEncoder;
  */
 public class TranslatorUtil {
 
+    public TranslatorUtil() {
+    }
+
     public static String translate(String word) {
         try {
             String url = "https://translate.googleapis.com/translate_a/single?" +

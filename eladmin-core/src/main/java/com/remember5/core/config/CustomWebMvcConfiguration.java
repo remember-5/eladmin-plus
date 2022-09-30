@@ -34,7 +34,7 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 注册ApiRequestMappingHandlerMapping
-     * @return
+     * @return /
      */
     @Override
     public RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
@@ -43,17 +43,20 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 配置跨域
-     * @param registry
+     * @param registry /
      */
     @Override
     protected void addCorsMappings(CorsRegistry registry) {
         log.info("跨域已设置");
+        // 设置允许跨域的路由
         registry.addMapping("/**")
+                // 设置允许跨域请求的域名
                 .allowedOriginPatterns("*")
-//                .allowedOrigins("*")  // 在升级springboot2.5.8的时候要注释掉，使用上面这个
-                .allowedMethods("*")
-                .allowedHeaders("*")
+                // 是否允许证书（cookies）
                 .allowCredentials(true)
+                // 设置允许的方法
+                .allowedMethods("*")
+                // 跨域允许时间
                 .maxAge(3600);
     }
 }

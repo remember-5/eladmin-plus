@@ -47,7 +47,6 @@ public class TokenProvider implements InitializingBean {
     private final RedisUtils redisUtils;
     public static final String AUTHORITIES_KEY = "user";
 
-    private JWTSigner signer;
     private JWT jwt;
 
     public TokenProvider(JwtProperties jwtProperties, RedisUtils redisUtils) {
@@ -57,7 +56,7 @@ public class TokenProvider implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        signer = JWTSignerUtil.hs512(jwtProperties.getBase64Secret().getBytes(StandardCharsets.UTF_8));
+        JWTSigner signer = JWTSignerUtil.hs512(jwtProperties.getBase64Secret().getBytes(StandardCharsets.UTF_8));
         jwt = JWT.create().setSigner(signer);
     }
 
@@ -138,84 +137,4 @@ public class TokenProvider implements InitializingBean {
         }
         return null;
     }
-//
-//    /**
-//     * 生成token的过期时间
-//     */
-//    private Date generateExpirationDate() {
-//        return new Date(System.currentTimeMillis() + jwtProperties.getTokenValidityInSeconds() * 1000);
-//    }
-//
-//    /**
-//     * 判断Token的Secret和是否已经失效
-//     */
-//    public boolean isTokenExpired(String token) {
-//        try {
-//            JWTValidator.of(token)
-//                    .validateAlgorithm(JWTSignerUtil.hs512(jwtProperties.getBase64Secret().getBytes()))
-//                    .validateDate(DateUtil.date());
-//            return true;
-//        } catch (ValidateException e) {
-//            log.error("jwt 解析异常 {} token: {}", e.getMessage(), token);
-//            return false;
-//        } catch (IllegalArgumentException e) {
-//            log.error(e.getMessage());
-//            return false;
-//        }
-//    }
-//
-//    /**
-//     * 生成jwt token
-//     *
-//     * @param apiUser /
-//     * @return token
-//     */
-//    public String generateToken(ApiUserDto apiUser) {
-//        return JWT.create()
-//                .setSigner(JWTSignerUtil.hs512(jwtProperties.getBase64Secret().getBytes()))
-//                .setPayload("sub", apiUser.getId())
-//                .setPayload("id", apiUser.getId())
-//                .setPayload("phone", apiUser.getPhone())
-//                .setPayload("username", apiUser.getUsername())
-//                .setExpiresAt(generateExpirationDate())
-//                .sign();
-//    }
-//
-//    /**
-//     * 根据token获取手机号
-//     *
-//     * @return /
-//     */
-//    public String getPhoneByToken() {
-//        final String token = getTokenByRequest();
-//        return getPhoneByToken(token);
-//    }
-//
-//    /**
-//     * 根据token获取手机号
-//     *
-//     * @return /
-//     */
-//    public String getPhoneByToken(String token) {
-//        if (isTokenExpired(token)) {
-//            final JWT jwt = JWTUtil.parseToken(token);
-//            jwt.getHeader(JWTHeader.TYPE);
-//            return jwt.getPayload("phone").toString();
-//        }
-//        return null;
-//    }
-//
-//    /**
-//     * 在httpRequest中获取jwt token
-//     *
-//     * @return jwt token
-//     */
-//    public String getTokenByRequest() {
-//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-//        HttpServletRequest request = servletRequestAttributes.getRequest();
-//        String bearerToken = request.getHeader(jwtProperties.getHeader());
-//        return bearerToken.replace(jwtProperties.getTokenStartWith(), "");
-//    }
-
-
 }

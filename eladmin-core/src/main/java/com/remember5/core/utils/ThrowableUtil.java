@@ -25,6 +25,10 @@ import java.io.StringWriter;
  */
 public class ThrowableUtil {
 
+    private ThrowableUtil(){
+        throw new IllegalStateException("ThrowableUtil Utility class");
+    }
+
     /**
      * 获取堆栈信息
      */

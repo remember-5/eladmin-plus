@@ -1,20 +1,21 @@
 package com.remember5.openapi.modules.apiuser.rest;
 
 import cn.hutool.core.lang.UUID;
+import com.remember5.core.annotation.rest.AnonymousGetMapping;
 import com.remember5.core.enums.LogChannelEnum;
+import com.remember5.core.result.R;
+import com.remember5.core.result.REnum;
+import com.remember5.core.utils.RedisUtils;
+import com.remember5.core.utils.ValidationUtil;
+import com.remember5.logging.annotation.Log;
 import com.remember5.openapi.constant.RedisKeyConstant;
 import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
-import com.remember5.core.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.remember5.logging.annotation.Log;
-import com.remember5.core.result.R;
-import com.remember5.core.result.REnum;
-import com.remember5.core.utils.ValidationUtil;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,14 +34,12 @@ public class ApiUserController {
     private final ApiUserService apiUserService;
     private final RedisUtils redisUtils;
 
-    @Log("注册")
     @ApiOperation("注册")
     @PostMapping(value = "register")
     public R register(@RequestBody @Validated LoginUser user) {
         return apiUserService.register(user);
     }
 
-    @Log("登出")
     @ApiOperation("登出")
     @PostMapping(value = "logout")
     public R logout() {
@@ -48,14 +47,19 @@ public class ApiUserController {
         return R.success();
     }
 
-    @Log(value = "账号密码登录",channel = LogChannelEnum.App)
     @ApiOperation("账号密码登录")
     @PostMapping(value = "loginByAccount")
     public R loginByAccount(@RequestBody LoginUser user) {
         return apiUserService.loginByAccount(user);
     }
 
-    @Log("手机验证码登录")
+    @Log(value = "获取用户信息", channel = LogChannelEnum.App)
+    @ApiOperation("获取用户信息")
+    @GetMapping(value = "/info")
+    public R<Object> getUserInfo() {
+        return R.success();
+    }
+
     @ApiOperation("手机验证码登录")
     @PostMapping(value = "loginByPhoneCaptcha")
     public R loginBySms(@RequestBody LoginUser user) {
@@ -63,14 +67,12 @@ public class ApiUserController {
     }
 
 
-    @Log("微信小程序code换取sessionKey")
     @ApiOperation("微信小程序code换取sessionKey")
     @PostMapping(value = "/wxMiniAppCode2Sessions")
     public R wxMiniAppCode2Sessions(@RequestBody WxLoginUser wxLoginInfo) {
         return apiUserService.wxMiniAppCode2Sessions(wxLoginInfo);
     }
 
-    @Log("微信小程序一键登录")
     @ApiOperation("微信小程序一键登录")
     @PostMapping(value = "wxMiniAppLogin")
     public R wxMiniAppLogin(@RequestBody LoginUser user) {
@@ -78,7 +80,6 @@ public class ApiUserController {
         return R.success();
     }
 
-    @Log("支付宝一键登录")
     @ApiOperation("支付宝一键登录")
     @PostMapping(value = "loginByZfb")
     public R loginByZfb(@RequestBody LoginUser user) {
@@ -86,7 +87,6 @@ public class ApiUserController {
         return R.success();
     }
 
-    @Log("Token续期")
     @ApiOperation("Token续期")
     @PostMapping(value = "refToken")
     public R refToken(HttpServletResponse response) {
@@ -95,7 +95,7 @@ public class ApiUserController {
     }
 
     @ApiOperation("获取图形验证码")
-    @GetMapping(value = "code")
+    @AnonymousGetMapping(value = "code")
     public R getCode() {
         return apiUserService.getCode();
     }
@@ -106,7 +106,6 @@ public class ApiUserController {
         return apiUserService.deleted(userId);
     }
 
-    @Log("手机号注册获取短信验证码")
     @ApiOperation("手机号注册获取短信验证码")
     @GetMapping(value = "captchaByRegister/{phone}")
     public R phoneCaptcha(@PathVariable String phone) {
@@ -131,7 +130,6 @@ public class ApiUserController {
      * @param phone 手机号
      * @return /
      */
-    @Log("忘记密码-发送短信验证码")
     @ApiOperation("忘记密码-发送短信验证码")
     @GetMapping("captchaByResetPassword/{phone}")
     public R resetCaptcha(@PathVariable String phone) {

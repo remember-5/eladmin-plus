@@ -821,7 +821,8 @@ CREATE TABLE "sys_log" (
   "browser" varchar(255) COLLATE "pg_catalog"."default",
   "exception_detail" text COLLATE "pg_catalog"."default",
   "create_time" timestamp(6),
-  "channel_id" int4 NOT NULL
+  "channel_id" int4 NOT NULL,
+  CONSTRAINT "sys_log_pkey" PRIMARY KEY ("log_id")
 )
 ;
 COMMENT ON COLUMN "sys_log"."log_id" IS 'ID';

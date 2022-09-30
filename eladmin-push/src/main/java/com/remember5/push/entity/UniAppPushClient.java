@@ -16,7 +16,15 @@ public class UniAppPushClient implements BasePushClient {
     private UniAppPushClient() {
     }
 
-    public static UniAppPushClient GetUniAppPushClient(String title, String context, String page) {
+
+    /**
+     * 获取推送客户端
+     * @param title 标题
+     * @param context 内容
+     * @param page 页面
+     * @return {@link UniAppPushClient}
+     */
+    public static UniAppPushClient getUniAppPushClient(String title, String context, String page) {
         UniAppPushClient uniAppPushClient = new UniAppPushClient();
         uniAppPushClient.context = context;
         uniAppPushClient.title = title;
@@ -25,7 +33,15 @@ public class UniAppPushClient implements BasePushClient {
         return uniAppPushClient;
     }
 
-    public static UniAppPushClient GetUniAppPushClients(String cid, String title, String context, String page) {
+    /**
+     * 获取推送客户端
+     * @param cid 客户端id
+     * @param title 标题
+     * @param context 内容
+     * @param page 页面
+     * @return {@link UniAppPushClient}
+     */
+    public static UniAppPushClient getUniAppPushClients(String cid, String title, String context, String page) {
         UniAppPushClient uniAppPushClient = new UniAppPushClient();
         uniAppPushClient.cids = new HashSet<>();
         uniAppPushClient.cids.add(cid);
@@ -35,7 +51,15 @@ public class UniAppPushClient implements BasePushClient {
         return uniAppPushClient;
     }
 
-    public static UniAppPushClient GetUniAppPushClients(Set<String> acids, String title, String context, String page) {
+    /**
+     * 获取推送客户端
+     * @param acids 用户id组
+     * @param title 标题
+     * @param context 内容
+     * @param page 页面
+     * @return {@link UniAppPushClient}
+     */
+    public static UniAppPushClient getUniAppPushClients(Set<String> acids, String title, String context, String page) {
         UniAppPushClient uniAppPushClient = new UniAppPushClient();
         uniAppPushClient.cids = new HashSet<>();
         uniAppPushClient.cids.addAll(acids);
