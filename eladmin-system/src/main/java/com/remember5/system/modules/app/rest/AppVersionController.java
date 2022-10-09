@@ -15,19 +15,19 @@
  */
 package com.remember5.system.modules.app.rest;
 
+import com.remember5.biz.app.domain.AppVersion;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.system.modules.minio.service.MinioService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
+import com.remember5.core.result.R;
 import com.remember5.logging.annotation.Log;
-import com.remember5.system.modules.app.domain.AppVersion;
+import com.remember5.logging.repository.LogRepository;
 import com.remember5.system.modules.app.service.AppVersionService;
 import com.remember5.system.modules.app.service.dto.AppVersionDto;
 import com.remember5.system.modules.app.service.dto.AppVersionQueryCriteria;
 import com.remember5.system.modules.app.utils.UniappUtil;
-import com.remember5.logging.repository.LogRepository;
-import com.remember5.core.result.R;
+import com.remember5.system.modules.minio.service.MinioService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

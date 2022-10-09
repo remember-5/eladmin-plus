@@ -13,9 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.app.repository;
+package com.remember5.biz.app.repository;
 
-import com.remember5.system.modules.app.domain.AppVersion;
+
+import com.remember5.biz.app.domain.AppVersion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.app.service;
 
-import com.remember5.system.modules.app.domain.AppVersion;
+import com.remember5.biz.app.domain.AppVersion;
 import com.remember5.system.modules.app.service.dto.AppVersionDto;
 import com.remember5.system.modules.app.service.dto.AppVersionQueryCriteria;
 import org.springframework.data.domain.Pageable;

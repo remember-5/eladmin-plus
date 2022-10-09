@@ -23,12 +23,11 @@
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>com.remember5</groupId>
-            <artifactId>eladmin-logging</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>com.remember5.biz</groupId>
+			<artifactId>eladmin-biz</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 
         <dependency>
             <groupId>com.remember5</groupId>

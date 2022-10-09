@@ -35,13 +35,6 @@
 
     <dependencies>
 
-        <!-- 同时需要common模块和logging模块只需要引入logging模块即可 -->
-        <dependency>
-            <groupId>com.remember5</groupId>
-            <artifactId>eladmin-logging</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.remember5.biz</groupId>
             <artifactId>eladmin-biz</artifactId>

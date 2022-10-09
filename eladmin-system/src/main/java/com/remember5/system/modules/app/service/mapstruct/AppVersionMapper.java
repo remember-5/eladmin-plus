@@ -15,8 +15,8 @@
  */
 package com.remember5.system.modules.app.service.mapstruct;
 
+import com.remember5.biz.app.domain.AppVersion;
 import com.remember5.core.base.BaseMapper;
-import com.remember5.system.modules.app.domain.AppVersion;
 import com.remember5.system.modules.app.service.dto.AppVersionDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;

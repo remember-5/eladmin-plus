@@ -3,7 +3,7 @@ package com.remember5.system.modules.app.utils;
 
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.remember5.system.modules.app.domain.AppVersion;
+import com.remember5.biz.app.domain.AppVersion;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 

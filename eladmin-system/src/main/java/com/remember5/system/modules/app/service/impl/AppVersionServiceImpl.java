@@ -15,17 +15,17 @@
  */
 package com.remember5.system.modules.app.service.impl;
 
-import com.remember5.system.modules.app.service.mapstruct.AppVersionMapper;
-import lombok.RequiredArgsConstructor;
-import com.remember5.system.modules.app.domain.AppVersion;
-import com.remember5.system.modules.app.repository.AppVersionRepository;
-import com.remember5.system.modules.app.service.AppVersionService;
-import com.remember5.system.modules.app.service.dto.AppVersionDto;
-import com.remember5.system.modules.app.service.dto.AppVersionQueryCriteria;
+import com.remember5.biz.app.domain.AppVersion;
+import com.remember5.biz.app.repository.AppVersionRepository;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.core.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
+import com.remember5.system.modules.app.service.AppVersionService;
+import com.remember5.system.modules.app.service.dto.AppVersionDto;
+import com.remember5.system.modules.app.service.dto.AppVersionQueryCriteria;
+import com.remember5.system.modules.app.service.mapstruct.AppVersionMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
