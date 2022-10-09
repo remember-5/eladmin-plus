@@ -154,3 +154,11 @@ see https://el-admin.vip/
 
 ### 安全事项：
 1. 禁止携带服务器，插件等明文信息在接口中
+
+### FAQ
+1. `could not initialize proxy - no Session `
+  - 在@OneToMany的参数中使用fetch=FetchType.EAGER
+  - 在application.properties的配置文件中新增spring.jpa.open-in-view=true
+
+2. 
+

@@ -45,7 +45,7 @@ public class Menu extends BaseEntity implements Serializable {
     private Long id;
 
     @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "menus")
+    @ManyToMany(fetch=FetchType.EAGER, mappedBy = "menus")
     @ApiModelProperty(value = "菜单角色")
     private Set<Role> roles;
 

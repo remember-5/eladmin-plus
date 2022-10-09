@@ -46,7 +46,7 @@ public class Dept extends BaseEntity implements Serializable {
     private Long id;
 
     @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "depts")
+    @ManyToMany(fetch=FetchType.EAGER, mappedBy = "depts")
     @ApiModelProperty(value = "角色")
     private Set<Role> roles;
 
