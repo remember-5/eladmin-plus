@@ -19,14 +19,16 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.remember5.core.handler.ApiRequestMappingHandlerMapping;
+import com.remember5.core.properties.FileProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -36,18 +38,23 @@ import java.util.List;
 
 /**
  * WebMvcConfigurationSupport 和 WebMvcConfigurer
+ * <p>
+ * `@EnableWebMvc` 表示完全自己控制mvc配置，也就是说所有配置自己重写，所有默认配置都没了！ 有时会导致很多请求进不来，或者参数转换出错之类的，因为spring mvc默认的转换器已经不生效了,包括全局配置的Jackson也会失效，所以在大多数情况下我们需要的是在其基础配置上添加自定义配置
+ * </p>
  *
  * @author wangjiahao
  * @date 2022/9/29 15:47
  */
 
-@Order(Integer.MIN_VALUE)
 @Slf4j
+//@EnableWebMvc
 @Configuration
+@RequiredArgsConstructor
 public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 注册ApiRequestMappingHandlerMapping
+     *
      * @return /
      */
     @Override
@@ -56,23 +63,24 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
     }
 
 
-//    /**
-//     * 文件配置
-//     */
-//    private final FileProperties properties;
-//
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        FileProperties.ElPath path = properties.getPath();
-//        String avatarUtl = "file:" + path.getAvatar().replace("\\", "/");
-//        String pathUtl = "file:" + path.getPath().replace("\\", "/");
-//        registry.addResourceHandler("/avatar/**").addResourceLocations(avatarUtl).setCachePeriod(0);
-//        registry.addResourceHandler("/file/**").addResourceLocations(pathUtl).setCachePeriod(0);
-//        registry.addResourceHandler("/**").addResourceLocations("classpath:/META-INF/resources/").setCachePeriod(0);
-//    }
+    /**
+     * 文件配置
+     */
+    private final FileProperties properties;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        FileProperties.ElPath path = properties.getPath();
+        String avatarUtl = "file:" + path.getAvatar().replace("\\", "/");
+        String pathUtl = "file:" + path.getPath().replace("\\", "/");
+        registry.addResourceHandler("/avatar/**").addResourceLocations(avatarUtl).setCachePeriod(0);
+        registry.addResourceHandler("/file/**").addResourceLocations(pathUtl).setCachePeriod(0);
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/META-INF/resources/").setCachePeriod(0);
+    }
 
     /**
      * 配置跨域
+     *
      * @param registry /
      */
     @Override
@@ -93,30 +101,33 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
     /**
      * 注册Spring data jpa pageable的参数分解器
-     * @param argumentResolvers
+     *
+     * @param argumentResolvers /
      */
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(new PageableHandlerMethodArgumentResolver());
     }
 
-    @Override
-    protected void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        // 使用 fastjson 序列化，会导致 @JsonIgnore 失效，可以使用 @JSONField(serialize = false) 替换
-        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-        List<MediaType> supportMediaTypeList = new ArrayList<>();
-        supportMediaTypeList.add(MediaType.APPLICATION_JSON);
-        FastJsonConfig config = new FastJsonConfig();
-        config.setDateFormat("yyyy-MM-dd HH:mm:ss");
-        config.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteMapNullValue);
-        converter.setFastJsonConfig(config);
-        converter.setSupportedMediaTypes(supportMediaTypeList);
-        converter.setDefaultCharset(StandardCharsets.UTF_8);
-        converters.add(0, converter);
-    }
+//    @Override
+//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+//        // 使用 fastjson 序列化，会导致 @JsonIgnore 失效，可以使用 @JSONField(serialize = false) 替换
+//        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+//        List<MediaType> supportMediaTypeList = new ArrayList<>();
+//        supportMediaTypeList.add(MediaType.APPLICATION_JSON);
+//        FastJsonConfig config = new FastJsonConfig();
+//        config.setDateFormat("yyyy-MM-dd HH:mm:ss");
+//        config.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteMapNullValue);
+//        converter.setFastJsonConfig(config);
+//        converter.setSupportedMediaTypes(supportMediaTypeList);
+//        converter.setDefaultCharset(StandardCharsets.UTF_8);
+//        converters.add(0, converter);
+//    }
 
     /**
-     * 添加自定义转换器
+     * 添加自定义转换器,上面这个也是可以的
+     * <a href="https://www.cnblogs.com/hongdada/p/9120899.html">SpringBoot 消息转换器 HttpMessageConverter</a>
+     *
      * @param converters converters
      */
     @Override

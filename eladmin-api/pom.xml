@@ -67,11 +67,10 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
-        <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
-        <dependency>
-            <groupId>com.github.gavlyukovskiy</groupId>
-            <artifactId>p6spy-spring-boot-starter</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>p6spy</groupId>
+			<artifactId>p6spy</artifactId>
+		</dependency>
 
         <!--   ip定位     -->
         <dependency>
