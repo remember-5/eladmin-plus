@@ -38,28 +38,27 @@
         <skipTests>true</skipTests>
 
         <spring.boot.version>2.5.14</spring.boot.version>
-        <druid.version>1.2.9</druid.version>
-        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <druid.version>1.2.13</druid.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
 
         <hutool.version>5.8.8</hutool.version>
         <guava.version>31.1-jre</guava.version>
-        <fastjson.version>1.2.83</fastjson.version>
+        <fastjson.version>2.0.15</fastjson.version>
         <knife4j.version>3.0.3</knife4j.version>
         <dynamic.version>3.4.0</dynamic.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <minio.verison>8.4.1</minio.verison>
+        <minio.verison>8.4.5</minio.verison>
         <!-- 如升级请查看文档 https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
         <redisson.version>3.16.8</redisson.version>
         <!--主要是解决minio的依赖问题-->
         <okhttp3.version>4.8.1</okhttp3.version>
-        <p6spy-starter.version>1.8.0</p6spy-starter.version>
-        <p6spy.version>3.9.1</p6spy.version>
+		<p6spy-starter.version>1.8.1</p6spy-starter.version>
         <log4j2.version>2.17.2</log4j2.version>
         <yauaa.version>6.12</yauaa.version>
-        <easyexcel.version>3.1.0</easyexcel.version>
+        <easyexcel.version>3.1.1</easyexcel.version>
         <mica-ip2region.version>2.6.7</mica-ip2region.version>
         <qcloud-cos.version>5.6.89</qcloud-cos.version>
 		<wx-java.version>4.4.0</wx-java.version>
@@ -198,10 +197,16 @@
 
             <!-- fastjson -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
+
+			<dependency>
+				<groupId>com.alibaba.fastjson2</groupId>
+				<artifactId>fastjson2-extension</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
 
             <!--hutool工具包-->
             <dependency>
@@ -278,13 +283,15 @@
                 <version>${druid.version}</version>
             </dependency>
 
+			<!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
 			<dependency>
-				<groupId>p6spy</groupId>
-				<artifactId>p6spy</artifactId>
-				<version>${p6spy.version}</version>
+				<groupId>com.github.gavlyukovskiy</groupId>
+				<artifactId>p6spy-spring-boot-starter</artifactId>
+				<version>${p6spy-starter.version}</version>
 			</dependency>
 
-            <!--   ip定位     -->
+
+			<!--   ip定位     -->
             <dependency>
                 <groupId>net.dreamlu</groupId>
                 <artifactId>mica-ip2region</artifactId>

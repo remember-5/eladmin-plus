@@ -43,7 +43,7 @@ public class Dict extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(fetch=FetchType.EAGER, mappedBy = "dict", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "dict", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<DictDetail> dictDetails;
 
     @NotBlank

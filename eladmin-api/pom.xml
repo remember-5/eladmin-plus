@@ -68,8 +68,8 @@
         </dependency>
 
 		<dependency>
-			<groupId>p6spy</groupId>
-			<artifactId>p6spy</artifactId>
+			<groupId>com.github.gavlyukovskiy</groupId>
+			<artifactId>p6spy-spring-boot-starter</artifactId>
 		</dependency>
 
         <!--   ip定位     -->

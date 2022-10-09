@@ -8,7 +8,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.google.gson.JsonSyntaxException;
 import com.remember5.core.enums.CaptchaTypeEnum;
 import com.remember5.core.properties.JwtProperties;

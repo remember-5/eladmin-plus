@@ -1,4 +1,4 @@
-server:
+`server:
   port: 8100
 
 #配置数据源
@@ -19,7 +19,6 @@ spring:
       #设置默认的数据源或者数据源组,默认值即为 master
       primary: master
       strict: false
-      p6spy: true
       datasource:
         # 主库数据源
         master:
@@ -248,6 +247,20 @@ logging:
   config: classpath:log4j2-spring.xml
   level:
     root: INFO
+
+# p6spy
+decorator:
+  datasource:
+    p6spy:
+      # Register P6LogFactory to log JDBC events
+      enable-logging: true
+      # Use logging for default listeners [slf4j, sysout, file, custom]
+      logging: slf4j
+      # Log file to use (only with logging=file)
+      log-file: api-spy.log
+      # Custom log format, if specified com.p6spy.engine.spy.appender.CustomLineFormat will be used with this log format
+      log-format: executionTime:%(executionTime) | sql:%(sqlSingleLine)
+      custom-appender-class:
 
 minio:
   host: ${MINIO_HOST}

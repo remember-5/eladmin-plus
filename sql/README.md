@@ -1,1 +1,2 @@
 - `postgres` 使用 `postgres-init.sql`
+- `mysql` 使用 `mysql-init.sql`

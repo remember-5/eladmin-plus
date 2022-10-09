@@ -15,9 +15,9 @@
  */
 package com.remember5.core.config;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.alibaba.fastjson2.JSONWriter;
+import com.alibaba.fastjson2.support.config.FastJsonConfig;
+import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
 import com.remember5.core.handler.ApiRequestMappingHandlerMapping;
 import com.remember5.core.properties.FileProperties;
 import lombok.RequiredArgsConstructor;
@@ -138,7 +138,7 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
         supportMediaTypeList.add(MediaType.APPLICATION_JSON);
         FastJsonConfig config = new FastJsonConfig();
         config.setDateFormat("yyyy-MM-dd HH:mm:ss");
-        config.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteMapNullValue);
+        config.setWriterFeatures(JSONWriter.Feature.WriteMapNullValue);
         converter.setFastJsonConfig(config);
         converter.setSupportedMediaTypes(supportMediaTypeList);
         converter.setDefaultCharset(StandardCharsets.UTF_8);

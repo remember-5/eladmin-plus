@@ -19,6 +19,7 @@ https://blog.csdn.net/weixin_39255905/article/details/110391515
 https://blog.csdn.net/z69183787/article/details/108587150
 https://blog.csdn.net/zxc123e/article/details/84636521
 https://weixiao.blog.csdn.net/article/details/80249894
+https://www.cnblogs.com/hongdada/p/9120899.html
 
 1. @EnableWebMvc+extends WebMvcConfigurationAdapter，在扩展的类中重写父类的方法即可，这种方式会屏蔽springboot的@EnableAutoConfiguration中的设置
 2. extends WebMvcConfigurationSupport，在扩展的类中重写父类的方法即可，这种方式会屏蔽springboot的@EnableAutoConfiguration中的设置

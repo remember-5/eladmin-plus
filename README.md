@@ -159,6 +159,6 @@ see https://el-admin.vip/
 1. `could not initialize proxy - no Session `
   - 在@OneToMany的参数中使用fetch=FetchType.EAGER
   - 在application.properties的配置文件中新增spring.jpa.open-in-view=true
-
+  - 在spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true可以解决lazy失效问题
 2. 
 

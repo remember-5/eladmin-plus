@@ -19,6 +19,8 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        # 解决 FetchType.LAZY 失效问题 的问题，如果没这个句话，所有关联都要加FetchType.EAGER 例如：@ManyToMany(fetch=FetchType.EAGER)
+        enable_lazy_load_no_trans: true
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
     open-in-view: true
 
@@ -34,7 +36,7 @@ user-cache:
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: me.zhengjie.modules.test
+#  typeAliasesPackage: com.remember5.system
   global-config:
     banner: off
     # 数据库相关配置
