@@ -1,4 +1,4 @@
-`server:
+server:
   port: 8100
 
 #配置数据源
