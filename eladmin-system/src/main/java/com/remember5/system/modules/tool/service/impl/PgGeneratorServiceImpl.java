@@ -19,6 +19,9 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.remember5.core.exception.BadRequestException;
+import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageUtil;
+import com.remember5.core.utils.StringUtils;
 import com.remember5.system.modules.generator.domain.ColumnInfo;
 import com.remember5.system.modules.generator.domain.GenConfig;
 import com.remember5.system.modules.generator.domain.vo.TableInfo;
@@ -26,12 +29,8 @@ import com.remember5.system.modules.generator.repository.ColumnInfoRepository;
 import com.remember5.system.modules.generator.service.AutoPermissionService;
 import com.remember5.system.modules.generator.service.GeneratorService;
 import com.remember5.system.modules.generator.utils.GenUtil;
-import com.remember5.core.utils.FileUtil;
-import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,13 +48,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
+ * pg生成器
  * @author Zheng Jie
  * @date 2019-01-02
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class GeneratorServiceImpl implements GeneratorService {
-    private static final Logger log = LoggerFactory.getLogger(GeneratorServiceImpl.class);
+public class PgGeneratorServiceImpl implements GeneratorService {
     @PersistenceContext
     private EntityManager em;
 
