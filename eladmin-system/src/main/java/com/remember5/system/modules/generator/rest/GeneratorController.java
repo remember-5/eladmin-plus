@@ -17,12 +17,12 @@ package com.remember5.system.modules.generator.rest;
 
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.PageUtil;
+import com.remember5.system.modules.generator.domain.ColumnInfo;
+import com.remember5.system.modules.generator.service.GenConfigService;
+import com.remember5.system.modules.tool.service.impl.PgGeneratorServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.remember5.system.modules.generator.domain.ColumnInfo;
-import com.remember5.system.modules.generator.service.GenConfigService;
-import com.remember5.system.modules.generator.service.GeneratorService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +42,7 @@ import java.util.List;
 @Api(tags = "系统：代码生成管理")
 public class GeneratorController {
 
-    private final GeneratorService generatorService;
+    private final PgGeneratorServiceImpl generatorService;
     private final GenConfigService genConfigService;
 
     @Value("${generator.enabled}")

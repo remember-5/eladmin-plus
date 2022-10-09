@@ -26,13 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -40,7 +39,7 @@ import java.util.Objects;
  * @author /
  */
 @Slf4j
-public class TokenFilter extends GenericFilterBean {
+public class TokenFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
     private final JwtProperties jwtProperties;
@@ -61,7 +60,7 @@ public class TokenFilter extends GenericFilterBean {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String token = resolveToken(httpServletRequest);
@@ -105,4 +104,6 @@ public class TokenFilter extends GenericFilterBean {
         }
         return null;
     }
+
+
 }
