@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 华信node2-postgres
+ Source Server         : 116.236.68.213-eladmin
  Source Server Type    : PostgreSQL
  Source Server Version : 140002
  Source Host           : 116.236.68.213:5432
- Source Catalog        : eladmin
+ Source Catalog        : eladmin_v2.2
  Source Schema         : eladmin_template_schema
 
  Target Server Type    : PostgreSQL
  Target Server Version : 140000
  File Encoding         : 65001
 
- Date: 09/10/2022 21:59:39
+ Date: 10/10/2022 14:10:17
 */
 
 
@@ -20,7 +20,7 @@
 -- Sequence structure for app_version_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "app_version_id_seq";
-CREATE SEQUENCE "app_version_id_seq"
+CREATE SEQUENCE "app_version_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -31,7 +31,7 @@ CACHE 1;
 -- Sequence structure for app_version_v2_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "app_version_v2_id_seq";
-CREATE SEQUENCE "app_version_v2_id_seq"
+CREATE SEQUENCE "app_version_v2_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -42,7 +42,7 @@ CACHE 1;
 -- Sequence structure for code_column_config_column_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "code_column_config_column_id_seq";
-CREATE SEQUENCE "code_column_config_column_id_seq"
+CREATE SEQUENCE "code_column_config_column_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -53,7 +53,7 @@ CACHE 1;
 -- Sequence structure for code_gen_config_config_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "code_gen_config_config_id_seq";
-CREATE SEQUENCE "code_gen_config_config_id_seq"
+CREATE SEQUENCE "code_gen_config_config_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -64,7 +64,7 @@ CACHE 1;
 -- Sequence structure for m_user_user_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "m_user_user_id_seq";
-CREATE SEQUENCE "m_user_user_id_seq"
+CREATE SEQUENCE "m_user_user_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -75,7 +75,7 @@ CACHE 1;
 -- Sequence structure for mnt_app_app_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_app_app_id_seq";
-CREATE SEQUENCE "mnt_app_app_id_seq"
+CREATE SEQUENCE "mnt_app_app_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -86,7 +86,7 @@ CACHE 1;
 -- Sequence structure for mnt_deploy_deploy_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_deploy_deploy_id_seq";
-CREATE SEQUENCE "mnt_deploy_deploy_id_seq"
+CREATE SEQUENCE "mnt_deploy_deploy_id_seq" 
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -281,10 +281,11 @@ CREATE TABLE "app_version" (
   "is_deleted" bool NOT NULL,
   "content" varchar(1024) COLLATE "pg_catalog"."default",
   "url" varchar(255) COLLATE "pg_catalog"."default" NOT NULL,
-  "create_date" int2,
+  "create_date" timestamp(6),
   "update_date" timestamp(6),
   "is_must" bool,
-  "res_type" int8
+  "res_type" int4,
+  "platform" varchar(255) COLLATE "pg_catalog"."default"
 )
 ;
 COMMENT ON COLUMN "app_version"."version_name" IS '版本号  这里设定为只有基础功能或大改动时才会有改动';
@@ -297,6 +298,7 @@ COMMENT ON COLUMN "app_version"."create_date" IS '创建时间';
 COMMENT ON COLUMN "app_version"."update_date" IS '更新时间';
 COMMENT ON COLUMN "app_version"."is_must" IS '是否是必须更新';
 COMMENT ON COLUMN "app_version"."res_type" IS '资源类型 1、app 2、wgt';
+COMMENT ON COLUMN "app_version"."platform" IS '平台';
 COMMENT ON TABLE "app_version" IS 'App版本';
 
 -- ----------------------------
@@ -528,6 +530,7 @@ COMMENT ON COLUMN "mnt_deploy"."deploy_id" IS 'ID';
 COMMENT ON COLUMN "mnt_deploy"."app_id" IS '应用编号';
 COMMENT ON COLUMN "mnt_deploy"."create_by" IS '创建者';
 COMMENT ON COLUMN "mnt_deploy"."update_by" IS '更新者';
+COMMENT ON COLUMN "mnt_deploy"."create_time" IS '创建时间';
 COMMENT ON COLUMN "mnt_deploy"."update_time" IS '更新时间';
 COMMENT ON TABLE "mnt_deploy" IS '部署管理';
 
@@ -788,10 +791,10 @@ COMMENT ON TABLE "sys_job" IS '岗位';
 -- Records of sys_job
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (8, '人事专员', 't', 3, NULL, NULL, '2019-03-29 14:52:28', NULL);
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (10, '产品经理', 't', 4, NULL, NULL, '2019-03-29 14:55:51', NULL);
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (11, '全栈开发', 't', 2, NULL, 'admin', '2019-03-31 13:39:30', '2020-05-05 11:33:43');
-INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (12, '软件测试', 't', 5, NULL, 'admin', '2019-03-31 13:39:43', '2020-05-10 19:56:26');
+INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (1, '人事专员', 't', 3, NULL, NULL, '2019-03-29 14:52:28', NULL);
+INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (2, '产品经理', 't', 4, NULL, NULL, '2019-03-29 14:55:51', NULL);
+INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (3, '全栈开发', 't', 2, NULL, 'admin', '2019-03-31 13:39:30', '2020-05-05 11:33:43');
+INSERT INTO "sys_job" ("job_id", "name", "enabled", "job_sort", "create_by", "update_by", "create_time", "update_time") VALUES (4, '软件测试', 't', 5, NULL, 'admin', '2019-03-31 13:39:43', '2020-05-10 19:56:26');
 COMMIT;
 
 -- ----------------------------
@@ -1038,10 +1041,10 @@ COMMENT ON TABLE "sys_quartz_job" IS '定时任务';
 -- Records of sys_quartz_job
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (2, 'testTask', '0/5 * * * * ?', 't', '测试1', 'run1', 'test', '带参测试，多参使用json', '测试', NULL, NULL, NULL, NULL, 'admin', '2019-08-22 14:08:29', '2020-05-24 13:58:33');
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (3, 'testTask', '0/5 * * * * ?', 't', '测试', 'run', '', '不带参测试', 'Zheng Jie', '', '5,6', '1', NULL, 'admin', '2019-09-26 16:44:39', '2020-05-24 14:48:12');
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (5, 'Test', '0/5 * * * * ?', 't', '任务告警测试', 'run', NULL, '测试', 'test', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:32:41', '2020-05-05 20:36:13');
-INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (6, 'testTask', '0/5 * * * * ?', 't', '测试3', 'run2', NULL, '测试3', 'Zheng Jie', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:35:41', '2020-05-05 20:36:07');
+INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (1, 'testTask', '0/5 * * * * ?', 't', '测试1', 'run1', 'test', '带参测试，多参使用json', '测试', NULL, NULL, NULL, NULL, 'admin', '2019-08-22 14:08:29', '2020-05-24 13:58:33');
+INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (2, 'testTask', '0/5 * * * * ?', 't', '测试', 'run', '', '不带参测试', 'Zheng Jie', '', '5,6', '1', NULL, 'admin', '2019-09-26 16:44:39', '2020-05-24 14:48:12');
+INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (3, 'Test', '0/5 * * * * ?', 't', '任务告警测试', 'run', NULL, '测试', 'test', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:32:41', '2020-05-05 20:36:13');
+INSERT INTO "sys_quartz_job" ("job_id", "bean_name", "cron_expression", "is_pause", "job_name", "method_name", "params", "description", "person_in_charge", "email", "sub_task", "pause_after_failure", "create_by", "update_by", "create_time", "update_time") VALUES (4, 'testTask', '0/5 * * * * ?', 't', '测试3', 'run2', NULL, '测试3', 'Zheng Jie', '', NULL, '1', 'admin', 'admin', '2020-05-05 20:35:41', '2020-05-05 20:36:07');
 COMMIT;
 
 -- ----------------------------
@@ -1313,8 +1316,8 @@ COMMENT ON TABLE "sys_users_jobs" IS '岗位关联表';
 -- Records of sys_users_jobs
 -- ----------------------------
 BEGIN;
-INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (1, 11);
-INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (2, 12);
+INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (1, 1);
+INSERT INTO "sys_users_jobs" ("user_id", "job_id") VALUES (2, 1);
 COMMIT;
 
 -- ----------------------------
@@ -1396,12 +1399,7 @@ CREATE TABLE "t_cms_column" (
   "agent_id" int8,
   "create_time" timestamp(6),
   "update_time" timestamp(6),
-  "is_deleted" bool NOT NULL DEFAULT false,
-  "by1" varchar(255) COLLATE "pg_catalog"."default",
-  "by2" varchar(255) COLLATE "pg_catalog"."default",
-  "by3" varchar(255) COLLATE "pg_catalog"."default",
-  "by4" varchar(255) COLLATE "pg_catalog"."default",
-  "by5" varchar(255) COLLATE "pg_catalog"."default"
+  "is_deleted" bool NOT NULL DEFAULT false
 )
 ;
 COMMENT ON COLUMN "t_cms_column"."column_id" IS '自增主键ID';
@@ -1433,12 +1431,7 @@ CREATE TABLE "t_message_notification" (
   "message_state" int2,
   "create_date" timestamp(6),
   "update_date" timestamp(6),
-  "is_deleted" bool NOT NULL DEFAULT false,
-  "by1" varchar(255) COLLATE "pg_catalog"."default",
-  "by2" varchar(255) COLLATE "pg_catalog"."default",
-  "by3" varchar(255) COLLATE "pg_catalog"."default",
-  "by4" varchar(255) COLLATE "pg_catalog"."default",
-  "by5" varchar(255) COLLATE "pg_catalog"."default"
+  "is_deleted" bool NOT NULL DEFAULT false
 )
 ;
 COMMENT ON COLUMN "t_message_notification"."user_id" IS '消息通知的用户';
@@ -1696,14 +1689,14 @@ SELECT setval('"sys_dict_detail_detail_id_seq"', 29, true);
 -- ----------------------------
 ALTER SEQUENCE "sys_dict_dict_id_seq"
 OWNED BY "sys_dict"."dict_id";
-SELECT setval('"sys_dict_dict_id_seq"', 3, true);
+SELECT setval('"sys_dict_dict_id_seq"', 10, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "sys_job_job_id_seq"
 OWNED BY "sys_job"."job_id";
-SELECT setval('"sys_job_job_id_seq"', 2, true);
+SELECT setval('"sys_job_job_id_seq"', 4, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1724,7 +1717,7 @@ SELECT setval('"sys_menu_menu_id_seq"', 158, true);
 -- ----------------------------
 ALTER SEQUENCE "sys_quartz_job_job_id_seq"
 OWNED BY "sys_quartz_job"."job_id";
-SELECT setval('"sys_quartz_job_job_id_seq"', 1, true);
+SELECT setval('"sys_quartz_job_job_id_seq"', 4, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1738,14 +1731,14 @@ SELECT setval('"sys_quartz_log_log_id_seq"', 1, true);
 -- ----------------------------
 ALTER SEQUENCE "sys_role_role_id_seq"
 OWNED BY "sys_role"."role_id";
-SELECT setval('"sys_role_role_id_seq"', 3, true);
+SELECT setval('"sys_role_role_id_seq"', 2, true);
 
 -- ----------------------------
 -- Alter sequences owned by
 -- ----------------------------
 ALTER SEQUENCE "sys_user_user_id_seq"
 OWNED BY "sys_user"."user_id";
-SELECT setval('"sys_user_user_id_seq"', 3, true);
+SELECT setval('"sys_user_user_id_seq"', 2, true);
 
 -- ----------------------------
 -- Alter sequences owned by
@@ -1795,7 +1788,7 @@ ALTER TABLE "app_version_v2" ADD CONSTRAINT "app_version_v2_pkey" PRIMARY KEY ("
 -- ----------------------------
 -- Indexes structure for table code_column_config
 -- ----------------------------
-CREATE INDEX "idx_table_name" ON "code_column_config" USING btree (
+CREATE INDEX "idx_code_column_table_name" ON "code_column_config" USING btree (
   "table_name" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 
@@ -1807,7 +1800,7 @@ ALTER TABLE "code_column_config" ADD CONSTRAINT "code_column_config_pkey" PRIMAR
 -- ----------------------------
 -- Indexes structure for table code_gen_config
 -- ----------------------------
-CREATE INDEX "idx_table_name_copy_1" ON "code_gen_config" USING btree (
+CREATE INDEX "idx_code_gen_config_table_name" ON "code_gen_config" USING btree (
   "table_name" COLLATE "pg_catalog"."default" "pg_catalog"."text_ops" ASC NULLS LAST
 );
 
@@ -1832,13 +1825,6 @@ ALTER TABLE "mnt_app" ADD CONSTRAINT "mnt_app_pkey" PRIMARY KEY ("app_id");
 ALTER TABLE "mnt_database" ADD CONSTRAINT "_copy_28" PRIMARY KEY ("db_id");
 
 -- ----------------------------
--- Indexes structure for table mnt_deploy
--- ----------------------------
-CREATE INDEX "FK6sy157pseoxx4fmcqr1vnvvhy" ON "mnt_deploy" USING btree (
-  "app_id" "pg_catalog"."int8_ops" ASC NULLS LAST
-);
-
--- ----------------------------
 -- Primary Key structure for table mnt_deploy
 -- ----------------------------
 ALTER TABLE "mnt_deploy" ADD CONSTRAINT "mnt_deploy_pkey" PRIMARY KEY ("deploy_id");
@@ -1849,13 +1835,6 @@ ALTER TABLE "mnt_deploy" ADD CONSTRAINT "mnt_deploy_pkey" PRIMARY KEY ("deploy_i
 ALTER TABLE "mnt_deploy_history" ADD CONSTRAINT "_copy_26" PRIMARY KEY ("history_id");
 
 -- ----------------------------
--- Indexes structure for table mnt_deploy_server
--- ----------------------------
-CREATE INDEX "idx_serverid" ON "mnt_deploy_server" USING btree (
-  "server_id" "pg_catalog"."int8_ops" ASC NULLS LAST
-);
-
--- ----------------------------
 -- Primary Key structure for table mnt_deploy_server
 -- ----------------------------
 ALTER TABLE "mnt_deploy_server" ADD CONSTRAINT "_copy_25" PRIMARY KEY ("deploy_id", "server_id");
@@ -1864,16 +1843,6 @@ ALTER TABLE "mnt_deploy_server" ADD CONSTRAINT "_copy_25" PRIMARY KEY ("deploy_i
 -- Primary Key structure for table mnt_server
 -- ----------------------------
 ALTER TABLE "mnt_server" ADD CONSTRAINT "mnt_server_pkey" PRIMARY KEY ("server_id");
-
--- ----------------------------
--- Indexes structure for table sys_dept
--- ----------------------------
-CREATE INDEX "inx_enabled" ON "sys_dept" USING btree (
-  "enabled" "pg_catalog"."bool_ops" ASC NULLS LAST
-);
-CREATE INDEX "inx_pid" ON "sys_dept" USING btree (
-  "pid" "pg_catalog"."int8_ops" ASC NULLS LAST
-);
 
 -- ----------------------------
 -- Primary Key structure for table sys_dept
@@ -1888,7 +1857,7 @@ ALTER TABLE "sys_dict" ADD CONSTRAINT "sys_dict_pkey" PRIMARY KEY ("dict_id");
 -- ----------------------------
 -- Indexes structure for table sys_dict_detail
 -- ----------------------------
-CREATE INDEX "FK5tpkputc6d9nboxojdbgnpmyb" ON "sys_dict_detail" USING btree (
+CREATE INDEX "idx_sys_dict_detail_dict_id" ON "sys_dict_detail" USING btree (
   "dict_id" "pg_catalog"."int8_ops" ASC NULLS LAST
 );
 
@@ -1905,7 +1874,7 @@ ALTER TABLE "sys_job" ADD CONSTRAINT "sys_job_pkey" PRIMARY KEY ("job_id");
 -- ----------------------------
 -- Indexes structure for table sys_log
 -- ----------------------------
-CREATE UNIQUE INDEX "idx_logid" ON "sys_log" USING btree (
+CREATE UNIQUE INDEX "idx_sys_log_log_id" ON "sys_log" USING btree (
   "log_id" "pg_catalog"."int4_ops" ASC NULLS LAST
 );
 

@@ -107,22 +107,6 @@ public class Cms implements Serializable {
     @ApiModelProperty(value = "附件url")
     private String annexUrl;
 
-    @Column(name = "by2")
-    @ApiModelProperty(value = "备用字段")
-    private String by2;
-
-    @Column(name = "by3")
-    @ApiModelProperty(value = "备用字段")
-    private String by3;
-
-    @Column(name = "by4")
-    @ApiModelProperty(value = "备用字段")
-    private String by4;
-
-    @Column(name = "by5")
-    @ApiModelProperty(value = "备用字段")
-    private String by5;
-
     public void copy(Cms source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }

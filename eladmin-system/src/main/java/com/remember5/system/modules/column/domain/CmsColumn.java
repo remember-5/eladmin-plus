@@ -69,27 +69,6 @@ public class CmsColumn implements Serializable {
     @ApiModelProperty(value = "1 表示删除，0 表示未删除")
     private Boolean isDeleted;
 
-    @Column(name = "by1")
-    @ApiModelProperty(value = "备用字段")
-    private String by1;
-
-    @Column(name = "by2")
-    @ApiModelProperty(value = "备用字段")
-    private String by2;
-
-    @Column(name = "by3")
-    @ApiModelProperty(value = "备用字段")
-    private String by3;
-
-    @Column(name = "by4")
-    @ApiModelProperty(value = "备用字段")
-    private String by4;
-
-    @Column(name = "by5")
-    @ApiModelProperty(value = "备用字段")
-    private String by5;
-
-
     public void copy(CmsColumn source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
     }
