@@ -186,7 +186,7 @@ web-socket:
 generator:
   enabled: true
   # 数据库类型  mysql or postgres
-  database-type: mysql
+  database-type: postgres
 
 # IP 本地解析
 ip:
