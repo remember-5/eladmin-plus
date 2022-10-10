@@ -48,7 +48,7 @@ public class GeneratorController {
     @Value("${generator.enabled}")
     private Boolean generatorEnabled;
     @Value("${generator.database-type}")
-    private Boolean databaseType;
+    private String databaseType;
 
     @ApiOperation("查询数据库数据")
     @GetMapping(value = "/tables/all")
