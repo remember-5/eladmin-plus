@@ -19,7 +19,10 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+        # postgres配置
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        #mysql依赖
+        #dialect: org.hibernate.dialect.MySQL8Dialect
     open-in-view: true
 
 mybatis-plus:

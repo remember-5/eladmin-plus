@@ -21,7 +21,10 @@ spring:
       hibernate:
         # 解决 FetchType.LAZY 失效问题 的问题，如果没这个句话，所有关联都要加FetchType.EAGER 例如：@ManyToMany(fetch=FetchType.EAGER)
         enable_lazy_load_no_trans: true
+        # postgres配置
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
+        #mysql依赖
+        #dialect: org.hibernate.dialect.MySQL8Dialect
     open-in-view: true
 
 # 内存用户缓存配置

@@ -160,6 +160,13 @@
 <!--            <artifactId>mica-ip2region</artifactId>-->
 <!--        </dependency>-->
 
+        <!--Mysql 驱动依赖-->
+<!--        <dependency>-->
+<!--            <groupId>mysql</groupId>-->
+<!--            <artifactId>mysql-connector-java</artifactId>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <!-- 正常打包: jar和依赖合并打包 -->
