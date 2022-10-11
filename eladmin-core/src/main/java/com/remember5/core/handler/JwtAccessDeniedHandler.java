@@ -13,10 +13,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.security.security;
+package com.remember5.core.handler;
 
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,16 +25,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * 当用户在没有授权的时候，返回的指定信息
  * @author Zheng Jie
  */
+@Slf4j
 @Component
-public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void commence(HttpServletRequest request,
-                         HttpServletResponse response,
-                         AuthenticationException authException) throws IOException {
-        // 当用户尝试访问安全的REST资源而不提供任何凭据时，将调用此方法发送401 响应
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException == null ? "Unauthorized" : authException.getMessage());
+    public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
+        log.error("用户访问没有授权资源 {}", accessDeniedException.getMessage());
+        //当用户在没有授权的情况下访问受保护的REST资源时，将调用此方法发送403 Forbidden响应
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
     }
 }

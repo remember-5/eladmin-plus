@@ -60,15 +60,20 @@ public class TokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String token = resolveToken(httpServletRequest);
+        String token = resolveToken(request);
+        // 校验token
+        if(Boolean.FALSE.equals(tokenProvider.verifyToken(token))) {
+            log.error("token verify error!");
+            filterChain.doFilter(request, response);
+        }
         // 对于 Token 为空的不需要去查 Redis
         if (CharSequenceUtil.isNotBlank(token)) {
             OnlineUserDto onlineUserDto = null;
             boolean cleanUserCache = false;
             try {
+                // 会去redis校验存不存在这个key
                 onlineUserDto = onlineUserService.getOne(jwtProperties.getOnlineKey() + token);
             } catch (JWTException e) {
                 log.error(e.getMessage());
@@ -85,7 +90,7 @@ public class TokenFilter extends OncePerRequestFilter {
                 tokenProvider.checkRenewal(token);
             }
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter(request, response);
     }
 
     /**

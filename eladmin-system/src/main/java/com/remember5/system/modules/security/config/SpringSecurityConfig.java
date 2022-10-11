@@ -16,8 +16,8 @@
 package com.remember5.system.modules.security.config;
 
 import com.remember5.core.annotation.AnonymousAccess;
-import com.remember5.system.modules.security.security.JwtAccessDeniedHandler;
-import com.remember5.system.modules.security.security.JwtAuthenticationEntryPoint;
+import com.remember5.core.handler.JwtAccessDeniedHandler;
+import com.remember5.core.handler.JwtAuthenticationEntryPoint;
 import com.remember5.system.modules.security.security.TokenConfigurer;
 import com.remember5.core.utils.TokenProvider;
 import com.remember5.system.modules.security.service.OnlineUserService;

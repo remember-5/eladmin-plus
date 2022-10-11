@@ -20,6 +20,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.jwt.JWT;
 import cn.hutool.jwt.JWTPayload;
+import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
 import com.remember5.core.properties.JwtProperties;
@@ -137,4 +138,38 @@ public class TokenProvider implements InitializingBean {
         }
         return null;
     }
+
+
+    /**
+     * 校验token
+     *
+     * @param token
+     * @return
+     */
+    public Boolean verifyToken(String token) {
+        return JWTUtil.verify(token, jwtProperties.getBase64Secret().getBytes());
+    }
+
+
+    public static void main(String[] args) {
+        String key = "ZepaCb507jDke9PwQRk6tomQhktLUc9TMtCtAuCw4nrcymq3BHQdMBUV";
+        JWTSigner signer = JWTSignerUtil.hs512(key.getBytes(StandardCharsets.UTF_8));
+        JWT myJwt = JWT.create().setSigner(signer);
+
+        String sign = myJwt
+                // 加入ID确保生成的 Token 都不一致
+                .setJWTId(IdUtil.simpleUUID())
+                .setSubject("setSubject")
+                .setPayload(AUTHORITIES_KEY, "setPayload")
+                .sign();
+
+        System.err.println(myJwt.parse(sign).getPayload());
+        System.err.println(myJwt.parse(sign + "1").getPayload());
+
+
+        System.err.println(JWTUtil.verify(sign, key.getBytes()));
+        System.err.println(JWTUtil.verify(sign + "1", key.getBytes()));
+    }
+
+
 }

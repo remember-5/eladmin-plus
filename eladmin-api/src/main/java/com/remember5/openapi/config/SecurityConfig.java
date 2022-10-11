@@ -1,11 +1,11 @@
 package com.remember5.openapi.config;
 
+import com.remember5.core.handler.JwtAccessDeniedHandler;
+import com.remember5.core.handler.JwtAuthenticationEntryPoint;
+import com.remember5.core.properties.JwtProperties;
 import com.remember5.openapi.filter.JwtAuthenticationTokenFilter;
-import com.remember5.openapi.handler.RestAuthenticationEntryPoint;
-import com.remember5.openapi.handler.RestfulAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.remember5.core.properties.JwtProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -45,8 +45,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtProperties jwtProperties;
-    private final RestfulAccessDeniedHandler restfulAccessDeniedHandler;
-    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationTokenFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -61,8 +61,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 // 授权异常 添加自定义未授权和未登录结果返回
                 .exceptionHandling()
-                .accessDeniedHandler(restfulAccessDeniedHandler)
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
+                .authenticationEntryPoint(jwtAuthenticationTokenFilter)
                 .and()
                 // 防止iframe 造成跨域
                 .headers()
