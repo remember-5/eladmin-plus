@@ -21,10 +21,10 @@ import com.remember5.system.modules.generator.domain.ColumnInfo;
 import com.remember5.system.modules.generator.service.GenConfigService;
 import com.remember5.system.modules.tool.service.impl.MysqlGeneratorServiceImpl;
 import com.remember5.system.modules.tool.service.impl.PgGeneratorServiceImpl;
+import com.remember5.system.properties.GeneratorProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,24 +45,18 @@ public class GeneratorController {
 
     private final PgGeneratorServiceImpl pgGeneratorService;
     private final MysqlGeneratorServiceImpl mysqlGeneratorService;
-
     private final GenConfigService genConfigService;
-
-    @Value("${generator.enabled}")
-    private Boolean generatorEnabled;
-    @Value("${generator.database-type}")
-    private String databaseType;
 
     @ApiOperation("查询数据库数据")
     @GetMapping(value = "/tables/all")
     public ResponseEntity<Object> queryAllTables() {
-        switch(databaseType){
-            case "postgres":
+        switch (GeneratorProperties.DATABASE_TYPE) {
+            case GeneratorProperties.POSTGRES:
                 return new ResponseEntity<>(pgGeneratorService.getTables(), HttpStatus.OK);
-            case "mysql":
+            case GeneratorProperties.MYSQL:
                 return new ResponseEntity<>(mysqlGeneratorService.getTables(), HttpStatus.OK);
             default:
-               return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
         }
     }
 
@@ -73,10 +67,10 @@ public class GeneratorController {
                                               @RequestParam(defaultValue = "10") Integer size) {
         // TODO 当用public的schema的时候 并不设置环境变量DB_SCHEMA 这里的分页可能有问题。
         int[] startEnd = PageUtil.transToStartEnd(page, size);
-        switch(databaseType){
-            case "postgres":
+        switch (GeneratorProperties.DATABASE_TYPE) {
+            case GeneratorProperties.POSTGRES:
                 return new ResponseEntity<>(pgGeneratorService.getTables(name, startEnd), HttpStatus.OK);
-            case "mysql":
+            case GeneratorProperties.MYSQL:
                 return new ResponseEntity<>(mysqlGeneratorService.getTables(name, startEnd), HttpStatus.OK);
             default:
                 return new ResponseEntity<>(HttpStatus.OK);
@@ -87,11 +81,11 @@ public class GeneratorController {
     @ApiOperation("查询字段数据")
     @GetMapping(value = "/columns")
     public ResponseEntity<Object> queryColumns(@RequestParam String tableName) {
-        switch(databaseType){
-            case "postgres":
+        switch (GeneratorProperties.DATABASE_TYPE) {
+            case GeneratorProperties.POSTGRES:
                 List<ColumnInfo> pgColumnInfos = pgGeneratorService.getColumns(tableName);
                 return new ResponseEntity<>(PageUtil.toPage(pgColumnInfos, pgColumnInfos.size()), HttpStatus.OK);
-            case "mysql":
+            case GeneratorProperties.MYSQL:
                 List<ColumnInfo> mysqlColumnInfos = mysqlGeneratorService.getColumns(tableName);
                 return new ResponseEntity<>(PageUtil.toPage(mysqlColumnInfos, mysqlColumnInfos.size()), HttpStatus.OK);
             default:
@@ -103,11 +97,11 @@ public class GeneratorController {
     @ApiOperation("保存字段数据")
     @PutMapping
     public ResponseEntity<HttpStatus> saveColumn(@RequestBody List<ColumnInfo> columnInfos) {
-        switch(databaseType){
-            case "postgres":
+        switch (GeneratorProperties.DATABASE_TYPE) {
+            case GeneratorProperties.POSTGRES:
                 pgGeneratorService.save(columnInfos);
                 break;
-            case "mysql":
+            case GeneratorProperties.MYSQL:
                 mysqlGeneratorService.save(columnInfos);
                 break;
             default:
@@ -120,13 +114,13 @@ public class GeneratorController {
     @ApiOperation("同步字段数据")
     @PostMapping(value = "sync")
     public ResponseEntity<HttpStatus> syncColumn(@RequestBody List<String> tables) {
-        switch(databaseType){
-            case "postgres":
+        switch (GeneratorProperties.DATABASE_TYPE) {
+            case GeneratorProperties.POSTGRES:
                 for (String table : tables) {
                     pgGeneratorService.sync(pgGeneratorService.getColumns(table), pgGeneratorService.query(table));
                 }
                 break;
-            case "mysql":
+            case GeneratorProperties.MYSQL:
                 for (String table : tables) {
                     mysqlGeneratorService.sync(mysqlGeneratorService.getColumns(table), mysqlGeneratorService.query(table));
                 }
@@ -141,11 +135,11 @@ public class GeneratorController {
     @ApiOperation("生成代码")
     @PostMapping(value = "/{tableName}/{type}")
     public ResponseEntity<Object> generatorCode(@PathVariable String tableName, @PathVariable Integer type, HttpServletRequest request, HttpServletResponse response) {
-        if (!generatorEnabled && type == 0) {
+        if (!GeneratorProperties.ENABLED && type == 0) {
             throw new BadRequestException("此环境不允许生成代码，请选择预览或者下载查看！");
         }
-        switch(databaseType){
-            case "postgres":
+        switch (GeneratorProperties.DATABASE_TYPE) {
+            case GeneratorProperties.POSTGRES:
                 switch (type) {
                     // 生成代码
                     case 0:
@@ -162,7 +156,7 @@ public class GeneratorController {
                         throw new BadRequestException("没有这个选项");
                 }
                 break;
-            case "mysql":
+            case GeneratorProperties.MYSQL:
                 switch (type) {
                     // 生成代码
                     case 0:

@@ -15,6 +15,7 @@
  */
 package com.remember5.system.modules.generator.utils;
 
+import com.remember5.system.properties.GeneratorProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -29,8 +30,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 @Slf4j
 public class ColUtil {
 
-    public ColUtil() {
-    }
 
     /**
      * 转换mysql数据类型为java数据类型
@@ -49,7 +48,15 @@ public class ColUtil {
      */
     public static PropertiesConfiguration getConfig() {
         try {
-            return new PropertiesConfiguration("generator.properties");
+            switch (GeneratorProperties.DATABASE_TYPE) {
+                case GeneratorProperties.POSTGRES:
+                    return new PropertiesConfiguration("generator.postgres.properties");
+                case GeneratorProperties.MYSQL:
+                    return new PropertiesConfiguration("generator.mysql.properties");
+                default:
+                    break;
+            }
+
         } catch (ConfigurationException e) {
             log.error(e.getMessage(), e);
         }
