@@ -1,6 +1,6 @@
 package ${package}.service.mapstruct;
 
-import BaseMapper;
+import com.remember5.core.base.BaseMapper;
 import ${package}.domain.${className};
 import ${package}.service.dto.${className}Dto;
 import org.mapstruct.Mapper;

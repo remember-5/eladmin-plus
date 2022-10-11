@@ -1,11 +1,11 @@
 package ${package}.rest;
 
 import cn.hutool.core.collection.CollUtil;
-import Log;
+com.remember5.logging.annotation.Log;
 import ${package}.domain.${className};
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
-import FileUtil;
+import com.remember5.core.utils.FileUtil;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
