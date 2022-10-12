@@ -19,8 +19,7 @@ import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.system.modules.generator.domain.ColumnInfo;
 import com.remember5.system.modules.generator.service.GenConfigService;
-import com.remember5.system.modules.tool.service.impl.MysqlGeneratorServiceImpl;
-import com.remember5.system.modules.tool.service.impl.PgGeneratorServiceImpl;
+import com.remember5.system.modules.generator.service.GeneratorService;
 import com.remember5.system.properties.GeneratorProperties;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,21 +42,14 @@ import java.util.List;
 @Api(tags = "系统：代码生成管理")
 public class GeneratorController {
 
-    private final PgGeneratorServiceImpl pgGeneratorService;
-    private final MysqlGeneratorServiceImpl mysqlGeneratorService;
+    private final GeneratorService generatorService;
     private final GenConfigService genConfigService;
+
 
     @ApiOperation("查询数据库数据")
     @GetMapping(value = "/tables/all")
     public ResponseEntity<Object> queryAllTables() {
-        switch (GeneratorProperties.DATABASE_TYPE) {
-            case GeneratorProperties.POSTGRES:
-                return new ResponseEntity<>(pgGeneratorService.getTables(), HttpStatus.OK);
-            case GeneratorProperties.MYSQL:
-                return new ResponseEntity<>(mysqlGeneratorService.getTables(), HttpStatus.OK);
-            default:
-                return new ResponseEntity<>(HttpStatus.OK);
-        }
+        return new ResponseEntity<>(generatorService.getTables(), HttpStatus.OK);
     }
 
     @ApiOperation("查询数据库数据")
@@ -67,68 +59,29 @@ public class GeneratorController {
                                               @RequestParam(defaultValue = "10") Integer size) {
         // TODO 当用public的schema的时候 并不设置环境变量DB_SCHEMA 这里的分页可能有问题。
         int[] startEnd = PageUtil.transToStartEnd(page, size);
-        switch (GeneratorProperties.DATABASE_TYPE) {
-            case GeneratorProperties.POSTGRES:
-                return new ResponseEntity<>(pgGeneratorService.getTables(name, startEnd), HttpStatus.OK);
-            case GeneratorProperties.MYSQL:
-                return new ResponseEntity<>(mysqlGeneratorService.getTables(name, startEnd), HttpStatus.OK);
-            default:
-                return new ResponseEntity<>(HttpStatus.OK);
-        }
-
+        return new ResponseEntity<>(generatorService.getTables(name, startEnd), HttpStatus.OK);
     }
 
     @ApiOperation("查询字段数据")
     @GetMapping(value = "/columns")
     public ResponseEntity<Object> queryColumns(@RequestParam String tableName) {
-        switch (GeneratorProperties.DATABASE_TYPE) {
-            case GeneratorProperties.POSTGRES:
-                List<ColumnInfo> pgColumnInfos = pgGeneratorService.getColumns(tableName);
-                return new ResponseEntity<>(PageUtil.toPage(pgColumnInfos, pgColumnInfos.size()), HttpStatus.OK);
-            case GeneratorProperties.MYSQL:
-                List<ColumnInfo> mysqlColumnInfos = mysqlGeneratorService.getColumns(tableName);
-                return new ResponseEntity<>(PageUtil.toPage(mysqlColumnInfos, mysqlColumnInfos.size()), HttpStatus.OK);
-            default:
-                return new ResponseEntity<>(HttpStatus.OK);
-        }
-
+        List<ColumnInfo> pgColumnInfos = generatorService.getColumns(tableName);
+        return new ResponseEntity<>(PageUtil.toPage(pgColumnInfos, pgColumnInfos.size()), HttpStatus.OK);
     }
 
     @ApiOperation("保存字段数据")
     @PutMapping
     public ResponseEntity<HttpStatus> saveColumn(@RequestBody List<ColumnInfo> columnInfos) {
-        switch (GeneratorProperties.DATABASE_TYPE) {
-            case GeneratorProperties.POSTGRES:
-                pgGeneratorService.save(columnInfos);
-                break;
-            case GeneratorProperties.MYSQL:
-                mysqlGeneratorService.save(columnInfos);
-                break;
-            default:
-                return new ResponseEntity<>(HttpStatus.OK);
-        }
-
+        generatorService.save(columnInfos);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @ApiOperation("同步字段数据")
     @PostMapping(value = "sync")
     public ResponseEntity<HttpStatus> syncColumn(@RequestBody List<String> tables) {
-        switch (GeneratorProperties.DATABASE_TYPE) {
-            case GeneratorProperties.POSTGRES:
-                for (String table : tables) {
-                    pgGeneratorService.sync(pgGeneratorService.getColumns(table), pgGeneratorService.query(table));
-                }
-                break;
-            case GeneratorProperties.MYSQL:
-                for (String table : tables) {
-                    mysqlGeneratorService.sync(mysqlGeneratorService.getColumns(table), mysqlGeneratorService.query(table));
-                }
-                break;
-            default:
-                return new ResponseEntity<>(HttpStatus.OK);
+        for (String table : tables) {
+            generatorService.sync(generatorService.getColumns(table), generatorService.query(table));
         }
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -138,46 +91,21 @@ public class GeneratorController {
         if (!GeneratorProperties.ENABLED && type == 0) {
             throw new BadRequestException("此环境不允许生成代码，请选择预览或者下载查看！");
         }
-        switch (GeneratorProperties.DATABASE_TYPE) {
-            case GeneratorProperties.POSTGRES:
-                switch (type) {
-                    // 生成代码
-                    case 0:
-                        pgGeneratorService.generator(genConfigService.find(tableName), pgGeneratorService.getColumns(tableName));
-                        break;
-                    // 预览
-                    case 1:
-                        return pgGeneratorService.preview(genConfigService.find(tableName), pgGeneratorService.getColumns(tableName));
-                    // 打包
-                    case 2:
-                        pgGeneratorService.download(genConfigService.find(tableName), pgGeneratorService.getColumns(tableName), request, response);
-                        break;
-                    default:
-                        throw new BadRequestException("没有这个选项");
-                }
+        switch (type) {
+            // 生成代码
+            case 0:
+                generatorService.generator(genConfigService.find(tableName), generatorService.getColumns(tableName));
                 break;
-            case GeneratorProperties.MYSQL:
-                switch (type) {
-                    // 生成代码
-                    case 0:
-                        mysqlGeneratorService.generator(genConfigService.find(tableName), mysqlGeneratorService.getColumns(tableName));
-                        break;
-                    // 预览
-                    case 1:
-                        return mysqlGeneratorService.preview(genConfigService.find(tableName), mysqlGeneratorService.getColumns(tableName));
-                    // 打包
-                    case 2:
-                        mysqlGeneratorService.download(genConfigService.find(tableName), mysqlGeneratorService.getColumns(tableName), request, response);
-                        break;
-                    default:
-                        throw new BadRequestException("没有这个选项");
-                }
+            // 预览
+            case 1:
+                return generatorService.preview(genConfigService.find(tableName), generatorService.getColumns(tableName));
+            // 打包
+            case 2:
+                generatorService.download(genConfigService.find(tableName), generatorService.getColumns(tableName), request, response);
                 break;
             default:
-                return new ResponseEntity<>(HttpStatus.OK);
+                throw new BadRequestException("没有这个选项");
         }
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

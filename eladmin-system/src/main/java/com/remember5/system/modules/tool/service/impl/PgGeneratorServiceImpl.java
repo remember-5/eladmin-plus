@@ -29,8 +29,10 @@ import com.remember5.system.modules.generator.repository.ColumnInfoRepository;
 import com.remember5.system.modules.generator.service.AutoPermissionService;
 import com.remember5.system.modules.generator.service.GeneratorService;
 import com.remember5.system.modules.generator.utils.GenUtil;
+import com.remember5.system.properties.GeneratorProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix = "generator", name = "database-type",havingValue = GeneratorProperties.POSTGRES)
 @RequiredArgsConstructor
 public class PgGeneratorServiceImpl implements GeneratorService {
     @PersistenceContext
