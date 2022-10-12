@@ -63,13 +63,13 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
         String token = resolveToken(request);
-        // 校验token
-        if(Boolean.FALSE.equals(tokenProvider.verifyToken(token))) {
-            log.error("token verify error!");
-            filterChain.doFilter(request, response);
-        }
         // 对于 Token 为空的不需要去查 Redis
         if (CharSequenceUtil.isNotBlank(token)) {
+            // 校验token
+            if(Boolean.FALSE.equals(tokenProvider.verifyToken(token))) {
+                log.error("token verify error!");
+                filterChain.doFilter(request, response);
+            }
             OnlineUserDto onlineUserDto = null;
             boolean cleanUserCache = false;
             try {

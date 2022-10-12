@@ -21,6 +21,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
+ * 生成代码配置
+ *
  * @author wangjiahao
  * @date 2022/10/11 16:23
  */
@@ -29,12 +31,22 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "generator")
 public class GeneratorProperties {
 
+    /**
+     * 开启生成代码
+     */
     public static Boolean ENABLED;
-
+    /**
+     * 数据库类型
+     */
     public static String DATABASE_TYPE;
 
-
+    /**
+     * mysql数据库
+     */
     public static final String MYSQL = "mysql";
+    /**
+     * pg数据库
+     */
     public static final String POSTGRES = "postgres";
 
 
