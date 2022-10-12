@@ -159,5 +159,7 @@ see https://el-admin.vip/
   - 在@OneToMany的参数中使用fetch=FetchType.EAGER
   - 在application.properties的配置文件中新增spring.jpa.open-in-view=true
   - 在spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true可以解决lazy失效问题
-2. 
+2. 适配问题 
+  - 经过测试，Navicat(16.0.9)中Postgres(140002) to Mysql(5.7.28) 会有Bool格式转换成Varchar(5)的情况
+  - 适配mysql的方案，修改pg-bool 为 pg-int 0=false 1=true 同时 mysql 也更改tinyint为0=false 1=true
 
