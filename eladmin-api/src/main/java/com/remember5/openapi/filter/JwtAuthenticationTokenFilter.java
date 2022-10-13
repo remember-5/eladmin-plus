@@ -42,14 +42,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = resolveToken(request);
-        // 校验token
-        if(Boolean.FALSE.equals(tokenProvider.verifyToken(token))) {
-            log.error("token verify error!");
-            filterChain.doFilter(request, response);
-        }
 
         // 对于 Token 为空的不需要去查 Redis
         if (StrUtil.isNotBlank(token)) {
+            // 校验token
+            if(Boolean.FALSE.equals(tokenProvider.verifyToken(token))) {
+                log.error("token verify error!");
+                filterChain.doFilter(request, response);
+            }
+
             String phone = tokenProvider.getSubject(token);
             if (phone != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 ApiUserDto user = apiUserService.findByPhone(phone);
