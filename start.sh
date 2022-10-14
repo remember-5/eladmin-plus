@@ -1,12 +1,11 @@
-nohup java -jar eladmin-template.jar \
---DB_HOST= \
---DB_PORT= \
---DB_NAME= \
---DB_USER= \
---DB_PWD= \
---REDIS_HOST= \
---REDIS_PORT= \
---REDIS_PWD= \
---REDIS_DB= \
---DRUID_USER= \
---DRUID_PWD= > nohup.out 2>&1 &
+nohup java -DDB_HOST= \
+-DDB_PORT= \
+-DDB_NAME= \
+-DDB_USER= \
+-DDB_PWD= \
+-DREDIS_HOST= \
+-DREDIS_PORT= \
+-DREDIS_PWD= \
+-DREDIS_DB= \
+-DDRUID_USER= \
+-DDRUID_PWD= -jar eladmin-template.jar > nohup.out 2>&1 &
