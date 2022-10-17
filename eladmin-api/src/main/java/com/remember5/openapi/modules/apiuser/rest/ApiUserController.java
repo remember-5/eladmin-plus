@@ -75,9 +75,8 @@ public class ApiUserController {
 
     @ApiOperation("微信小程序一键登录")
     @PostMapping(value = "wxMiniAppLogin")
-    public R wxMiniAppLogin(@RequestBody LoginUser user) {
-//        return apiUserService.loginByWx(user);
-        return R.success();
+    public R wxMiniAppLogin(@RequestBody WxLoginUser wxLoginInfo) {
+        return apiUserService.wxMiniAppLogin(wxLoginInfo);
     }
 
     @ApiOperation("支付宝一键登录")

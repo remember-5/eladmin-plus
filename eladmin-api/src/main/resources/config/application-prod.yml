@@ -144,6 +144,8 @@ jwt:
       - /file/**
       - /druid/** # 阿里巴巴 druid
       - /version/**
+      - /user/wxMiniAppCode2Sessions
+      - /user/wxMiniAppLogin
     get-url:
       - /*.html
       - /**/*.html
@@ -285,7 +287,7 @@ wx:
   miniapp:
     appid: test
     secret: test
-    aesKey: test
+    aesKey: ''
     msgDataFormat: 'JSON'                  # 消息格式，XML或者JSON.
     token: ''
     config-storage:
