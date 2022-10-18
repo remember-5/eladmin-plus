@@ -18,13 +18,16 @@ package com.remember5.minio.entity;
 import io.minio.ObjectWriteResponse;
 import okhttp3.Headers;
 
+import java.io.Serializable;
+
 /**
  * minio 上传返回对象
  *
  * @author wangjiahao
  * @date 2022/10/18 11:01
  */
-public class MinioResponse extends ObjectWriteResponse {
+public class MinioResponse extends ObjectWriteResponse implements Serializable {
+
 
     /**
      * 上传状态

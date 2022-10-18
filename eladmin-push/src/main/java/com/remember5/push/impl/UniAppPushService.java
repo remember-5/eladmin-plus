@@ -31,12 +31,8 @@ import java.util.Set;
 @Service
 public class UniAppPushService implements PushService<UniAppPushClient> {
 
-    private final ApiHelper apiHelper;
-
     @Autowired(required = false)
-    public UniAppPushService(ApiHelper apiHelper) {
-        this.apiHelper = apiHelper;
-    }
+    private ApiHelper apiHelper;
 
     @Override
     public boolean push(UniAppPushClient cid) {

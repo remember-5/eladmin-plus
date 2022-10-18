@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,17 +35,13 @@ import java.util.Optional;
 @Component
 public class MinioUtils {
 
-    private final MinioClient minioClient;
+    @Autowired(required = false)
+    private MinioClient minioClient;
     private final char FILE_SEPARATOR = '/';
 
-    private final MinioProperties minioProperties;
+    @Resource
+    private MinioProperties minioProperties;
 
-    @Autowired(required = false)
-    public MinioUtils(MinioClient minioClient, MinioProperties minioProperties) {
-        this.minioClient = minioClient;
-        this.minioProperties = minioProperties;
-
-    }
 
     /**
      * 上传文件,文件夹名取日期,文件名取UUID
@@ -132,11 +129,9 @@ public class MinioUtils {
             }
             urlBuilder.append(FILE_SEPARATOR).append(minioProperties.getBucket()).append(FILE_SEPARATOR).append(filename);
             return new MinioResponse(o, true, urlBuilder.toString());
-
-
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new MinioResponse(null, false, null);
+            return null;
         }
     }
 

@@ -269,7 +269,7 @@ decorator:
       custom-appender-class:
 
 minio:
-  enabled：true
+  enabled: true
   host: ${MINIO_HOST}
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}
