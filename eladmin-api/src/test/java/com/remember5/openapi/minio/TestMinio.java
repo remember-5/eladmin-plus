@@ -2,6 +2,7 @@ package com.remember5.openapi.minio;
 
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONWriter;
 import com.remember5.minio.entity.MinioResponse;
 import com.remember5.minio.properties.MinioProperties;
 import com.remember5.minio.utils.MinioUtils;
@@ -50,8 +51,8 @@ public class TestMinio {
 //        String url = "http://42.193.105.146:9000/nt1/2022-05-17/2dc9f29a-2e66-4abb-a7f9-f2dbbd2d2ab5.png";
         String url = "https://skyline.github.com/_nuxt/assets/sound/music-807dfe09ce23793891674eb022b38c1b.mp3";
         MinioResponse upload = minioUtils.upload(url, minioProperties.getBucket());
-//        System.err.println(JSON.toJSONString(upload, JSONWriter.Feature.FieldBased, JSONWriter.Feature.PrettyFormat));
-        System.err.println(JSON.toJSONString(upload));
+        System.err.println(JSON.toJSONString(upload, JSONWriter.Feature.FieldBased, JSONWriter.Feature.PrettyFormat));
+//        System.err.println(JSON.toJSONString(upload));
         Assertions.assertTrue(upload.stats());
     }
 
