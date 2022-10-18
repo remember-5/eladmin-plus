@@ -2,14 +2,15 @@ package com.remember5.system.modules.minio.service.impl;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.remember5.system.modules.minio.service.MinioService;
+import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
 import com.remember5.minio.entity.Base64DecodedMultipartFile;
+import com.remember5.minio.entity.MinioResponse;
 import com.remember5.minio.properties.MinioProperties;
 import com.remember5.minio.utils.MinioUtils;
+import com.remember5.system.modules.minio.service.MinioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.remember5.core.result.R;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,10 +37,9 @@ public class MinioServiceImpl implements MinioService {
     @Override
     public R uploadFile(MultipartFile file) {
         if (ObjectUtil.isNotNull(file)) {
-            boolean flag = false;
             try {
-                flag = minioUtils.upload(file, minioProperties.getBucket());
-                return flag ? R.success(flag) : R.fail(REnum.A0500);
+                MinioResponse upload = minioUtils.upload(file, minioProperties.getBucket());
+                return upload.stats() ? R.success(upload.stats()) : R.fail(REnum.A0500);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

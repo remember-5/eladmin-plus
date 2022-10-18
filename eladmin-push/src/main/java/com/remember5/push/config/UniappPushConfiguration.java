@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-@ConditionalOnProperty(prefix = "getui", value = "enable", matchIfMissing = true)
 public class UniappPushConfiguration {
 
     private final PushProperties pushProperties;
@@ -29,6 +28,7 @@ public class UniappPushConfiguration {
      * @return bean
      */
     @Bean
+    @ConditionalOnProperty(prefix = "getui", value = "enabled", matchIfMissing = true)
     public ApiHelper initApiHelper() {
         System.setProperty("http.maxConnections", pushProperties.getMaxConnections());
         GtApiConfiguration apiConfiguration = new GtApiConfiguration();

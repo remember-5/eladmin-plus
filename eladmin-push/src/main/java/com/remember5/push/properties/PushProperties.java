@@ -15,14 +15,34 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "getui")
 public class PushProperties {
 
+    /**
+     * 是否开启
+     */
+    private Boolean enabled;
+
+    /**
+     * 最大连接数
+     */
     private String maxConnections;
 
+    /**
+     * 个推的appid
+     */
     private String appid;
 
+    /**
+     * 个推的appkey
+     */
     private String appkey;
 
+    /**
+     * /
+     */
     private String masterSecret;
 
+    /**
+     * 个推地址
+     */
     private String domain;
 
 

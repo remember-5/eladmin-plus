@@ -16,7 +16,6 @@ import com.getui.push.v2.sdk.dto.req.message.ios.IosDTO;
 import com.getui.push.v2.sdk.dto.res.TaskIdDTO;
 import com.remember5.push.PushService;
 import com.remember5.push.entity.UniAppPushClient;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,12 +29,14 @@ import java.util.Set;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class UniAppPushService implements PushService<UniAppPushClient> {
 
+    private final ApiHelper apiHelper;
 
     @Autowired(required = false)
-    private ApiHelper apiHelper;
+    public UniAppPushService(ApiHelper apiHelper) {
+        this.apiHelper = apiHelper;
+    }
 
     @Override
     public boolean push(UniAppPushClient cid) {

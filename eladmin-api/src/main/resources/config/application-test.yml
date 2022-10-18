@@ -269,13 +269,15 @@ decorator:
       custom-appender-class:
 
 minio:
+  enabled: true
   host: ${MINIO_HOST}
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}
   secret-key: ${MINIO_SK}
+  domain: ''
 
 getui:
-  enable: false
+  enabled: false
   maxConnections: 200
   appid:
   appkey:

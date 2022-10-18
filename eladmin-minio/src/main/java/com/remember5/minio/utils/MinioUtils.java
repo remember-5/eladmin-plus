@@ -7,15 +7,16 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
+import com.remember5.minio.entity.MinioResponse;
 import com.remember5.minio.properties.MinioProperties;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,19 +33,17 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class MinioUtils {
-    @Resource
-    private MinioProperties minioProperties;
 
-    /**
-     * 创建Minio客户端连接
-     *
-     * @return Minio实例
-     */
-    private MinioClient initClient() {
-        return MinioClient.builder()
-                .endpoint(minioProperties.getHost())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
+    private final MinioClient minioClient;
+    private final char FILE_SEPARATOR = '/';
+
+    private final MinioProperties minioProperties;
+
+    @Autowired(required = false)
+    public MinioUtils(MinioClient minioClient, MinioProperties minioProperties) {
+        this.minioClient = minioClient;
+        this.minioProperties = minioProperties;
+
     }
 
     /**
@@ -54,14 +53,14 @@ public class MinioUtils {
      * @param bucket bucket
      * @return 保存结果
      */
-    public Boolean upload(MultipartFile file, String bucket) throws IOException {
+    public MinioResponse upload(MultipartFile file, String bucket) throws IOException {
         String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
         String originalSuffix = originalFilename.substring(originalFilename.lastIndexOf(StrPool.DOT));
         String newFilename = UUID.randomUUID(true) + originalSuffix;
         //获取当前日期作为文件夹名
         String packageName = LocalDate.now().toString();
         // packageName + "/" + fileName
-        return upload(file, bucket, packageName + File.separator + newFilename);
+        return upload(file, bucket, packageName + FILE_SEPARATOR + newFilename);
     }
 
     /**
@@ -72,7 +71,7 @@ public class MinioUtils {
      * @param filename 文件名
      * @return 保存结果
      */
-    public Boolean upload(MultipartFile file, String bucket, String filename) throws IOException {
+    public MinioResponse upload(MultipartFile file, String bucket, String filename) throws IOException {
         return upload(file.getInputStream(), bucket, filename, file.getSize());
     }
 
@@ -81,11 +80,11 @@ public class MinioUtils {
      * @param bucket 桶
      * @return 保存结果
      */
-    public Boolean upload(File file, String bucket) {
+    public MinioResponse upload(File file, String bucket) {
         return upload(file, bucket, file.getName(), file.length());
     }
 
-    public Boolean upload(File file, String bucket, String filename, Long fileSize) {
+    public MinioResponse upload(File file, String bucket, String filename, Long fileSize) {
         return upload(FileUtil.getInputStream(file), bucket, filename, fileSize);
     }
 
@@ -98,7 +97,7 @@ public class MinioUtils {
      * @param fileSize        filesize
      * @return 保存结果
      */
-    public Boolean upload(InputStream fileInputStream, String bucket, String filename, Long fileSize) {
+    public MinioResponse upload(InputStream fileInputStream, String bucket, String filename, Long fileSize) {
         final String mimeType = getMimeType(filename);
         if (CharSequenceUtil.isNotBlank(mimeType)) {
             return upload(fileInputStream, bucket, filename, mimeType, fileSize);
@@ -117,15 +116,27 @@ public class MinioUtils {
      * @param fileSize        filesize
      * @return 保存结果
      */
-    public Boolean upload(InputStream fileInputStream, String bucket, String filename, String contentType, Long fileSize) {
+    public MinioResponse upload(InputStream fileInputStream, String bucket, String filename, String contentType, Long fileSize) {
         //文件分区名
         bucketExists(bucket);
         try {
-            initClient().putObject(PutObjectArgs.builder().bucket(bucket).object(filename).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(contentType).build());
-            return true;
+            PutObjectArgs objectArgs = PutObjectArgs.builder().bucket(bucket).object(filename).stream(fileInputStream, fileSize, StrUtil.INDEX_NOT_FOUND).contentType(contentType).build();
+            ObjectWriteResponse o = minioClient.putObject(objectArgs);
+
+            StringBuilder urlBuilder = new StringBuilder();
+            // 非自定义域名
+            if (CharSequenceUtil.isBlank(minioProperties.getDomain())) {
+                urlBuilder.append(minioProperties.getHost());
+            } else {
+                urlBuilder.append(minioProperties.getDomain());
+            }
+            urlBuilder.append(FILE_SEPARATOR).append(minioProperties.getBucket()).append(FILE_SEPARATOR).append(filename);
+            return new MinioResponse(o, true, urlBuilder.toString());
+
+
         } catch (Exception e) {
             log.error(e.getMessage());
-            return false;
+            return new MinioResponse(null, false, null);
         }
     }
 
@@ -137,11 +148,11 @@ public class MinioUtils {
      */
     private void bucketExists(String bucket) {
         try {
-            if (initClient().bucketExists(BucketExistsArgs.builder().bucket(bucket).build())) {
+            if (minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucket).build())) {
                 return;
             }
             log.info("文件分区未存在,正在创建分区{}", bucket);
-            initClient().makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucket).build());
         } catch (Exception e) {
             log.error("文件分区 {} 异常, {}", bucket, e.getMessage());
         }
@@ -153,7 +164,7 @@ public class MinioUtils {
      * @param bucket 桶名称
      * @return 保存结果
      */
-    public Boolean upload(String url, String bucket) {
+    public MinioResponse upload(String url, String bucket) {
         File file = HttpUtil.downloadFileFromUrl(url, FileUtil.getTmpDirPath());
         return upload(file, bucket);
     }
@@ -164,7 +175,7 @@ public class MinioUtils {
      * @return /
      */
     public List<Bucket> getAllBuckets() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
-        return initClient().listBuckets();
+        return minioClient.listBuckets();
     }
 
     /**
@@ -173,7 +184,7 @@ public class MinioUtils {
      * @param bucketName bucket名称
      */
     public Optional<Bucket> getBucket(String bucketName) throws IOException, InvalidKeyException, NoSuchAlgorithmException, InsufficientDataException, InvalidResponseException, InternalException, ErrorResponseException, XmlParserException, ServerException, io.minio.errors.InsufficientDataException, io.minio.errors.InternalException {
-        return initClient().listBuckets().stream().filter(b -> b.name().equals(bucketName)).findFirst();
+        return minioClient.listBuckets().stream().filter(b -> b.name().equals(bucketName)).findFirst();
     }
 
     /**
@@ -182,7 +193,7 @@ public class MinioUtils {
      * @param bucketName bucket名称
      */
     public void removeBucket(String bucketName) throws InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException, ServerException, io.minio.errors.InsufficientDataException, io.minio.errors.InternalException {
-        initClient().removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
+        minioClient.removeBucket(RemoveBucketArgs.builder().bucket(bucketName).build());
     }
 
     /**
@@ -194,7 +205,7 @@ public class MinioUtils {
      * @return url
      */
     public String getObjectUrl(String bucketName, String objectName, Integer expires) throws Exception {
-        return initClient().getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(bucketName).object(objectName).expiry(expires).build());
+        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(bucketName).object(objectName).expiry(expires).build());
     }
 
     /**
@@ -204,7 +215,7 @@ public class MinioUtils {
      * @return ⼆进制流
      */
     public InputStream getObject(String bucket, String objectName) throws Exception {
-        return initClient().getObject(GetObjectArgs.builder().bucket(bucket).object(objectName).build());
+        return minioClient.getObject(GetObjectArgs.builder().bucket(bucket).object(objectName).build());
     }
 
     /**
@@ -216,7 +227,7 @@ public class MinioUtils {
      * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#putObject
      */
     public void putObject(String bucketName, String objectName, InputStream stream) throws Exception {
-        initClient().putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, stream.available(), StrUtil.INDEX_NOT_FOUND).contentType(objectName.substring(objectName.lastIndexOf("."))).build());
+        minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, stream.available(), StrUtil.INDEX_NOT_FOUND).contentType(objectName.substring(objectName.lastIndexOf("."))).build());
     }
 
     /**
@@ -230,7 +241,7 @@ public class MinioUtils {
      * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#putObject
      */
     public void putObject(String bucketName, String objectName, InputStream stream, long size, String contextType) throws Exception {
-        initClient().putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, size, StrUtil.INDEX_NOT_FOUND).contentType(contextType).build());
+        minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, size, StrUtil.INDEX_NOT_FOUND).contentType(contextType).build());
     }
 
     /**
@@ -241,7 +252,7 @@ public class MinioUtils {
      * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#statObject
      */
     public StatObjectResponse getObjectInfo(String bucketName, String objectName) throws Exception {
-        return initClient().statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
+        return minioClient.statObject(StatObjectArgs.builder().bucket(bucketName).object(objectName).build());
     }
 
     /**
@@ -251,7 +262,7 @@ public class MinioUtils {
      * @throws Exception https://docs.minio.io/cn/java-client-apireference.html#removeObject
      */
     public void removeObject(String bucketName, String objectName) throws ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException, ServerException, io.minio.errors.InsufficientDataException, io.minio.errors.InternalException {
-        initClient().removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).versionId("version-id").build());
+        minioClient.removeObject(RemoveObjectArgs.builder().bucket(bucketName).object(objectName).versionId("version-id").build());
         log.info("删除 {} 文件成功", objectName);
     }
 
