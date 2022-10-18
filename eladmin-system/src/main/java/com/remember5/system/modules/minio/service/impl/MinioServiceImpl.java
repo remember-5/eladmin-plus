@@ -39,9 +39,11 @@ public class MinioServiceImpl implements MinioService {
         if (ObjectUtil.isNotNull(file)) {
             try {
                 MinioResponse upload = minioUtils.upload(file, minioProperties.getBucket());
-                return upload.stats() ? R.success(upload.stats()) : R.fail(REnum.A0500);
+                return upload != null && upload.stats() ? R.success(upload.url()) : R.fail(REnum.A0500);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.error(e.getMessage());
+//                throw new RuntimeException(e);
+                return R.fail(REnum.A0500);
             }
         }
         return R.fail(REnum.A0500);
