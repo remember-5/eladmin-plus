@@ -38,6 +38,12 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 | MINIO_SK     | minio的SecretKey | 默认 无         |
 
 
+## 使用Mysql
+项目适配msql,但默认配置是postgres，如果使用mysql，需要改以下配置
+- `pom` 中添加Mysql 驱动依赖 `mysql-driver`
+- 配置文件中的`spring.datasource.dynamic.datasource` 更改为mysql 
+- 全局配置文件中的`spring.jpa.properties.hibernate.dialect` 更改为mysql
+- `generator.database-type` 更改为mysql
 
 ## 新增功能列表
 
@@ -147,9 +153,9 @@ see https://el-admin.vip/
 1. 修改`RSA`的公钥和私钥
 2. 修改新增用户的默认密码配置
 3. 修改前端默认登录的账号密码
-4. 关闭swagger
-5. 修改jwt时效时间，尽量缩短
-6. 
+4. 关闭`swagger`
+5. 修改`jwt`时效时间，尽量缩短
+6. 如使用`minio`, 请更改`minio`的`Access Policy`为`custom`，关闭`s3:ListBucket` https://blog.remember5.top/minio#acc1c14cfe75498e9ffc06e4eb21802e
 
 ### 安全事项：
 1. 禁止携带服务器，插件等明文信息在接口中

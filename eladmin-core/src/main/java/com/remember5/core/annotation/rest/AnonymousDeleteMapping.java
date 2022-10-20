@@ -84,4 +84,9 @@ public @interface AnonymousDeleteMapping {
     @AliasFor(annotation = RequestMapping.class)
     String[] produces() default {};
 
+    /**
+     * 拒绝匿名访问的环境
+     */
+    String[] rejectedEnvs() default {};
+
 }

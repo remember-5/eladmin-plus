@@ -74,22 +74,29 @@ public interface ApiUserService {
      */
     R loginBySms(LoginUser user);
 
-    boolean phoneExits(String phone);
-
     /**
-     * 微信小程序 code换取session
-     * @param wxLoginInfo /
+     * 忘记密码-发送短信验证码
+     *
+     * @param phone 用户传入的手机号
      * @return /
      */
-    R wxMiniAppCode2Sessions(WxLoginUser wxLoginInfo);
+    R captchaByResetPassword(String phone);
+
+    /**
+     * 忘记密码
+     *
+     * @param user 用户信息
+     * @return /
+     */
+    R forgetPassword(LoginUser user);
 
     /**
      * 微信小程序登录
+     *
      * @param wxLoginInfo /
      * @return /
      */
     R wxMiniAppLogin(WxLoginUser wxLoginInfo);
-
 
 
 }

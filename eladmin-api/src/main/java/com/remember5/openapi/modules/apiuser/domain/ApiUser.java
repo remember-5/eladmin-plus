@@ -38,26 +38,6 @@ public class ApiUser implements Serializable {
     @ApiModelProperty(value = "手机号")
     private String phone;
 
-    @Column(name = "ex1")
-    @ApiModelProperty(value = "备用字段1")
-    private String ex1;
-
-    @Column(name = "ex2")
-    @ApiModelProperty(value = "备用字段2")
-    private String ex2;
-
-    @Column(name = "ex3")
-    @ApiModelProperty(value = "备用字段3")
-    private String ex3;
-
-    @Column(name = "ex4")
-    @ApiModelProperty(value = "备用字段4")
-    private String ex4;
-
-    @Column(name = "ex5")
-    @ApiModelProperty(value = "备用字段5")
-    private String ex5;
-
     @Column(name = "create_time")
     @CreationTimestamp
     @ApiModelProperty(value = "创建日期")

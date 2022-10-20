@@ -35,7 +35,7 @@ CREATE TABLE `app_version` (
   `res_type` int unsigned DEFAULT NULL COMMENT '资源类型 1、app 2、wgt',
   `platform` int DEFAULT NULL COMMENT '平台 1、ios 2、android',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='App版本';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='App版本';
 
 -- ----------------------------
 -- Records of app_version
@@ -64,7 +64,7 @@ CREATE TABLE `code_column_config` (
   `date_annotation` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`column_id`) USING BTREE,
   KEY `idx_table_name` (`table_name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='代码生成字段信息存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='代码生成字段信息存储';
 
 -- ----------------------------
 -- Records of code_column_config
@@ -95,7 +95,7 @@ CREATE TABLE `code_gen_config` (
   `component_path` varchar(255) DEFAULT NULL COMMENT '组件相对路径',
   PRIMARY KEY (`config_id`) USING BTREE,
   KEY `idx_table_name` (`table_name`(100)) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='代码生成器配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='代码生成器配置';
 
 -- ----------------------------
 -- Records of code_gen_config
@@ -112,11 +112,11 @@ CREATE TABLE `m_user` (
   `username` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户名',
   `password` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密码',
   `phone` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `is_deleted` tinyint(1) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
   PRIMARY KEY (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=COMPACT COMMENT='API 用户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='API 用户表';
 
 -- ----------------------------
 -- Records of m_user
@@ -142,7 +142,7 @@ CREATE TABLE `mnt_app` (
   `create_time` datetime DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`app_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='应用管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用管理';
 
 -- ----------------------------
 -- Records of mnt_app
@@ -165,7 +165,7 @@ CREATE TABLE `mnt_database` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`db_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='数据库管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='数据库管理';
 
 -- ----------------------------
 -- Records of mnt_database
@@ -186,7 +186,7 @@ CREATE TABLE `mnt_deploy` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`deploy_id`) USING BTREE,
   KEY `idx_app_id` (`app_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='部署管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='部署管理';
 
 -- ----------------------------
 -- Records of mnt_deploy
@@ -206,7 +206,7 @@ CREATE TABLE `mnt_deploy_history` (
   `ip` varchar(20) NOT NULL COMMENT '服务器IP',
   `deploy_id` bigint DEFAULT NULL COMMENT '部署编号',
   PRIMARY KEY (`history_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='部署历史管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='部署历史管理';
 
 -- ----------------------------
 -- Records of mnt_deploy_history
@@ -223,7 +223,7 @@ CREATE TABLE `mnt_deploy_server` (
   `server_id` bigint NOT NULL COMMENT '服务ID',
   PRIMARY KEY (`deploy_id`,`server_id`) USING BTREE,
   KEY `idx_server_id` (`server_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='应用与服务器关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='应用与服务器关联';
 
 -- ----------------------------
 -- Records of mnt_deploy_server
@@ -248,7 +248,7 @@ CREATE TABLE `mnt_server` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`server_id`) USING BTREE,
   KEY `idx_ip` (`ip`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='服务器管理';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='服务器管理';
 
 -- ----------------------------
 -- Records of mnt_server
@@ -274,7 +274,7 @@ CREATE TABLE `sys_dept` (
   PRIMARY KEY (`dept_id`) USING BTREE,
   KEY `inx_pid` (`pid`) USING BTREE,
   KEY `inx_enabled` (`enabled`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='部门';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='部门';
 
 -- ----------------------------
 -- Records of sys_dept
@@ -302,7 +302,7 @@ CREATE TABLE `sys_dict` (
   `create_time` datetime DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dict_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='数据字典';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='数据字典';
 
 -- ----------------------------
 -- Records of sys_dict
@@ -334,7 +334,7 @@ CREATE TABLE `sys_dict_detail` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`detail_id`) USING BTREE,
   KEY `idx_dict_id` (`dict_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='数据字典详情';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='数据字典详情';
 
 -- ----------------------------
 -- Records of sys_dict_detail
@@ -377,7 +377,7 @@ CREATE TABLE `sys_job` (
   PRIMARY KEY (`job_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE,
   KEY `inx_enabled` (`enabled`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='岗位';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='岗位';
 
 -- ----------------------------
 -- Records of sys_job
@@ -410,7 +410,7 @@ CREATE TABLE `sys_log` (
   PRIMARY KEY (`log_id`) USING BTREE,
   KEY `log_create_time_index` (`create_time`) USING BTREE,
   KEY `inx_log_type` (`log_type`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='系统日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统日志';
 
 -- ----------------------------
 -- Records of sys_log
@@ -445,7 +445,7 @@ CREATE TABLE `sys_menu` (
   UNIQUE KEY `uniq_title` (`title`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE,
   KEY `inx_pid` (`pid`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -582,7 +582,7 @@ CREATE TABLE `sys_quartz_job` (
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`job_id`) USING BTREE,
   KEY `inx_is_pause` (`is_pause`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='定时任务';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='定时任务';
 
 -- ----------------------------
 -- Records of sys_quartz_job
@@ -610,7 +610,7 @@ CREATE TABLE `sys_quartz_log` (
   `params` varchar(255) DEFAULT NULL,
   `time` bigint DEFAULT NULL,
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='定时任务日志';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='定时任务日志';
 
 -- ----------------------------
 -- Records of sys_quartz_log
@@ -635,7 +635,7 @@ CREATE TABLE `sys_role` (
   PRIMARY KEY (`role_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE,
   KEY `role_name_index` (`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色表';
 
 -- ----------------------------
 -- Records of sys_role
@@ -654,7 +654,7 @@ CREATE TABLE `sys_roles_depts` (
   `dept_id` bigint NOT NULL,
   PRIMARY KEY (`role_id`,`dept_id`) USING BTREE,
   KEY `idx_dept_id` (`dept_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='角色部门关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色部门关联';
 
 -- ----------------------------
 -- Records of sys_roles_depts
@@ -671,7 +671,7 @@ CREATE TABLE `sys_roles_menus` (
   `role_id` bigint NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`menu_id`,`role_id`) USING BTREE,
   KEY `idx_role_id` (`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='角色菜单关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='角色菜单关联';
 
 -- ----------------------------
 -- Records of sys_roles_menus
@@ -812,7 +812,7 @@ CREATE TABLE `sys_user` (
   KEY `idx_dept_id` (`dept_id`) USING BTREE,
   KEY `idx_avatar_name` (`avatar_name`) USING BTREE,
   KEY `inx_enabled` (`enabled`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='系统用户';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of sys_user
@@ -830,7 +830,7 @@ CREATE TABLE `sys_users_jobs` (
   `user_id` bigint NOT NULL COMMENT '用户ID',
   `job_id` bigint NOT NULL COMMENT '岗位ID',
   PRIMARY KEY (`user_id`,`job_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='岗位关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='岗位关联表';
 
 -- ----------------------------
 -- Records of sys_users_jobs
@@ -849,7 +849,7 @@ CREATE TABLE `sys_users_roles` (
   `role_id` bigint NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`,`role_id`) USING BTREE,
   KEY `FKq4eq273l04bpu4efj0jd0jb98` (`role_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户角色关联';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户角色关联';
 
 -- ----------------------------
 -- Records of sys_users_roles
@@ -926,7 +926,7 @@ CREATE TABLE `t_message_notification` (
   `update_date` datetime DEFAULT NULL COMMENT '修改时间',
   `is_deleted` tinyint(1) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='消息通知';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='消息通知';
 
 -- ----------------------------
 -- Records of t_message_notification
@@ -951,7 +951,7 @@ CREATE TABLE `tool_alipay_config` (
   `sign_type` varchar(255) DEFAULT NULL COMMENT '签名方式',
   `sys_service_provider_id` varchar(255) DEFAULT NULL COMMENT '商户号',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='支付宝配置类';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='支付宝配置类';
 
 -- ----------------------------
 -- Records of tool_alipay_config
@@ -972,7 +972,7 @@ CREATE TABLE `tool_email_config` (
   `port` varchar(255) DEFAULT NULL COMMENT '端口',
   `user` varchar(255) DEFAULT NULL COMMENT '发件者用户名',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='邮箱配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='邮箱配置';
 
 -- ----------------------------
 -- Records of tool_email_config
@@ -997,7 +997,7 @@ CREATE TABLE `tool_local_storage` (
   `create_time` datetime DEFAULT NULL COMMENT '创建日期',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`storage_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='本地存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='本地存储';
 
 -- ----------------------------
 -- Records of tool_local_storage
@@ -1018,7 +1018,7 @@ CREATE TABLE `tool_qiniu_config` (
   `type` varchar(255) DEFAULT NULL COMMENT '空间类型',
   `zone` varchar(255) DEFAULT NULL COMMENT '机房',
   PRIMARY KEY (`config_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='七牛云配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='七牛云配置';
 
 -- ----------------------------
 -- Records of tool_qiniu_config
@@ -1041,7 +1041,7 @@ CREATE TABLE `tool_qiniu_content` (
   `update_time` datetime DEFAULT NULL COMMENT '上传或同步的时间',
   PRIMARY KEY (`content_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='七牛云文件存储';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='七牛云文件存储';
 
 -- ----------------------------
 -- Records of tool_qiniu_content

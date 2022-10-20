@@ -1,7 +1,7 @@
 package com.remember5.openapi.modules.apiuser.rest;
 
-import cn.hutool.core.lang.UUID;
 import com.remember5.core.annotation.rest.AnonymousGetMapping;
+import com.remember5.core.annotation.rest.AnonymousPostMapping;
 import com.remember5.core.enums.LogChannelEnum;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
@@ -20,6 +20,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author wangjiahao
@@ -66,13 +67,6 @@ public class ApiUserController {
         return apiUserService.loginBySms(user);
     }
 
-
-    @ApiOperation("微信小程序code换取sessionKey")
-    @PostMapping(value = "/wxMiniAppCode2Sessions")
-    public R wxMiniAppCode2Sessions(@RequestBody WxLoginUser wxLoginInfo) {
-        return apiUserService.wxMiniAppCode2Sessions(wxLoginInfo);
-    }
-
     @ApiOperation("微信小程序一键登录")
     @PostMapping(value = "wxMiniAppLogin")
     public R wxMiniAppLogin(@RequestBody WxLoginUser wxLoginInfo) {
@@ -99,6 +93,24 @@ public class ApiUserController {
         return apiUserService.getCode();
     }
 
+    @ApiOperation("获取短信验证码")
+    @AnonymousPostMapping(value = "smsCode")
+    public R getsmsCode(@RequestBody LoginUser user) {
+        if (!ValidationUtil.isPhone(user.getPhone())) {
+            return R.fail(REnum.A0151);
+        }
+        String redisKey = RedisKeyConstant.CAPTCHA_KEY + user.getPhone();
+        if (!redisUtils.hasKey(redisKey)) {
+//            String captchaCode = RandomUtil.randomNumbers(4);
+//            AliyunSMS.send(captchaCode, phone);
+            String captchaCode = "1234";
+            boolean as = redisUtils.set(redisKey, captchaCode, RedisKeyConstant.CAPTCHA_KEY_INVALID);
+            return as ? R.success() : R.fail(REnum.A0001);
+        } else {
+            return R.fail(REnum.E0002);
+        }
+    }
+
     @ApiOperation("注销")
     @GetMapping(value = "deleted")
     public R deleted(Long userId) {
@@ -106,7 +118,7 @@ public class ApiUserController {
     }
 
     @ApiOperation("手机号注册获取短信验证码")
-    @GetMapping(value = "captchaByRegister/{phone}")
+    @GetMapping(value = "captchaByResetPassword/{phone}")
     public R phoneCaptcha(@PathVariable String phone) {
         if (!ValidationUtil.isPhone(phone)) {
             return R.fail(REnum.A0151);
@@ -130,23 +142,21 @@ public class ApiUserController {
      * @return /
      */
     @ApiOperation("忘记密码-发送短信验证码")
-    @GetMapping("captchaByResetPassword/{phone}")
-    public R resetCaptcha(@PathVariable String phone) {
-        // 判断手机号是否正确，是否存在数据库
-        if (!apiUserService.phoneExits(phone)) {
-            return R.fail(REnum.A0206);
-        }
-        String redisKey = RedisKeyConstant.RESET_PWD_CAPTCHA_KEY + phone;
-        if (!redisUtils.hasKey(redisKey)) {
-            String uuid = UUID.randomUUID().toString(true);
-//            String captchaCode = RandomUtil.randomNumbers(4);
-//            AliyunSMS.send(captchaCode, phone);
-            String captchaCode = "1234";
-            // set验证码到redis
-            boolean as = redisUtils.set(redisKey, captchaCode, RedisKeyConstant.RESET_PWD_CAPTCHA_INVALID);
-            return as ? R.success(uuid) : R.fail(REnum.A0001);
-        }
-        return R.fail(REnum.E0002);
+    @GetMapping("forgetByPhone/{phone}")
+    public R resetCaptcha(@PathVariable @NotNull String phone) {
+        return apiUserService.captchaByResetPassword(phone);
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @param user 用户信息
+     * @return /
+     */
+    @ApiOperation("忘记密码")
+    @PostMapping("resetPassword")
+    public R resetPass(@RequestBody LoginUser user) {
+        return apiUserService.forgetPassword(user);
     }
 
 }

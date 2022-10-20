@@ -19,15 +19,20 @@ import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
 import com.remember5.core.handler.ApiRequestMappingHandlerMapping;
+import com.remember5.core.interceptors.VersionInterceptor;
 import com.remember5.core.properties.FileProperties;
+import com.remember5.core.properties.JwtProperties;
+import com.remember5.core.properties.UniAppProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -52,6 +57,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
+
+    private final JwtProperties jwtProperties;
+    private final UniAppProperties uniAppProperties;
+
     /**
      * 注册ApiRequestMappingHandlerMapping
      *
@@ -60,6 +69,34 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
     @Override
     public RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
         return new ApiRequestMappingHandlerMapping();
+    }
+
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        if (uniAppProperties.isInterceptArchived()) {
+            List<String> list = new ArrayList<>();
+            list.addAll(jwtProperties.getPermit().getUrl());
+
+
+            //设置第一个拦截器
+            registry.addInterceptor(versionInterceptor())
+                    //拦截路径
+                    .addPathPatterns("/**")
+                    //放行路径
+                    .excludePathPatterns(list);
+            log.info("注册VersionInterceptor成功");
+        }
+    }
+
+    /**
+     * 版本过期拦截器
+     *
+     * @return
+     */
+    @Bean
+    public VersionInterceptor versionInterceptor() {
+        return new VersionInterceptor();
     }
 
 

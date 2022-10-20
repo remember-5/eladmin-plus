@@ -20,4 +20,6 @@ public class MinioProperties implements Serializable {
     private String accessKey;
     private String secretKey;
     private String domain;
+    private Integer fileExpires;
+    private String bucketPrefix;
 }

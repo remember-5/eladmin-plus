@@ -17,11 +17,9 @@ package com.remember5.openapi.runner;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * @author wangjiahao
@@ -32,11 +30,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 @RequiredArgsConstructor
 public class CustomRunner implements ApplicationRunner {
 
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
         log.info("CustomRunner");
     }
+
+
 }

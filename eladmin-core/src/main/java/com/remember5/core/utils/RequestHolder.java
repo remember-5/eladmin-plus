@@ -32,4 +32,11 @@ public class RequestHolder {
     public static HttpServletRequest getHttpServletRequest() {
         return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
     }
+
+    public static String getHeader(String name) {
+        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) getHttpServletRequest();
+        HttpServletRequest request = servletRequestAttributes.getRequest();
+        return request.getHeader(name);
+    }
+
 }

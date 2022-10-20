@@ -3,7 +3,9 @@ package com.remember5.openapi.config;
 import com.remember5.core.handler.JwtAccessDeniedHandler;
 import com.remember5.core.handler.JwtAuthenticationEntryPoint;
 import com.remember5.core.properties.JwtProperties;
+import com.remember5.core.utils.TokenProvider;
 import com.remember5.openapi.filter.JwtAuthenticationTokenFilter;
+import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -47,10 +50,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtProperties jwtProperties;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationTokenFilter;
+    private final ApiUserRepository apiUserRepository;
+    private final TokenProvider tokenProvider;
 
+    /**
+     * 密码加密方式
+     *
+     * @return BCryptPasswordEncoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // 密码加密方式
         return new BCryptPasswordEncoder();
     }
 
@@ -59,6 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 // 由于使用的是JWT，我们这里不需要csrf
                 .csrf().disable()
+                // 添加JWT filter
+                .addFilterBefore(new JwtAuthenticationTokenFilter(jwtProperties, tokenProvider, apiUserRepository), UsernamePasswordAuthenticationFilter.class)
                 // 授权异常 添加自定义未授权和未登录结果返回
                 .exceptionHandling()
                 .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -78,19 +89,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 允许对于网站静态资源的无授权访问
-                .antMatchers(HttpMethod.GET, jwtProperties.getPermit().getGetUrl().toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.POST, jwtProperties.getPermit().getPostUrl().toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.PUT, jwtProperties.getPermit().getPutUrl().toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.DELETE, jwtProperties.getPermit().getDeleteUrl().toArray(new String[0])).permitAll()
-                .antMatchers(jwtProperties.getPermit().getDefaultsUrl().toArray(new String[0])).permitAll()
+                .antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求,跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest()
                 .authenticated();
-
-        // 添加JWT filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -98,9 +102,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService());
     }
 
-    @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
-        return new JwtAuthenticationTokenFilter();
+    /**
+     * 虽然这两个都是继承WebSecurityConfigurerAdapter后重写的方法，
+     * 但是http.permitAll不会绕开springsecurity的过滤器验证，相当于只是允许该路径通过过滤器
+     * 而web.ignoring是直接绕开spring security的所有filter，直接跳过验证。
+     *
+     * @param web /
+     * @throws Exception /
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0]));
     }
 
     @Bean
@@ -108,6 +120,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-
 }

@@ -7,10 +7,13 @@ import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.text.StrPool;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.remember5.minio.entity.MinioResponse;
 import com.remember5.minio.properties.MinioProperties;
 import io.minio.*;
 import io.minio.errors.*;
+import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +44,66 @@ public class MinioUtils {
 
     @Resource
     private MinioProperties minioProperties;
+
+    /**
+     * 创建custom bucket
+     *
+     * @param bucketName bucket
+     * @throws Exception exception
+     */
+    public void createCustomBucket(String bucketName) throws Exception {
+        createBucket(bucketName, generateCustomPolicy(bucketName));
+    }
+
+    /**
+     * 创建private bucket
+     *
+     * @param bucketName bucket
+     * @throws Exception exception
+     */
+    public void createPrivateBucket(String bucketName) throws Exception {
+        createBucket(bucketName, generatePrivatePolicy(bucketName));
+    }
+
+    /**
+     * 创建分区
+     *
+     * @param bucketName bucket
+     * @param config     policy
+     * @throws Exception exception
+     */
+    public void createBucket(String bucketName, String config) throws Exception {
+        final boolean b = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+        if (!b) {
+            // 创建
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+            // 修改权限
+            minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(config).build());
+        } else {
+            log.warn("创建bucket {} 失败, 分区已存在", bucketName);
+        }
+    }
+
+
+    /**
+     * 更改bucket为custom
+     *
+     * @param bucketName bucket
+     * @throws Exception exception
+     */
+    public void setCustomBucket(String bucketName) throws Exception {
+        minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(generateCustomPolicy(bucketName)).build());
+    }
+
+    /**
+     * 更改bucket为public
+     *
+     * @param bucketName bucket
+     * @throws Exception exception
+     */
+    public void setPrivateBucket(String bucketName) throws Exception {
+        minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(generatePrivatePolicy(bucketName)).build());
+    }
 
 
     /**
@@ -127,7 +190,8 @@ public class MinioUtils {
             } else {
                 urlBuilder.append(minioProperties.getDomain());
             }
-            urlBuilder.append(FILE_SEPARATOR).append(minioProperties.getBucket()).append(FILE_SEPARATOR).append(filename);
+            urlBuilder.append(FILE_SEPARATOR).append(bucket).append(FILE_SEPARATOR).append(filename);
+//            urlBuilder.append(FILE_SEPARATOR).append(minioProperties.getBucket()).append(FILE_SEPARATOR).append(filename);
             return new MinioResponse(o, true, urlBuilder.toString());
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -196,11 +260,11 @@ public class MinioUtils {
      *
      * @param bucketName bucket名称
      * @param objectName 文件名称
-     * @param expires    过期时间 <=7
+     * @param expires    过期时间 <=7 秒
      * @return url
      */
     public String getObjectUrl(String bucketName, String objectName, Integer expires) throws Exception {
-        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(bucketName).object(objectName).expiry(expires).build());
+        return minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().method(Method.GET).bucket(bucketName).object(objectName).expiry(expires != null ? expires : 60).build());
     }
 
     /**
@@ -219,7 +283,7 @@ public class MinioUtils {
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @param stream     文件流
-     * @throws Exception https://docs.minio.io/cn/java-client-api-reference.html#putObject
+     * @throws Exception <a href="https://docs.minio.io/cn/java-client-api-reference.html#putObject">putObject</a>
      */
     public void putObject(String bucketName, String objectName, InputStream stream) throws Exception {
         minioClient.putObject(PutObjectArgs.builder().bucket(bucketName).object(objectName).stream(stream, stream.available(), StrUtil.INDEX_NOT_FOUND).contentType(objectName.substring(objectName.lastIndexOf("."))).build());
@@ -273,6 +337,33 @@ public class MinioUtils {
             }
         }
         return mimeType;
+    }
+
+
+    /**
+     * 生成custom policy
+     *
+     * @param bucketName bucket
+     * @return policy
+     */
+    private String generateCustomPolicy(String bucketName) {
+        String customPolicy = "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:GetBucketLocation\",\"s3:ListBucketMultipartUploads\"],\"Resource\":[\"\"]},{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":[\"*\"]},\"Action\":[\"s3:AbortMultipartUpload\",\"s3:DeleteObject\",\"s3:GetObject\",\"s3:ListMultipartUploadParts\",\"s3:PutObject\"],\"Resource\":[\"\"]}]}";
+        JSONObject json = JSON.parseObject(customPolicy);
+        String p1 = "arn:aws:s3:::" + bucketName;
+        String p2 = "arn:aws:s3:::" + bucketName + "/*";
+        json.getJSONArray("Statement").getJSONObject(0).getJSONArray("Resource").set(0, p1);
+        json.getJSONArray("Statement").getJSONObject(1).getJSONArray("Resource").set(0, p2);
+        return json.toString();
+    }
+
+    /**
+     * 生成private policy
+     *
+     * @param bucketName bucket
+     * @return policy
+     */
+    private String generatePrivatePolicy(String bucketName) {
+        return "{\"Version\":\"2012-10-17\",\"Statement\":[]}";
     }
 
 }

@@ -37,7 +37,7 @@ user-cache:
   min-idle-time: 3600000
 
 mybatis-plus:
-  mapper-locations: classpath:mappers/*.xml
+  mapper-locations: classpath:mapper/*.xml
   #实体扫描，多个package用逗号或者分号分隔
 #  typeAliasesPackage: com.remember5.system
   global-config:

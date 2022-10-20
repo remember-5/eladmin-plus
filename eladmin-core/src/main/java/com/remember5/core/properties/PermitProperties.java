@@ -11,10 +11,6 @@ import java.util.List;
 @Data
 public class PermitProperties {
 
-    private List<String> defaultsUrl;
-    private List<String> getUrl;
-    private List<String> postUrl;
-    private List<String> putUrl;
-    private List<String> deleteUrl;
+    private List<String> url;
 
 }

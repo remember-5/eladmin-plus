@@ -16,27 +16,32 @@
 package com.remember5.system.modules.security.config;
 
 import com.remember5.core.annotation.AnonymousAccess;
+import com.remember5.core.annotation.rest.*;
+import com.remember5.core.enums.RequestMethodEnum;
 import com.remember5.core.handler.JwtAccessDeniedHandler;
 import com.remember5.core.handler.JwtAuthenticationEntryPoint;
-import com.remember5.system.modules.security.security.TokenConfigurer;
+import com.remember5.core.properties.JwtProperties;
 import com.remember5.core.utils.TokenProvider;
+import com.remember5.system.modules.security.security.TokenFilter;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.UserCacheClean;
-import com.remember5.core.enums.RequestMethodEnum;
 import lombok.RequiredArgsConstructor;
-import com.remember5.core.properties.JwtProperties;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -47,6 +52,7 @@ import java.util.*;
 /**
  * @author Zheng Jie
  */
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -54,13 +60,16 @@ import java.util.*;
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProvider tokenProvider;
-    //    private final CorsFilter corsFilter;
+    //        private final CorsFilter corsFilter;
     private final JwtAuthenticationEntryPoint authenticationErrorHandler;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final ApplicationContext applicationContext;
     private final JwtProperties jwtProperties;
     private final OnlineUserService onlineUserService;
     private final UserCacheClean userCacheClean;
+
+    @Value("${spring.profiles.active}")
+    private String env;
 
     @Bean
     GrantedAuthorityDefaults grantedAuthorityDefaults() {
@@ -84,7 +93,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 // 禁用 CSRF
                 .csrf().disable()
-//                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                // 添加拦截器
+                .addFilterBefore(new TokenFilter(jwtProperties, tokenProvider, onlineUserService, userCacheClean), UsernamePasswordAuthenticationFilter.class)
                 // 授权异常
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationErrorHandler)
@@ -100,11 +110,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, jwtProperties.getPermit().getGetUrl().toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.POST, jwtProperties.getPermit().getPostUrl().toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.PUT, jwtProperties.getPermit().getPutUrl().toArray(new String[0])).permitAll()
-                .antMatchers(HttpMethod.DELETE, jwtProperties.getPermit().getDeleteUrl().toArray(new String[0])).permitAll()
-                .antMatchers(jwtProperties.getPermit().getDefaultsUrl().toArray(new String[0])).permitAll()
+                .antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型
@@ -121,12 +127,30 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 所有类型的接口都放行
                 .antMatchers(anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0])).permitAll()
                 // 所有请求都需要认证
-                .anyRequest().authenticated()
-                .and().apply(securityConfigurerAdapter());
+                .anyRequest().authenticated();
     }
 
-    private TokenConfigurer securityConfigurerAdapter() {
-        return new TokenConfigurer(tokenProvider, jwtProperties, onlineUserService, userCacheClean);
+    /**
+     * 虽然这两个都是继承WebSecurityConfigurerAdapter后重写的方法，
+     * 但是http.permitAll不会绕开springsecurity的过滤器验证，相当于只是允许该路径通过过滤器
+     * 而web.ignoring是直接绕开spring security的所有filter，直接跳过验证。
+     *
+     * @param web /
+     * @throws Exception /
+     */
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // 获取匿名标记
+        RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
+        Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
+        Map<String, Set<String>> anonymousUrls = getAnonymousUrl(handlerMethodMap);
+//        web.ignoring().antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0]));
+        web.ignoring().antMatchers(anonymousUrls.get(RequestMethodEnum.GET.getType()).toArray(new String[0]));
+        web.ignoring().antMatchers(anonymousUrls.get(RequestMethodEnum.POST.getType()).toArray(new String[0]));
+        web.ignoring().antMatchers(anonymousUrls.get(RequestMethodEnum.PUT.getType()).toArray(new String[0]));
+        web.ignoring().antMatchers(anonymousUrls.get(RequestMethodEnum.PATCH.getType()).toArray(new String[0]));
+        web.ignoring().antMatchers(anonymousUrls.get(RequestMethodEnum.DELETE.getType()).toArray(new String[0]));
+        web.ignoring().antMatchers(anonymousUrls.get(RequestMethodEnum.ALL.getType()).toArray(new String[0]));
     }
 
     private Map<String, Set<String>> getAnonymousUrl(Map<RequestMappingInfo, HandlerMethod> handlerMethodMap) {
@@ -145,18 +169,38 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 RequestMethodEnum request = RequestMethodEnum.find(requestMethods.isEmpty() ? RequestMethodEnum.ALL.getType() : requestMethods.get(0).name());
                 switch (Objects.requireNonNull(request)) {
                     case GET:
+                        AnonymousGetMapping anonymousGetMapping = infoEntry.getValue().getMethodAnnotation(AnonymousGetMapping.class);
+                        if (isRejected(anonymousGetMapping.rejectedEnvs())) {
+                            break;
+                        }
                         get.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
                         break;
                     case POST:
+                        AnonymousPostMapping anonymousPostMapping = infoEntry.getValue().getMethodAnnotation(AnonymousPostMapping.class);
+                        if (isRejected(anonymousPostMapping.rejectedEnvs())) {
+                            break;
+                        }
                         post.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
                         break;
                     case PUT:
+                        AnonymousPutMapping anonymousPutMapping = infoEntry.getValue().getMethodAnnotation(AnonymousPutMapping.class);
+                        if (isRejected(anonymousPutMapping.rejectedEnvs())) {
+                            break;
+                        }
                         put.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
                         break;
                     case PATCH:
+                        AnonymousPatchMapping anonymousPatchMapping = infoEntry.getValue().getMethodAnnotation(AnonymousPatchMapping.class);
+                        if (isRejected(anonymousPatchMapping.rejectedEnvs())) {
+                            break;
+                        }
                         patch.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
                         break;
                     case DELETE:
+                        AnonymousDeleteMapping anonymousDeleteMapping = infoEntry.getValue().getMethodAnnotation(AnonymousDeleteMapping.class);
+                        if (isRejected(anonymousDeleteMapping.rejectedEnvs())) {
+                            break;
+                        }
                         delete.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
                         break;
                     default:
@@ -173,4 +217,20 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         anonymousUrls.put(RequestMethodEnum.ALL.getType(), all);
         return anonymousUrls;
     }
+
+    /**
+     * 当前环境是否在拒绝匿名访问列表中
+     * @param rejectedEnvs 拒绝匿名访问列表
+     * @return t 是 f 否
+     */
+    private boolean isRejected(String[] rejectedEnvs){
+        for (String rejectedEnv : rejectedEnvs) {
+            if (env.equals(rejectedEnv)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

@@ -1,12 +1,12 @@
 package com.remember5.openapi.jwt;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.remember5.core.utils.TokenProvider;
 import com.remember5.openapi.OpenApiApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.annotation.Resource;
 
 /**
  * @author wangjiahao
@@ -15,26 +15,30 @@ import javax.annotation.Resource;
 @Slf4j
 @SpringBootTest(classes = OpenApiApplication.class)
 public class TestJwt {
-    @Resource
+    @Autowired
     TokenProvider tokenProvider;
 
     @Test
-    void generateJwtToken() throws InterruptedException {
-//        ApiUserDto apiUserDto = new ApiUserDto();
-//        apiUserDto.setId(20L);
-//        apiUserDto.setPhone("17600277246");
-//        apiUserDto.setUsername("wangjiahao");
-//        final String token = tokenProvider.generateToken(apiUserDto);
-//
-//        final JWT jwt = JWTUtil.parseToken(token);
-//        System.err.println(token);
-//        System.err.println(jwt.getHeader(JWTHeader.TYPE));
-//        System.err.println(jwt.getPayload("sub"));
-//        System.err.println(jwt.getPayload("id"));
-//        System.err.println(jwt.getPayload("phone"));
-//        System.err.println(jwt.getPayload("username"));
-//        System.err.println(tokenProvider.isTokenExpired(token));
-//        System.err.println(tokenProvider.isTokenExpired(token+"123"));
-//        new CountDownLatch(1).await();
+    void testGenerateToken() {
+        final String token = tokenProvider.createAccessToken("AA123456", "wangjiahao");
+
+        System.err.println("生成token: {}" + token);
+        System.err.println("生成token#getPayload: {}" + tokenProvider.getClaims(token));
+        System.err.println("生成token#verify: {}" + tokenProvider.verifyToken(token));
+        System.err.println("生成token#getExpires: {}" + tokenProvider.getExpires(token));
+
+
+        final String errorStr = token + "1";
+        System.err.println("错误token: {}" + errorStr);
+        System.err.println("错误token#getPayload: {}" + tokenProvider.getClaims(errorStr));
+        System.err.println("错误token#verify: {}" + tokenProvider.verifyToken(errorStr));
     }
+
+    public static void main(String[] args) {
+        System.err.println();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("time,", Math.toIntExact(System.currentTimeMillis() / 1000));
+        System.err.println(jsonObject.toJSONString());
+    }
+
 }

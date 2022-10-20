@@ -18,6 +18,7 @@ package com.remember5.core.utils;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.BigExcelWriter;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
@@ -37,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * File工具类，扩展 hutool 工具包
@@ -374,5 +376,29 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
 
     public static String getMd5(File file) {
         return getMd5(getByte(file));
+    }
+
+    /**
+     * 校验文件名后缀和文件类型
+     * @param file 文件
+     * @return 是否是允许上传的类型
+     */
+    public static boolean checkFileType(MultipartFile file, String suffix, String mimeType){
+        //获取原始文件名称  XX.png   XX.jpg
+        String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
+        //获取原始文件名称后缀
+        String fileSuffix = originalFilename.substring(originalFilename.lastIndexOf(StrUtil.DOT));
+        //获取文件类型
+        String fileMimeType;
+        String contentType = file.getContentType();
+        if (StrUtil.isNotBlank(contentType)) {
+            fileMimeType = contentType;
+        } else {
+            fileMimeType = getMimeType(originalFilename);
+        }
+        if (StrUtil.isBlank(fileMimeType)) {
+            return false;
+        }
+        return suffix.equals(fileSuffix) && mimeType.equals(fileMimeType);
     }
 }

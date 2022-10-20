@@ -19,16 +19,16 @@ public class AppInformation {
      */
     private String appid;
     /**
-     * App描述
+     * App更新描述
      */
     private String description;
     /**
      * x.y.z格式版本号
      */
-    private String versionCode;
+    private String version;
     /**
-     * 打包号
+     * 打包号 500
      */
-    private String buildCode;
+    private String build;
 
 }

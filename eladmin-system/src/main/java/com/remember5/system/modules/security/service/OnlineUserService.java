@@ -17,15 +17,16 @@ package com.remember5.system.modules.security.service;
 
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
-import com.remember5.system.modules.security.service.dto.JwtUserDto;
-import com.remember5.system.modules.security.service.dto.OnlineUserDto;
+import com.remember5.core.properties.JwtProperties;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.StringUtils;
 import com.remember5.core.utils.RedisUtils;
-import lombok.extern.slf4j.Slf4j;
+import com.remember5.core.utils.StringUtils;
+import com.remember5.system.modules.security.service.dto.JwtUserDto;
+import com.remember5.system.modules.security.service.dto.OnlineUserDto;
 import com.remember5.system.modules.tool.service.impl.EmailServiceImpl;
-import com.remember5.core.properties.JwtProperties;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -40,19 +41,15 @@ import java.util.*;
  * @author Zheng Jie
  * @date 2019年10月26日21:56:27
  */
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class OnlineUserService {
 
     private final JwtProperties jwtProperties;
     private final RedisUtils redisUtils;
 
     private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
-
-    public OnlineUserService(JwtProperties jwtProperties, RedisUtils redisUtils) {
-        this.jwtProperties = jwtProperties;
-        this.redisUtils = redisUtils;
-    }
 
     /**
      * 保存在线用户信息

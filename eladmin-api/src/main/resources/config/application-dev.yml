@@ -98,6 +98,8 @@ login:
   cache-enable: true
   #  是否限制单用户登录
   single-login: false
+  # 默认密码
+  default-password: 123456
 
 #  验证码
 captcha:
@@ -123,19 +125,19 @@ jwt:
   token-start-with: Bearer
   # 必须使用最少88位的Base64对该令牌进行编码
   base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI
-  # 令牌过期时间 此处单位/毫秒，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
-  token-validity-in-seconds: 604800
+  # 令牌过期时间 默认1天有效 此处单位/秒，可在此网站生成 https://www.convertworld.com/zh-hans/time/milliseconds.html
+  token-validity-in-seconds: 86400
   # 在线用户key
   online-key: online-token-
   # 验证码
   code-key: code-key-
-  # token 续期检查时间范围（默认30分钟，单位毫秒），在token即将过期的一段时间内用户操作了，则给用户的token续期
-  detect: 1800000
-  # 续期时间范围，默认1小时，单位毫秒
-  renew: 3600000
+  # token 续期检查时间范围（默认2小时，单位秒），在token即将过期的一段时间内用户操作了，则给用户的token续期
+  detect: 7200
+  # 续期时间范围，默认1小时，单位秒
+  renew: 3600
   # 放行接口
   permit:
-    defaults-url:
+    url:
       - /swagger-ui.html # swagger 文档
       - /swagger-resources/**
       - /webjars/**
@@ -146,7 +148,6 @@ jwt:
       - /version/**
       - /user/wxMiniAppCode2Sessions
       - /user/wxMiniAppLogin
-    get-url:
       - /*.html
       - /**/*.html
       - /**/*.css
@@ -157,16 +158,11 @@ jwt:
       - /v2/api-docs/**
       - /user/code
       - /user/refToken
-      - /user/captchaBy*/*
-      - /api/**/open/**
+      - /user/captchaBy*/**
       - /user/loginBy*
-    post-url:
       - /user/register
+      - /auth/login
       - /api/**/open/**
-      - /user/loginBy*
-    put-url:
-      - /api/**/open/**
-    delete-url:
 
 
 # IP 本地解析
@@ -262,7 +258,7 @@ decorator:
       # Use logging for default listeners [slf4j, sysout, file, custom]
       logging: slf4j
       # Log file to use (only with logging=file)
-      log-file: api-spy.log
+      log-file: api-log/api-spy.log
       # Custom log format, if specified com.p6spy.engine.spy.appender.CustomLineFormat will be used with this log format
       log-format: executionTime:%(executionTime) | sql:%(sqlSingleLine)
       custom-appender-class:
@@ -273,7 +269,9 @@ minio:
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}
   secret-key: ${MINIO_SK}
-  domain: ''
+  domain: ${MINIO_DOMAIN:}
+  file-expires: 10800
+  bucket-prefix: bk-
 
 getui:
   enabled: false
@@ -306,4 +304,13 @@ wx:
       http-proxy-password:
       http-proxy-port:
       http-proxy-username:
+
+# app部分配置
+app:
+  # 是否开启热更
+  enabled-hot-update: true
+  # 拦截归档版本，启动会加载历史版本到redis。暂不可用
+  intercept-archived: false
+  # 安全校验key
+  secret-key: yquLbM67A9iZpfxF9dot
 

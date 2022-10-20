@@ -1,18 +1,18 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 116.236.68.213-eladmin
+ Source Server         : localhost-eladmin
  Source Server Type    : PostgreSQL
  Source Server Version : 140002
- Source Host           : 116.236.68.213:5432
- Source Catalog        : eladmin_v2.2
+ Source Host           : localhost:5432
+ Source Catalog        : eladmin
  Source Schema         : eladmin_template_schema
 
  Target Server Type    : PostgreSQL
- Target Server Version : 140000
+ Target Server Version : 140002
  File Encoding         : 65001
 
- Date: 10/10/2022 14:10:17
+ Date: 08/11/2022 18:16:56
 */
 
 
@@ -20,7 +20,7 @@
 -- Sequence structure for app_version_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "app_version_id_seq";
-CREATE SEQUENCE "app_version_id_seq" 
+CREATE SEQUENCE "app_version_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -31,7 +31,7 @@ CACHE 1;
 -- Sequence structure for app_version_v2_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "app_version_v2_id_seq";
-CREATE SEQUENCE "app_version_v2_id_seq" 
+CREATE SEQUENCE "app_version_v2_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -42,7 +42,7 @@ CACHE 1;
 -- Sequence structure for code_column_config_column_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "code_column_config_column_id_seq";
-CREATE SEQUENCE "code_column_config_column_id_seq" 
+CREATE SEQUENCE "code_column_config_column_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -53,7 +53,7 @@ CACHE 1;
 -- Sequence structure for code_gen_config_config_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "code_gen_config_config_id_seq";
-CREATE SEQUENCE "code_gen_config_config_id_seq" 
+CREATE SEQUENCE "code_gen_config_config_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -64,7 +64,7 @@ CACHE 1;
 -- Sequence structure for m_user_user_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "m_user_user_id_seq";
-CREATE SEQUENCE "m_user_user_id_seq" 
+CREATE SEQUENCE "m_user_user_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -75,7 +75,7 @@ CACHE 1;
 -- Sequence structure for mnt_app_app_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_app_app_id_seq";
-CREATE SEQUENCE "mnt_app_app_id_seq" 
+CREATE SEQUENCE "mnt_app_app_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -86,7 +86,7 @@ CACHE 1;
 -- Sequence structure for mnt_deploy_deploy_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_deploy_deploy_id_seq";
-CREATE SEQUENCE "mnt_deploy_deploy_id_seq" 
+CREATE SEQUENCE "mnt_deploy_deploy_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -97,7 +97,7 @@ CACHE 1;
 -- Sequence structure for mnt_server_server_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "mnt_server_server_id_seq";
-CREATE SEQUENCE "mnt_server_server_id_seq" 
+CREATE SEQUENCE "mnt_server_server_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -108,7 +108,7 @@ CACHE 1;
 -- Sequence structure for sys_dept_dept_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_dept_dept_id_seq";
-CREATE SEQUENCE "sys_dept_dept_id_seq" 
+CREATE SEQUENCE "sys_dept_dept_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -119,7 +119,7 @@ CACHE 1;
 -- Sequence structure for sys_dict_detail_detail_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_dict_detail_detail_id_seq";
-CREATE SEQUENCE "sys_dict_detail_detail_id_seq" 
+CREATE SEQUENCE "sys_dict_detail_detail_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -130,7 +130,7 @@ CACHE 1;
 -- Sequence structure for sys_dict_dict_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_dict_dict_id_seq";
-CREATE SEQUENCE "sys_dict_dict_id_seq" 
+CREATE SEQUENCE "sys_dict_dict_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -141,7 +141,7 @@ CACHE 1;
 -- Sequence structure for sys_job_job_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_job_job_id_seq";
-CREATE SEQUENCE "sys_job_job_id_seq" 
+CREATE SEQUENCE "sys_job_job_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -152,7 +152,7 @@ CACHE 1;
 -- Sequence structure for sys_log_log_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_log_log_id_seq";
-CREATE SEQUENCE "sys_log_log_id_seq" 
+CREATE SEQUENCE "sys_log_log_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -163,7 +163,7 @@ CACHE 1;
 -- Sequence structure for sys_menu_menu_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_menu_menu_id_seq";
-CREATE SEQUENCE "sys_menu_menu_id_seq" 
+CREATE SEQUENCE "sys_menu_menu_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -174,7 +174,7 @@ CACHE 1;
 -- Sequence structure for sys_quartz_job_job_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_quartz_job_job_id_seq";
-CREATE SEQUENCE "sys_quartz_job_job_id_seq" 
+CREATE SEQUENCE "sys_quartz_job_job_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -185,7 +185,7 @@ CACHE 1;
 -- Sequence structure for sys_quartz_log_log_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_quartz_log_log_id_seq";
-CREATE SEQUENCE "sys_quartz_log_log_id_seq" 
+CREATE SEQUENCE "sys_quartz_log_log_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -196,7 +196,7 @@ CACHE 1;
 -- Sequence structure for sys_role_role_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_role_role_id_seq";
-CREATE SEQUENCE "sys_role_role_id_seq" 
+CREATE SEQUENCE "sys_role_role_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -207,7 +207,7 @@ CACHE 1;
 -- Sequence structure for sys_user_user_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "sys_user_user_id_seq";
-CREATE SEQUENCE "sys_user_user_id_seq" 
+CREATE SEQUENCE "sys_user_user_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -218,7 +218,7 @@ CACHE 1;
 -- Sequence structure for t_cms_cms_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_cms_cms_id_seq";
-CREATE SEQUENCE "t_cms_cms_id_seq" 
+CREATE SEQUENCE "t_cms_cms_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -229,7 +229,7 @@ CACHE 1;
 -- Sequence structure for t_cms_column_column_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_cms_column_column_id_seq";
-CREATE SEQUENCE "t_cms_column_column_id_seq" 
+CREATE SEQUENCE "t_cms_column_column_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -240,7 +240,7 @@ CACHE 1;
 -- Sequence structure for t_message_notification_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "t_message_notification_id_seq";
-CREATE SEQUENCE "t_message_notification_id_seq" 
+CREATE SEQUENCE "t_message_notification_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -251,7 +251,7 @@ CACHE 1;
 -- Sequence structure for tool_local_storage_storage_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "tool_local_storage_storage_id_seq";
-CREATE SEQUENCE "tool_local_storage_storage_id_seq" 
+CREATE SEQUENCE "tool_local_storage_storage_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -262,7 +262,7 @@ CACHE 1;
 -- Sequence structure for tool_qiniu_content_content_id_seq
 -- ----------------------------
 DROP SEQUENCE IF EXISTS "tool_qiniu_content_content_id_seq";
-CREATE SEQUENCE "tool_qiniu_content_content_id_seq" 
+CREATE SEQUENCE "tool_qiniu_content_content_id_seq"
 INCREMENT 1
 MINVALUE  1
 MAXVALUE 2147483647
@@ -986,7 +986,6 @@ INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", 
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (149, 147, 0, 2, 'app版本修改', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:edit', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (150, 147, 0, 2, 'app版本删除', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:del', 'test', 'test', '2022-03-02 16:01:26', '2022-03-02 16:01:26');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (151, 147, 0, 2, 'app版本导入', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'version:importData', 'test', 'test', '2022-03-02 16:01:27', '2022-03-02 16:01:27');
-INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (36, NULL, 7, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 10:57:35', NULL);
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (157, 154, 0, 2, '版本管理删除', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:del', 'admin', 'admin', '2022-05-16 13:04:31.152', '2022-05-16 13:04:31.152');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (158, 154, 0, 2, '版本管理导入', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:importData', 'admin', 'admin', '2022-05-16 13:04:31.186', '2022-05-16 13:04:31.186');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (154, 1, 4, 1, '版本管理', NULL, 'appVersionV2/index', 999, NULL, 'systemSet/appverv2', 'f', 'f', 'f', 'appVersionV2:list', 'admin', 'admin', '2022-05-16 13:04:31.021', '2022-05-16 13:04:31.021');
@@ -994,6 +993,8 @@ INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", 
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (18, 36, 4, 1, '存储管理', 'Storage', 'tools/storage/index', 34, 'qiniu', 'storage', 'f', 'f', 'f', 'storage:list', NULL, 'test', '2018-12-31 11:12:15', '2022-05-10 15:16:30.565');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (155, 154, 0, 2, '版本管理添加', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:add', 'admin', 'admin', '2022-05-16 13:04:31.077', '2022-05-16 13:04:31.077');
 INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (156, 154, 0, 2, '版本管理修改', NULL, NULL, 999, NULL, NULL, 'f', 'f', 'f', 'appVersionV2:edit', 'admin', 'admin', '2022-05-16 13:04:31.117', '2022-05-16 13:04:31.117');
+INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (159, 36, 0, 1, '文件上传', NULL, 'fileUpload/upLoad', 999, 'web', 'fileupload', 'f', 'f', 'f', NULL, 'test', 'test', '2022-11-08 17:46:07.44', '2022-11-08 17:47:48.964');
+INSERT INTO "sys_menu" ("menu_id", "pid", "sub_count", "type", "title", "name", "component", "menu_sort", "icon", "path", "i_frame", "cache", "hidden", "permission", "create_by", "update_by", "create_time", "update_time") VALUES (36, NULL, 8, 0, '系统工具', NULL, '', 30, 'sys-tools', 'sys-tools', 'f', 'f', 'f', NULL, NULL, NULL, '2019-03-29 10:57:35', NULL);
 COMMIT;
 
 -- ----------------------------
@@ -1246,6 +1247,7 @@ INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (155, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (156, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (157, 1);
 INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (158, 1);
+INSERT INTO "sys_roles_menus" ("menu_id", "role_id") VALUES (159, 1);
 COMMIT;
 
 -- ----------------------------
@@ -1710,7 +1712,7 @@ SELECT setval('"sys_log_log_id_seq"', 1, true);
 -- ----------------------------
 ALTER SEQUENCE "sys_menu_menu_id_seq"
 OWNED BY "sys_menu"."menu_id";
-SELECT setval('"sys_menu_menu_id_seq"', 158, true);
+SELECT setval('"sys_menu_menu_id_seq"', 159, true);
 
 -- ----------------------------
 -- Alter sequences owned by

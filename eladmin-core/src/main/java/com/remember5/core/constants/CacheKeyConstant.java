@@ -65,4 +65,25 @@ public interface CacheKeyConstant {
      * redis发布订阅topic：发送给所有用户
      */
     String PUSH_MESSAGE_TO_ALL = "PushMessageToAll";
+
+    /**
+     * websocket 在线用户列表
+     */
+    String REDIS_WEB_SOCKET_USER_SET = "WEBSOCKET:USER";
+
+    /**
+     * 微信小程序登录的session_key，
+     */
+    String WX_MINI_APP_LOGIN_SESSION_KEY = "wx:mini:app:login:session:key:";
+    /**
+     * 微信小程序登录的session_key的失效时间 3天
+     */
+    Long EXPIRE_WX_MINI_APP_LOGIN_SESSION_KEY = 60 * 24 * 3L;
+
+
+
+    String APP_VERSION_PREFIX = "APP:VERSION:";
+
+
+
 }

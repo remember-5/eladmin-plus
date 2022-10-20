@@ -34,31 +34,6 @@ public class ApiUserDto implements Serializable {
     private String phone;
 
     /**
-     * 备用字段1
-     */
-    private String ex1;
-
-    /**
-     * 备用字段2
-     */
-    private String ex2;
-
-    /**
-     * 备用字段3
-     */
-    private String ex3;
-
-    /**
-     * 备用字段4
-     */
-    private String ex4;
-
-    /**
-     * 备用字段5
-     */
-    private String ex5;
-
-    /**
      * 创建日期
      */
     private Timestamp createTime;

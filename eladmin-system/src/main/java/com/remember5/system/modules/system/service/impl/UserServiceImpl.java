@@ -15,10 +15,14 @@
  */
 package com.remember5.system.modules.system.service.impl;
 
+import com.google.common.collect.ImmutableMap;
 import com.remember5.core.constants.CacheKeyConstant;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.exception.EntityExistException;
 import com.remember5.core.exception.EntityNotFoundException;
+import com.remember5.core.properties.FileProperties;
+import com.remember5.core.result.R;
+import com.remember5.core.utils.*;
 import com.remember5.system.modules.minio.service.MinioService;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.UserCacheClean;
@@ -30,9 +34,6 @@ import com.remember5.system.modules.system.service.dto.RoleSmallDto;
 import com.remember5.system.modules.system.service.dto.UserDto;
 import com.remember5.system.modules.system.service.dto.UserQueryCriteria;
 import com.remember5.system.modules.system.service.mapstruct.UserMapper;
-import com.remember5.core.properties.FileProperties;
-import com.remember5.core.result.R;
-import com.remember5.core.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
@@ -210,9 +211,7 @@ public class UserServiceImpl implements UserService {
         }
         @NotBlank String username = user.getUsername();
         flushCache(username);
-        return new HashMap<String, String>(1) {{
-            put("avatar", multipartFile.getOriginalFilename());
-        }};
+        return ImmutableMap.of("avatar", multipartFile.getOriginalFilename());
     }
 
     @Override

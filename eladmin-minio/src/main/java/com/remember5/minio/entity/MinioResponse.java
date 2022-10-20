@@ -33,29 +33,29 @@ public class MinioResponse extends ObjectWriteResponse implements Serializable {
      * 上传状态
      * true为成功 false为失败
      */
-    private Boolean stats;
+    private Boolean status;
     /**
      * 上传成功后的url
      */
     private String url;
 
     public Boolean stats() {
-        return this.stats;
+        return this.status;
     }
 
     public String url() {
         return this.url;
     }
 
-    public MinioResponse(Headers headers, String bucket, String region, String object, String etag, String versionId, Boolean stats, String url) {
+    public MinioResponse(Headers headers, String bucket, String region, String object, String etag, String versionId, Boolean status, String url) {
         super(headers, bucket, region, object, etag, versionId);
-        this.stats = stats;
+        this.status = status;
         this.url = url;
     }
 
     public MinioResponse(ObjectWriteResponse o, Boolean stats, String url) {
         super(o.headers(), o.region(), o.object(), o.etag(), o.etag(), o.versionId());
-        this.stats = stats;
+        this.status = stats;
         this.url = url;
     }
 

@@ -28,6 +28,7 @@ import EntityExistException;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.poi.excel.ExcelReader;
 import cn.hutool.poi.excel.ExcelUtil;
+import com.remember5.core.enums.FileTypeEnum;
 import com.remember5.core.utils.ValidationUtil;
 import com.remember5.core.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +50,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.core.utils.QueryHelp;
+import com.remember5.core.exception.EntityExistException;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import static com.remember5.core.utils.FileUtil.checkFileType;
 
 /**
 * @description 服务实现
@@ -72,10 +75,12 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Override
     @Transactional
     public void importData(MultipartFile file) throws IOException{
-        String fileName = IdUtil.simpleUUID() + ".xlsx";
-        ExcelReader reader = ExcelUtil.getReader(FileUtil.inputStreamToFile(file.getResource().getInputStream(),fileName));
-        List<${className}> readAll = reader.readAll(${className}.class);
-        ${changeClassName}Repository.saveAll(readAll);
+        if (checkFileType(file, FileTypeEnum.XLSX.suffix, FileTypeEnum.XLSX.mimeType)) {
+            String fileName = IdUtil.simpleUUID() + ".xlsx";
+            ExcelReader reader = ExcelUtil.getReader(FileUtil.inputStreamToFile(file.getResource().getInputStream(),fileName));
+            List<${className}> readAll = reader.readAll(${className}.class);
+            ${changeClassName}Repository.saveAll(readAll);
+        }
     }
 
     @Override
@@ -130,7 +135,7 @@ public class ${className}ServiceImpl implements ${className}Service {
         <#if column_index = 1>
         ${className} ${changeClassName}1 = null;
         </#if>
-        ${changeClassName}1 = ${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}());
+        ${className} ${changeClassName}1 = ${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}());
         if(${changeClassName}1 != null && !${changeClassName}1.get${pkCapitalColName}().equals(${changeClassName}.get${pkCapitalColName}())){
             throw new EntityExistException(${className}.class,"${column.columnName}",resources.get${column.capitalColumnName}());
         }

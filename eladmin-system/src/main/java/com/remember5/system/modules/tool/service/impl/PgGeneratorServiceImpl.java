@@ -119,7 +119,7 @@ public class PgGeneratorServiceImpl implements GeneratorService {
                 "LEFT JOIN pg_class pc ON pc.oid = pg_attribute.attrelid " +
                 "LEFT JOIN pg_index pi ON pi.indrelid =  pg_attribute.attrelid " +
                 "LEFT JOIN pg_type pt ON pt.oid = pg_attribute.atttypid " +
-                "WHERE pc.relname = ? AND pg_attribute.attnum > 0";
+                "WHERE pc.relname = ? AND pg_attribute.attnum > 0 AND pi.indisprimary = 't'";
         Query query = em.createNativeQuery(sql);
         query.setParameter(1, tableName);
         List result = query.getResultList();

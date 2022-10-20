@@ -3,6 +3,8 @@ package com.remember5.openapi.modules.apiuser.service.impl;
 import cn.binarywang.wx.miniapp.api.WxMaService;
 import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
 import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
+import cn.hutool.core.lang.UUID;
+import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -17,6 +19,7 @@ import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
 import com.remember5.core.utils.*;
 import com.remember5.openapi.constant.RedisKeyConstant;
+import com.remember5.openapi.entity.WxLoginResult;
 import com.remember5.openapi.modules.apiuser.domain.ApiUser;
 import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
@@ -85,13 +88,13 @@ public class ApiUserServiceImpl implements ApiUserService {
         try {
             ApiUserDto apiUserDto = findByPhone(user.getPhone());
 //            ApiUserDto apiUserDto = apiUserMapper.toDto(apiUser);
-            accessToken = tokenProvider.createToken(apiUserDto.getPhone(),apiUserDto.getUsername());
+            accessToken = tokenProvider.createAccessToken(apiUserDto.getPhone(), apiUserDto.getUsername());
 //            RedisUtils redisUtils = SpringContextHolder.getBean(RedisUtils.class);
             // 生成accessToken   保存到redis key = JWT:TOKEN:ACCESS:
             redisUtils.set(RedisKeyConstant.USER_ACCESS_TOKEN + accessToken, accessToken, jwtProperties.getTokenValidityInSeconds());
             tokenMap.put("access_token", accessToken);
             // 生成refreshToken  保存到redis key = JWT:TOKEN:REFRESH:
-            refreshToken = tokenProvider.createToken(apiUserDto.getPhone(),apiUserDto.getUsername());
+            refreshToken = tokenProvider.createAccessToken(apiUserDto.getPhone(), apiUserDto.getUsername());
             redisUtils.set(RedisKeyConstant.USER_REFRESH_TOKEN + refreshToken, refreshToken, jwtProperties.getTokenValidityInSeconds());
             tokenMap.put("refresh_token", refreshToken);
             tokenMap.put("user_info", apiUser);
@@ -237,6 +240,7 @@ public class ApiUserServiceImpl implements ApiUserService {
         return getTokens(user, apiUser);
     }
 
+
     @Override
     public R loginBySms(LoginUser user) {
         ApiUser apiUser = new ApiUser();
@@ -256,32 +260,103 @@ public class ApiUserServiceImpl implements ApiUserService {
     }
 
     @Override
-    public boolean phoneExits(String phone) {
-        long num = apiUserRepository.countByPhone(phone);
-        return num > 0;
+    public R captchaByResetPassword(String phone) {
+
+        // 正则校验手机号
+        final boolean mobile = Validator.isMobile(phone);
+        if (!mobile) {
+            return R.fail(REnum.A0206);
+        }
+
+        // 判断手机号是否正确，是否存在数据库
+        final boolean existsPhone = apiUserRepository.existsByPhone(phone);
+        if (!existsPhone) {
+            return R.fail(REnum.A0206);
+        }
+
+        String redisKey = RedisKeyConstant.RESET_PWD_CAPTCHA_KEY + phone;
+        if (!redisUtils.hasKey(redisKey)) {
+            String uuid = UUID.randomUUID().toString(true);
+//            String captchaCode = RandomUtil.randomNumbers(4);
+//            AliyunSMS.send(captchaCode, phone);
+            String captchaCode = "1234";
+            // set验证码到redis
+            boolean as = redisUtils.set(redisKey, captchaCode, RedisKeyConstant.RESET_PWD_CAPTCHA_INVALID);
+            return as ? R.success(uuid) : R.fail(REnum.A0001);
+        }
+        return R.fail(REnum.E0002);
     }
 
     @Override
-    public R wxMiniAppCode2Sessions(WxLoginUser wxLoginInfo) {
-        // jsCode换取sessionId
-        try {
-            final WxMaJscode2SessionResult wxMaJscode2SessionResult = wxMaService.jsCode2SessionInfo(wxLoginInfo.getWxCode());
-            return R.success(wxMaJscode2SessionResult.getSessionKey());
-        } catch (WxErrorException e) {
-            // 微信授权失败
-            return R.fail(REnum.A0311.code, "", "授权失败，请重新授权！");
+    public R forgetPassword (LoginUser user) {
+        if (ObjectUtil.isNull(user) || ObjectUtil.isNull(user.getPassword()) || ObjectUtil.isNull(user.getPhone())) {
+            return R.fail(REnum.A0400);
         }
+        String phone = user.getPhone();
+        // 正则校验手机号
+        final boolean mobile = Validator.isMobile(phone);
+        if (!mobile) {
+            return R.fail(REnum.A0206);
+        }
+
+        // 判断手机号是否正确，是否存在数据库
+        final boolean existsPhone = apiUserRepository.existsByPhone(phone);
+        if (!existsPhone) {
+            return R.fail(REnum.A0206);
+        }
+        apiUserRepository.updatePass(phone, passwordEncoder.encode(user.getPassword()));
+        return R.success();
     }
 
+    /**
+     * sessionId+encrypt+iv换取其他信息
+     *
+     * @param wxLoginInfo /
+     * @return
+     */
     @Override
     public R wxMiniAppLogin(WxLoginUser wxLoginInfo) {
         try {
-            // sessionId+encrypt+iv换取其他信息
-            final WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(wxLoginInfo.getSessionKey(), wxLoginInfo.getEncryptedData(), wxLoginInfo.getIv());
-            String phoneNumber = phoneNoInfo.getPhoneNumber();
-            return R.success(phoneNumber);
+            // 微信一键登录
+            final WxLoginResult wxLoginResult = wechatMiniProgramLogin(wxLoginInfo.getCode(), wxLoginInfo.getEncryptedData(), wxLoginInfo.getIv());
+            if (null == wxLoginResult) {
+                return R.fail(REnum.A0100);
+            }
+            final String openid = wxLoginResult.getOpenid();
+            final String purePhoneNumber = wxLoginResult.getPurePhoneNumber();
+            // Todo 保存用户的信息
+            // 删除用户的openid
+            return R.success(purePhoneNumber);
+            // session_key 不存在，已经过期
         } catch (JsonSyntaxException e) {
             return R.fail(REnum.A0001.code, "", "请重新授权！");
         }
     }
+
+
+    /**
+     * 微信小程序的一键登录
+     *
+     * @param code          code
+     * @param encryptedData 加密数据
+     * @param iv            iv
+     * @return 登陆结果
+     */
+    private WxLoginResult wechatMiniProgramLogin(String code, String encryptedData, String iv) {
+        try {
+            final WxMaJscode2SessionResult sessionResult = wxMaService.jsCode2SessionInfo(code);
+            final WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService().getPhoneNoInfo(sessionResult.getSessionKey(), encryptedData, iv);
+
+            return WxLoginResult.builder().openid(sessionResult.getOpenid())
+                    .unionid(sessionResult.getUnionid())
+                    .sessionKey(sessionResult.getSessionKey())
+                    .phoneNumber(phoneNoInfo.getPhoneNumber())
+                    .purePhoneNumber(phoneNoInfo.getPurePhoneNumber()).build();
+        } catch (WxErrorException e) {
+            log.error("微信一键登录失败 {}", e.getMessage());
+            return null;
+        }
+
+    }
+
 }

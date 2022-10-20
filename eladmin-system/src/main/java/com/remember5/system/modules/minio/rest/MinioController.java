@@ -41,6 +41,12 @@ public class MinioController {
         return minioService.uploadFile(file);
     }
 
+    @Log("上传文件:自定义文件名")
+    @ApiOperation("上传文件:自定义文件名")
+    @PostMapping("/uploadName")
+    public R uploadFileAndName(@RequestParam("file") MultipartFile file, @RequestParam("fileName") String fileName) {
+        return minioService.uploadFileAndName(file, fileName);
+    }
     /**
      * base64上传
      *

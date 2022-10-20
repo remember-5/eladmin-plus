@@ -1,10 +1,7 @@
 package com.remember5.core.config;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.remember5.core.constants.CacheKeyConstant;
-import com.remember5.core.eneity.MessageReceive;
+import com.remember5.core.websocket.MessageReceive;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -83,10 +80,10 @@ public class NettyConfiguration {
 
         //序列化对象（特别注意：发布的时候需要设置序列化；订阅方也需要设置序列化）
         Jackson2JsonRedisSerializer seria = new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        seria.setObjectMapper(objectMapper);
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+//        objectMapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+//        seria.setObjectMapper(objectMapper);
         redisMessageListenerContainer.setTopicSerializer(seria);
         return redisMessageListenerContainer;
     }
@@ -97,7 +94,7 @@ public class NettyConfiguration {
      */
     @Bean
     public MessageListenerAdapter listenerAdapter1(MessageReceive messageReceive) {
-        //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“MessageReceive ”
+        //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“MessageReceive#getMessageToOne”
         return new MessageListenerAdapter(messageReceive, "getMessageToOne");
     }
 
@@ -106,9 +103,8 @@ public class NettyConfiguration {
      */
     @Bean
     public MessageListenerAdapter listenerAdapter2(MessageReceive messageReceive) {
-        //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“MessageReceive ”
+        //这个地方 是给messageListenerAdapter 传入一个消息接受的处理器，利用反射的方法调用“MessageReceive#getMessageToAll ”
         return new MessageListenerAdapter(messageReceive, "getMessageToAll");
     }
 
-    // TODO 发送群组的概念
 }

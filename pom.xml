@@ -7,7 +7,7 @@
     <groupId>com.remember5</groupId>
     <artifactId>eladmin</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0</version>
+    <version>2.2.2</version>
 
     <modules>
         <module>eladmin-core</module>
@@ -43,14 +43,14 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
 
-        <hutool.version>5.8.8</hutool.version>
+        <hutool.version>5.8.18</hutool.version>
         <guava.version>31.1-jre</guava.version>
-        <fastjson.version>2.0.15</fastjson.version>
+        <fastjson.version>2.0.28</fastjson.version>
         <knife4j.version>3.0.3</knife4j.version>
         <dynamic.version>3.4.0</dynamic.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <minio.verison>8.4.5</minio.verison>
+        <minio.verison>8.5.2</minio.verison>
         <!-- 如升级请查看文档 https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
         <redisson.version>3.16.8</redisson.version>
         <!--主要是解决minio的依赖问题-->
@@ -58,7 +58,7 @@
 		<p6spy-starter.version>1.8.1</p6spy-starter.version>
         <log4j2.version>2.17.2</log4j2.version>
         <yauaa.version>6.12</yauaa.version>
-        <easyexcel.version>3.1.1</easyexcel.version>
+        <easyexcel.version>3.2.1</easyexcel.version>
         <mica-ip2region.version>2.6.7</mica-ip2region.version>
         <qcloud-cos.version>5.6.89</qcloud-cos.version>
 		<wx-java.version>4.4.0</wx-java.version>
@@ -202,11 +202,12 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
-			<dependency>
-				<groupId>com.alibaba.fastjson2</groupId>
-				<artifactId>fastjson2-extension</artifactId>
-				<version>${fastjson.version}</version>
-			</dependency>
+            <!--      https://alibaba.github.io/fastjson2/spring_support_cn      -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2-extension-spring5</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
 
             <!--hutool工具包-->
             <dependency>

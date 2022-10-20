@@ -19,6 +19,14 @@ public interface MinioService {
     R uploadFile(MultipartFile file);
 
     /**
+     * 自定义文件名称上传
+     * @param file 文件
+     * @param fileName 文件名称
+     * @return /
+     */
+    R uploadFileAndName(MultipartFile file, String fileName);
+
+    /**
      * base64上传
      *
      * @param fileData base64

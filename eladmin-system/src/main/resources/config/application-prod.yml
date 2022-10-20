@@ -99,7 +99,7 @@ login:
   #  是否限制单用户登录
   single-login: false
   # 默认密码
-  default-password: Eladmin2022!
+  default-password: 123456
 
 #  验证码
 captcha:
@@ -137,7 +137,7 @@ jwt:
   renew: 3600000
   # 放行接口
   permit:
-    defaults-url:
+    url:
       - /swagger-ui.html # swagger 文档
       - /swagger-resources/**
       - /webjars/**
@@ -145,17 +145,12 @@ jwt:
       - /avatar/** # 文件
       - /file/**
       - /druid/** # 阿里巴巴 druid
-    get-url:
       - /*.html
       - /**/*.html
       - /**/*.css
       - /**/*.js
       - /webSocket/**
       - /ws/**
-    post-url:
-    put-url:
-    delete-url:
-
 
 task:
   pool:
@@ -265,7 +260,7 @@ knife4j:
 
 #日志配置 无特殊需求无需更改
 logging:
-  config:  classpath:log4j2-spring-prod.xml
+  config: classpath:log4j2-spring-prod.xml
   level:
     root: INFO
 
@@ -278,7 +273,7 @@ decorator:
       # Use logging for default listeners [slf4j, sysout, file, custom]
       logging: slf4j
       # Log file to use (only with logging=file)
-      log-file: spy.log
+      log-file: system-log/system-spy.log
       # Custom log format, if specified com.p6spy.engine.spy.appender.CustomLineFormat will be used with this log format
       log-format: executionTime:%(executionTime) | sql:%(sqlSingleLine)
       custom-appender-class:
@@ -289,4 +284,15 @@ minio:
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}
   secret-key: ${MINIO_SK}
-  domain: ''
+  domain: ${MINIO_DOMAIN:}
+  file-expires: 10800
+  bucket-prefix: bk-
+
+# app部分配置
+app:
+  # 是否开启热更
+  enabled-hot-update: true
+  # 拦截归档版本，启动会加载历史版本到redis。暂不可用
+  intercept-archived: false
+  # 安全校验key
+  secret-key: yquLbM67A9iZpfxF9dot
