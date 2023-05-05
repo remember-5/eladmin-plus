@@ -19,7 +19,7 @@ import com.remember5.system.modules.column.domain.CmsColumn;
 import com.remember5.system.modules.column.repository.CmsColumnRepository;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.QueryHelp;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.column.service.CmsColumnService;

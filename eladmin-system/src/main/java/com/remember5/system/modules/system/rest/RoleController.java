@@ -16,14 +16,14 @@
 package com.remember5.system.modules.system.rest;
 
 import cn.hutool.core.lang.Dict;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.system.modules.system.domain.Role;
 import com.remember5.system.modules.system.service.RoleService;
 import com.remember5.system.modules.system.service.dto.RoleDto;
 import com.remember5.system.modules.system.service.dto.RoleQueryCriteria;
 import com.remember5.system.modules.system.service.dto.RoleSmallDto;
-import com.remember5.core.utils.SecurityUtils;
+import com.remember5.security.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

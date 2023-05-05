@@ -17,6 +17,8 @@ package com.remember5.system.modules.mnt.service.impl;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import com.remember5.security.utils.QueryHelp;
+import com.remember5.security.utils.SecurityUtils;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.*;
 import com.remember5.system.modules.mnt.domain.App;
@@ -35,7 +37,7 @@ import com.remember5.system.modules.mnt.service.mapstruct.DeployMapper;
 import com.remember5.system.modules.mnt.util.ExecuteShellUtil;
 import com.remember5.system.modules.mnt.util.ScpClientUtil;
 import com.remember5.system.modules.mnt.websocket.MsgType;
-import com.remember5.system.modules.tool.websocket.service.PushService;
+import com.remember5.system.modules.tool.websocket.controller.service.PushService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -235,7 +237,7 @@ public class DeployServiceImpl implements DeployService {
     }
 
     private void sendMsg(String msg, MsgType msgType) {
-        pushService.pushMsg2User("deploy", msg);
+//        pushService.pushMsg2User("deploy", msg);
     }
 
     @Override

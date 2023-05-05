@@ -1,10 +1,10 @@
 package com.remember5.openapi.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.remember5.core.properties.JwtProperties;
-import com.remember5.core.utils.TokenProvider;
 import com.remember5.openapi.modules.apiuser.domain.ApiUser;
 import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
+import com.remember5.redis.properties.JwtProperties;
+import com.remember5.redis.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

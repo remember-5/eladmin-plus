@@ -5,7 +5,7 @@
     <parent>
         <artifactId>eladmin</artifactId>
         <groupId>com.remember5</groupId>
-        <version>2.2.2</version>
+        <version>2.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -13,20 +13,18 @@
     <name>核心模块</name>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
 
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <jjwt.version>0.11.5</jjwt.version>
         <oshi.version>5.7.1</oshi.version>
         <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <jna.version>5.8.0</jna.version>
         <dynamic.version>3.4.0</dynamic.version>
-        <minio.verison>8.3.5</minio.verison>
         <mail.version>1.4.7</mail.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <alipay.version>4.9.153.ALL</alipay.version>
@@ -43,8 +41,23 @@
 
         <dependency>
             <groupId>com.remember5</groupId>
-            <artifactId>eladmin-minio</artifactId>
-            <version>${project.parent.version}</version>
+            <artifactId>eladmin-spring-boot-starter-oss</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.remember5</groupId>
+            <artifactId>eladmin-spring-boot-starter-captcha</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.remember5</groupId>
+            <artifactId>eladmin-spring-boot-starter-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.remember5</groupId>
+            <artifactId>eladmin-spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.remember5</groupId>
+            <artifactId>eladmin-spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <!-- Spring boot websocket -->
@@ -149,23 +162,23 @@
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>com.github.gavlyukovskiy</groupId>
-			<artifactId>p6spy-spring-boot-starter</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>p6spy-spring-boot-starter</artifactId>
+        </dependency>
 
         <!--   ip定位     -->
-<!--        <dependency>-->
-<!--            <groupId>net.dreamlu</groupId>-->
-<!--            <artifactId>mica-ip2region</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>net.dreamlu</groupId>-->
+        <!--            <artifactId>mica-ip2region</artifactId>-->
+        <!--        </dependency>-->
 
         <!--Mysql 驱动依赖-->
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>mysql</groupId>-->
+        <!--            <artifactId>mysql-connector-java</artifactId>-->
+        <!--            <scope>runtime</scope>-->
+        <!--        </dependency>-->
 
     </dependencies>
 
@@ -181,42 +194,42 @@
     </build>
 
     <!-- 分离打包: jar和依赖合并打包 -->
-<!--    <build>-->
-<!--        <finalName>eladmin-template</finalName>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-jar-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <addClasspath>true</addClasspath>-->
-<!--                            <classpathPrefix>lib/</classpathPrefix>-->
-<!--                            <mainClass>SystemApiApplication</mainClass>-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-dependency-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>copy-dependencies</id>-->
-<!--                        <phase>prepare-package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>copy-dependencies</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
-<!--                            <overWriteReleases>false</overWriteReleases>-->
-<!--                            <overWriteSnapshots>false</overWriteSnapshots>-->
-<!--                            <overWriteIfNewer>true</overWriteIfNewer>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <!--    <build>-->
+    <!--        <finalName>eladmin-template</finalName>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-jar-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <archive>-->
+    <!--                        <manifest>-->
+    <!--                            <addClasspath>true</addClasspath>-->
+    <!--                            <classpathPrefix>lib/</classpathPrefix>-->
+    <!--                            <mainClass>SystemApiApplication</mainClass>-->
+    <!--                        </manifest>-->
+    <!--                    </archive>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-dependency-plugin</artifactId>-->
+    <!--                <executions>-->
+    <!--                    <execution>-->
+    <!--                        <id>copy-dependencies</id>-->
+    <!--                        <phase>prepare-package</phase>-->
+    <!--                        <goals>-->
+    <!--                            <goal>copy-dependencies</goal>-->
+    <!--                        </goals>-->
+    <!--                        <configuration>-->
+    <!--                            <outputDirectory>${project.build.directory}/lib</outputDirectory>-->
+    <!--                            <overWriteReleases>false</overWriteReleases>-->
+    <!--                            <overWriteSnapshots>false</overWriteSnapshots>-->
+    <!--                            <overWriteIfNewer>true</overWriteIfNewer>-->
+    <!--                        </configuration>-->
+    <!--                    </execution>-->
+    <!--                </executions>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 
 </project>

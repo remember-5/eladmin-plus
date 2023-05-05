@@ -47,19 +47,18 @@ prod-package:
     - cp start.sh /server/eladmin
     - cd /server/eladmin
     # 启动服务
-    - nohup java -jar /server/eladmin/eladmin-template.jar \
-      --DB_HOST="$DB_HOST" \
-      --DB_PORT="$DB_PORT" \
-      --DB_NAME="$DB_NAME" \
-      --DB_USER="$DB_USER" \
-      --DB_PWD="$DB_PWD" \
-      --DB_SCHEMA="$DB_SCHEMA" \
-      --REDIS_HOST="$REDIS_HOST" \
-      --REDIS_PORT="$REDIS_PORT" \
-      --REDIS_PWD="$REDIS_PWD" \
-      --REDIS_DB="$REDIS_DB" \
-      --DRUID_USER="$DRUID_USER" \
-      --DRUID_PWD="$DRUID_PWD" > nohup.out 2>&1 &
+    - nohup java -DDB_HOST="$DB_HOST" \
+      -DDB_PORT="$DB_PORT" \
+      -DDB_NAME="$DB_NAME" \
+      -DDB_USER="$DB_USER" \
+      -DDB_PWD="$DB_PWD" \
+      -DDB_SCHEMA="$DB_SCHEMA" \
+      -DREDIS_HOST="$REDIS_HOST" \
+      -DREDIS_PORT="$REDIS_PORT" \
+      -DREDIS_PWD="$REDIS_PWD" \
+      -DREDIS_DB="$REDIS_DB" \
+      -DDRUID_USER="$DRUID_USER" \
+      -DDRUID_PWD="$DRUID_PWD" -jar /server/eladmin/eladmin-template.jar > nohup.out 2>&1 &
   #    artifacts:
   #      paths:
   #        - target/*.jar

@@ -15,7 +15,6 @@ public class WxLoginUser {
     private String encryptedData;
     private String errMsg;
     private String iv;
-
     private String wxCode;
     private String sessionKey;
 

@@ -17,8 +17,8 @@ package com.remember5.system.modules.security.security;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.jwt.JWTException;
-import com.remember5.core.properties.JwtProperties;
-import com.remember5.core.utils.TokenProvider;
+import com.remember5.redis.properties.JwtProperties;
+import com.remember5.redis.utils.TokenProvider;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.UserCacheClean;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;

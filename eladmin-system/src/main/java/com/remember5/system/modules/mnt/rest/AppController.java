@@ -19,7 +19,7 @@ import com.remember5.system.modules.mnt.domain.App;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.mnt.service.AppService;
 import com.remember5.system.modules.mnt.service.dto.AppQueryCriteria;
 import org.springframework.data.domain.Pageable;

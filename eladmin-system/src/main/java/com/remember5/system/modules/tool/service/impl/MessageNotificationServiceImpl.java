@@ -17,7 +17,7 @@ package com.remember5.system.modules.tool.service.impl;
 
 import com.remember5.system.modules.tool.repository.MessageNotificationRepository;
 import com.remember5.system.modules.tool.service.mapstruct.MessageNotificationMapper;
-import com.remember5.core.utils.*;
+import com.remember5.security.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.tool.domain.MessageNotification;
 import com.remember5.system.modules.tool.service.MessageNotificationService;
@@ -25,7 +25,7 @@ import com.remember5.system.modules.tool.service.dto.MessageNotificationDto;
 import com.remember5.system.modules.tool.service.dto.MessageNotificationQueryCriteria;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.QueryHelp;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -202,18 +202,7 @@ public class GenUtil {
     private static Map<String, Object> getGenMap(List<ColumnInfo> columnInfos, GenConfig genConfig) {
         // 存储模版字段数据
         Map<String, Object> genMap = new HashMap<>(16);
-        // 接口别名
-        genMap.put("apiAlias", genConfig.getApiAlias());
-        // 包名称
-        genMap.put("package", genConfig.getPack());
-        // 模块名称
-        genMap.put("moduleName", genConfig.getModuleName());
-        // 作者
-        genMap.put("author", genConfig.getAuthor());
-        // 创建日期
-        genMap.put("date", LocalDate.now().toString());
-        // 表名
-        genMap.put("tableName", genConfig.getTableName());
+
         // 大写开头的类名
         String className = StringUtils.toCapitalizeCamelCase(genConfig.getTableName());
         // 小写开头的类名
@@ -224,6 +213,22 @@ public class GenUtil {
             changeClassName = StringUtils.toCamelCase(StrUtil.removePrefix(genConfig.getTableName(), genConfig.getPrefix()));
             changeClassName = StringUtils.uncapitalize(changeClassName);
         }
+
+        // 接口别名
+        genMap.put("apiAlias", genConfig.getApiAlias());
+        // 包名称
+        String packageName = genConfig.getPack()
+                .replace(File.separator, ".")
+                .replace("src.main.java.", "") + "." + changeClassName;
+        genMap.put("package", packageName);
+        // 模块名称
+        genMap.put("moduleName", genConfig.getModuleName());
+        // 作者
+        genMap.put("author", genConfig.getAuthor());
+        // 创建日期
+        genMap.put("date", LocalDate.now().toString());
+        // 表名
+        genMap.put("tableName", genConfig.getTableName());
         // 保存类名
         genMap.put("className", className);
         // 保存小写开头的类名
@@ -361,10 +366,14 @@ public class GenUtil {
      * 定义后端文件路径以及名称
      */
     private static String getAdminFilePath(String templateName, GenConfig genConfig, String className, String rootPath) {
-        String projectPath = rootPath + File.separator + genConfig.getModuleName();
-        String packagePath = projectPath + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
+        String packagePath = rootPath + File.separator + genConfig.getModuleName() + File.separator;
+        String modulePackageName =
+                null == genConfig.getPrefix() ?
+                        StringUtils.toCamelCase(genConfig.getTableName()) :
+                        StringUtils.toCamelCase(genConfig.getTableName().replace(genConfig.getPrefix(), ""));
+
         if (!ObjectUtils.isEmpty(genConfig.getPack())) {
-            packagePath += genConfig.getPack().replace(".", File.separator) + File.separator;
+            packagePath += genConfig.getPack().replace(".", File.separator) + File.separator + modulePackageName + File.separator;
         }
 
         if ("Entity".equals(templateName)) {
@@ -408,11 +417,16 @@ public class GenUtil {
     private static String getFrontFilePath(String templateName, String apiPath, String path, String apiName) {
 
         if ("api".equals(templateName)) {
-            return apiPath + File.separator + apiName + ".js";
+            final String srcApi = "src" + File.separator + "api";
+            return path + File.separator +
+                    srcApi + File.separator +
+                    apiName + File.separator +
+                    apiName + ".js";
         }
 
         if ("index".equals(templateName)) {
-            return path + File.separator + "index.vue";
+            final String srcViews = "src" + File.separator + "views";
+            return path + File.separator + srcViews + File.separator + apiName + File.separator + "index.vue";
         }
 
         return null;

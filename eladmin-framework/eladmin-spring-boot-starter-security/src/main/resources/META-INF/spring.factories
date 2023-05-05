@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.remember5.security.config.CustomSecurityAutoConfiguration

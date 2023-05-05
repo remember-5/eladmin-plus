@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.tool.rest;
 
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.MessageNotification;
 import com.remember5.system.modules.tool.service.MessageNotificationService;
 import com.remember5.system.modules.tool.service.dto.MessageNotificationQueryCriteria;

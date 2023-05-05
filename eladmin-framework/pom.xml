@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <parent>
+        <groupId>com.remember5</groupId>
+        <artifactId>eladmin</artifactId>
+        <version>2.3.0</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>eladmin-framework</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!--   跳过测试    -->
+        <skipTests>true</skipTests>
+    </properties>
+
+    <modules>
+        <module>eladmin-spring-boot-starter-captcha</module>
+        <module>eladmin-spring-boot-starter-core</module>
+        <module>eladmin-spring-boot-starter-dependencies</module>
+        <module>eladmin-spring-boot-starter-doc</module>
+        <module>eladmin-spring-boot-starter-ftp</module>
+        <module>eladmin-spring-boot-starter-logging</module>
+        <module>eladmin-spring-boot-starter-office</module>
+        <module>eladmin-spring-boot-starter-oss</module>
+        <module>eladmin-spring-boot-starter-push</module>
+        <module>eladmin-spring-boot-starter-redis</module>
+        <module>eladmin-spring-boot-starter-security</module>
+        <module>eladmin-spring-boot-starter-sms</module>
+        <module>eladmin-spring-boot-starter-websocket</module>
+    </modules>
+
+</project>

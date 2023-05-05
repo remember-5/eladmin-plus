@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.system.rest;
 
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.base.BaseEntity;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.system.modules.system.domain.Job;

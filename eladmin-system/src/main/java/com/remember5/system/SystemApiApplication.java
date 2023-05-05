@@ -15,8 +15,7 @@
  */
 package com.remember5.system;
 
-import com.remember5.core.utils.SpringContextHolder;
-import io.swagger.annotations.Api;
+import com.remember5.security.utils.SpringContextHolder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -29,7 +28,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 开启审计功能 -> @EnableJpaAuditing
@@ -38,12 +36,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018/11/15 9:20:19
  */
 @EnableAsync
-@RestController
-@Api(hidden = true)
 @SpringBootApplication
 @EnableTransactionManagement // 开启事物
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
-@EnableAspectJAutoProxy(exposeProxy = true) // Aop
+@EnableAspectJAutoProxy(exposeProxy = true) // Aop exposeProxy=强制采用cglib代理 proxyTargetClass=暴露cglib代理的目标对象
 @ComponentScan(basePackages = {
         "cn.hutool.extra.spring",
         "com.remember5.*",

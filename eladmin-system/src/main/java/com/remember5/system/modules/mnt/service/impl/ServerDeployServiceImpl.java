@@ -20,7 +20,7 @@ import com.remember5.system.modules.mnt.service.mapstruct.ServerDeployMapper;
 import com.remember5.system.modules.mnt.util.ExecuteShellUtil;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.QueryHelp;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.mnt.domain.ServerDeploy;

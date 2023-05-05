@@ -17,11 +17,12 @@ package com.remember5.system.modules.security.service;
 
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
-import com.remember5.core.properties.JwtProperties;
 import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.IpUtils;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.RedisUtils;
 import com.remember5.core.utils.StringUtils;
+import com.remember5.redis.properties.JwtProperties;
+import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.modules.security.service.dto.JwtUserDto;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;
 import com.remember5.system.modules.tool.service.impl.EmailServiceImpl;
@@ -62,7 +63,7 @@ public class OnlineUserService {
         String dept = jwtUserDto.getUser().getDept().getName();
         String ip = StringUtils.getIp(request);
         String browser = StringUtils.getBrowser(request);
-        String address = StringUtils.getCityInfo(ip);
+        String address = IpUtils.getCityInfo(ip);
         OnlineUserDto onlineUserDto = null;
         try {
 

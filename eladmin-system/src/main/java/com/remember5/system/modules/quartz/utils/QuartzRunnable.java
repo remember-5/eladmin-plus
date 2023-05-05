@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.quartz.utils;
 
-import com.remember5.core.utils.SpringContextHolder;
+import com.remember5.security.utils.SpringContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ReflectionUtils;

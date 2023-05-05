@@ -30,7 +30,7 @@ import com.remember5.system.modules.tool.service.QiNiuService;
 import com.remember5.system.modules.tool.service.dto.QiniuQueryCriteria;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.QueryHelp;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.tool.domain.QiniuContent;

@@ -20,7 +20,7 @@ import com.remember5.system.modules.mnt.util.SqlUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.system.modules.mnt.service.DatabaseService;
 import com.remember5.system.modules.mnt.service.dto.DatabaseDto;

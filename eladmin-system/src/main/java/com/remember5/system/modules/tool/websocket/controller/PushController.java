@@ -1,6 +1,6 @@
 package com.remember5.system.modules.tool.websocket.controller;
 
-import com.remember5.system.modules.tool.websocket.service.PushService;
+import com.remember5.system.modules.tool.websocket.controller.service.PushService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

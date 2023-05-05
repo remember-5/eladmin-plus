@@ -15,7 +15,7 @@
  */
 package com.remember5.openapi.modules.version.rest;
 
-import com.remember5.core.annotation.ApiVersion;
+import com.remember5.security.anotation.ApiVersion;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

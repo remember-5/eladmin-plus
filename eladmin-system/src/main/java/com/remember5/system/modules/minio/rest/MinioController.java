@@ -2,11 +2,11 @@ package com.remember5.system.modules.minio.rest;
 
 
 import com.remember5.system.modules.minio.service.MinioService;
-import com.remember5.minio.entity.Base64Uploader;
+import com.remember5.oss.entity.Base64Uploader;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.result.R;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

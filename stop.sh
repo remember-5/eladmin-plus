@@ -3,6 +3,7 @@ if [ -z "$PID" ]
 then
 echo Application is already stopped
 else
-echo kill -9 $PID
-kill -9 $PID
+# 通过使用-15 而不是-9 来停止线程
+echo kill -15 $PID
+kill -15 $PID
 fi

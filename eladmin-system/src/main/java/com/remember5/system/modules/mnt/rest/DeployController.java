@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.mnt.domain.DeployHistory;
 import com.remember5.system.modules.mnt.service.DeployService;
 import com.remember5.system.modules.mnt.service.dto.DeployQueryCriteria;

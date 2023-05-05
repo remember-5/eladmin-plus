@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.column.rest;
 
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.column.domain.CmsColumn;
 import com.remember5.system.modules.column.service.CmsColumnService;
 import com.remember5.system.modules.column.service.dto.CmsColumnQueryCriteria;

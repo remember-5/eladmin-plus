@@ -2,16 +2,14 @@ package com.remember5.openapi.modules.apiuser.rest;
 
 import com.remember5.core.annotation.rest.AnonymousGetMapping;
 import com.remember5.core.annotation.rest.AnonymousPostMapping;
-import com.remember5.core.enums.LogChannelEnum;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
-import com.remember5.core.utils.RedisUtils;
 import com.remember5.core.utils.ValidationUtil;
-import com.remember5.logging.annotation.Log;
 import com.remember5.openapi.constant.RedisKeyConstant;
 import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
+import com.remember5.redis.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +52,6 @@ public class ApiUserController {
         return apiUserService.loginByAccount(user);
     }
 
-    @Log(value = "获取用户信息", channel = LogChannelEnum.App)
     @ApiOperation("获取用户信息")
     @GetMapping(value = "/info")
     public R<Object> getUserInfo() {

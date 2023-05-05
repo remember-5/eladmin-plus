@@ -16,8 +16,8 @@
 package com.remember5.system.modules.system.rest;
 
 import com.remember5.system.modules.system.service.VerifyService;
-import com.remember5.core.enums.CodeBiEnum;
-import com.remember5.core.enums.CodeEnum;
+import com.remember5.system.enums.CodeBiEnum;
+import com.remember5.system.enums.CodeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

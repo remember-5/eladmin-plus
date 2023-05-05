@@ -15,15 +15,26 @@
  */
 package com.remember5.system.modules.generator.rest;
 
+import cn.hutool.system.SystemUtil;
+import com.remember5.system.modules.generator.domain.GenConfig;
+import com.remember5.system.modules.generator.domain.Node;
+import com.remember5.system.modules.generator.service.GenConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.remember5.system.modules.generator.domain.GenConfig;
-import com.remember5.system.modules.generator.service.GenConfigService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @author Zheng Jie
@@ -48,4 +59,65 @@ public class GenConfigController {
     public ResponseEntity<Object> updateGenConfig(@Validated @RequestBody GenConfig genConfig) {
         return new ResponseEntity<>(genConfigService.update(genConfig.getTableName(), genConfig), HttpStatus.OK);
     }
+
+    @ApiOperation("查看模块名称")
+    @GetMapping(value = "/modules")
+    public ResponseEntity<Object> findModules() {
+        // 获取目录下的子目录
+        File[] subDirs = new File(System.getProperty("user.dir")).listFiles(File::isDirectory);
+        ArrayList<String> modulesNames = new ArrayList<>();
+        for (File subDir : subDirs) {
+            modulesNames.add(subDir.getName());
+        }
+        return new ResponseEntity<>(modulesNames, HttpStatus.OK);
+    }
+
+    @ApiOperation("查看包名称")
+    @GetMapping(value = "/package")
+    public ResponseEntity<Object> findPackage(String moduleName) {
+        //获取当前项目目录
+        String projectPath = System.getProperty("user.dir");
+        boolean isWindows = SystemUtil.getOsInfo().isWindows();
+        final String path = projectPath + File.separator + moduleName;
+        List<String> dirList = new ArrayList<>();
+        Node root = new Node("", "");
+        Node current = root;
+        try (Stream<Path> paths = Files.walk(Paths.get(path))) {
+            paths
+                    .filter(Files::isDirectory)
+                    .forEach(e -> {
+                        if (!e.toString().equals(path)) {
+                            dirList.add(e.toString().replace(path + File.separator, ""));
+
+                        }
+                    });
+            for (String item : dirList) {
+                String[] parts = isWindows ? item.split("\\\\") : item.split(File.separator);
+                for (String part : parts) {
+                    boolean foundChild = false;
+                    for (Node child : current.getChildren()) {
+                        if (child.getLabel().equals(part)) {
+                            current = child;
+                            foundChild = true;
+                            break;
+                        }
+                    }
+                    if (!foundChild) {
+                        Node newNode = isWindows ? new Node(part, item.replaceAll("\\\\", ".")) : new Node(part, item.replaceAll(File.separator, "."));
+                        current.getChildren().add(newNode);
+                        current = newNode;
+                    }
+                }
+                current = root;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if(!isWindows){
+            root.reverseList();
+        }
+        return new ResponseEntity<>(root , HttpStatus.OK);
+    }
+
 }

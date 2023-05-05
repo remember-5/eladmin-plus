@@ -5,13 +5,13 @@ import cn.hutool.core.util.ObjectUtil;
 import com.remember5.core.enums.FileTypeEnum;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
-import com.remember5.minio.entity.Base64DecodedMultipartFile;
-import com.remember5.minio.entity.MinioResponse;
-import com.remember5.minio.properties.MinioProperties;
-import com.remember5.minio.utils.MinioUtils;
+import com.remember5.oss.entity.Base64DecodedMultipartFile;
+import com.remember5.oss.entity.MinioResponse;
+import com.remember5.oss.properties.MinioProperties;
+import com.remember5.oss.utils.MinioUtils;
 import com.remember5.system.modules.minio.service.MinioService;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,10 +25,14 @@ import static com.remember5.core.utils.FileUtil.checkFileType;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class MinioServiceImpl implements MinioService {
     private final MinioProperties minioProperties;
     private final MinioUtils minioUtils;
+
+    public MinioServiceImpl(MinioProperties minioProperties, @Autowired(required = false) MinioUtils minioUtils) {
+        this.minioProperties = minioProperties;
+        this.minioUtils = minioUtils;
+    }
 
     /**
      * @Author: fly

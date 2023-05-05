@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.quartz.rest;
 
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.system.modules.quartz.domain.QuartzJob;
 import com.remember5.system.modules.quartz.service.dto.JobQueryCriteria;

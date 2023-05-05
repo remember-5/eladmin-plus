@@ -1,11 +1,11 @@
 package com.remember5.openapi.config;
 
-import com.remember5.core.handler.JwtAccessDeniedHandler;
-import com.remember5.core.handler.JwtAuthenticationEntryPoint;
-import com.remember5.core.properties.JwtProperties;
-import com.remember5.core.utils.TokenProvider;
+import com.remember5.security.handler.JwtAccessDeniedHandler;
+import com.remember5.security.handler.JwtAuthenticationEntryPoint;
 import com.remember5.openapi.filter.JwtAuthenticationTokenFilter;
 import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
+import com.remember5.redis.properties.JwtProperties;
+import com.remember5.redis.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -89,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // 允许对于网站静态资源的无授权访问
-                .antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0])).permitAll()
+                .antMatchers(jwtProperties.getPermitUrl().toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求,跨域请求会先进行一次options请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
@@ -112,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0]));
+        web.ignoring().antMatchers(jwtProperties.getPermitUrl().toArray(new String[0]));
     }
 
     @Bean

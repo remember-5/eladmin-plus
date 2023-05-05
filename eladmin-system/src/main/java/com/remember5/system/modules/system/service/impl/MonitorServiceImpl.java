@@ -19,7 +19,7 @@ import cn.hutool.core.date.BetweenFormatter;
 import cn.hutool.core.date.DateUtil;
 import com.remember5.core.constants.ElAdminConstant;
 import com.remember5.core.utils.FileUtil;
-import com.remember5.core.utils.StringUtils;
+import com.remember5.core.utils.IpUtils;
 import com.remember5.system.modules.system.service.MonitorService;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
@@ -192,7 +192,7 @@ public class MonitorServiceImpl implements MonitorService {
         // 系统信息
         systemInfo.put("os", os.toString());
         systemInfo.put("day", formatBetween);
-        systemInfo.put("ip", StringUtils.getLocalIp());
+        systemInfo.put("ip", IpUtils.getLocalIp());
         return systemInfo;
     }
 }

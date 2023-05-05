@@ -15,9 +15,14 @@
  */
 package com.remember5.system.modules.system.service.impl;
 
-import com.remember5.core.constants.CacheKeyConstant;
+import com.remember5.system.constants.CacheKeyConstant;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.exception.EntityExistException;
+import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageUtil;
+import com.remember5.security.utils.QueryHelp;
+import com.remember5.core.utils.ValidationUtil;
+import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.modules.system.domain.Job;
 import com.remember5.system.modules.system.repository.JobRepository;
 import com.remember5.system.modules.system.repository.UserRepository;
@@ -25,7 +30,6 @@ import com.remember5.system.modules.system.service.JobService;
 import com.remember5.system.modules.system.service.dto.JobDto;
 import com.remember5.system.modules.system.service.dto.JobQueryCriteria;
 import com.remember5.system.modules.system.service.mapstruct.JobMapper;
-import com.remember5.core.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

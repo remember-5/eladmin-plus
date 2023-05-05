@@ -39,6 +39,7 @@ public class GenConfig implements Serializable {
 
     public GenConfig(String tableName) {
         this.tableName = tableName;
+        this.prefix = "t_";
     }
 
     @Id
@@ -66,7 +67,7 @@ public class GenConfig implements Serializable {
     @ApiModelProperty(value = "前端文件路径")
     private String path;
 
-    @ApiModelProperty(value = "前端文件路径")
+    @ApiModelProperty(value = "前端接口文件路径")
     private String apiPath;
     @ApiModelProperty(value = "是否相对路径")
     private Boolean relativePath = false;

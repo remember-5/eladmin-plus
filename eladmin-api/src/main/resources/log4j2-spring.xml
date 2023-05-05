@@ -11,8 +11,8 @@
         <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
 
         <!-- 定义日志存储的路径 -->
-        <Property name="FILE_LOG_BASE_PATH">./api-log</Property>
-        <Property name="APPLICATION_NAME">OpenApiApplication</Property>
+        <Property name="FILE_LOG_BASE_PATH">logs/api-log</Property>
+        <Property name="APPLICATION_NAME">${spring.application.name}</Property>
 
         <!-- 控制台的日志格式 -->
         <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${sys:LOG_DATEFORMAT_PATTERN}}}{faint} %clr{${sys:LOG_LEVEL_PATTERN}} %clr{%pid}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>

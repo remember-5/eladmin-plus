@@ -15,20 +15,20 @@
  */
 package com.remember5.system.modules.system.service.impl;
 
-import com.remember5.system.modules.system.repository.DictDetailRepository;
-import com.remember5.system.modules.system.repository.DictRepository;
-import com.remember5.system.modules.system.service.mapstruct.DictDetailMapper;
-import com.remember5.core.constants.CacheKeyConstant;
+import com.remember5.system.constants.CacheKeyConstant;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.QueryHelp;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
-import com.remember5.core.utils.RedisUtils;
-import lombok.RequiredArgsConstructor;
+import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.modules.system.domain.Dict;
 import com.remember5.system.modules.system.domain.DictDetail;
+import com.remember5.system.modules.system.repository.DictDetailRepository;
+import com.remember5.system.modules.system.repository.DictRepository;
 import com.remember5.system.modules.system.service.DictDetailService;
 import com.remember5.system.modules.system.service.dto.DictDetailDto;
 import com.remember5.system.modules.system.service.dto.DictDetailQueryCriteria;
+import com.remember5.system.modules.system.service.mapstruct.DictDetailMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -26,7 +26,7 @@ import com.remember5.system.modules.column.service.dto.CmsColumnDto;
 import com.remember5.system.modules.column.service.impl.CmsColumnServiceImpl;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.QueryHelp;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.utils.ValidationUtil;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.remember5.core.utils.SecurityUtils.getCurrentUsername;
+import static com.remember5.security.utils.SecurityUtils.getCurrentUsername;
 
 
 /**

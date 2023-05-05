@@ -16,9 +16,12 @@
 package com.remember5.system.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.remember5.core.constants.CacheKeyConstant;
+import com.remember5.system.constants.CacheKeyConstant;
+import com.remember5.security.utils.QueryHelp;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.exception.EntityExistException;
+import com.remember5.core.utils.*;
+import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.modules.security.service.UserCacheClean;
 import com.remember5.system.modules.system.domain.Menu;
 import com.remember5.system.modules.system.domain.Role;
@@ -32,7 +35,6 @@ import com.remember5.system.modules.system.service.dto.RoleSmallDto;
 import com.remember5.system.modules.system.service.dto.UserDto;
 import com.remember5.system.modules.system.service.mapstruct.RoleMapper;
 import com.remember5.system.modules.system.service.mapstruct.RoleSmallMapper;
-import com.remember5.core.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;

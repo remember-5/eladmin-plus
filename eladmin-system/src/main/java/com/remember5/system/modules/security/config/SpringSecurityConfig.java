@@ -18,10 +18,10 @@ package com.remember5.system.modules.security.config;
 import com.remember5.core.annotation.AnonymousAccess;
 import com.remember5.core.annotation.rest.*;
 import com.remember5.core.enums.RequestMethodEnum;
-import com.remember5.core.handler.JwtAccessDeniedHandler;
-import com.remember5.core.handler.JwtAuthenticationEntryPoint;
-import com.remember5.core.properties.JwtProperties;
-import com.remember5.core.utils.TokenProvider;
+import com.remember5.security.handler.JwtAccessDeniedHandler;
+import com.remember5.security.handler.JwtAuthenticationEntryPoint;
+import com.remember5.redis.properties.JwtProperties;
+import com.remember5.redis.utils.TokenProvider;
 import com.remember5.system.modules.security.security.TokenFilter;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.UserCacheClean;
@@ -110,7 +110,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(jwtProperties.getPermit().getUrl().toArray(new String[0])).permitAll()
+                .antMatchers(jwtProperties.getPermitUrl().toArray(new String[0])).permitAll()
                 // 放行OPTIONS请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 自定义匿名访问所有url放行：允许匿名和带Token访问，细腻化到每个 Request 类型

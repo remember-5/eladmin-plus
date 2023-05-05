@@ -1,8 +1,8 @@
 package com.remember5.openapi.jwt;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.remember5.core.utils.TokenProvider;
 import com.remember5.openapi.OpenApiApplication;
+import com.remember5.redis.utils.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -136,33 +136,32 @@ jwt:
   # 续期时间范围，默认1小时，单位秒
   renew: 3600
   # 放行接口
-  permit:
-    url:
-      - /swagger-ui.html # swagger 文档
-      - /swagger-resources/**
-      - /webjars/**
-      - /*/api-docs
-      - /avatar/** # 文件
-      - /file/**
-      - /druid/** # 阿里巴巴 druid
-      - /version/**
-      - /user/wxMiniAppCode2Sessions
-      - /user/wxMiniAppLogin
-      - /*.html
-      - /**/*.html
-      - /**/*.css
-      - /**/*.js
-      - /webSocket/**
-      - /ws/**
-      - /favicon.ico
-      - /v2/api-docs/**
-      - /user/code
-      - /user/refToken
-      - /user/captchaBy*/**
-      - /user/loginBy*
-      - /user/register
-      - /auth/login
-      - /api/**/open/**
+  permit-url:
+    - /swagger-ui.html # swagger 文档
+    - /swagger-resources/**
+    - /webjars/**
+    - /*/api-docs
+    - /avatar/** # 文件
+    - /file/**
+    - /druid/** # 阿里巴巴 druid
+    - /version/**
+    - /user/wxMiniAppCode2Sessions
+    - /user/wxMiniAppLogin
+    - /*.html
+    - /**/*.html
+    - /**/*.css
+    - /**/*.js
+    - /webSocket/**
+    - /ws/**
+    - /favicon.ico
+    - /v2/api-docs/**
+    - /user/code
+    - /user/refToken
+    - /user/captchaBy*/**
+    - /user/loginBy*
+    - /user/register
+    - /auth/login
+    - /api/**/open/**
 
 
 # IP 本地解析
@@ -208,7 +207,7 @@ swagger:
 
 # knife4j增强模式 @see https://doc.xiaominfo.com/knife4j/documentation/enhance.html
 knife4j:
-  enable: true
+  enable: false
   cors: false
   production: false
   basic:
@@ -312,5 +311,5 @@ app:
   # 拦截归档版本，启动会加载历史版本到redis。暂不可用
   intercept-archived: false
   # 安全校验key
-  secret-key: yquLbM67A9iZpfxF9dot
+  secret-key:
 

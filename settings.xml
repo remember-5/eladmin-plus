@@ -1,0 +1,9 @@
+<settings>
+    <mirrors>
+        <mirror>
+            <id>nexus-163</id>
+            <url>http://mirrors.163.com/maven/repository/maven-public/</url>
+            <mirrorOf>central</mirrorOf>
+        </mirror>
+    </mirrors>
+</settings>

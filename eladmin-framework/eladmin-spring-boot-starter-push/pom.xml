@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.remember5</groupId>
+        <artifactId>eladmin-framework</artifactId>
+        <version>2.3.0</version>
+    </parent>
+
+    <artifactId>eladmin-spring-boot-starter-push</artifactId>
+    <name>推送服务</name>
+    <description>App推送服务，使用getui</description>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <getui.version>1.0.0.6</getui.version>
+    </properties>
+
+    <dependencies>
+        <!-- 结合getui服务 https://mvnrepository.com/artifact/com.getui.push/restful-sdk -->
+        <dependency>
+            <groupId>com.getui.push</groupId>
+            <artifactId>restful-sdk</artifactId>
+            <version>${getui.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

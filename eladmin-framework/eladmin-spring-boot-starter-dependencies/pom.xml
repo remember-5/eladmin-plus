@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.remember5</groupId>
+    <artifactId>eladmin-spring-boot-starter-dependencies</artifactId>
+    <version>2.3.0</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <lombok.version>1.18.22</lombok.version>
+        <druid.version>1.2.13</druid.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mapstruct.version>1.5.3.Final</mapstruct.version>
+
+        <hutool.version>5.8.20</hutool.version>
+        <guava.version>31.1-jre</guava.version>
+        <fastjson.version>2.0.28</fastjson.version>
+        <knife4j.version>4.1.0</knife4j.version>
+        <dynamic.version>3.4.0</dynamic.version>
+        <easy-captcha.version>1.6.2</easy-captcha.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <minio.verison>8.5.2</minio.verison>
+        <!-- 如升级请查看文档 https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
+        <redisson.version>3.16.8</redisson.version>
+        <!--主要是解决minio的依赖问题-->
+        <okhttp3.version>4.8.1</okhttp3.version>
+        <p6spy-starter.version>1.8.1</p6spy-starter.version>
+        <log4j2.version>2.17.2</log4j2.version>
+        <yauaa.version>6.12</yauaa.version>
+        <easyexcel.version>3.3.2</easyexcel.version>
+        <mica-ip2region.version>2.6.7</mica-ip2region.version>
+        <qcloud-cos.version>5.6.89</qcloud-cos.version>
+        <wx-java.version>4.4.0</wx-java.version>
+
+    </properties>
+
+    <!--  依赖版本管理，并不会直接注入引用  -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 解决minio不兼容低版本的情况 -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
+            </dependency>
+
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <!--      https://alibaba.github.io/fastjson2/spring_support_cn      -->
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2-extension-spring5</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+
+            <!--hutool工具包-->
+            <!--      JDK动态代理封装，提供非IOC下的切面支持      -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-aop</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--    布隆过滤，提供一些Hash算法的布隆过滤        -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bloomFilter</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--    	简单缓存实现        -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-cache</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--    核心，包括Bean操作、日期、各种Util等        -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--    定时任务模块，提供类Crontab表达式的定时任务        -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-cron</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--      加密解密模块，提供对称、非对称和摘要算法封装      -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-crypto</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!-- DBC封装后的数据操作，基于ActiveRecord思想 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-db</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--            基于DFA模型的多关键字查找-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-dfa</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--        扩展模块，对第三方封装（模板引擎、邮件、Servlet、二维码、Emoji、FTP、分词等）-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-extra</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--基于HttpUrlConnection的Http客户端封装-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-http</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--	自动识别日志实现的日志门面-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-log</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--脚本执行封装，例如Javascript-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-script</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--功能更强大的Setting配置文件和Properties封装-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-setting</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--系统参数调用封装（JVM信息等）-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-system</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--JSON实现-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-json</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--	图片验证码实现-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--针对POI中Excel和Word的封装-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-poi</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--	基于Java的NIO和AIO的Socket封装-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-socket</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--JSON Web Token (JWT)封装实现-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-jwt</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--引入所有hutool模块-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!--     guava       -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!--   EasyExcel   -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>easyexcel</artifactId>
+                <version>${easyexcel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <!-- 多数据源 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic.version}</version>
+            </dependency>
+
+            <!-- Java图形验证码 -->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easy-captcha.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons-io.version}</version>
+            </dependency>
+
+            <!-- minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.verison}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!--    mybatis-plus 插件    -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- druid数据源驱动 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
+            <dependency>
+                <groupId>com.github.gavlyukovskiy</groupId>
+                <artifactId>p6spy-spring-boot-starter</artifactId>
+                <version>${p6spy-starter.version}</version>
+            </dependency>
+
+            <!--   ip定位     -->
+            <dependency>
+                <groupId>net.dreamlu</groupId>
+                <artifactId>mica-ip2region</artifactId>
+                <version>${mica-ip2region.version}</version>
+            </dependency>
+
+            <!--  Tencent oss     -->
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${qcloud-cos.version}</version>
+            </dependency>
+
+            <!--	https://github.com/Wechat-Group/WxJava/tree/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter		-->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
+                <version>${wx-java.version}</version>
+            </dependency>
+
+            <!-- 解析客户端操作系统、浏览器信息 -->
+            <dependency>
+                <groupId>nl.basjes.parse.useragent</groupId>
+                <artifactId>yauaa</artifactId>
+                <version>${yauaa.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-captcha</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-logging</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-oss</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-push</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-websocket</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-doc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-office</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+</project>

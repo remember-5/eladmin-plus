@@ -4,6 +4,78 @@ Spring 4提供了一个更通用的基于条件的Bean的创建方式，即使�
  
 see [https://juejin.cn/post/6951223104689569806](https://juejin.cn/post/6951223104689569806)
 
+## @Transactional
+**@Transactional 注解的属性信息**
+
+* name	当在配置文件中有多个 TransactionManager , 可以用该属性指定选择哪个事务管理器
+* propagation	事务的传播行为，默认值为 REQUIRED
+* isolation	事务的隔离度，默认值采用 DEFAULT
+* timeout	事务的超时时间，默认值为-1。如果超过该时间限制但事务还没有完成，则自动回滚事务
+* read-only	指定事务是否为只读事务，默认值为 false；为了忽略那些不需要事务的方法，比如读取数据，可以设置 read-only 为 true
+* rollback-for	用于指定能够触发事务回滚的异常类型，如果有多个异常类型需要指定，各类型之间可以通过逗号分隔
+* no-rollback- for	抛出 no-rollback-for 指定的异常类型，不回滚事务
+
+**propagation 传播行为**
+
+* REQUIRED：如果有事务, 那么加入事务, 没有的话新建一个(默认情况下)
+* NOT_SUPPORTED：容器不为这个方法开启事务
+* REQUIRES_NEW：不管是否存在事务,都创建一个新的事务,原来的挂起,新的执行完毕,继续执行老的事务
+* MANDATORY：必须在一个已有的事务中执行,否则抛出异常
+* NEVER：必须在一个没有的事务中执行,否则抛出异常(与MANDATORY相反)
+* SUPPORTS：如果其他bean调用这个方法,在其他bean中声明事务,那就用事务.如果其他bean没有声明事务,那就不用事务.
+* NESTED： 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
+
+
+**事物超时设置**
+@Transactional(timeout=30) //默认是30秒
+
+**事务隔离级别 isolation**
+* READ_UNCOMMITTED：读取未提交数据(会出现脏读, 不可重复读) 基本不使用
+* READ_COMMITTED：读取已提交数据(会出现不可重复读和幻读)
+* REPEATABLE_READ：可重复读(会出现幻读)
+* SERIALIZABLE：串行化
+* 
+### spring事务不生效的15种场景
+https://www.modb.pro/db/621727
+![transactional.png](transactional.png)
+
+
+### Springboot 引入 AspectJ 切面
+参考 https://segmentfault.com/a/1190000022715833
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.9.5</version>
+</dependency>
+
+<!-- springboot 项目可以用这个-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-aspects</artifactId>
+</dependency>
+
+```
+
+启动类中添加 @EnableAspectJAutoProxy(exposeProxy = true)
+```java
+@Service
+public class A{
+    
+    public void action(){
+        ((A) AopContext.currentProxy()).dosome();
+    }
+    
+    @Transactional
+    public void dosome(){
+        doa.insert(new Object());
+    }
+}
+```
+
+
 # Swagger注解
 https://doc.xiaominfo.com/knife4j/
 
@@ -35,3 +107,4 @@ https://www.cnblogs.com/hongdada/p/9120899.html
 # Postgres索引
 【强制】主键索引名为 pk_表名_字段名；唯一索引名为 uk_表名_字段名；普通索引名则为 idx_表名_字段名。
 【推荐】临时表以 tmp_ 开头，子表以规则结尾，例如按年分区的主表如果为tbl, 则子表为tbl_2016，tbl_2017，。。。
+

@@ -21,7 +21,7 @@ import com.remember5.system.modules.cms.service.dto.CmsQueryCriteria;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.cms.domain.Cms;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;

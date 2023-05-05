@@ -18,7 +18,6 @@ package com.remember5.openapi.modules.appversion.rest;
 import com.remember5.biz.appversion.domain.AppVersion;
 import com.remember5.biz.appversion.service.AppVersionService;
 import com.remember5.core.result.R;
-import com.remember5.logging.annotation.Log;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,6 @@ public class AppVersionController {
     private final AppVersionService appVersionService;
 
     @GetMapping()
-    @Log("更新app")
     @ApiOperation("更新app")
     public R<AppVersion> update(){
 //        return appVersionService.update();

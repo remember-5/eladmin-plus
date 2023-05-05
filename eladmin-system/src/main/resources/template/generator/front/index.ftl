@@ -82,7 +82,7 @@
             <#if column.columnShow>
           <#if (column.dictName)?? && (column.dictName)!="">
         <el-table-column prop="${column.changeColumnName}" label="<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             {{ dict.label.${column.dictName}[scope.row.${column.changeColumnName}] }}
           </template>
         </el-table-column>
@@ -93,7 +93,7 @@
             </#list>
         </#if>
         <el-table-column v-if="checkPer(['admin','${changeClassName}:edit','${changeClassName}:del'])" label="操作" width="150px" align="center">
-          <template slot-scope="scope">
+          <template v-slot="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
@@ -108,7 +108,7 @@
 </template>
 
 <script>
-import crud${className} from '@/api/${changeClassName}'
+import crud${className} from '@/api/${changeClassName}/${changeClassName}'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'

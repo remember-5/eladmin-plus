@@ -6,30 +6,33 @@
 
     <groupId>com.remember5</groupId>
     <artifactId>eladmin</artifactId>
+    <version>2.3.0</version>
     <packaging>pom</packaging>
-    <version>2.2.2</version>
+
+    <developers>
+        <developer>
+            <name>wangjiahao</name>
+            <email>1332661444@qq.com</email>
+            <url>https://remember5.top</url>
+        </developer>
+    </developers>
 
     <modules>
-        <module>eladmin-core</module>
-        <module>eladmin-logging</module>
         <module>eladmin-system</module>
         <module>eladmin-api</module>
-        <module>eladmin-minio</module>
-        <module>eladmin-push</module>
-        <module>eladmin-es</module>
-        <module>eladmin-mq</module>
         <module>eladmin-biz</module>
+        <module>eladmin-framework</module>
     </modules>
 
     <name>EL-ADMIN 后台管理</name>
     <url>http://eladmin.remember5.top</url>
 
     <properties>
-        <java.version>8</java.version>
+        <java.version>11</java.version>
 
         <!-- 插件相关配置 -->
-        <maven.compiler.target>8</maven.compiler.target>
-        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -38,30 +41,8 @@
         <skipTests>true</skipTests>
 
         <spring.boot.version>2.5.14</spring.boot.version>
-        <druid.version>1.2.13</druid.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <lombok.version>1.18.22</lombok.version>
-
-        <hutool.version>5.8.18</hutool.version>
-        <guava.version>31.1-jre</guava.version>
-        <fastjson.version>2.0.28</fastjson.version>
-        <knife4j.version>3.0.3</knife4j.version>
-        <dynamic.version>3.4.0</dynamic.version>
-        <easy-captcha.version>1.6.2</easy-captcha.version>
-        <commons-io.version>2.11.0</commons-io.version>
-        <minio.verison>8.5.2</minio.verison>
-        <!-- 如升级请查看文档 https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
-        <redisson.version>3.16.8</redisson.version>
-        <!--主要是解决minio的依赖问题-->
-        <okhttp3.version>4.8.1</okhttp3.version>
-		<p6spy-starter.version>1.8.1</p6spy-starter.version>
-        <log4j2.version>2.17.2</log4j2.version>
-        <yauaa.version>6.12</yauaa.version>
-        <easyexcel.version>3.2.1</easyexcel.version>
-        <mica-ip2region.version>2.6.7</mica-ip2region.version>
-        <qcloud-cos.version>5.6.89</qcloud-cos.version>
-		<wx-java.version>4.4.0</wx-java.version>
     </properties>
 
     <dependencies>
@@ -123,7 +104,7 @@
         </dependency>
 
         <!-- =========================  参数校验  start  ========================= -->
-        <!-- 保证 Spring AOP 相关的依赖包 -->
+        <!-- 保证 Spring AOP 相关的依赖包 保证内部的方法也可以执行事物 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
@@ -143,12 +124,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!--   netty   -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-
         <!--mapStruct依赖-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -166,19 +141,20 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-
-        <!-- 解析客户端操作系统、浏览器信息 -->
-        <dependency>
-            <groupId>nl.basjes.parse.useragent</groupId>
-            <artifactId>yauaa</artifactId>
-            <version>${yauaa.version}</version>
-        </dependency>
     </dependencies>
 
 
     <!--  依赖版本管理，并不会直接注入引用  -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-dependencies</artifactId>
+                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!--  spring boot dependency    -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -187,131 +163,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <!-- 解决minio不兼容低版本的情况 -->
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>${okhttp3.version}</version>
-            </dependency>
-
-            <!-- fastjson -->
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <!--      https://alibaba.github.io/fastjson2/spring_support_cn      -->
-            <dependency>
-                <groupId>com.alibaba.fastjson2</groupId>
-                <artifactId>fastjson2-extension-spring5</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-
-            <!--hutool工具包-->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-
-            <!--     guava       -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-
-            <!--   EasyExcel         -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>easyexcel</artifactId>
-                <version>${easyexcel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
-                <!--在引用时请在maven中央仓库搜索2.X最新版本号-->
-                <version>${knife4j.version}</version>
-            </dependency>
-
-            <!-- 多数据源 -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${dynamic.version}</version>
-            </dependency>
-
-            <!-- Java图形验证码 -->
-            <dependency>
-                <groupId>com.github.whvcse</groupId>
-                <artifactId>easy-captcha</artifactId>
-                <version>${easy-captcha.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>${commons-io.version}</version>
-            </dependency>
-
-            <!-- minio -->
-            <dependency>
-                <groupId>io.minio</groupId>
-                <artifactId>minio</artifactId>
-                <version>${minio.verison}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.redisson</groupId>
-                <artifactId>redisson-spring-boot-starter</artifactId>
-                <version>${redisson.version}</version>
-            </dependency>
-
-            <!--    mybatis-plus 插件    -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-
-            <!-- druid数据源驱动 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-
-			<!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
-			<dependency>
-				<groupId>com.github.gavlyukovskiy</groupId>
-				<artifactId>p6spy-spring-boot-starter</artifactId>
-				<version>${p6spy-starter.version}</version>
-			</dependency>
-
-
-			<!--   ip定位     -->
-            <dependency>
-                <groupId>net.dreamlu</groupId>
-                <artifactId>mica-ip2region</artifactId>
-                <version>${mica-ip2region.version}</version>
-            </dependency>
-
-            <!--  Tencent oss     -->
-            <dependency>
-                <groupId>com.qcloud</groupId>
-                <artifactId>cos_api</artifactId>
-                <version>${qcloud-cos.version}</version>
-            </dependency>
-
-			<!--	https://github.com/Wechat-Group/WxJava/tree/develop/spring-boot-starters/wx-java-miniapp-spring-boot-starter		-->
-			<dependency>
-				<groupId>com.github.binarywang</groupId>
-				<artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
-				<version>${wx-java.version}</version>
-			</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -339,27 +190,30 @@
     <!-- 配置依赖仓库 -->
     <repositories>
         <repository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <id>nexus-163</id>
+            <name>Nexus 163</name>
+            <url>http://mirrors.163.com/maven/repository/maven-public/</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
             <releases>
                 <enabled>true</enabled>
             </releases>
         </repository>
     </repositories>
-
     <!--  配置插件仓库地址  -->
     <pluginRepositories>
         <pluginRepository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
+            <id>nexus-163</id>
+            <name>Nexus 163</name>
+            <url>http://mirrors.163.com/maven/repository/maven-public/</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
         </pluginRepository>
     </pluginRepositories>
 

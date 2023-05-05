@@ -16,7 +16,12 @@
 package com.remember5.system.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.remember5.core.constants.CacheKeyConstant;
+import com.remember5.system.constants.CacheKeyConstant;
+import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageUtil;
+import com.remember5.security.utils.QueryHelp;
+import com.remember5.core.utils.ValidationUtil;
+import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.modules.system.domain.Dict;
 import com.remember5.system.modules.system.repository.DictRepository;
 import com.remember5.system.modules.system.service.DictService;
@@ -24,7 +29,6 @@ import com.remember5.system.modules.system.service.dto.DictDetailDto;
 import com.remember5.system.modules.system.service.dto.DictDto;
 import com.remember5.system.modules.system.service.dto.DictQueryCriteria;
 import com.remember5.system.modules.system.service.mapstruct.DictMapper;
-import com.remember5.core.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
