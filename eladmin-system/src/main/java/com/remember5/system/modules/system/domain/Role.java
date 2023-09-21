@@ -18,7 +18,7 @@ package com.remember5.system.modules.system.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.remember5.core.base.BaseEntity;
 import com.remember5.core.enums.DataScopeEnum;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -45,40 +45,40 @@ public class Role extends BaseEntity implements Serializable {
     @Column(name = "role_id")
     @NotNull(groups = {Update.class})
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(description = "ID", hidden = true)
     private Long id;
 
     @JSONField(serialize = false)
     @ManyToMany(fetch=FetchType.EAGER, mappedBy = "roles")
-    @ApiModelProperty(value = "用户", hidden = true)
+    @Schema(description = "用户", hidden = true)
     private Set<User> users;
 
     @ManyToMany
     @JoinTable(name = "sys_roles_menus",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "menu_id")})
-    @ApiModelProperty(value = "菜单", hidden = true)
+    @Schema(description = "菜单", hidden = true)
     private Set<Menu> menus;
 
     @ManyToMany
     @JoinTable(name = "sys_roles_depts",
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "dept_id", referencedColumnName = "dept_id")})
-    @ApiModelProperty(value = "部门", hidden = true)
+    @Schema(description = "部门", hidden = true)
     private Set<Dept> depts;
 
     @NotBlank
-    @ApiModelProperty(value = "名称", hidden = true)
+    @Schema(description = "名称", hidden = true)
     private String name;
 
-    @ApiModelProperty(value = "数据权限，全部 、 本级 、 自定义")
+    @Schema(description = "数据权限，全部 、 本级 、 自定义")
     private String dataScope = DataScopeEnum.THIS_LEVEL.getValue();
 
     @Column(name = "level")
-    @ApiModelProperty(value = "级别，数值越小，级别越大")
+    @Schema(description = "级别，数值越小，级别越大")
     private Integer level = 3;
 
-    @ApiModelProperty(value = "描述")
+    @Schema(description = "描述")
     private String description;
 
     @Override

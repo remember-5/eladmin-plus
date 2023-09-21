@@ -16,7 +16,7 @@
 package com.remember5.openapi.modules.version.rest;
 
 import com.remember5.security.anotation.ApiVersion;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2022/9/29 10:45
  */
 @Slf4j
-@Api(tags = "version2")
+@Tag(name = "version2")
 @ApiVersion(2)
 @RestController
 @RequestMapping("version/{version}")

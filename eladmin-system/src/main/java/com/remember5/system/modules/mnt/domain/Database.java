@@ -17,10 +17,10 @@ package com.remember5.system.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import io.swagger.annotations.ApiModelProperty;
+import com.remember5.core.base.BaseEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import com.remember5.core.base.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,19 +40,19 @@ public class Database extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "db_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(description = "ID", hidden = true)
     private String id;
 
-    @ApiModelProperty(value = "数据库名称")
+    @Schema(description = "数据库名称")
     private String name;
 
-    @ApiModelProperty(value = "数据库连接地址")
+    @Schema(description = "数据库连接地址")
     private String jdbcUrl;
 
-    @ApiModelProperty(value = "数据库密码")
+    @Schema(description = "数据库密码")
     private String pwd;
 
-    @ApiModelProperty(value = "用户名")
+    @Schema(description = "用户名")
     private String userName;
 
     public void copy(Database source) {

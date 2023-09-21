@@ -17,7 +17,7 @@ package com.remember5.system.modules.tool.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,65 +46,65 @@ public class MessageNotification implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    @ApiModelProperty(value = "id")
+    @Schema(description = "id")
     private Long id;
 
     @Column(name = "user_id")
-    @ApiModelProperty(value = "消息通知的用户")
+    @Schema(description = "消息通知的用户")
     private Long userId;
 
     @Column(name = "briefly")
-    @ApiModelProperty(value = "内容简要")
+    @Schema(description = "内容简要")
     private String briefly;
 
     @Column(name = "details")
-    @ApiModelProperty(value = "内容详情")
+    @Schema(description = "内容详情")
     private String details;
 
     @Column(name = "message_level")
-    @ApiModelProperty(value = "消息级别(0紧急/1普通)")
+    @Schema(description = "消息级别(0紧急/1普通)")
     private Integer messageLevel;
 
     @Column(name = "message_label")
-    @ApiModelProperty(value = "标签(类型:0错误/1普通通知/2待办)")
+    @Schema(description = "标签(类型:0错误/1普通通知/2待办)")
     private Integer messageLabel;
 
     @Column(name = "message_state")
-    @ApiModelProperty(value = "状态(0未开始/1进行中/2已处理)")
+    @Schema(description = "状态(0未开始/1进行中/2已处理)")
     private Integer messageState;
 
     @Column(name = "create_date")
     @CreationTimestamp
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Timestamp createDate;
 
     @Column(name = "update_date")
     @UpdateTimestamp
-    @ApiModelProperty(value = "修改时间")
+    @Schema(description = "修改时间")
     private Timestamp updateDate;
 
     @Column(name = "is_deleted")
-    @ApiModelProperty(value = "1 表示删除，0 表示未删除")
+    @Schema(description = "1 表示删除，0 表示未删除")
     private Integer isDeleted;
 
     @Column(name = "by1")
-    @ApiModelProperty(value = "by1")
+    @Schema(description = "by1")
     private String by1;
 
     @Column(name = "by2")
-    @ApiModelProperty(value = "by2")
+    @Schema(description = "by2")
     private String by2;
 
     @Column(name = "by3")
-    @ApiModelProperty(value = "by3")
+    @Schema(description = "by3")
     private String by3;
 
     @Column(name = "by4")
-    @ApiModelProperty(value = "by4")
+    @Schema(description = "by4")
     private String by4;
 
     @Column(name = "by5")
-    @ApiModelProperty(value = "by5")
+    @Schema(description = "by5")
     private String by5;
 
     public void copy(MessageNotification source) {

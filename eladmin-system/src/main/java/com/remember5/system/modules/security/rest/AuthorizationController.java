@@ -25,18 +25,18 @@ import com.remember5.core.annotation.rest.AnonymousGetMapping;
 import com.remember5.core.annotation.rest.AnonymousPostMapping;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.properties.RsaProperties;
-import com.remember5.security.utils.SecurityUtils;
 import com.remember5.core.utils.StringUtils;
 import com.remember5.redis.properties.JwtProperties;
 import com.remember5.redis.utils.RedisUtils;
 import com.remember5.redis.utils.TokenProvider;
+import com.remember5.security.utils.SecurityUtils;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.dto.AuthUserDto;
 import com.remember5.system.modules.security.service.dto.JwtUserDto;
 import com.remember5.system.properties.LoginProperties;
 import com.wf.captcha.base.Captcha;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -65,7 +65,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Api(tags = "系统：系统授权接口")
+@Tag(name = "系统：系统授权接口")
 public class AuthorizationController {
     private final RsaProperties rsaProperties;
     private final JwtProperties jwtProperties;
@@ -77,7 +77,7 @@ public class AuthorizationController {
     private final CaptchaUtils captchaUtils;
 
 
-    @ApiOperation("登录授权")
+    @Operation(summary = "登录授权")
     @AnonymousPostMapping(value = "/login")
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) {
         RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
@@ -113,13 +113,13 @@ public class AuthorizationController {
         return ResponseEntity.ok(authInfo);
     }
 
-    @ApiOperation("获取用户信息")
+    @Operation(summary = "获取用户信息")
     @GetMapping(value = "/info")
     public ResponseEntity<Object> getUserInfo() {
         return ResponseEntity.ok(SecurityUtils.getCurrentUser());
     }
 
-    @ApiOperation("获取验证码")
+    @Operation(summary = "获取验证码")
     @AnonymousGetMapping(value = "/code")
     public ResponseEntity<Object> getCode() {
         // 获取运算的结果
@@ -140,7 +140,7 @@ public class AuthorizationController {
         return ResponseEntity.ok(imgResult);
     }
 
-    @ApiOperation("退出登录")
+    @Operation(summary = "退出登录")
     @AnonymousDeleteMapping(value = "/logout")
     public ResponseEntity<Object> logout() {
         onlineUserService.logout(tokenProvider.getTokenByRequest());

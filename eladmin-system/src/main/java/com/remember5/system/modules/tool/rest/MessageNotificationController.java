@@ -19,8 +19,8 @@ import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.MessageNotification;
 import com.remember5.system.modules.tool.service.MessageNotificationService;
 import com.remember5.system.modules.tool.service.dto.MessageNotificationQueryCriteria;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,14 +39,14 @@ import java.io.IOException;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "消息通知管理")
+@Tag(name = "消息通知管理")
 @RequestMapping("/api/messageNotification")
 public class MessageNotificationController {
 
     private final MessageNotificationService messageNotificationService;
 
     @Log("导出数据")
-    @ApiOperation("导出数据")
+    @Operation(summary = "导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('messageNotification:list')")
     public void download(HttpServletResponse response, MessageNotificationQueryCriteria criteria) throws IOException {
@@ -55,7 +55,7 @@ public class MessageNotificationController {
 
     @GetMapping
     @Log("查询消息通知")
-    @ApiOperation("查询消息通知")
+    @Operation(summary = "查询消息通知")
     @PreAuthorize("@el.check('messageNotification:list')")
     public ResponseEntity<Object> query(MessageNotificationQueryCriteria criteria, Pageable pageable) {
         return new ResponseEntity<>(messageNotificationService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -63,14 +63,14 @@ public class MessageNotificationController {
 
     @GetMapping(value = "/getMessage")
     @Log("查询未处理消息通知")
-    @ApiOperation("查询未处理消息通知")
+    @Operation(summary = "查询未处理消息通知")
     public ResponseEntity<Object> findMessageByUserId() {
         return new ResponseEntity<>(messageNotificationService.findMessageByUserId(), HttpStatus.OK);
     }
 
     @PostMapping
     @Log("新增消息通知")
-    @ApiOperation("新增消息通知")
+    @Operation(summary = "新增消息通知")
     @PreAuthorize("@el.check('messageNotification:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody MessageNotification resources) {
         return new ResponseEntity<>(messageNotificationService.create(resources), HttpStatus.CREATED);
@@ -78,7 +78,7 @@ public class MessageNotificationController {
 
     @PutMapping
     @Log("修改消息通知")
-    @ApiOperation("修改消息通知")
+    @Operation(summary = "修改消息通知")
     @PreAuthorize("@el.check('messageNotification:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody MessageNotification resources) {
         messageNotificationService.update(resources);
@@ -86,7 +86,7 @@ public class MessageNotificationController {
     }
 
     @Log("删除消息通知")
-    @ApiOperation("删除消息通知")
+    @Operation(summary = "删除消息通知")
     @PreAuthorize("@el.check('messageNotification:del')")
     @DeleteMapping
     public ResponseEntity<Object> delete(@RequestBody Long[] ids) {

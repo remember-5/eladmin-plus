@@ -17,9 +17,9 @@ package com.remember5.system.modules.cms.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import com.remember5.system.modules.column.domain.CmsColumn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -40,71 +40,71 @@ public class Cms implements Serializable {
 
     @Id
     @Column(name = "cms_id")
-    @ApiModelProperty(value = "主键")
+    @Schema(description = "主键")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "agent_id")
-    @ApiModelProperty(value = "代理商id")
+    @Schema(description = "代理商id")
     private Long agentId;
 
     @OneToOne
     @JoinColumn(name = "column_id")
-    @ApiModelProperty(value = "栏目")
+    @Schema(description = "栏目")
     private CmsColumn column;
 
     @Column(name = "title")
-    @ApiModelProperty(value = "内容标题")
+    @Schema(description = "内容标题")
     private String title;
 
     @Column(name = "author")
-    @ApiModelProperty(value = "作者")
+    @Schema(description = "作者")
     private String author;
 
     @Column(name = "content")
-    @ApiModelProperty(value = "发布内容")
+    @Schema(description = "发布内容")
     private String content;
 
     @Column(name = "cms_status")
-    @ApiModelProperty(value = "文章状态")
+    @Schema(description = "文章状态")
     private Integer cmsStatus;
 
     @Column(name = "audit_person")
-    @ApiModelProperty(value = "审核人")
+    @Schema(description = "审核人")
     private String auditPerson;
 
     @Column(name = "audit_status")
-    @ApiModelProperty(value = "审核状态")
+    @Schema(description = "审核状态")
     private Integer auditStatus;
 
     @Column(name = "audit_time")
-    @ApiModelProperty(value = "审核时间")
+    @Schema(description = "审核时间")
     private Timestamp auditTime;
 
     @Column(name = "audit_proposal")
-    @ApiModelProperty(value = "审核意见")
+    @Schema(description = "审核意见")
     private String auditProposal;
 
     @Column(name = "publish_time")
-    @ApiModelProperty(value = "发布时间")
+    @Schema(description = "发布时间")
     private Timestamp publishTime;
 
     @Column(name = "create_time")
     @CreationTimestamp
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Timestamp createTime;
 
     @Column(name = "update_time")
     @UpdateTimestamp
-    @ApiModelProperty(value = "修改时间")
+    @Schema(description = "修改时间")
     private Timestamp updateTime;
 
     @Column(name = "is_deleted")
-    @ApiModelProperty(value = "1 表示删除，0 表示未删除")
+    @Schema(description = "1 表示删除，0 表示未删除")
     private Boolean isDeleted;
 
     @Column(name = "annex_url")
-    @ApiModelProperty(value = "附件url")
+    @Schema(description = "附件url")
     private String annexUrl;
 
     public void copy(Cms source) {

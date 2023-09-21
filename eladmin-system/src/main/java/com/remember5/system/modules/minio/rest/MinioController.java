@@ -1,13 +1,13 @@
 package com.remember5.system.modules.minio.rest;
 
 
-import com.remember5.system.modules.minio.service.MinioService;
-import com.remember5.oss.entity.Base64Uploader;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.result.R;
+import com.remember5.oss.entity.Base64Uploader;
+import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.system.modules.minio.service.MinioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +22,7 @@ import java.io.InputStream;
  */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "上传文件")
+@Tag(name = "上传文件")
 @RequestMapping("uploadFile")
 public class MinioController {
 
@@ -35,14 +35,14 @@ public class MinioController {
      * @return return
      */
     @Log("上传文件:MultipartFile")
-    @ApiOperation("上传文件:MultipartFile")
+    @Operation(summary = "上传文件:MultipartFile")
     @PostMapping("upload")
     public R uploadFile(@RequestParam("file") MultipartFile file) {
         return minioService.uploadFile(file);
     }
 
     @Log("上传文件:自定义文件名")
-    @ApiOperation("上传文件:自定义文件名")
+    @Operation(summary = "上传文件:自定义文件名")
     @PostMapping("/uploadName")
     public R uploadFileAndName(@RequestParam("file") MultipartFile file, @RequestParam("fileName") String fileName) {
         return minioService.uploadFileAndName(file, fileName);
@@ -54,7 +54,7 @@ public class MinioController {
      * @return return
      */
     @Log("上传文件:base64")
-    @ApiOperation("上传文件:base64")
+    @Operation(summary = "上传文件:base64")
     @PostMapping("uploadBaseFile")
     public R uploadBase64File(@RequestBody Base64Uploader base64Uploader) {
         return minioService.uploadFile(base64Uploader.getData());
@@ -64,7 +64,7 @@ public class MinioController {
      * 删除文件
      */
     @Log("删除文件")
-    @ApiOperation("删除文件")
+    @Operation(summary = "删除文件")
     @DeleteMapping("/delete/{objectName}")
     public R delete(@PathVariable("objectName") String objectName) throws Exception {
         return minioService.removeObject(objectName);
@@ -73,7 +73,7 @@ public class MinioController {
     /**
      * 在浏览器预览图片
      */
-    @ApiOperation("在浏览器预览图片")
+    @Operation(summary = "在浏览器预览图片")
     @GetMapping("/preViewPicture/{objectName}")
     public void preViewPicture(@PathVariable("objectName") String objectName, HttpServletResponse response) throws Exception {
         response.setContentType("image/jpeg");

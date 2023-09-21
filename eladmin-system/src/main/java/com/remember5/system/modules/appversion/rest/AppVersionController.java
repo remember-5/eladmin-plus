@@ -26,10 +26,10 @@ import com.remember5.core.properties.UniAppProperties;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
 import com.remember5.core.utils.UniAppUtils;
-import com.remember5.system.modules.minio.service.MinioService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.system.modules.minio.service.MinioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -48,7 +48,7 @@ import java.util.Objects;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "app版本管理")
+@Tag(name = "app版本管理")
 @RequestMapping("/api/appVersion")
 public class AppVersionController {
 
@@ -59,7 +59,7 @@ public class AppVersionController {
 
 //    @GetMapping("/update")
 //    @Log("更新app")
-//    @ApiOperation("更新app")
+//    @Operation(summary = "更新app")
 //    public R<AppVersion> update() {
 //        return appVersionService.update();
 //        return null;
@@ -68,7 +68,7 @@ public class AppVersionController {
 
     @GetMapping
     @Log("查询app版本")
-    @ApiOperation("查询app版本")
+    @Operation(summary = "查询app版本")
     @PreAuthorize("@el.check('appVersion:list')")
     public ResponseEntity<Object> queryAppVersion(AppVersionQueryCriteria criteria, Pageable pageable) {
         return new ResponseEntity<>(appVersionService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -76,7 +76,7 @@ public class AppVersionController {
 
     @PostMapping
     @Log("新增app版本")
-    @ApiOperation("新增app版本")
+    @Operation(summary = "新增app版本")
     @PreAuthorize("@el.check('appVersion:add')")
     public ResponseEntity<Object> createAppVersion(@Validated @RequestBody AppVersion resources) {
         return new ResponseEntity<>(appVersionService.create(resources), HttpStatus.CREATED);
@@ -84,7 +84,7 @@ public class AppVersionController {
 
     @PutMapping
     @Log("修改app版本")
-    @ApiOperation("修改app版本")
+    @Operation(summary = "修改app版本")
     @PreAuthorize("@el.check('appVersion:edit')")
     public ResponseEntity<Object> updateAppVersion(@Validated @RequestBody AppVersion resources) {
         appVersionService.update(resources);
@@ -92,7 +92,7 @@ public class AppVersionController {
     }
 
     @Log("删除app版本")
-    @ApiOperation("删除app版本")
+    @Operation(summary = "删除app版本")
     @PreAuthorize("@el.check('appVersion:del')")
     @DeleteMapping
     public ResponseEntity<Object> deleteAppVersion(@RequestBody Integer[] ids) {
@@ -102,7 +102,7 @@ public class AppVersionController {
 
     @Log("新增app版本")
     @AnonymousPostMapping(value = "/addWgt")
-    @ApiOperation("新增app版本")
+    @Operation(summary = "新增app版本")
     public ResponseEntity<Object> create(@RequestParam("file") MultipartFile file, @RequestParam("key") String key) {
         // 校验key是否和后台配置的key匹配，匹配则执行添加操作
         if (!uniAppProperties.getSecretKey().equals(key)) {

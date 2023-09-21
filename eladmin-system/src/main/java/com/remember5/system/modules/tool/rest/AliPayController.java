@@ -16,23 +16,23 @@
 package com.remember5.system.modules.tool.rest;
 
 import com.remember5.core.annotation.AnonymousAccess;
-import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.core.annotation.rest.AnonymousGetMapping;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.AlipayConfig;
 import com.remember5.system.modules.tool.domain.vo.TradeVo;
 import com.remember5.system.modules.tool.service.AliPayService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import com.remember5.system.modules.tool.utils.AliPayStatusEnum;
 import com.remember5.system.modules.tool.utils.AlipayUtils;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +47,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/aliPay")
-@Api(tags = "工具：支付宝管理")
+@Tag(name = "工具：支付宝管理")
 public class AliPayController {
 
     private final AlipayUtils alipayUtils;
@@ -59,7 +59,7 @@ public class AliPayController {
     }
 
     @Log("配置支付宝")
-    @ApiOperation("配置支付宝")
+    @Operation(summary = "配置支付宝")
     @PutMapping
     @PreAuthorize("@el.check('aliPay:configure')")
     public ResponseEntity<Object> updateAliPayConfig(@Validated @RequestBody AlipayConfig alipayConfig) {
@@ -68,7 +68,7 @@ public class AliPayController {
     }
 
     @Log("支付宝PC网页支付")
-    @ApiOperation("PC网页支付")
+    @Operation(summary = "PC网页支付")
     @PostMapping(value = "/toPayAsPC")
     @PreAuthorize("@el.check('aliPay:test')")
     public ResponseEntity<String> toPayAsPc(@Validated @RequestBody TradeVo trade) throws Exception {
@@ -79,7 +79,7 @@ public class AliPayController {
     }
 
     @Log("支付宝手机网页支付")
-    @ApiOperation("手机网页支付")
+    @Operation(summary = "手机网页支付")
     @PostMapping(value = "/toPayAsWeb")
     @PreAuthorize("@el.check('aliPay:test')")
     public ResponseEntity<String> toPayAsWeb(@Validated @RequestBody TradeVo trade) throws Exception {
@@ -89,9 +89,9 @@ public class AliPayController {
         return ResponseEntity.ok(payUrl);
     }
 
-    @ApiIgnore
+    @Hidden
     @AnonymousGetMapping("/return")
-    @ApiOperation("支付之后跳转的链接")
+    @Operation(summary = "支付之后跳转的链接")
     public ResponseEntity<String> returnPage(HttpServletRequest request, HttpServletResponse response) {
         AlipayConfig alipay = alipayService.find();
         response.setContentType("text/html;charset=" + alipay.getCharset());
@@ -110,10 +110,10 @@ public class AliPayController {
         }
     }
 
-    @ApiIgnore
+    @Hidden
     @RequestMapping("/notify")
     @AnonymousAccess
-    @ApiOperation("支付异步通知(要公网访问)，接收异步通知，检查通知内容app_id、out_trade_no、total_amount是否与请求中的一致，根据trade_status进行后续业务处理")
+    @Operation(summary = "支付异步通知(要公网访问)，接收异步通知，检查通知内容app_id、out_trade_no、total_amount是否与请求中的一致，根据trade_status进行后续业务处理")
     public ResponseEntity<Object> notify(HttpServletRequest request) {
         AlipayConfig alipay = alipayService.find();
         Map<String, String[]> parameterMap = request.getParameterMap();

@@ -15,14 +15,14 @@
  */
 package com.remember5.system.modules.cms.rest;
 
+import com.remember5.system.modules.cms.domain.Cms;
 import com.remember5.system.modules.cms.service.CmsService;
 import com.remember5.system.modules.cms.service.dto.CmsDto;
 import com.remember5.system.modules.cms.service.dto.CmsQueryCriteria;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.logging.annotation.Log;
-import com.remember5.system.modules.cms.domain.Cms;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +40,14 @@ import java.io.IOException;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "cms文章管理")
+@Tag(name = "cms文章管理")
 @RequestMapping("/api/cms")
 public class CmsController {
 
     private final CmsService cmsService;
 
     @Log("导出数据")
-    @ApiOperation("导出数据")
+    @Operation(summary = "导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('cms:list')")
     public void download(HttpServletResponse response, CmsQueryCriteria criteria) throws IOException {
@@ -56,7 +56,7 @@ public class CmsController {
 
     @GetMapping
     @Log("查询cms文章")
-    @ApiOperation("查询cms文章")
+    @Operation(summary = "查询cms文章")
     @PreAuthorize("@el.check('cms:list')")
     public ResponseEntity<Object> query(CmsQueryCriteria criteria, Pageable pageable) {
         return new ResponseEntity<>(cmsService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -64,7 +64,7 @@ public class CmsController {
 
     @PostMapping("esQuery")
     @Log("查询cms文章")
-    @ApiOperation("查询cms文章")
+    @Operation(summary = "查询cms文章")
     @PreAuthorize("@el.check('cms:list')")
     public ResponseEntity<Object> query(@RequestBody String es) {
         CmsQueryCriteria cmsQueryCriteria = new CmsQueryCriteria();
@@ -73,7 +73,7 @@ public class CmsController {
 
     @PostMapping
     @Log("新增cms文章")
-    @ApiOperation("新增cms文章")
+    @Operation(summary = "新增cms文章")
     @PreAuthorize("@el.check('cms:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody Cms resources) {
         // 设置状态
@@ -87,7 +87,7 @@ public class CmsController {
 
     @PutMapping
     @Log("修改cms文章")
-    @ApiOperation("修改cms文章")
+    @Operation(summary = "修改cms文章")
     @PreAuthorize("@el.check('cms:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody Cms resources) {
         cmsService.update(resources);
@@ -96,7 +96,7 @@ public class CmsController {
 
     @PutMapping(value = "/audit")
     @Log("审核cms文章")
-    @ApiOperation("审核cms文章")
+    @Operation(summary = "审核cms文章")
     @PreAuthorize("@el.check('cms:edit')")
     public ResponseEntity<Object> audit(@Validated @RequestBody Cms resources) {
         cmsService.audit(resources);
@@ -105,7 +105,7 @@ public class CmsController {
 
     @PutMapping(value = "/publish")
     @Log("发布cms文章")
-    @ApiOperation("发布cms文章")
+    @Operation(summary = "发布cms文章")
     @PreAuthorize("@el.check('cms:edit')")
     public ResponseEntity<Object> publish(@Validated @RequestBody Cms resources) {
         cmsService.publish(resources);
@@ -113,7 +113,7 @@ public class CmsController {
     }
 
     @Log("删除cms文章")
-    @ApiOperation("删除cms文章")
+    @Operation(summary = "删除cms文章")
     @PreAuthorize("@el.check('cms:del')")
     @DeleteMapping
     public ResponseEntity<Object> delete(@RequestBody Long[] ids) {
@@ -123,7 +123,7 @@ public class CmsController {
 
     @GetMapping(value = "/all")
     @Log("查询cms")
-    @ApiOperation("查询cms")
+    @Operation(summary = "查询cms")
     public void query() {
         System.out.println("1111111111111111111");
     }

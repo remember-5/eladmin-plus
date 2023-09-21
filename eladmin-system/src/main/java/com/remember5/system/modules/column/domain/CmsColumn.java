@@ -17,7 +17,7 @@ package com.remember5.system.modules.column.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -40,33 +40,33 @@ public class CmsColumn implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "column_id")
-    @ApiModelProperty(value = "id")
+    @Schema(description = "id")
     private Long id;
 
     @Column(name = "fid")
-    @ApiModelProperty(value = "父id")
+    @Schema(description = "父id")
     private Long fid;
 
     @Column(name = "column_name")
-    @ApiModelProperty(value = "栏目名")
+    @Schema(description = "栏目名")
     private String columnName;
 
     @Column(name = "agent_id")
-    @ApiModelProperty(value = "代理商id")
+    @Schema(description = "代理商id")
     private Long agentId;
 
     @Column(name = "create_time")
     @CreationTimestamp
-    @ApiModelProperty(value = "创建时间")
+    @Schema(description = "创建时间")
     private Timestamp createTime;
 
     @Column(name = "update_time")
     @UpdateTimestamp
-    @ApiModelProperty(value = "修改时间")
+    @Schema(description = "修改时间")
     private Timestamp updateTime;
 
     @Column(name = "is_deleted")
-    @ApiModelProperty(value = "1 表示删除，0 表示未删除")
+    @Schema(description = "1 表示删除，0 表示未删除")
     private Boolean isDeleted;
 
     public void copy(CmsColumn source) {

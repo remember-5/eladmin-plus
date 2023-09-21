@@ -10,8 +10,8 @@ import com.remember5.openapi.modules.apiuser.domain.WxLoginUser;
 import com.remember5.openapi.modules.apiuser.service.ApiUserService;
 import com.remember5.openapi.modules.apiuser.service.dto.LoginUser;
 import com.remember5.redis.utils.RedisUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
  * @author wangjiahao
  */
 @Slf4j
-@Api(tags = "API用户管理")
+@Tag(name = "API用户管理")
 @RestController
 @RequestMapping("user")
 @RequiredArgsConstructor
@@ -33,64 +33,64 @@ public class ApiUserController {
     private final ApiUserService apiUserService;
     private final RedisUtils redisUtils;
 
-    @ApiOperation("注册")
+    @Operation(summary = "注册")
     @PostMapping(value = "register")
     public R register(@RequestBody @Validated LoginUser user) {
         return apiUserService.register(user);
     }
 
-    @ApiOperation("登出")
+    @Operation(summary = "登出")
     @PostMapping(value = "logout")
     public R logout() {
         // TODO 登出,删除redis和token
         return R.success();
     }
 
-    @ApiOperation("账号密码登录")
+    @Operation(summary = "账号密码登录")
     @PostMapping(value = "loginByAccount")
     public R loginByAccount(@RequestBody LoginUser user) {
         return apiUserService.loginByAccount(user);
     }
 
-    @ApiOperation("获取用户信息")
+    @Operation(summary = "获取用户信息")
     @GetMapping(value = "/info")
     public R<Object> getUserInfo() {
         return R.success();
     }
 
-    @ApiOperation("手机验证码登录")
+    @Operation(summary = "手机验证码登录")
     @PostMapping(value = "loginByPhoneCaptcha")
     public R loginBySms(@RequestBody LoginUser user) {
         return apiUserService.loginBySms(user);
     }
 
-    @ApiOperation("微信小程序一键登录")
+    @Operation(summary = "微信小程序一键登录")
     @PostMapping(value = "wxMiniAppLogin")
     public R wxMiniAppLogin(@RequestBody WxLoginUser wxLoginInfo) {
         return apiUserService.wxMiniAppLogin(wxLoginInfo);
     }
 
-    @ApiOperation("支付宝一键登录")
+    @Operation(summary = "支付宝一键登录")
     @PostMapping(value = "loginByZfb")
     public R loginByZfb(@RequestBody LoginUser user) {
 //        return apiUserService.loginByZfb(user);
         return R.success();
     }
 
-    @ApiOperation("Token续期")
+    @Operation(summary = "Token续期")
     @PostMapping(value = "refToken")
     public R refToken(HttpServletResponse response) {
         // TODO Token续期
         return R.success();
     }
 
-    @ApiOperation("获取图形验证码")
+    @Operation(summary = "获取图形验证码")
     @AnonymousGetMapping(value = "code")
     public R getCode() {
         return apiUserService.getCode();
     }
 
-    @ApiOperation("获取短信验证码")
+    @Operation(summary = "获取短信验证码")
     @AnonymousPostMapping(value = "smsCode")
     public R getsmsCode(@RequestBody LoginUser user) {
         if (!ValidationUtil.isPhone(user.getPhone())) {
@@ -108,13 +108,13 @@ public class ApiUserController {
         }
     }
 
-    @ApiOperation("注销")
+    @Operation(summary = "注销")
     @GetMapping(value = "deleted")
     public R deleted(Long userId) {
         return apiUserService.deleted(userId);
     }
 
-    @ApiOperation("手机号注册获取短信验证码")
+    @Operation(summary = "手机号注册获取短信验证码")
     @GetMapping(value = "captchaByResetPassword/{phone}")
     public R phoneCaptcha(@PathVariable String phone) {
         if (!ValidationUtil.isPhone(phone)) {
@@ -138,7 +138,7 @@ public class ApiUserController {
      * @param phone 手机号
      * @return /
      */
-    @ApiOperation("忘记密码-发送短信验证码")
+    @Operation(summary = "忘记密码-发送短信验证码")
     @GetMapping("forgetByPhone/{phone}")
     public R resetCaptcha(@PathVariable @NotNull String phone) {
         return apiUserService.captchaByResetPassword(phone);
@@ -150,7 +150,7 @@ public class ApiUserController {
      * @param user 用户信息
      * @return /
      */
-    @ApiOperation("忘记密码")
+    @Operation(summary = "忘记密码")
     @PostMapping("resetPassword")
     public R resetPass(@RequestBody LoginUser user) {
         return apiUserService.forgetPassword(user);

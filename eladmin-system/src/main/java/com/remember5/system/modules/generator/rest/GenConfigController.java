@@ -19,8 +19,8 @@ import cn.hutool.system.SystemUtil;
 import com.remember5.system.modules.generator.domain.GenConfig;
 import com.remember5.system.modules.generator.domain.Node;
 import com.remember5.system.modules.generator.service.GenConfigService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,24 +43,24 @@ import java.util.stream.Stream;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/genConfig")
-@Api(tags = "系统：代码生成器配置管理")
+@Tag(name = "系统：代码生成器配置管理")
 public class GenConfigController {
 
     private final GenConfigService genConfigService;
 
-    @ApiOperation("查询")
+    @Operation(summary = "查询")
     @GetMapping(value = "/{tableName}")
     public ResponseEntity<Object> queryGenConfig(@PathVariable String tableName) {
         return new ResponseEntity<>(genConfigService.find(tableName), HttpStatus.OK);
     }
 
-    @ApiOperation("修改")
+    @Operation(summary = "修改")
     @PutMapping
     public ResponseEntity<Object> updateGenConfig(@Validated @RequestBody GenConfig genConfig) {
         return new ResponseEntity<>(genConfigService.update(genConfig.getTableName(), genConfig), HttpStatus.OK);
     }
 
-    @ApiOperation("查看模块名称")
+    @Operation(summary = "查看模块名称")
     @GetMapping(value = "/modules")
     public ResponseEntity<Object> findModules() {
         // 获取目录下的子目录
@@ -72,7 +72,7 @@ public class GenConfigController {
         return new ResponseEntity<>(modulesNames, HttpStatus.OK);
     }
 
-    @ApiOperation("查看包名称")
+    @Operation(summary = "查看包名称")
     @GetMapping(value = "/package")
     public ResponseEntity<Object> findPackage(String moduleName) {
         //获取当前项目目录

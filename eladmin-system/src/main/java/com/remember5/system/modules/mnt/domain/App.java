@@ -17,10 +17,10 @@ package com.remember5.system.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import io.swagger.annotations.ApiModelProperty;
+import com.remember5.core.base.BaseEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import com.remember5.core.base.BaseEntity;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -37,29 +37,29 @@ public class App extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "app_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(description = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "名称")
+    @Schema(description = "名称")
     private String name;
 
-    @ApiModelProperty(value = "端口")
+    @Schema(description = "端口")
     private int port;
 
-    @ApiModelProperty(value = "上传路径")
+    @Schema(description = "上传路径")
     private String uploadPath;
 
-    @ApiModelProperty(value = "部署路径")
+    @Schema(description = "部署路径")
     private String deployPath;
 
-    @ApiModelProperty(value = "备份路径")
+    @Schema(description = "备份路径")
     private String backupPath;
 
-    @ApiModelProperty(value = "启动脚本")
+    @Schema(description = "启动脚本")
     private String startScript;
 
-    @ApiModelProperty(value = "部署脚本")
+    @Schema(description = "部署脚本")
     private String deployScript;
 
     public void copy(App source) {

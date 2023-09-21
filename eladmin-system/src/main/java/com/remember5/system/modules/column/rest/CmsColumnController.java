@@ -15,12 +15,12 @@
  */
 package com.remember5.system.modules.column.rest;
 
-import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.column.domain.CmsColumn;
 import com.remember5.system.modules.column.service.CmsColumnService;
 import com.remember5.system.modules.column.service.dto.CmsColumnQueryCriteria;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.remember5.system.modules.logging.annotation.Log;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,14 +39,14 @@ import java.io.IOException;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "栏目管理")
+@Tag(name = "栏目管理")
 @RequestMapping("/api/cmsColumn")
 public class CmsColumnController {
 
     private final CmsColumnService cmsColumnService;
 
     @Log("导出数据")
-    @ApiOperation("导出数据")
+    @Operation(summary = "导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('cmsColumn:list')")
     public void download(HttpServletResponse response, CmsColumnQueryCriteria criteria) throws IOException {
@@ -55,7 +55,7 @@ public class CmsColumnController {
 
     @GetMapping
     @Log("查询栏目管理")
-    @ApiOperation("查询栏目管理")
+    @Operation(summary = "查询栏目管理")
     @PreAuthorize("@el.check('cmsColumn:list')")
     public ResponseEntity<Object> query(CmsColumnQueryCriteria criteria, Pageable pageable) {
         return new ResponseEntity<>(cmsColumnService.queryAll(criteria, pageable), HttpStatus.OK);
@@ -63,14 +63,14 @@ public class CmsColumnController {
 
     @GetMapping(value = "/query")
     @Log("查询子栏目")
-    @ApiOperation("查询子栏目")
+    @Operation(summary = "查询子栏目")
     public ResponseEntity<Object> query(CmsColumnQueryCriteria criteria) {
         return new ResponseEntity<>(cmsColumnService.queryAll(criteria), HttpStatus.OK);
     }
 
     @GetMapping(value = "/getTree")
     @Log("查询栏目树")
-    @ApiOperation("查询栏目树")
+    @Operation(summary = "查询栏目树")
     @PreAuthorize("@el.check('cmsColumn:list')")
     public ResponseEntity<Object> queryTree() {
         return new ResponseEntity<>(cmsColumnService.queryTreeData(), HttpStatus.OK);
@@ -78,7 +78,7 @@ public class CmsColumnController {
 
     @PostMapping
     @Log("新增栏目管理")
-    @ApiOperation("新增栏目管理")
+    @Operation(summary = "新增栏目管理")
     @PreAuthorize("@el.check('cmsColumn:add')")
     public ResponseEntity<Object> create(@Validated @RequestBody CmsColumn resources) {
         return new ResponseEntity<>(cmsColumnService.create(resources), HttpStatus.CREATED);
@@ -86,7 +86,7 @@ public class CmsColumnController {
 
     @PostMapping(value = "/addFirstLevelColumn")
     @Log("新增顶级栏目")
-    @ApiOperation("新增顶级栏目")
+    @Operation(summary = "新增顶级栏目")
     @PreAuthorize("@el.check('cmsColumn:addFirstLevelColumn')")
     public ResponseEntity<Object> createFirstLevelColumn(@Validated @RequestBody CmsColumn resources) {
         return new ResponseEntity<>(cmsColumnService.createFirstLevelColumn(resources), HttpStatus.CREATED);
@@ -94,7 +94,7 @@ public class CmsColumnController {
 
     @PutMapping
     @Log("修改栏目管理")
-    @ApiOperation("修改栏目管理")
+    @Operation(summary = "修改栏目管理")
     @PreAuthorize("@el.check('cmsColumn:edit')")
     public ResponseEntity<Object> update(@Validated @RequestBody CmsColumn resources) {
         cmsColumnService.update(resources);
@@ -102,7 +102,7 @@ public class CmsColumnController {
     }
 
     @Log("删除栏目管理")
-    @ApiOperation("删除栏目管理")
+    @Operation(summary = "删除栏目管理")
     @PreAuthorize("@el.check('cmsColumn:del')")
     @DeleteMapping
     public ResponseEntity<Object> delete(@RequestBody Long[] ids) {

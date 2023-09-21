@@ -10,15 +10,14 @@
     <packaging>pom</packaging>
 
     <properties>
-        <lombok.version>1.18.22</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <druid.version>1.2.13</druid.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <mapstruct.version>1.5.3.Final</mapstruct.version>
 
         <hutool.version>5.8.20</hutool.version>
         <guava.version>31.1-jre</guava.version>
         <fastjson.version>2.0.28</fastjson.version>
-        <knife4j.version>4.1.0</knife4j.version>
+        <knife4j.version>4.3.0</knife4j.version>
         <dynamic.version>3.4.0</dynamic.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
@@ -200,7 +199,7 @@
 
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+                <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
 

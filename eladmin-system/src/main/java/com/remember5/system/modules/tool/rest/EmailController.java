@@ -19,8 +19,8 @@ import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.EmailConfig;
 import com.remember5.system.modules.tool.domain.vo.EmailVo;
 import com.remember5.system.modules.tool.service.EmailService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +37,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/email")
-@Api(tags = "工具：邮件管理")
+@Tag(name = "工具：邮件管理")
 public class EmailController {
 
     private final EmailService emailService;
@@ -49,7 +49,7 @@ public class EmailController {
 
     @Log("配置邮件")
     @PutMapping
-    @ApiOperation("配置邮件")
+    @Operation(summary = "配置邮件")
     @PreAuthorize("@el.check('email:configure')")
     public ResponseEntity<Object> updateEmailConfig(@Validated @RequestBody EmailConfig emailConfig) throws Exception {
         emailService.config(emailConfig, emailService.find());
@@ -58,7 +58,7 @@ public class EmailController {
 
     @Log("发送邮件")
     @PostMapping
-    @ApiOperation("发送邮件")
+    @Operation(summary = "发送邮件")
     @PreAuthorize("@el.check('email:send')")
     public ResponseEntity<Object> sendEmail(@Validated @RequestBody EmailVo emailVo) {
         emailService.send(emailVo, emailService.find());

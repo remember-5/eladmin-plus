@@ -15,13 +15,13 @@
  */
 package com.remember5.system.modules.mnt.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.mnt.domain.ServerDeploy;
 import com.remember5.system.modules.mnt.service.ServerDeployService;
 import com.remember5.system.modules.mnt.service.dto.ServerDeployQueryCriteria;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,21 +38,21 @@ import java.util.Set;
  * @date 2019-08-24
  */
 @RestController
-@Api(tags = "运维：服务器管理")
+@Tag(name = "运维：服务器管理")
 @RequiredArgsConstructor
 @RequestMapping("/api/serverDeploy")
 public class ServerDeployController {
 
     private final ServerDeployService serverDeployService;
 
-    @ApiOperation("导出服务器数据")
+    @Operation(summary = "导出服务器数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('serverDeploy:list')")
     public void exportServerDeploy(HttpServletResponse response, ServerDeployQueryCriteria criteria) throws IOException {
         serverDeployService.download(serverDeployService.queryAll(criteria), response);
     }
 
-    @ApiOperation(value = "查询服务器")
+    @Operation(summary = "查询服务器")
     @GetMapping
     @PreAuthorize("@el.check('serverDeploy:list')")
     public ResponseEntity<Object> queryServerDeploy(ServerDeployQueryCriteria criteria, Pageable pageable) {
@@ -60,7 +60,7 @@ public class ServerDeployController {
     }
 
     @Log("新增服务器")
-    @ApiOperation(value = "新增服务器")
+    @Operation(summary = "新增服务器")
     @PostMapping
     @PreAuthorize("@el.check('serverDeploy:add')")
     public ResponseEntity<Object> createServerDeploy(@Validated @RequestBody ServerDeploy resources) {
@@ -69,7 +69,7 @@ public class ServerDeployController {
     }
 
     @Log("修改服务器")
-    @ApiOperation(value = "修改服务器")
+    @Operation(summary = "修改服务器")
     @PutMapping
     @PreAuthorize("@el.check('serverDeploy:edit')")
     public ResponseEntity<Object> updateServerDeploy(@Validated @RequestBody ServerDeploy resources) {
@@ -78,7 +78,7 @@ public class ServerDeployController {
     }
 
     @Log("删除服务器")
-    @ApiOperation(value = "删除Server")
+    @Operation(summary = "删除Server")
     @DeleteMapping
     @PreAuthorize("@el.check('serverDeploy:del')")
     public ResponseEntity<Object> deleteServerDeploy(@RequestBody Set<Long> ids) {
@@ -87,7 +87,7 @@ public class ServerDeployController {
     }
 
     @Log("测试连接服务器")
-    @ApiOperation(value = "测试连接服务器")
+    @Operation(summary = "测试连接服务器")
     @PostMapping("/testConnect")
     @PreAuthorize("@el.check('serverDeploy:add')")
     public ResponseEntity<Object> testConnectServerDeploy(@Validated @RequestBody ServerDeploy resources) {

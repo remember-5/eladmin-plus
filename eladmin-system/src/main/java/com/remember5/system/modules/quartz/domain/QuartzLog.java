@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.quartz.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -34,35 +34,35 @@ public class QuartzLog implements Serializable {
 
     @Id
     @Column(name = "log_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(description = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "任务名称", hidden = true)
+    @Schema(description = "任务名称", hidden = true)
     private String jobName;
 
-    @ApiModelProperty(value = "bean名称", hidden = true)
+    @Schema(description = "bean名称", hidden = true)
     private String beanName;
 
-    @ApiModelProperty(value = "方法名称", hidden = true)
+    @Schema(description = "方法名称", hidden = true)
     private String methodName;
 
-    @ApiModelProperty(value = "参数", hidden = true)
+    @Schema(description = "参数", hidden = true)
     private String params;
 
-    @ApiModelProperty(value = "cron表达式", hidden = true)
+    @Schema(description = "cron表达式", hidden = true)
     private String cronExpression;
 
-    @ApiModelProperty(value = "状态", hidden = true)
+    @Schema(description = "状态", hidden = true)
     private Boolean isSuccess;
 
-    @ApiModelProperty(value = "异常详情", hidden = true)
+    @Schema(description = "异常详情", hidden = true)
     private String exceptionDetail;
 
-    @ApiModelProperty(value = "执行耗时", hidden = true)
+    @Schema(description = "执行耗时", hidden = true)
     private Long time;
 
     @CreationTimestamp
-    @ApiModelProperty(value = "创建时间", hidden = true)
+    @Schema(description = "创建时间", hidden = true)
     private Timestamp createTime;
 }

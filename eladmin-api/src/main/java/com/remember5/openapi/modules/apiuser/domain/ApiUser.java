@@ -2,7 +2,7 @@ package com.remember5.openapi.modules.apiuser.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,33 +23,33 @@ public class ApiUser implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    @ApiModelProperty(value = "自增主键")
+    @Schema(description = "自增主键")
     private Long id;
 
     @Column(name = "username")
-    @ApiModelProperty(value = "用户名")
+    @Schema(description = "用户名")
     private String username;
 
     @Column(name = "password")
-    @ApiModelProperty(value = "密码")
+    @Schema(description = "密码")
     private String password;
 
     @Column(name = "phone")
-    @ApiModelProperty(value = "手机号")
+    @Schema(description = "手机号")
     private String phone;
 
     @Column(name = "create_time")
     @CreationTimestamp
-    @ApiModelProperty(value = "创建日期")
+    @Schema(description = "创建日期")
     private Timestamp createTime;
 
     @Column(name = "update_time")
     @UpdateTimestamp
-    @ApiModelProperty(value = "更新时间")
+    @Schema(description = "更新时间")
     private Timestamp updateTime;
 
     @Column(name = "is_deleted")
-    @ApiModelProperty(value = "1 表示删除，0 表示未删除")
+    @Schema(description = "1 表示删除，0 表示未删除")
     private Boolean isDeleted;
 
     public void copy(ApiUser source) {

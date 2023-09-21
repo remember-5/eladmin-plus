@@ -18,10 +18,10 @@ package com.remember5.system.modules.security.rest;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import com.remember5.system.modules.security.service.OnlineUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.tool.service.impl.EmailServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,27 +39,27 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/online")
-@Api(tags = "系统：在线用户管理")
+@Tag(name = "系统：在线用户管理")
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;
     private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
 
-    @ApiOperation("查询在线用户")
+    @Operation(summary = "查询在线用户")
     @GetMapping
     @PreAuthorize("@el.check('online:list')")
     public ResponseEntity<Object> queryOnlineUser(String filter, Pageable pageable) {
         return new ResponseEntity<>(onlineUserService.getAll(filter, pageable), HttpStatus.OK);
     }
 
-    @ApiOperation("导出数据")
+    @Operation(summary = "导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('online:list')")
     public void exportOnlineUser(HttpServletResponse response, String filter) throws IOException {
         onlineUserService.download(onlineUserService.getAll(filter), response);
     }
 
-    @ApiOperation("踢出用户")
+    @Operation(summary = "踢出用户")
     @DeleteMapping
     @PreAuthorize("@el.check('online:del')")
     public ResponseEntity<Object> deleteOnlineUser(@RequestBody Set<String> keys) throws Exception {
