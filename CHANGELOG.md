@@ -1,7 +1,7 @@
 # 更新日志
 ## 2.3.2
 - springboot 2.6.x 和 Swagger2.x 版本不兼容
-- 生成模版中导入的包要换
+- 生成模版中导入的包已更换(待测 entity/controller)
 - swagger 文档访问异常
 
 ## 2.3.1
