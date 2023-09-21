@@ -28,9 +28,11 @@ import org.apache.pdfbox.rendering.PDFRenderer;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -257,4 +259,56 @@ public class PdfBoxUtils {
         doc.close();
         return text;
     }
+
+    public static void pdfBox2Png(String pdfFileName, String savePath, Long fileUuid) {
+//        int targetWidth = 750;  // 目标宽度
+        int dpi = 600; // 设置渲染的 DPI 值
+
+        try {
+            PDDocument document = PDDocument.load(new File(pdfFileName));
+            PDFRenderer renderer = new PDFRenderer(document);
+
+            int totalPages = document.getNumberOfPages();
+            ArrayList<BufferedImage> images = new ArrayList<>();
+
+            for (int i = 0; i < totalPages; i++) {
+                BufferedImage image = renderer.renderImageWithDPI(i, dpi); // 使用300 DPI进行渲染
+                images.add(image);
+            }
+            document.close();
+
+            int totalWidth = 0;
+            int totalHeight = 0;
+
+            for (BufferedImage image : images) {
+                totalWidth = Math.max(totalWidth, image.getWidth());
+                totalHeight += image.getHeight();
+            }
+
+            BufferedImage mergedImage = new BufferedImage(totalWidth, totalHeight, BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2d = mergedImage.createGraphics();
+            g2d.setColor(Color.WHITE);
+            g2d.fillRect(0, 0, totalWidth, totalHeight);
+
+            int currentHeight = 0;
+
+            for (BufferedImage image : images) {
+                g2d.drawImage(image, 0, currentHeight, image.getWidth(), image.getHeight(), null);
+                currentHeight += image.getHeight();
+            }
+
+            // 保存为PNG文件
+            ImageIO.write(mergedImage, "png", new File(savePath + fileUuid + ".png"));
+            document.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getPageHeightWithoutMargins(PDPage page) {
+        // 计算页面高度（去掉页边距）
+        return (int) (page.getCropBox().getHeight() - page.getCropBox().getLowerLeftY());
+    }
+
+
 }

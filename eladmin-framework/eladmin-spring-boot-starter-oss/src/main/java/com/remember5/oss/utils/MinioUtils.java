@@ -100,6 +100,21 @@ public class MinioUtils {
         minioClient.setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).config(generatePrivatePolicy(bucketName)).build());
     }
 
+    /**
+     * 上传文件,文件夹名取日期,文件名取UUID
+     *
+     * @param file 文件
+     * @return 保存结果
+     */
+    public MinioResponse upload(MultipartFile file) throws IOException {
+        String originalFilename = Objects.requireNonNull(file.getOriginalFilename());
+        String originalSuffix = originalFilename.substring(originalFilename.lastIndexOf(StrPool.DOT));
+        String newFilename = UUID.randomUUID(true) + originalSuffix;
+        //获取当前日期作为文件夹名
+        String packageName = LocalDate.now().toString();
+        // packageName + "/" + fileName
+        return upload(file, minioProperties.getBucket(), packageName + FILE_SEPARATOR + newFilename);
+    }
 
     /**
      * 上传文件,文件夹名取日期,文件名取UUID
@@ -138,6 +153,24 @@ public class MinioUtils {
     public MinioResponse upload(File file, String bucket) {
         return upload(file, bucket, file.getName(), file.length());
     }
+
+    /**
+     * @param file     文件
+     * @param bucket   桶
+     * @param filename 文件名
+     * @return 保存结果
+     */
+    public MinioResponse upload(File file, String bucket, String filename) {
+        return upload(file, bucket, filename, file.length());
+    }
+
+    /**
+     * @param file   文件
+     * @param bucket 桶
+     * @param filename 文件名
+     * @param fileSize 文件大小
+     * @return 保存结果
+     */
 
     public MinioResponse upload(File file, String bucket, String filename, Long fileSize) {
         return upload(FileUtil.getInputStream(file), bucket, filename, fileSize);

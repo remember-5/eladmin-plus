@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.config;
+package com.remember5.security.config;
 
 import com.remember5.security.utils.SecurityUtils;
 import org.springframework.data.domain.AuditorAware;

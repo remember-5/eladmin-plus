@@ -1,4 +1,10 @@
 # 更新日志
+## 2.3.1
+2023/09/21
+- 修复AuditorConfiguration缺失
+- 完善redisUtil
+- 完善pdfbox生成图片(一页)
+
 ## 2.3.0
 2023/09/11
 - 升级jdk11

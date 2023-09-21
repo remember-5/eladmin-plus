@@ -44,6 +44,15 @@ public class RedisUtils {
     }
 
     /**
+     * 获取所有key
+     *
+     * @return /
+     */
+    public Set<String> keys() {
+        return redisTemplate.keys("*");
+    }
+
+    /**
      * 指定缓存失效时间
      *
      * @param key  键

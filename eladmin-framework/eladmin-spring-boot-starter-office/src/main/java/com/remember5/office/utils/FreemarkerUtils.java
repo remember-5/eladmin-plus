@@ -24,7 +24,10 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Map;
 
 /**
@@ -52,21 +55,18 @@ public class FreemarkerUtils {
      * freemarker 引擎渲染 html
      *
      * @param dataMap    传入 html 模板的 Map 数据
-     * @param parentPath html 模板文件相对路径(相对于 resources路径,路径 + 文件名)
+     * @param templateName html 模板文件相对路径(相对于 resources路径,路径 + 文件名)
      *                   eg: "templates/pdf_export_demo.ftl"
-     * @param fileName   文件名称
      * @return
      */
-    public static String freemarkerRender(Map<String, Object> dataMap, String parentPath, String fileName) {
+    public static String freemarkerRender(Map<String, Object> dataMap, String templateName) {
+        configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/");
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         try(Writer out = new StringWriter()) {
-//            configuration.setDirectoryForTemplateLoading(new File(ResourceFileUtil.getParent(ftlFilePath)));
-            configuration.setDirectoryForTemplateLoading(new File(parentPath));
             configuration.setLogTemplateExceptions(false);
             configuration.setWrapUncheckedExceptions(true);
-//            Template template = configuration.getTemplate(ResourceFileUtil.getFileName(ftlFilePath));
-            Template template = configuration.getTemplate(fileName);
+            Template template = configuration.getTemplate(templateName);
             template.process(dataMap, out);
             out.flush();
             return out.toString();
@@ -109,7 +109,7 @@ public class FreemarkerUtils {
      * @param savePath 保存路径
      * @return
      */
-    public static void html2pdf(String html, String fontFile, String savePath) throws IOException {
+    public static void html2pdf(String html, byte[] fontFile, String savePath) throws IOException {
         try (PdfWriter pdfWriter = new PdfWriter(savePath)) {
             DefaultFontProvider fontProvider = new DefaultFontProvider();
             fontProvider.addFont(fontFile);
@@ -121,8 +121,6 @@ public class FreemarkerUtils {
             HtmlConverter.convertToPdf(html, pdfWriter, converterProperties);
         }
     }
-
-
 
 
 }
