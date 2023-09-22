@@ -13,12 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.logging.aspect;
+package com.remember5.security.logging.aspect;
 
 import com.remember5.core.utils.StringUtils;
 import com.remember5.core.utils.ThrowableUtil;
-import com.remember5.system.modules.logging.domain.Log;
-import com.remember5.system.modules.logging.service.impl.LogServiceImpl;
+import com.remember5.security.logging.domain.Log;
+import com.remember5.security.logging.service.impl.LogServiceImpl;
 import com.remember5.security.utils.RequestHolder;
 import com.remember5.security.utils.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +52,7 @@ public class LogAspect {
     /**
      * 配置切入点
      */
-    @Pointcut("@annotation(com.remember5.system.modules.logging.annotation.Log)")
+    @Pointcut("@annotation(com.remember5.security.logging.annotation.Log)")
     public void logPointcut() {
         // 该方法无方法体,主要为了让同类中其他方法使用此切入点
     }

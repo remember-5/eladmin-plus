@@ -19,7 +19,7 @@ import com.remember5.system.modules.cms.domain.Cms;
 import com.remember5.system.modules.cms.service.CmsService;
 import com.remember5.system.modules.cms.service.dto.CmsDto;
 import com.remember5.system.modules.cms.service.dto.CmsQueryCriteria;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -18,7 +18,7 @@ package com.remember5.system.modules.column.rest;
 import com.remember5.system.modules.column.domain.CmsColumn;
 import com.remember5.system.modules.column.service.CmsColumnService;
 import com.remember5.system.modules.column.service.dto.CmsColumnQueryCriteria;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

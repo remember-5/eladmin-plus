@@ -23,7 +23,7 @@ import com.remember5.core.properties.RsaProperties;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.security.utils.SecurityUtils;
 import com.remember5.system.enums.CodeEnum;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Dept;
 import com.remember5.system.modules.system.domain.User;
 import com.remember5.system.modules.system.domain.vo.UserPassVo;

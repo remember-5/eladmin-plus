@@ -13,18 +13,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.logging.service.impl;
+package com.remember5.security.logging.service.impl;
 
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.remember5.core.eneity.LogQueryCriteria;
 import com.remember5.core.utils.*;
-import com.remember5.system.modules.logging.domain.Log;
-import com.remember5.system.modules.logging.repository.LogRepository;
-import com.remember5.system.modules.logging.service.LogService;
-import com.remember5.system.modules.logging.service.mapstruct.LogErrorMapper;
-import com.remember5.system.modules.logging.service.mapstruct.LogSmallMapper;
+import com.remember5.security.logging.domain.Log;
+import com.remember5.security.logging.repository.LogRepository;
+import com.remember5.security.logging.service.LogService;
+import com.remember5.security.logging.service.mapstruct.LogErrorMapper;
+import com.remember5.security.logging.service.mapstruct.LogSmallMapper;
 import com.remember5.security.utils.QueryHelp;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -82,7 +82,7 @@ public class LogServiceImpl implements LogService {
         }
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-        com.remember5.system.modules.logging.annotation.Log aopLog = method.getAnnotation(com.remember5.system.modules.logging.annotation.Log.class);
+        com.remember5.security.logging.annotation.Log aopLog = method.getAnnotation(com.remember5.security.logging.annotation.Log.class);
 
         // 方法路径
         String methodName = joinPoint.getTarget().getClass().getName() + "." + signature.getName() + "()";

@@ -13,9 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.logging.repository;
+package com.remember5.security.logging.repository;
 
-import com.remember5.system.modules.logging.domain.Log;
+import com.remember5.security.logging.domain.Log;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;

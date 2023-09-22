@@ -1,4 +1,4 @@
-package com.remember5.system.enums;
+package com.remember5.security.enums;
 
 /**
  * @author wangjiahao

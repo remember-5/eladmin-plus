@@ -13,12 +13,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.logging.rest;
+package com.remember5.security.logging.rest;
 
 import com.remember5.core.eneity.LogQueryCriteria;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.security.utils.SecurityUtils;
-import com.remember5.system.modules.logging.annotation.Log;
-import com.remember5.system.modules.logging.service.LogService;
+import com.remember5.security.logging.service.LogService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

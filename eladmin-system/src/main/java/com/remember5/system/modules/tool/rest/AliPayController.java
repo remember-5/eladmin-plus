@@ -17,7 +17,7 @@ package com.remember5.system.modules.tool.rest;
 
 import com.remember5.core.annotation.AnonymousAccess;
 import com.remember5.core.annotation.rest.AnonymousGetMapping;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.AlipayConfig;
 import com.remember5.system.modules.tool.domain.vo.TradeVo;
 import com.remember5.system.modules.tool.service.AliPayService;

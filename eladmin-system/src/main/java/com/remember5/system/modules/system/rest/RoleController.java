@@ -18,7 +18,7 @@ package com.remember5.system.modules.system.rest;
 import cn.hutool.core.lang.Dict;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.security.utils.SecurityUtils;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Role;
 import com.remember5.system.modules.system.service.RoleService;
 import com.remember5.system.modules.system.service.dto.RoleDto;

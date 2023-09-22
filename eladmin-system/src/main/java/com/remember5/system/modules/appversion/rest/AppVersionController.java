@@ -26,7 +26,7 @@ import com.remember5.core.properties.UniAppProperties;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
 import com.remember5.core.utils.UniAppUtils;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.minio.service.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

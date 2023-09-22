@@ -13,31 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.logging.annotation;
+package com.remember5.security.logging.service.mapstruct;
 
-import com.remember5.system.enums.LogChannelEnum;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.remember5.security.logging.domain.Log;
+import com.remember5.security.logging.service.dto.LogErrorDTO;
+import com.remember5.core.base.BaseMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 /**
- * @author wangjiahao
- * @date 2022/09/29
+ * @author Zheng Jie
+ * @date 2019-5-22
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Log {
-    /**
-     * 接口描述
-     * @return /
-     */
-    String value() default "";
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface LogErrorMapper extends BaseMapper<LogErrorDTO, Log> {
 
-    /**
-     * 渠道标识
-     * @return /
-     */
-    LogChannelEnum channel() default LogChannelEnum.Sys;
 }

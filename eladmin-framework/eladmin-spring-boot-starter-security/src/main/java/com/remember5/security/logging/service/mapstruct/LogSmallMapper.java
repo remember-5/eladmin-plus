@@ -13,37 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.modules.logging.service.dto;
+package com.remember5.security.logging.service.mapstruct;
 
-import lombok.Data;
-
-import java.io.Serializable;
-import java.sql.Timestamp;
+import com.remember5.security.logging.domain.Log;
+import com.remember5.security.logging.service.dto.LogSmallDTO;
+import com.remember5.core.base.BaseMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 /**
  * @author Zheng Jie
  * @date 2019-5-22
  */
-@Data
-public class LogErrorDTO implements Serializable {
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface LogSmallMapper extends BaseMapper<LogSmallDTO, Log> {
 
-    private Long id;
-
-    private String username;
-
-    private String description;
-
-    private String method;
-
-    private String params;
-
-    private String browser;
-
-    private String requestIp;
-
-    private String address;
-
-    private Timestamp createTime;
-
-    private Integer channelId;
 }

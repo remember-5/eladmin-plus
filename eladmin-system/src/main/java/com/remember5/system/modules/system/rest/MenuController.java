@@ -19,7 +19,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.security.utils.SecurityUtils;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Menu;
 import com.remember5.system.modules.system.service.MenuService;
 import com.remember5.system.modules.system.service.dto.MenuDto;

@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.mnt.rest;
 
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.mnt.service.DeployHistoryService;
 import com.remember5.system.modules.mnt.service.dto.DeployHistoryQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;

@@ -16,7 +16,7 @@
 package com.remember5.system.modules.mnt.rest;
 
 import com.remember5.core.utils.FileUtil;
-import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.mnt.domain.Deploy;
 import com.remember5.system.modules.mnt.domain.DeployHistory;
 import com.remember5.system.modules.mnt.service.DeployService;
