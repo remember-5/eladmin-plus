@@ -370,7 +370,7 @@ public class GenUtil {
         String modulePackageName =
                 null == genConfig.getPrefix() ?
                         StringUtils.toCamelCase(genConfig.getTableName()) :
-                        StringUtils.toCamelCase(genConfig.getTableName().replace(genConfig.getPrefix(), ""));
+                        StringUtils.toCamelCase(genConfig.getTableName().replaceFirst(genConfig.getPrefix(), ""));
 
         if (!ObjectUtils.isEmpty(genConfig.getPack())) {
             packagePath += genConfig.getPack().replace(".", File.separator) + File.separator + modulePackageName + File.separator;

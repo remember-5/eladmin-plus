@@ -16,7 +16,7 @@
 package ${package}.rest;
 
 import cn.hutool.core.collection.CollUtil;
-import com.remember5.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import ${package}.domain.${className};
 import ${package}.service.${className}Service;
 import ${package}.service.dto.${className}QueryCriteria;
