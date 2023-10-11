@@ -139,6 +139,7 @@ jwt:
   permit-url:
     - /swagger-ui.html # swagger 文档
     - /swagger-resources/**
+    - /v3/api-docs/swagger-config
     - /webjars/**
     - /*/api-docs
     - /avatar/** # 文件
