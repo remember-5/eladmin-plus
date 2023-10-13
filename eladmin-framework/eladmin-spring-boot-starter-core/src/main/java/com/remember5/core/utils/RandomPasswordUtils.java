@@ -1,4 +1,5 @@
 package com.remember5.core.utils;
+
 import cn.hutool.core.util.RandomUtil;
 
 import java.security.SecureRandom;
@@ -8,60 +9,93 @@ import java.util.List;
 
 /**
  * 随机密码生成
- *  <a href="https://blog.csdn.net/qingquanyingyue/article/details/106336742">随机密码生成</a>
+ * <a href="https://blog.csdn.net/qingquanyingyue/article/details/106336742">随机密码生成</a>
+ *
  * @author wangjiahao
  * @date 2022/9/23 11:27
  */
 public class RandomPasswordUtils {
 
+    public RandomPasswordUtils() {
+    }
+
     public static final String LOW_STR = "abcdefghijklmnopqrstuvwxyz";
     public static final String ALL_STR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     public static final String SPECIAL_STR = "~!@#$%^&*()_+/-=[]{};:'<>?.";
     public static final String NUM_STR = "0123456789";
 
-    // 随机获取字符串字符
+
+    /**
+     * 随机获取字符串字符
+     *
+     * @param str 字符串
+     * @return 随机的char
+     */
     private static char getRandomChar(String str) {
         SecureRandom random = new SecureRandom();
         return str.charAt(random.nextInt(str.length()));
     }
 
-    // 随机获取小写字符
+    /**
+     * 随机获取小写字符
+     *
+     * @return 随机的小写字符
+     */
     private static char getLowChar() {
         return getRandomChar(LOW_STR);
     }
 
-    // 随机获取大写字符
+    /**
+     * 随机获取大写字符
+     *
+     * @return 随机的大写字符
+     */
     private static char getUpperChar() {
         return Character.toUpperCase(getLowChar());
     }
 
-    // 随机获取数字字符
+    /**
+     * 随机获取数字字符
+     *
+     * @return 随机的数字字符
+     */
     private static char getNumChar() {
         return getRandomChar(NUM_STR);
     }
 
-    // 随机获取特殊字符
+    /**
+     * 随机获取特殊字符
+     *
+     * @return 随机的特殊字符
+     */
     private static char getSpecialChar() {
         return getRandomChar(SPECIAL_STR);
     }
 
+    /**
+     * 根据传入的数字，随机调用生成字符的函数
+     *
+     * @param funNum 传入的数字
+     * @return 随机的字符
+     */
     private static char getRandomChar(int funNum) {
-        switch (funNum) {
-            case 0:
-                return getLowChar();
-            case 1:
-                return getUpperChar();
-            case 2:
-                return getNumChar();
-            default:
-                return getSpecialChar();
-        }
+        return switch (funNum) {
+            case 0 -> getLowChar();
+            case 1 -> getUpperChar();
+            case 2 -> getNumChar();
+            default -> getSpecialChar();
+        };
     }
 
+    /**
+     * 生成随机密码
+     *
+     * @param num 密码长度
+     * @return 随机密码
+     */
     private static String getRandomPwd(int num) {
         if (num > 20 || num < 8) {
-            System.out.println("长度不满足要求");
+            System.err.println("长度不满足要求");
             return "";
         }
         // 先把 4 种字符每种来一个放进 list
@@ -89,10 +123,16 @@ public class RandomPasswordUtils {
     }
 
 
-
+    /**
+     * 生成随机密码
+     *
+     * @param strLength     密码长度
+     * @param numLength     密码数字长度
+     * @param specialLength 特殊字符长度
+     * @return 随机密码
+     */
     public static String randomPassword(int strLength, int numLength, int specialLength) {
         List<Object> resultList = new ArrayList<>();
-
 
         char[] strChars = RandomUtil.randomString(ALL_STR, strLength).toCharArray();
         for (char b : strChars) {
@@ -101,7 +141,7 @@ public class RandomPasswordUtils {
         for (int i = 0; i < numLength; i++) {
             resultList.add(RandomUtil.randomNumber());
         }
-        char[] specialChars  = RandomUtil.randomString(SPECIAL_STR, specialLength).toCharArray();
+        char[] specialChars = RandomUtil.randomString(SPECIAL_STR, specialLength).toCharArray();
         for (char b : specialChars) {
             resultList.add(b);
         }
@@ -113,7 +153,15 @@ public class RandomPasswordUtils {
         return stringBuilder.toString();
     }
 
-
+    /**
+     * 生成随机密码
+     *
+     * @param strLength     密码长度
+     * @param numLength     密码数字长度
+     * @param specialStr    特殊字符
+     * @param specialLength 特殊字符长度
+     * @return 随机密码
+     */
     public static String randomPassword(int strLength, int numLength, String specialStr, int specialLength) {
         List<Object> resultList = new ArrayList<>();
 
@@ -125,7 +173,7 @@ public class RandomPasswordUtils {
         for (int i = 0; i < numLength; i++) {
             resultList.add(RandomUtil.randomNumber());
         }
-        char[] specialChars  = RandomUtil.randomString(specialStr, specialLength).toCharArray();
+        char[] specialChars = RandomUtil.randomString(specialStr, specialLength).toCharArray();
         for (char b : specialChars) {
             resultList.add(b);
         }
