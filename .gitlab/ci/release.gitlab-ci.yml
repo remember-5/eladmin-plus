@@ -12,7 +12,7 @@ prod-build:
     # 清缓存
     - mvn clean
     # 打包
-    - mvn package
+    - mvn package -P singleton
   #  tags:
   #    - xxx
   only:
