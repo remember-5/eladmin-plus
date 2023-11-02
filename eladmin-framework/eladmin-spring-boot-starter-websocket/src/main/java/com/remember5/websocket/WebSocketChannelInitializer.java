@@ -23,11 +23,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 @RequiredArgsConstructor
 public class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-//    private final AuthHandler authHandler;
-//    private final ClientMsgHandler clientMsgHandler;
-//    private final HeartBeatHandler heartBeatHandler;
-//    private final RateLimitHandler rateLimitHandler;
-
     private final RedisTemplate<String, Object> redisTemplate;
 
     /**
@@ -66,6 +61,10 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         // 针对客户端，若10s内无读事件则触发心跳处理方法 CustomWebSocketHandler#userEventTriggered
         ch.pipeline().addLast(new IdleStateHandler(10, 10, 0));
         ch.pipeline().addLast(new HeartBeatHandler());
+
+        // 自定义的handler，处理业务逻辑
+        ch.pipeline().addLast(new ClientMsgHandler(redisTemplate));
+
         /*
         说明：
         1、对应webSocket，它的数据是以帧（frame）的形式传递
@@ -73,8 +72,5 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         3、核心功能是将http协议升级为ws协议，保持长连接
         */
         ch.pipeline().addLast(new WebSocketServerProtocolHandler(webSocketPath, WEBSOCKET_PROTOCOL, true, 65536 * 10));
-
-        // 自定义的handler，处理业务逻辑
-        ch.pipeline().addLast(new ClientMsgHandler(redisTemplate));
     }
 }
