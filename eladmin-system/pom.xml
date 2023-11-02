@@ -47,23 +47,15 @@
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-captcha</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-redis</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.remember5</groupId>
-            <artifactId>eladmin-spring-boot-starter-websocket</artifactId>
-        </dependency>
-
-        <!-- Spring boot websocket -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
 
         <dependency>

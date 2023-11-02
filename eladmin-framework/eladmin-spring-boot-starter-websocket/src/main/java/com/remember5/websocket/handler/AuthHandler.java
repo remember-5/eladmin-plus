@@ -111,12 +111,14 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
             FullHttpRequest httpRequest = (FullHttpRequest) msg;
             final String uri = httpRequest.uri();
             final Map<String, String> params = getParams(uri);
-            final String userid = params.get("userId");
+            final String token = params.get("token");
+
+            // todo 解析token
 
             //根据请求头header方式 AUTHORIZATION 进行鉴权操作 但是浏览器不支持header，看需求定义吧
-//            final String userid = httpRequest.headers().get("userId");
+//            final String token = httpRequest.headers().get("userId");
 //            log.info("鉴权操作");
-//            if (null == userid || "".equals(userid)) {
+//            if (null == token || "".equals(token)) {
 //                ctx.channel().writeAndFlush(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED));
 //                ctx.channel().close();
 //                return;
@@ -132,11 +134,11 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
 
             // 将用户ID作为自定义属性加入到channel中，方便随时channel中获取用户ID
             AttributeKey<String> key = AttributeKey.valueOf("userId");
-            ctx.channel().attr(key).setIfAbsent(userid);
-            NettyProperties.getUserChannelMap().put(userid, ctx.channel());
+            ctx.channel().attr(key).setIfAbsent(token);
+            NettyProperties.getUserChannelMap().put(token, ctx.channel());
 
             // save redis
-            redisTemplate.opsForSet().add(RedisKeyConstant.REDIS_WEB_SOCKET_USER_SET, userid);
+            redisTemplate.opsForSet().add(RedisKeyConstant.REDIS_WEB_SOCKET_USER_SET, token);
             // 鉴权完成删除这个header
             ctx.pipeline().remove(this);
             // 对事件进行传播，知道完成WebSocket连接。
