@@ -222,19 +222,19 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
         if (uri.startsWith("/")) {
             uri = uri.substring(1);
         }
-        if (uri.indexOf("?") > 0) {
+        if (uri.contains("?")) {
             uri = uri.substring(uri.indexOf("?"));
         }
 
         uri = uri.replace("/", "").replace("?", "");
         HashMap<String, String> result = new HashMap<>();
 
-        if (uri.indexOf("&") > 0) {
+        if (uri.contains("&")) {
             final String[] split = uri.split("&");
             for (String s : split) {
                 result.put(s.split("=")[0], s.split("=")[1]);
             }
-        } else if (uri.length() > 0 && uri.indexOf("=") > 0) {
+        } else if (uri.contains("=")) {
             result.put(uri.split("=")[0], uri.split("=")[1]);
         }
 
