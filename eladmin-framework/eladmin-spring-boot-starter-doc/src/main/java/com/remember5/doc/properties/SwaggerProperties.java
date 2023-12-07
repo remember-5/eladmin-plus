@@ -8,8 +8,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2021/12/3
  */
 @Data
-@ConfigurationProperties(prefix = "swagger")
+@ConfigurationProperties(prefix = SwaggerProperties.PREFIX)
 public class SwaggerProperties {
+
+    public static final String PREFIX = "swagger";
 
     private Boolean enabled;
     private String title;

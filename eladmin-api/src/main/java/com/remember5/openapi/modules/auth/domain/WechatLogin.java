@@ -13,38 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.core.properties;
+package com.remember5.openapi.modules.auth.domain;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+
+import javax.validation.constraints.NotNull;
 
 /**
- * uniapp的配置
- *
  * @author wangjiahao
- * @date 2023/1/6 15:21
+ * @date 2023/12/6 11:18
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = UniAppProperties.PREFIX)
-public class UniAppProperties {
+public class WechatLogin {
 
-    public static final String PREFIX = "app";
+    @NotNull(message = "code不能为空")
+    private String code;
 
-    /**
-     * 是否开启热更
-     */
-    private boolean enabledHotUpdate;
+    @NotNull(message = "encryptedData不能为空")
+    private String encryptedData;
 
-    /**
-     * 拦截器拦截归档版本
-     */
-    private boolean interceptArchived;
-
-    /**
-     * 热更接口安全性的key
-     */
-    private String secretKey;
+    @NotNull(message = "iv不能为空")
+    private String iv;
 
 }

@@ -146,8 +146,6 @@ jwt:
     - /file/**
     - /druid/** # 阿里巴巴 druid
     - /version/**
-    - /user/wxMiniAppCode2Sessions
-    - /user/wxMiniAppLogin
     - /*.html
     - /**/*.html
     - /**/*.css
@@ -156,12 +154,7 @@ jwt:
     - /ws/**
     - /favicon.ico
     - /v2/api-docs/**
-    - /user/code
-    - /user/refToken
-    - /user/captchaBy*/**
-    - /user/loginBy*
-    - /user/register
-    - /auth/login
+    - /auth/*
     - /api/**/open/**
 
 

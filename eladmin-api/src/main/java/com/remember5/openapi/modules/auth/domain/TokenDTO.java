@@ -13,38 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.core.properties;
+package com.remember5.openapi.modules.auth.domain;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
- * uniapp的配置
- *
  * @author wangjiahao
- * @date 2023/1/6 15:21
+ * @date 2023/12/7 12:54
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = UniAppProperties.PREFIX)
-public class UniAppProperties {
+public class TokenDTO {
 
-    public static final String PREFIX = "app";
+    private String accessToken;
 
-    /**
-     * 是否开启热更
-     */
-    private boolean enabledHotUpdate;
-
-    /**
-     * 拦截器拦截归档版本
-     */
-    private boolean interceptArchived;
-
-    /**
-     * 热更接口安全性的key
-     */
-    private String secretKey;
-
+    private String refreshToken;
 }

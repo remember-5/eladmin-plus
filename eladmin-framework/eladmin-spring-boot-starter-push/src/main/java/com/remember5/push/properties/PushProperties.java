@@ -12,9 +12,10 @@ import org.springframework.context.annotation.Configuration;
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "getui")
+@ConfigurationProperties(prefix = PushProperties.PREFIX)
 public class PushProperties {
 
+    public static final String PREFIX = "getui";
     /**
      * 是否开启
      */

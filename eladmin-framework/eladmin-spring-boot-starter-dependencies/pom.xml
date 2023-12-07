@@ -12,17 +12,17 @@
     <properties>
         <lombok.version>1.18.30</lombok.version>
         <druid.version>1.2.13</druid.version>
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
 
         <hutool.version>5.8.22</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
-        <fastjson.version>2.0.37</fastjson.version>
+        <fastjson.version>2.0.43</fastjson.version>
         <knife4j.version>4.3.0</knife4j.version>
         <!--   todo 暂未升级     -->
         <dynamic.version>3.4.0</dynamic.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
-        <minio.verison>8.5.5</minio.verison>
+        <minio.verison>8.5.7</minio.verison>
         <!-- 如升级请查看文档 https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter -->
         <redisson.version>3.18.0</redisson.version>
         <!--主要是解决minio的依赖问题-->

@@ -1,10 +1,10 @@
 package com.remember5.openapi.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.remember5.openapi.modules.apiuser.domain.ApiUser;
-import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
-import com.remember5.redis.properties.JwtProperties;
-import com.remember5.redis.utils.TokenProvider;
+import cn.hutool.json.JSONException;
+import cn.hutool.jwt.JWTException;
+import com.remember5.security.properties.JwtProperties;
+import com.remember5.security.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * JWT登录授权过滤器
@@ -31,43 +30,32 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     private final JwtProperties jwtProperties;
     private final TokenProvider tokenProvider;
-    private final ApiUserRepository apiUserRepository;
 
-    /**
-     * 拦截器
-     *
-     * @param request     /
-     * @param response    /
-     * @param filterChain /
-     * @throws ServletException /
-     * @throws IOException      /
-     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String bearerToken = request.getHeader(jwtProperties.getHeader());
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(jwtProperties.getTokenStartWith())) {
-            // 去掉令牌前缀
-            String token = bearerToken.replace(jwtProperties.getTokenStartWith(), "");
-            if (CharSequenceUtil.isNotBlank(token)) {
-                // 校验token
-                if (!tokenProvider.verifyToken(token)) {
-                    log.error("token verify error! : {}", bearerToken);
+        try {
+            String bearerToken = request.getHeader(jwtProperties.getHeader());
+            // 1. 不存在token 或 token不以Bearer开头，则直接放行
+            if (!StringUtils.hasText(bearerToken) || !bearerToken.startsWith(jwtProperties.getTokenStartWith())) {
+                filterChain.doFilter(request, response);
+            } else {
+                // 2. 去掉令牌前缀
+                String token = bearerToken.replace(jwtProperties.getTokenStartWith(), "");
+                // 3. 校验token
+                if (CharSequenceUtil.isBlank(token) || !tokenProvider.verifyToken(token)) {
+                    filterChain.doFilter(request, response);
+                } else {
+                    // 4. 设置认证信息,如果不配置authentication 则会进入AuthenticationException ，转而进入JwtAuthenticationEntryPoint
+                    Authentication authentication = tokenProvider.getAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
                     filterChain.doFilter(request, response);
                 }
-
-                String phone = tokenProvider.getSubject(token);
-                if (phone != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    final ApiUser user = apiUserRepository.findByPhone(phone);
-                    if (Objects.nonNull(user)) {
-                        // todo @log注解获取不到username
-                        Authentication authentication = tokenProvider.getAuthentication(token);
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
-                }
             }
+        } catch (JSONException | JWTException e) {
+            log.error("token校验失败", e);
+            filterChain.doFilter(request, response);
         }
-        log.error("token verify error! : {}", bearerToken);
-        filterChain.doFilter(request, response);
     }
+
 
 }

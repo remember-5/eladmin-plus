@@ -2,7 +2,7 @@ package com.remember5.openapi.jwt;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.remember5.openapi.OpenApiApplication;
-import com.remember5.redis.utils.TokenProvider;
+import com.remember5.security.utils.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class TestJwt {
 
     @Test
     void testGenerateToken() {
-        final String token = tokenProvider.createAccessToken("AA123456", "wangjiahao");
+        final String token = tokenProvider.createAccessToken(1234L, "wangjiahao");
 
         System.err.println("生成token: {}" + token);
         System.err.println("生成token#getPayload: {}" + tokenProvider.getClaims(token));

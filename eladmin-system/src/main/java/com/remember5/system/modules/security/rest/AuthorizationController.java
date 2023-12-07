@@ -26,13 +26,14 @@ import com.remember5.core.annotation.rest.AnonymousPostMapping;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.properties.RsaProperties;
 import com.remember5.core.utils.StringUtils;
-import com.remember5.redis.properties.JwtProperties;
+import com.remember5.security.properties.JwtProperties;
 import com.remember5.redis.utils.RedisUtils;
-import com.remember5.redis.utils.TokenProvider;
+import com.remember5.security.utils.TokenProvider;
 import com.remember5.security.utils.SecurityUtils;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.dto.AuthUserDto;
 import com.remember5.system.modules.security.service.dto.JwtUserDto;
+import com.remember5.system.modules.system.service.dto.UserDto;
 import com.remember5.system.properties.LoginProperties;
 import com.wf.captcha.base.Captcha;
 import io.swagger.v3.oas.annotations.Operation;
@@ -97,8 +98,9 @@ public class AuthorizationController {
                 new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenProvider.createToken(authentication);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+        final UserDto user = jwtUserDto.getUser();
+        String token = tokenProvider.createAccessToken(user.getId(), user.getUsername(), user.getPhone());
         // 保存在线信息
         onlineUserService.save(jwtUserDto, token, request);
         // 返回 token 与 用户信息

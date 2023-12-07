@@ -13,53 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.core.constants;
+package com.remember5.openapi.modules.auth.domain;
+
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * 常用静态常量
- *
- * @author Zheng Jie
- * @date 2018-12-26
+ * @author wangjiahao
+ * @date 2023/12/6 17:33
  */
-public interface ElAdminConstant {
+@Data
+public class UsernameRegister {
 
     /**
-     * 用于IP定位转换
+     * 用户名
      */
-    String REGION = "内网IP|内网IP";
-    /**
-     * win 系统
-     */
-    String WIN = "win";
+    @NotBlank(message = "用户名不能为空")
+    private String username;
 
     /**
-     * mac 系统
+     * 密码
      */
-    String MAC = "mac";
+    @NotBlank(message = "用户名不能为空")
+    private String password;
 
     /**
-     * 开发环境
+     * 验证码
      */
-    String DEV = "dev";
+    @NotBlank(message = "验证码不能为空")
+    private String code;
 
     /**
-     * 测试环境
+     * 验证码code
      */
-    String TEST = "test";
-
-    /**
-     * 生成环境
-     */
-    String PROD = "prod";
-
-
-
-
-    /**
-     * 常用接口
-     */
-    class Url {
-        // IP归属地查询
-        public static final String IP_URL = "http://whois.pconline.com.cn/ipJson.jsp?ip=%s&json=true";
-    }
+    @NotBlank(message = "验证码code不能为空")
+    private String uuid = "";
 }

@@ -17,7 +17,7 @@ package com.remember5.core.handler;
 
 import com.remember5.core.eneity.ApiError;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.core.exception.BaseException;
+import com.remember5.core.exception.ServiceException;
 import com.remember5.core.exception.EntityExistException;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
@@ -105,7 +105,7 @@ public class GlobalExceptionHandler {
      * 处理所有接口数据验证异常,优先级会最高
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public R handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public R<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         // 打印堆栈信息
 //        log.error(ThrowableUtil.getStackTrace(e));
 //        String[] str = Objects.requireNonNull(e.getBindingResult().getAllErrors().get(0).getCodes())[1].split("\\.");
@@ -129,7 +129,7 @@ public class GlobalExceptionHandler {
             // 拼接内容到其中
             detailMessage.append(objectError.getDefaultMessage());
         }
-        return R.fail(REnum.A0400.code, null, detailMessage.toString());
+        return R.fail(REnum.A0400, detailMessage.toString());
     }
 
     /**
@@ -147,8 +147,8 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public R constraintViolationExceptionHandler(HttpServletRequest req, ConstraintViolationException ex) {
-        log.debug("[constraintViolationExceptionHandler]", ex);
+    public R<?> constraintViolationExceptionHandler(HttpServletRequest req, ConstraintViolationException ex) {
+        log.info("[constraintViolationExceptionHandler]", ex);
         // 拼接错误
         StringBuilder detailMessage = new StringBuilder();
         for (ConstraintViolation<?> constraintViolation : ex.getConstraintViolations()) {
@@ -161,7 +161,6 @@ public class GlobalExceptionHandler {
             detailMessage.append(":");
             detailMessage.append(constraintViolation.getMessage());
         }
-        // 包装 CommonResult 结果
         return R.fail(REnum.A0400);
     }
 
@@ -173,8 +172,8 @@ public class GlobalExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = BindException.class)
-    public R bindExceptionHandler(BindException ex) {
-        log.debug("[bindExceptionHandler]", ex);
+    public R<?> bindExceptionHandler(BindException ex) {
+        log.info("[bindExceptionHandler]", ex);
         // 拼接错误
         StringBuilder detailMessage = new StringBuilder();
         for (ObjectError objectError : ex.getAllErrors()) {
@@ -186,20 +185,20 @@ public class GlobalExceptionHandler {
             detailMessage.append(objectError.getDefaultMessage());
         }
         // 包装 CommonResult 结果
-        return R.fail(REnum.A0400.code, null, detailMessage.toString());
+        return R.fail(REnum.A0400, detailMessage.toString());
     }
 
     /**
      * 全局自定义异常拦截
      *
-     * @param e BaseException 里面传入ResultEnum
+     * @param ex ServiceException 里面传入ResultEnum
      * @return RestResult
      */
-    @ExceptionHandler(value = BaseException.class)
+    @ExceptionHandler(value = ServiceException.class)
     @ResponseStatus(HttpStatus.OK)
-    public R exception(BaseException e) {
-        log.error("系统内部异常，异常信息", e);
-        return e.getResult();
+    public R<?> serviceExceptionHandler(ServiceException ex) {
+        log.info("[serviceExceptionHandler]", ex);
+        return R.fail(ex.getREnum());
     }
 
 

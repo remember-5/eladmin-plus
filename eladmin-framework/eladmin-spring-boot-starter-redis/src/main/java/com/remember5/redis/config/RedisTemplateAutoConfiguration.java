@@ -15,9 +15,7 @@
  */
 package com.remember5.redis.config;
 
-import com.remember5.redis.properties.JwtProperties;
 import com.remember5.redis.utils.RedisUtils;
-import com.remember5.redis.utils.TokenProvider;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.codec.JsonJacksonCodec;
@@ -25,7 +23,6 @@ import org.redisson.config.Config;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
@@ -40,7 +37,6 @@ import java.io.IOException;
  * @date 2023/5/6 12:45
  */
 @EnableCaching
-@EnableConfigurationProperties(value = {JwtProperties.class})
 public class RedisTemplateAutoConfiguration {
 
     /**
@@ -86,9 +82,4 @@ public class RedisTemplateAutoConfiguration {
         return new RedisUtils(redisTemplate);
     }
 
-
-    @Bean
-    public TokenProvider initTokenProvider(JwtProperties jwtProperties, RedisUtils redisUtils) {
-        return new TokenProvider(jwtProperties, redisUtils);
-    }
 }

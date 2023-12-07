@@ -21,7 +21,7 @@ import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.IpUtils;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.core.utils.StringUtils;
-import com.remember5.redis.properties.JwtProperties;
+import com.remember5.security.properties.JwtProperties;
 import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.modules.security.service.dto.JwtUserDto;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;

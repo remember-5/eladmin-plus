@@ -40,7 +40,6 @@ public class AppVersionController {
     @GetMapping()
     @Operation(summary = "更新app")
     public R<AppVersion> update(){
-//        return appVersionService.update();
         return null;
     }
 

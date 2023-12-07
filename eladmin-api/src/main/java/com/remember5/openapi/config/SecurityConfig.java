@@ -1,11 +1,10 @@
 package com.remember5.openapi.config;
 
+import com.remember5.openapi.filter.JwtAuthenticationTokenFilter;
 import com.remember5.security.handler.JwtAccessDeniedHandler;
 import com.remember5.security.handler.JwtAuthenticationEntryPoint;
-import com.remember5.openapi.filter.JwtAuthenticationTokenFilter;
-import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
-import com.remember5.redis.properties.JwtProperties;
-import com.remember5.redis.utils.TokenProvider;
+import com.remember5.security.properties.JwtProperties;
+import com.remember5.security.utils.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -50,7 +49,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtProperties jwtProperties;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationTokenFilter;
-    private final ApiUserRepository apiUserRepository;
     private final TokenProvider tokenProvider;
 
     /**
@@ -69,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 由于使用的是JWT，我们这里不需要csrf
                 .csrf().disable()
                 // 添加JWT filter
-                .addFilterBefore(new JwtAuthenticationTokenFilter(jwtProperties, tokenProvider, apiUserRepository), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationTokenFilter(jwtProperties, tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 // 授权异常 添加自定义未授权和未登录结果返回
                 .exceptionHandling()
                 .accessDeniedHandler(jwtAccessDeniedHandler)

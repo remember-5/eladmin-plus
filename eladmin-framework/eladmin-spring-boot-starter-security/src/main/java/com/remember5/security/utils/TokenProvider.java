@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.redis.utils;
+package com.remember5.security.utils;
 
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateUtil;
@@ -23,7 +23,7 @@ import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.RegisteredPayload;
 import cn.hutool.jwt.signers.JWTSigner;
 import cn.hutool.jwt.signers.JWTSignerUtil;
-import com.remember5.redis.properties.JwtProperties;
+import com.remember5.security.properties.JwtProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -62,14 +62,12 @@ import java.util.Objects;
 public class TokenProvider implements InitializingBean {
 
     private final JwtProperties jwtProperties;
-    private final RedisUtils redisUtils;
     public static final String AUTHORITIES_KEY = "username";
 
     private JWT jwt;
 
-    public TokenProvider(JwtProperties jwtProperties, RedisUtils redisUtils) {
+    public TokenProvider(JwtProperties jwtProperties) {
         this.jwtProperties = jwtProperties;
-        this.redisUtils = redisUtils;
     }
 
     @Override
@@ -79,32 +77,28 @@ public class TokenProvider implements InitializingBean {
     }
 
     /**
-     * 创建Token
-     *
-     * @return token
-     */
-    public String createToken(Authentication authentication) {
-        return createAccessToken(authentication.getName(), authentication.getName());
-    }
-
-    /**
      * 创建一个会过期的access_token
      *
      * @param userId   用户id
      * @param username 用户名称
      * @return /
      */
-    public String createAccessToken(String userId, String username) {
-        return jwt
-                // 加入ID确保生成的 Token 都不一致
-                .setJWTId(IdUtil.simpleUUID())
-                .setSubject(userId)
-                .setPayload(AUTHORITIES_KEY, username)
-                .setIssuer("admin")
-                .setNotBefore(new Date())
-                .setIssuedAt(new Date())
-                .setExpiresAt(DateUtil.offset(new Date(), DateField.SECOND, Math.toIntExact(jwtProperties.getTokenValidityInSeconds())))
-                .sign();
+    public String createAccessToken(Long userId, String username) {
+        return createAccessToken(userId, username, null);
+    }
+
+    public String createAccessToken(Long userId, String username, String phone) {
+        jwt.setJWTId(IdUtil.simpleUUID())
+            .setSubject(String.valueOf(userId))
+            .setPayload(AUTHORITIES_KEY, username)
+            .setIssuer("admin")
+            .setNotBefore(new Date())
+            .setIssuedAt(new Date())
+            .setExpiresAt(DateUtil.offset(new Date(), DateField.SECOND, Math.toIntExact(jwtProperties.getTokenValidityInSeconds())));
+        if (phone != null) {
+            jwt.setPayload("phone", phone);
+        }
+        return jwt.sign();
     }
 
     /**
@@ -212,18 +206,6 @@ public class TokenProvider implements InitializingBean {
         // todo 双token续期
     }
 
-    /**
-     * 检查token是否过期
-     *
-     * @param token 需要检查的token
-     */
-    public Boolean checkToken(String token) {
-        // 判断是否续期token,计算token的过期时间
-        long time = redisUtils.getExpire(jwtProperties.getOnlineKey() + token);
-        Date expireDate = DateUtil.offset(new Date(), DateField.MILLISECOND, (int) time);
-        // 判断当前时间与过期时间的时间差
-        return expireDate.getTime() > System.currentTimeMillis();
-    }
 
     public String getTokenByRequest() {
         final HttpServletRequest request = getHttpServletRequest();
@@ -243,5 +225,4 @@ public class TokenProvider implements InitializingBean {
         HttpServletRequest request = servletRequestAttributes.getRequest();
         return request.getHeader(name);
     }
-
 }

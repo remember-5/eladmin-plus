@@ -17,6 +17,9 @@ package com.remember5.security.config;
 
 import com.remember5.security.handler.JwtAccessDeniedHandler;
 import com.remember5.security.handler.JwtAuthenticationEntryPoint;
+import com.remember5.security.properties.JwtProperties;
+import com.remember5.security.utils.TokenProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
@@ -47,4 +50,12 @@ public class CustomSecurityAutoConfiguration {
     public JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint() {
         return new JwtAuthenticationEntryPoint();
     }
+
+
+    @Bean(name = "tokenProvider")
+    @ConditionalOnBean(JwtProperties.class)
+    public TokenProvider initTokenProvider(JwtProperties jwtProperties) {
+        return new TokenProvider(jwtProperties);
+    }
+
 }

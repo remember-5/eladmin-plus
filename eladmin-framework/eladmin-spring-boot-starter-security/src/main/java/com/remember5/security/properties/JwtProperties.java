@@ -1,4 +1,4 @@
-package com.remember5.redis.properties;
+package com.remember5.security.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

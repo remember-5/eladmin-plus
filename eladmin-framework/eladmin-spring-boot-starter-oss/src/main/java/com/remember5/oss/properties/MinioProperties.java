@@ -3,15 +3,17 @@ package com.remember5.oss.properties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.io.Serializable;
+
 
 /**
  * @author wangjiahao
  */
 @Data
-@ConfigurationProperties(prefix = "minio")
-public class MinioProperties implements Serializable {
-    private static final long serialVersionUID = 5512969315614829142L;
+@ConfigurationProperties(prefix = MinioProperties.PREFIX)
+public class MinioProperties {
+
+    public static final String PREFIX = "minio";
+
     private Boolean enabled;
     private String host;
     private String bucket;

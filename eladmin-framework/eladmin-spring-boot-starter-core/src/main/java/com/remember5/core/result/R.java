@@ -1,21 +1,19 @@
 package com.remember5.core.result;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * 统一返回
+ * 不提供自定义code的方法，规范使用enums
  *
  * @author wangjiahao
  * @date 2021/12/30
  */
-@Getter
-@Setter
+@Data
 public class R<T> implements Serializable {
 
-    private static final long serialVersionUID = 8733856341306276790L;
     /**
      * 状态码
      */
@@ -31,23 +29,6 @@ public class R<T> implements Serializable {
      */
     private String message;
 
-    public R(T data) {
-        this(REnum.A00000, data);
-    }
-
-    public R(REnum rEnum) {
-        this(rEnum.code, null, rEnum.message);
-    }
-
-    public R(REnum rEnum, T data) {
-        this(rEnum.code, data, rEnum.message);
-    }
-
-    public R(String code, T data, String message) {
-        this.code = code;
-        this.data = data;
-        this.message = message;
-    }
 
     public static <T> R<T> success() {
         return success(REnum.A00000, null);
@@ -62,18 +43,32 @@ public class R<T> implements Serializable {
     }
 
     public static <T> R<T> success(String code, T data, String message) {
-        return new R<>(code, data, message);
+        final R<T> r = new R<>();
+        r.code = code;
+        r.data = data;
+        r.message = message;
+        return r;
     }
+
+    public static <T> R<T> fail() {
+        return fail(REnum.A0001);
+    }
+
 
     public static <T> R<T> fail(REnum rEnum) {
         return fail(rEnum, null);
     }
 
-    public static <T> R<T> fail(REnum rEnum, T data) {
-        return fail(rEnum.code, data, rEnum.message);
+    public static <T> R<T> fail(T data) {
+        return fail(REnum.A0001, data);
     }
 
-    public static <T> R<T> fail(String code, T data, String message) {
-        return new R<>(code, data, message);
+    public static <T> R<T> fail(REnum rEnum, T data) {
+        R<T> r = new R<>();
+        r.code = rEnum.code;
+        r.data = data;
+        r.message = rEnum.message;
+        return r;
     }
+
 }

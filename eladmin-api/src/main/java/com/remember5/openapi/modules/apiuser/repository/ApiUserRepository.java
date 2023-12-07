@@ -21,6 +21,8 @@ public interface ApiUserRepository extends JpaRepository<ApiUser, Long>, JpaSpec
      */
     ApiUser findByPhone(String phone);
 
+    ApiUser findByUsername(String username);
+
     /**
      * 查看是否存在手机号
      *

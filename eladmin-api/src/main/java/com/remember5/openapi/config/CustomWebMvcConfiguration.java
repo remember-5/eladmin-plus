@@ -38,7 +38,10 @@ import java.util.List;
 /**
  * WebMvcConfigurationSupport 和 WebMvcConfigurer
  * <p>
- * `@EnableWebMvc` 表示完全自己控制mvc配置，也就是说所有配置自己重写，所有默认配置都没了！ 有时会导致很多请求进不来，或者参数转换出错之类的，因为spring mvc默认的转换器已经不生效了,包括全局配置的Jackson也会失效，所以在大多数情况下我们需要的是在其基础配置上添加自定义配置
+ * `@EnableWebMvc` 表示完全自己控制mvc配置，也就是说所有配置自己重写，所有默认配置都没了！
+ * 有时会导致很多请求进不来，或者参数转换出错之类的
+ * 因为spring mvc默认的转换器已经不生效了,包括全局配置的Jackson也会失效
+ * 所以在大多数情况下我们需要的是在其基础配置上添加自定义配置
  * </p>
  *
  * @author wangjiahao

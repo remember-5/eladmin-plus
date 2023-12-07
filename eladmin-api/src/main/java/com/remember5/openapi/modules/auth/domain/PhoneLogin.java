@@ -13,38 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.core.properties;
+package com.remember5.openapi.modules.auth.domain;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+
+import javax.validation.constraints.NotBlank;
 
 /**
- * uniapp的配置
+ * 手机验证码登录
  *
  * @author wangjiahao
- * @date 2023/1/6 15:21
+ * @date 2023/12/6 11:12
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = UniAppProperties.PREFIX)
-public class UniAppProperties {
+public class PhoneLogin {
 
-    public static final String PREFIX = "app";
+
 
     /**
-     * 是否开启热更
+     * 手机号
      */
-    private boolean enabledHotUpdate;
+    @NotBlank(message = "手机号不能为空")
+    private String phone;
 
     /**
-     * 拦截器拦截归档版本
+     * 短信验证码
      */
-    private boolean interceptArchived;
+    @NotBlank(message = "验证码不能为空")
+    private String smsCode;
 
-    /**
-     * 热更接口安全性的key
-     */
-    private String secretKey;
+
 
 }
