@@ -37,6 +37,32 @@ public class NettyServer {
     private EventLoopGroup bossGroup;
     private EventLoopGroup workGroup;
 
+    @PostConstruct()
+    public void init() {
+        //需要开启一个新的线程来执行netty server 服务器
+        new Thread(() -> {
+            try {
+                start();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+    }
+
+    /**
+     * 释放资源
+     */
+    @PreDestroy
+    public void destroy() throws InterruptedException {
+        if (bossGroup != null) {
+            bossGroup.shutdownGracefully().sync();
+        }
+        if (workGroup != null) {
+            workGroup.shutdownGracefully().sync();
+        }
+    }
+
     /**
      * 启动
      */
@@ -56,36 +82,8 @@ public class NettyServer {
         bootstrap.childHandler(channelInitializer);
         // 配置完成，开始绑定server，通过调用sync同步方法阻塞直到绑定成功
         ChannelFuture channelFuture = bootstrap.bind().sync();
-        log.info("Server started and listen on:{}", channelFuture.channel().localAddress());
+        log.info("Netty Server started and listen on: {}", channelFuture.channel().localAddress());
         // 对关闭通道进行监听
         channelFuture.channel().closeFuture().sync();
     }
-
-    /**
-     * 释放资源
-     */
-    @PreDestroy
-    public void destroy() throws InterruptedException {
-        if (bossGroup != null) {
-            bossGroup.shutdownGracefully().sync();
-        }
-        if (workGroup != null) {
-            workGroup.shutdownGracefully().sync();
-        }
-    }
-
-    @PostConstruct()
-    public void init() {
-        //需要开启一个新的线程来执行netty server 服务器
-        new Thread(() -> {
-            try {
-                start();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
-
-    }
-
-
 }
