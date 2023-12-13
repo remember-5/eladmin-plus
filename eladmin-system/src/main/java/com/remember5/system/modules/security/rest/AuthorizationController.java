@@ -18,8 +18,9 @@ package com.remember5.system.modules.security.rest;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.remember5.captcha.CaptchaTypeEnum;
-import com.remember5.captcha.CaptchaUtils;
+import com.remember5.captcha.constants.CaptchaTypeEnum;
+import com.remember5.captcha.core.CaptchaCodeProvider;
+import com.remember5.captcha.properties.CaptchaCodeProperties;
 import com.remember5.core.annotation.rest.AnonymousDeleteMapping;
 import com.remember5.core.annotation.rest.AnonymousGetMapping;
 import com.remember5.core.annotation.rest.AnonymousPostMapping;
@@ -75,7 +76,8 @@ public class AuthorizationController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final LoginProperties loginProperties;
-    private final CaptchaUtils captchaUtils;
+    private final CaptchaCodeProvider captchaCodeProvider;
+    private final CaptchaCodeProperties captchaCodeProperties;
 
 
     @Operation(summary = "登录授权")
@@ -125,7 +127,7 @@ public class AuthorizationController {
     @AnonymousGetMapping(value = "/code")
     public ResponseEntity<Object> getCode() {
         // 获取运算的结果
-        Captcha captcha = captchaUtils.getCaptcha();
+        Captcha captcha = captchaCodeProvider.getCaptcha();
         String uuid = jwtProperties.getCodeKey() + IdUtil.simpleUUID();
         //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
         String captchaValue = captcha.text();
@@ -133,7 +135,7 @@ public class AuthorizationController {
             captchaValue = captchaValue.split("\\.")[0];
         }
         // 保存
-        redisUtils.set(uuid, captchaValue, captchaUtils.getCaptchaCode().getExpiration(), TimeUnit.MINUTES);
+        redisUtils.set(uuid, captchaValue, captchaCodeProperties.getExpiration(), TimeUnit.MINUTES);
         // 验证码信息
         Map<String, Object> imgResult = new HashMap<String, Object>(2) {{
             put("img", captcha.toBase64());

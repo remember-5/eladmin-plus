@@ -13,29 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.sms.properties;
+package com.remember5.sms.config;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.remember5.sms.properties.DaHanProperties;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * @author wangjiahao
- * @date 2023/5/10 13:59
+ * @date 2023/12/13 15:14
  */
-@Data
-@ConfigurationProperties(prefix = DaHanProperties.PREFIX)
-public class DaHanProperties {
+@AutoConfiguration
+@EnableConfigurationProperties({DaHanProperties.class})
+public class SmsAutoConfiguration {
 
-    public static final String PREFIX = "dahan";
-
-    private String account;
-    /**
-     * 密码
-     */
-    private String password;
-    /**
-     * 短信签名,需要申请配置
-     */
-    private String sign;
 
 }

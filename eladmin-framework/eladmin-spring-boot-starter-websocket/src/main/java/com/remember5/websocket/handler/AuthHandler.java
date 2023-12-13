@@ -15,21 +15,30 @@
  */
 package com.remember5.websocket.handler;
 
-import com.remember5.websocket.constant.RedisKeyConstant;
-import com.remember5.websocket.properties.NettyProperties;
+import cn.hutool.core.text.CharSequenceUtil;
+import com.remember5.websocket.constant.NettyChannelManager;
+import com.remember5.websocket.constant.NettyRedisConstants;
+import com.remember5.websocket.properties.WebSocketProperties;
+import com.remember5.websocket.utils.WebSocketAuthUtils;
+import com.remember5.websocket.utils.WebSocketURIUtils;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 鉴权handler
@@ -38,15 +47,18 @@ import java.util.Map;
  * @date 2022/12/13 17:31
  */
 @Slf4j
+@Component
 @ChannelHandler.Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
 
     private static final String AUTHORIZATION = "Authorization";
 
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final WebSocketProperties webSocketProperties;
 
-    public AuthHandler(RedisTemplate<String, Object> redisTemplate) {
+    public AuthHandler(@Nullable @Lazy RedisTemplate<String, Object> redisTemplate, WebSocketProperties webSocketProperties) {
         this.redisTemplate = redisTemplate;
+        this.webSocketProperties = webSocketProperties;
     }
 
     /**
@@ -58,9 +70,7 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) {
         log.info("[handlerAdded] 逻辑处理器被添加：handlerAdded() {}", ctx.channel().id().asLongText());
-        // 添加到channelGroup 通道组
-        NettyProperties.getChannelGroup().add(ctx.channel());
-//        super.handlerAdded(ctx);
+        NettyChannelManager.getChannelGroup().add(ctx.channel());
     }
 
 
@@ -109,36 +119,37 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
         log.info("[channelRead] channel 有数据可读：channelRead()");
         if (msg instanceof FullHttpRequest) {
             FullHttpRequest httpRequest = (FullHttpRequest) msg;
+            // 根据请求头的 AUTHORIZATION 进行鉴权操作
             final String uri = httpRequest.uri();
-            final Map<String, String> params = getParams(uri);
+            final Map<String, String> params = WebSocketURIUtils.getParams(uri);
             final String token = params.get("token");
 
-            // todo 解析token
-
             //根据请求头header方式 AUTHORIZATION 进行鉴权操作 但是浏览器不支持header，看需求定义吧
-//            final String token = httpRequest.headers().get("userId");
-//            log.info("鉴权操作");
-//            if (null == token || "".equals(token)) {
-//                ctx.channel().writeAndFlush(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED));
-//                ctx.channel().close();
-//                return;
-//            }
+            if (CharSequenceUtil.isEmpty(token)) {
+                ctx.channel().writeAndFlush(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.UNAUTHORIZED));
+                ctx.channel().close();
+                return;
+            }
             // 判断是否包含参数，如果包含参数，需要重制uri
             if (uri.contains("?")) {
                 String newUri = uri.substring(0, uri.indexOf("?"));
                 httpRequest.setUri(newUri);
             }
 
-            //鉴权成功，添加channel用户组
-            NettyProperties.getChannelGroup().add(ctx.channel());
+            final String userId = WebSocketAuthUtils.getUserIdByToken(token);
+            log.info("解析token {} 获取 userId {}", token, userId);
 
             // 将用户ID作为自定义属性加入到channel中，方便随时channel中获取用户ID
-            AttributeKey<String> key = AttributeKey.valueOf("userId");
-            ctx.channel().attr(key).setIfAbsent(token);
-            NettyProperties.getUserChannelMap().put(token, ctx.channel());
+            ctx.channel().attr(AttributeKey.valueOf("userId")).setIfAbsent(userId);
 
-            // save redis
-            redisTemplate.opsForSet().add(RedisKeyConstant.REDIS_WEB_SOCKET_USER_SET, token);
+            //鉴权成功，添加channel用户组
+            NettyChannelManager.getChannelGroup().add(ctx.channel());
+            NettyChannelManager.getUserChannelMap().put(userId, ctx.channel());
+
+            // Save redis.
+            if (Boolean.TRUE.equals(webSocketProperties.getEnableCluster())) {
+                Objects.requireNonNull(redisTemplate).opsForSet().add(NettyRedisConstants.WS_CLIENT + NettyRedisConstants.ADDRESS_MD5, userId);
+            }
             // 鉴权完成删除这个header
             ctx.pipeline().remove(this);
             // 对事件进行传播，知道完成WebSocket连接。
@@ -168,7 +179,7 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception 异常
      */
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) {
         log.info("[channelInactive] channel 被关闭：channelInactive()");
         log.info("断开链接 {}", ctx.channel().localAddress().toString());
         removeRedisUserId(ctx);
@@ -181,7 +192,7 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception 异常
      */
     @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+    public void channelUnregistered(ChannelHandlerContext ctx) {
         log.info("[channelUnregistered] channel 取消线程(NioEventLoop) 的绑定: channelUnregistered()");
         removeRedisUserId(ctx);
     }
@@ -194,9 +205,8 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception /
      */
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         log.info("[exceptionCaught] 异常：{}", cause.getMessage());
-        cause.printStackTrace();
         removeRedisUserId(ctx);
     }
 
@@ -204,51 +214,9 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
     public void removeRedisUserId(ChannelHandlerContext ctx) {
         AttributeKey<String> key = AttributeKey.valueOf("userId");
         String userId = ctx.channel().attr(key).get();
-        redisTemplate.opsForSet().remove(RedisKeyConstant.REDIS_WEB_SOCKET_USER_SET, userId);
+        if (Boolean.TRUE.equals(webSocketProperties.getEnableCluster())) {
+            Objects.requireNonNull(redisTemplate).opsForSet().remove(NettyRedisConstants.WS_CLIENT + NettyRedisConstants.ADDRESS_MD5, userId);
+        }
         ctx.channel().close();
-    }
-
-    /**
-     * 获取uri中的参数
-     *
-     * @param uri uri
-     * @return 参数map
-     */
-    public static Map<String, String> getParams(String uri) {
-        // /ws?name=123  /?name=123
-        if (null == uri || uri.isEmpty()) {
-            return Collections.emptyMap();
-        }
-        if (uri.startsWith("/")) {
-            uri = uri.substring(1);
-        }
-        if (uri.contains("?")) {
-            uri = uri.substring(uri.indexOf("?"));
-        }
-
-        uri = uri.replace("/", "").replace("?", "");
-        HashMap<String, String> result = new HashMap<>();
-
-        if (uri.contains("&")) {
-            final String[] split = uri.split("&");
-            for (String s : split) {
-                result.put(s.split("=")[0], s.split("=")[1]);
-            }
-        } else if (uri.contains("=")) {
-            result.put(uri.split("=")[0], uri.split("=")[1]);
-        }
-
-        return result;
-
-    }
-
-
-    public static void main(String[] args) {
-        String params = "/ws?name=123";
-        String params1 = "/ws?userId=1234";
-        String params2 = "/?name=123&age=132";
-//        System.err.println(getParams(params));
-        System.err.println(getParams(params1));
-//        System.err.println(getParams(params2));
     }
 }

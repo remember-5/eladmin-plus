@@ -1,6 +1,7 @@
-package com.remember5.captcha;
+package com.remember5.captcha.core;
 
 
+import com.remember5.captcha.properties.CaptchaCodeProperties;
 import com.wf.captcha.*;
 import com.wf.captcha.base.Captcha;
 import com.wf.captcha.base.Randoms;
@@ -9,22 +10,14 @@ import lombok.RequiredArgsConstructor;
 import java.awt.*;
 
 /**
+ * 验证码工具类
  * @author wangjiahao
  * @date 2021/12/2
  */
 @RequiredArgsConstructor
-public class CaptchaUtils {
+public class CaptchaCodeProvider {
 
     private final CaptchaCodeProperties captchaCode;
-
-    /**
-     * 获取验证码生产类
-     *
-     * @return /
-     */
-    public CaptchaCodeProperties getCaptchaCode() {
-        return captchaCode;
-    }
 
     /**
      * 获取验证码生产类

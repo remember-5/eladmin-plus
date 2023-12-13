@@ -22,8 +22,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
-import com.remember5.captcha.CaptchaTypeEnum;
-import com.remember5.captcha.CaptchaUtils;
+import com.remember5.captcha.constants.CaptchaTypeEnum;
+import com.remember5.captcha.properties.CaptchaCodeProperties;
+import com.remember5.captcha.core.CaptchaCodeProvider;
 import com.remember5.core.exception.ServiceException;
 import com.remember5.core.properties.RsaProperties;
 import com.remember5.core.result.REnum;
@@ -61,7 +62,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtProperties jwtProperties;
     private final RedisUtils redisUtils;
     private final RsaProperties rsaProperties;
-    private final CaptchaUtils captchaUtils;
+    private final CaptchaCodeProvider captchaCodeProvider;
+    private final CaptchaCodeProperties captchaCodeProperties;
     private final WxMaService wxMaService;
 
     /**
@@ -108,14 +110,14 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public CaptchaDTO getCode() {
-        Captcha captcha = captchaUtils.getCaptcha();
+        Captcha captcha = captchaCodeProvider.getCaptcha();
         String uuid = jwtProperties.getCodeKey() + IdUtil.simpleUUID();
         //当验证码类型为 arithmetic时且长度 >= 2 时，captcha.text()的结果有几率为浮点型
         String captchaValue = captcha.text();
         if (captcha.getCharType() - 1 == CaptchaTypeEnum.ARITHMETIC.ordinal() && captchaValue.contains(".")) {
             captchaValue = captchaValue.split("\\.")[0];
         }
-        redisUtils.set(uuid, captchaValue, captchaUtils.getCaptchaCode().getExpiration(), TimeUnit.MINUTES);
+        redisUtils.set(uuid, captchaValue, captchaCodeProperties.getExpiration(), TimeUnit.MINUTES);
 
         final CaptchaDTO captchaDTO = new CaptchaDTO();
         captchaDTO.setImg(captcha.toBase64());

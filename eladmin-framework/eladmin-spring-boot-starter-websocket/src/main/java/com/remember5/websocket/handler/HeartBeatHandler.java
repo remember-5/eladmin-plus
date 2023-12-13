@@ -20,6 +20,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 /**
  * 心跳检测handler
@@ -27,8 +28,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author wangjiahao
  * @date 2022/12/13 17:27
  */
-
 @Slf4j
+@Component
 @ChannelHandler.Sharable
 public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
     private int lossConnectCount = 0;
@@ -39,8 +40,9 @@ public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
      * 若连续2次无读事件，则关闭这个客户端channel
      *
      * @author wangjiahao
-     * @date 2020-08-21-16:14
+     * @date 2023/12/13 14:34
      */
+
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof IdleStateEvent) {

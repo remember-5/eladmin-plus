@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.captcha;
+package com.remember5.captcha.properties;
 
+import com.remember5.captcha.constants.CaptchaTypeEnum;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * 登录验证码配置信息
@@ -27,9 +26,10 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/6/10 18:53
  */
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "captcha")
+@ConfigurationProperties(prefix = CaptchaCodeProperties.PREFIX)
 public class CaptchaCodeProperties {
+
+    public static final String PREFIX = "captcha";
 
     /**
      * 验证码类型配置

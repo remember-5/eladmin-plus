@@ -15,12 +15,25 @@
  */
 package com.remember5.websocket.constant;
 
+import cn.hutool.crypto.digest.DigestAlgorithm;
+import cn.hutool.crypto.digest.Digester;
+import cn.hutool.system.SystemUtil;
+
 /**
- * redis key
+ * netty redis 中需要用的key
+ *
  * @author wangjiahao
- * @date 2023/5/6 12:54
+ * @date 2023/12/12
  */
-public interface RedisKeyConstant {
+public interface NettyRedisConstants {
+    /**
+     * 本级address ip
+     */
+    String ADDRESS = SystemUtil.getHostInfo().getAddress();
+    /**
+     * 本级address ip md5
+     */
+    String ADDRESS_MD5 = new Digester(DigestAlgorithm.MD5).digestHex(ADDRESS);
     /**
      * redis发布订阅topic：发送给指定用户
      */
@@ -31,9 +44,10 @@ public interface RedisKeyConstant {
      */
     String PUSH_MESSAGE_TO_ALL = "PushMessageToAll";
 
+
     /**
-     * websocket 在线用户列表
+     * websocket 已登录的客户端(用户)
      */
-    String REDIS_WEB_SOCKET_USER_SET = "WEBSOCKET:USER";
+    String WS_CLIENT = "WS:CLIENT:";
 
 }

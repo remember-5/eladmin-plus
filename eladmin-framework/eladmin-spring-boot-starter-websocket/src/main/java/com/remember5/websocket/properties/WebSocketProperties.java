@@ -13,29 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.remember5.sms.properties;
+package com.remember5.websocket.properties;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
+ * websocket 配置
+ *
  * @author wangjiahao
- * @date 2023/5/10 13:59
+ * @date 2023/12/12 11:02
  */
 @Data
-@ConfigurationProperties(prefix = DaHanProperties.PREFIX)
-public class DaHanProperties {
+@ConfigurationProperties(prefix = WebSocketProperties.PREFIX)
+public class WebSocketProperties {
 
-    public static final String PREFIX = "dahan";
+    public static final String PREFIX = "web-socket";
 
-    private String account;
-    /**
-     * 密码
-     */
-    private String password;
-    /**
-     * 短信签名,需要申请配置
-     */
-    private String sign;
+    private Boolean enableCluster;
+
+    @NestedConfigurationProperty
+    private Netty netty;
+
+    @Getter
+    @Setter
+    public static class Netty {
+
+        private Integer port;
+
+        private String path;
+
+        private Integer backlog;
+
+    }
+
 
 }

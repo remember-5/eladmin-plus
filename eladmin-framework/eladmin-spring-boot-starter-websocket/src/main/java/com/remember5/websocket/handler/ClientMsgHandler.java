@@ -15,8 +15,9 @@
  */
 package com.remember5.websocket.handler;
 
-import com.remember5.websocket.constant.RedisKeyConstant;
-import com.remember5.websocket.properties.NettyProperties;
+import com.remember5.websocket.constant.NettyChannelManager;
+import com.remember5.websocket.constant.NettyRedisConstants;
+import com.remember5.websocket.properties.WebSocketProperties;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -24,6 +25,9 @@ import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
  * 接收客户端消息的handler
@@ -32,20 +36,21 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @date 2022/12/13 17:30
  */
 @Slf4j
+@Component
 @ChannelHandler.Sharable
 public class ClientMsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final WebSocketProperties webSocketProperties;
 
-    public ClientMsgHandler(RedisTemplate<String, Object> redisTemplate) {
+    public ClientMsgHandler(RedisTemplate<String, Object> redisTemplate, WebSocketProperties webSocketProperties) {
         this.redisTemplate = redisTemplate;
+        this.webSocketProperties = webSocketProperties;
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
         log.info("服务器收到消息：{}", msg.text());
-        // todo something about
-        // 回复消息
         ctx.channel().writeAndFlush(new TextWebSocketFrame("服务器连接成功！"));
     }
 
@@ -53,7 +58,6 @@ public class ClientMsgHandler extends SimpleChannelInboundHandler<TextWebSocketF
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         log.info("handlerRemoved 被调用" + ctx.channel().id().asLongText());
-        // 删除通道
         removeUserId(ctx);
     }
 
@@ -63,18 +67,18 @@ public class ClientMsgHandler extends SimpleChannelInboundHandler<TextWebSocketF
         log.info("异常：{}", cause.getMessage());
         removeUserId(ctx);
         ctx.close();
-//        cause.printStackTrace();
-//        ctx.channel().close();
     }
 
 
     private void removeUserId(ChannelHandlerContext ctx) {
-        NettyProperties.getChannelGroup().remove(ctx.channel());
+        NettyChannelManager.getChannelGroup().remove(ctx.channel());
 
         AttributeKey<String> key = AttributeKey.valueOf("userId");
         String userId = ctx.channel().attr(key).get();
-        NettyProperties.getUserChannelMap().remove(userId);
-        redisTemplate.opsForSet().remove(RedisKeyConstant.REDIS_WEB_SOCKET_USER_SET, userId);
+        NettyChannelManager.getUserChannelMap().remove(userId);
+        if (Boolean.TRUE.equals(webSocketProperties.getEnableCluster())) {
+            Objects.requireNonNull(redisTemplate).opsForSet().remove(NettyRedisConstants.WS_CLIENT + NettyRedisConstants.ADDRESS_MD5, userId);
+        }
 
         ctx.channel().close();
     }

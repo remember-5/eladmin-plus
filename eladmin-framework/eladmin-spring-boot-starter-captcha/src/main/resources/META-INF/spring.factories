@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.remember5.captcha.CaptchaUtils
-
-
