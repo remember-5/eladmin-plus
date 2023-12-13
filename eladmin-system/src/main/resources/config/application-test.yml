@@ -173,9 +173,11 @@ code:
   expiration: 300
 
 web-socket:
+  enable-cluster: true
   netty:
     port: 58080
     path: /ws
+    backlog: 1024
 
 #是否允许生成代码，生产环境设置为false
 generator:

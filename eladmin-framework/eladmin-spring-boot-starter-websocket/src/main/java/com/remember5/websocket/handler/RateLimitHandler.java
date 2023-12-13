@@ -18,7 +18,6 @@ package com.remember5.websocket.handler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * 限流handler 待实现
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Component;
  * @date 2022/12/13 17:29
  */
 @Slf4j
-@Component
 @ChannelHandler.Sharable
 public class RateLimitHandler extends ChannelInboundHandlerAdapter {
 }

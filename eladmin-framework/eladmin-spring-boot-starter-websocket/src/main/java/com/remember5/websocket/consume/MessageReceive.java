@@ -21,7 +21,6 @@ import com.remember5.websocket.entity.NettyPushMessageBody;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +32,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2023/12/13 13:55
  */
 @Slf4j
-@Component
 public class MessageReceive {
 
     /**

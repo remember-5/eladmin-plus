@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component;
  * @date 2022/12/13 17:27
  */
 @Slf4j
-@Component
 @ChannelHandler.Sharable
 public class HeartBeatHandler extends ChannelInboundHandlerAdapter {
     private int lossConnectCount = 0;

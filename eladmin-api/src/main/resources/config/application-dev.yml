@@ -157,6 +157,12 @@ jwt:
     - /auth/*
     - /api/**/open/**
 
+web-socket:
+  enable-cluster: true
+  netty:
+    port: 58080
+    path: /ws
+    backlog: 1024
 
 # IP 本地解析
 ip:

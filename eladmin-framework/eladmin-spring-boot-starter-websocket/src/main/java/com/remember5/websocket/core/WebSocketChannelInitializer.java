@@ -14,13 +14,11 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 /**
  * @author wangjiahao
  * @date 2022/6/27 17:01
  */
-@Component
 @RequiredArgsConstructor
 public class WebSocketChannelInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -33,6 +31,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
      * webSocket协议名
      */
     private static final String WEBSOCKET_PROTOCOL = "WebSocket";
+
 
     @Override
     protected void initChannel(SocketChannel ch) {

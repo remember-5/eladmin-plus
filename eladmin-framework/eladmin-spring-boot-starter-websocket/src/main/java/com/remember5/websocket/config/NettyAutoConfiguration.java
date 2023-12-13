@@ -17,6 +17,8 @@ package com.remember5.websocket.config;
 
 import com.remember5.websocket.constant.NettyRedisConstants;
 import com.remember5.websocket.consume.MessageReceive;
+import com.remember5.websocket.core.NettyServer;
+import com.remember5.websocket.core.WebSocketChannelInitializer;
 import com.remember5.websocket.handler.AuthHandler;
 import com.remember5.websocket.handler.ClientMsgHandler;
 import com.remember5.websocket.handler.HeartBeatHandler;
@@ -66,6 +68,23 @@ public class NettyAutoConfiguration {
         @Bean
         public RateLimitHandler rateLimitHandler() {
             return new RateLimitHandler();
+        }
+
+
+        @Bean
+        public WebSocketChannelInitializer webSocketChannelInitializer(
+                AuthHandler authHandler,
+                ClientMsgHandler clientMsgHandler,
+                HeartBeatHandler heartBeatHandler,
+                RateLimitHandler rateLimitHandler,
+                WebSocketProperties webSocketProperties) {
+            return new WebSocketChannelInitializer(authHandler, clientMsgHandler, heartBeatHandler, rateLimitHandler, webSocketProperties);
+        }
+
+
+        @Bean
+        public NettyServer nettyServer(WebSocketChannelInitializer channelInitializer, WebSocketProperties webSocketProperties) {
+            return new NettyServer(channelInitializer, webSocketProperties);
         }
 
     }

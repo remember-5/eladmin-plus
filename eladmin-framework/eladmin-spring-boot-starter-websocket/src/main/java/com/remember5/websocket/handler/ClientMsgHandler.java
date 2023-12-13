@@ -36,7 +36,6 @@ import java.util.Objects;
  * @date 2022/12/13 17:30
  */
 @Slf4j
-@Component
 @ChannelHandler.Sharable
 public class ClientMsgHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
