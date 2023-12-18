@@ -29,14 +29,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 
 
 /**
@@ -208,7 +205,7 @@ public class TokenProvider implements InitializingBean {
 
 
     public String getTokenByRequest() {
-        final HttpServletRequest request = getHttpServletRequest();
+        final HttpServletRequest request = RequestHolder.getHttpServletRequest();
         final String requestHeader = request.getHeader(jwtProperties.getHeader());
         if (requestHeader != null && requestHeader.startsWith(jwtProperties.getTokenStartWith())) {
             return requestHeader.substring(7);
@@ -216,13 +213,4 @@ public class TokenProvider implements InitializingBean {
         return null;
     }
 
-    public static HttpServletRequest getHttpServletRequest() {
-        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-    }
-
-    public static String getHeader(String name) {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) getHttpServletRequest();
-        HttpServletRequest request = servletRequestAttributes.getRequest();
-        return request.getHeader(name);
-    }
 }
