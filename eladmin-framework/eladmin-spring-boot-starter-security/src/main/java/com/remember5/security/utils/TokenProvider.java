@@ -180,7 +180,7 @@ public class TokenProvider implements InitializingBean {
      */
     public Authentication getAuthentication(String token) {
         JWTPayload claims = getClaims(token);
-        User principal = new User(claims.getClaim("sub").toString(), "******", new ArrayList<>());
+        User principal = new User(claims.getClaim(AUTHORITIES_KEY).toString(), "******", new ArrayList<>());
         return new UsernamePasswordAuthenticationToken(principal, token, new ArrayList<>());
     }
 
