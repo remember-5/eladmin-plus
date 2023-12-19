@@ -129,7 +129,7 @@ public class GlobalExceptionHandler {
             // 拼接内容到其中
             detailMessage.append(objectError.getDefaultMessage());
         }
-        return R.fail(REnum.A0400, detailMessage.toString());
+        return R.fail(REnum.A0400.code, null, detailMessage.toString());
     }
 
     /**
@@ -161,7 +161,7 @@ public class GlobalExceptionHandler {
             detailMessage.append(":");
             detailMessage.append(constraintViolation.getMessage());
         }
-        return R.fail(REnum.A0400);
+        return R.fail(REnum.A0400.code, null, detailMessage.toString());
     }
 
     /**
@@ -185,7 +185,7 @@ public class GlobalExceptionHandler {
             detailMessage.append(objectError.getDefaultMessage());
         }
         // 包装 CommonResult 结果
-        return R.fail(REnum.A0400, detailMessage.toString());
+        return R.fail(REnum.A0400.code, null, detailMessage.toString());
     }
 
     /**
