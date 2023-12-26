@@ -17,6 +17,8 @@ public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 添加自定义拦截器
+//        interceptor.addInnerInterceptor(new EncryptCustomInterceptor());
         interceptor.addInnerInterceptor(new PaginationInnerInterceptor());
         return interceptor;
     }
