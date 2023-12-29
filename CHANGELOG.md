@@ -1,8 +1,14 @@
 # 更新日志
 ## 2.3.2
-- springboot 2.6.x 和 Swagger2.x 版本不兼容
-- 生成模版中导入的包已更换(待测 entity/controller)
-- swagger 文档访问异常
+- Added: 增加依赖分离打包
+- Added: 增加MybatisPlus自定义Handler,可对部分数据库字段加密
+- Fixed: 修复springboot 2.7.x 和 Swagger2.x 版本不兼容
+- Fixed: 修复swagger 文档访问异常
+- Changed: 优化生成模版代码
+- Changed: 优化websocket认证
+- Changed: 优化MybatisPlus分页拦截器不再传入数据库类型
+- Changed: 优化适配SpringBoot2.7新版自动装配文件
+- Removed: 删除多余的p6spy
 
 ## 2.3.1
 2023/09/21
