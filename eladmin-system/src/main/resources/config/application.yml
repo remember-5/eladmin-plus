@@ -25,6 +25,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL10Dialect
         #mysql依赖
         #dialect: org.hibernate.dialect.MySQL8Dialect
+        session_factory:
+          statement_inspector: com.remember5.system.intercepter.MyIntercepter
+
     open-in-view: true
 
 # 内存用户缓存配置
@@ -55,6 +58,3 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: true
-
-#  pid:
-#    file: /自行指定位置/eladmin.pid

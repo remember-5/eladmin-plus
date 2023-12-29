@@ -257,20 +257,6 @@ logging:
   level:
     root: INFO
 
-# p6spy
-decorator:
-  datasource:
-    p6spy:
-      # Register P6LogFactory to log JDBC events
-      enable-logging: false
-      # Use logging for default listeners [slf4j, sysout, file, custom]
-      logging: slf4j
-      # Log file to use (only with logging=file)
-      log-file: api-log/api-spy.log
-      # Custom log format, if specified com.p6spy.engine.spy.appender.CustomLineFormat will be used with this log format
-      log-format: executionTime:%(executionTime) | sql:%(sqlSingleLine)
-      custom-appender-class:
-
 minio:
   enabled: true
   host: ${MINIO_HOST}

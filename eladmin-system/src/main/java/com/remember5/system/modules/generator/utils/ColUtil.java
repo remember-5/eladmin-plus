@@ -40,7 +40,7 @@ public class ColUtil {
     static String cloToJava(String type) {
         Configuration config = getConfig();
         assert config != null;
-        return config.getString(type, "unknowType");
+        return config.getString(type, "unknownType");
     }
 
     /**

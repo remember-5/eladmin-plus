@@ -6,12 +6,12 @@
 
     <groupId>com.remember5</groupId>
     <artifactId>eladmin-spring-boot-starter-dependencies</artifactId>
-    <version>2.3.2</version>
+    <version>2.3.3</version>
     <packaging>pom</packaging>
 
     <properties>
         <lombok.version>1.18.30</lombok.version>
-        <druid.version>1.2.13</druid.version>
+        <druid.version>1.2.20</druid.version>
         <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
 
         <hutool.version>5.8.22</hutool.version>

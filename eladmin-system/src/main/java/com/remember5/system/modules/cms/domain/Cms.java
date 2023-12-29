@@ -20,6 +20,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.remember5.system.modules.column.domain.CmsColumn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -35,6 +36,7 @@ import java.sql.Timestamp;
  **/
 @Entity
 @Data
+@Accessors(chain = true)
 @Table(name = "t_cms")
 public class Cms implements Serializable {
 

@@ -57,15 +57,6 @@ public class AppVersionController {
     private final MinioService minioService;
 
 
-//    @GetMapping("/update")
-//    @Log("更新app")
-//    @Operation(summary = "更新app")
-//    public R<AppVersion> update() {
-//        return appVersionService.update();
-//        return null;
-//    }
-
-
     @GetMapping
     @Log("查询app版本")
     @Operation(summary = "查询app版本")

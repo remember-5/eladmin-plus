@@ -1,4 +1,10 @@
 # 更新日志
+## 2.3.3
+- Added: dockerfile适配openjdk17
+- Added: 新增jpa字段租户
+- Added: 优化代码和配置
+
+
 ## 2.3.2
 - Added: 增加依赖分离打包
 - Added: 增加MybatisPlus自定义Handler,可对部分数据库字段加密

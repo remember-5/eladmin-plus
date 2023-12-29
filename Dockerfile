@@ -1,5 +1,5 @@
 # ---- Base Node ----
-FROM maven:3.8-openjdk-11 AS base
+FROM maven:3.8.5-openjdk-17 AS base
 RUN mkdir -p /root/.m2
 COPY settings.xml /root/.m2/
 
@@ -10,7 +10,7 @@ COPY . .
 RUN mvn install -T 4
 
 # ---- Run ----
-FROM openjdk:11-jre-slim AS run
+FROM openjdk:17-alpine3.14 AS run
 WORKDIR /java
 COPY --from=build /app/eladmin-system/target/eladmin-template.jar ./app.jar
 

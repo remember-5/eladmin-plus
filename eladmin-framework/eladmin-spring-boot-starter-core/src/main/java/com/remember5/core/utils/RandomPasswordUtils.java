@@ -31,11 +31,8 @@ import java.util.List;
  */
 public class RandomPasswordUtils {
 
-    public RandomPasswordUtils() {
-    }
-
     public static final String LOW_STR = "abcdefghijklmnopqrstuvwxyz";
-    public static final String ALL_STR = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String ALL_STR = LOW_STR + LOW_STR.toUpperCase();
     public static final String SPECIAL_STR = "~!@#$%^&*()_+/-=[]{};:'<>?.";
     public static final String NUM_STR = "0123456789";
 

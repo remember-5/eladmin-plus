@@ -1,6 +1,5 @@
 package com.remember5.core.utils;
 
-import com.remember5.core.utils.StringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -8,9 +7,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static com.remember5.core.utils.StringUtils.getIp;
-import static com.remember5.core.utils.StringUtils.getWeekDay;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringUtilsTest {
 
