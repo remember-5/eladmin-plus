@@ -155,8 +155,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.gavlyukovskiy</groupId>
-            <artifactId>p6spy-spring-boot-starter</artifactId>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
         </dependency>
 
         <!--   ip定位     -->
@@ -179,6 +179,9 @@
         <profile>
             <!-- 正常打包: jar和依赖合并打包 -->
             <id>singleton</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <finalName>eladmin-template</finalName>
                 <plugins>

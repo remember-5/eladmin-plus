@@ -27,7 +27,7 @@
         <redisson.version>3.18.0</redisson.version>
         <!--主要是解决minio的依赖问题-->
         <okhttp3.version>4.11.0</okhttp3.version>
-        <p6spy-starter.version>1.8.1</p6spy-starter.version>
+        <p6spy.version>3.9.1</p6spy.version>
         <log4j2.version>2.20.0</log4j2.version>
         <yauaa.version>6.12</yauaa.version>
         <easyexcel.version>3.3.2</easyexcel.version>
@@ -251,11 +251,10 @@
                 <version>${druid.version}</version>
             </dependency>
 
-            <!--监控sql日志 https://github.com/gavlyukovskiy/spring-boot-data-source-decorator-->
             <dependency>
-                <groupId>com.github.gavlyukovskiy</groupId>
-                <artifactId>p6spy-spring-boot-starter</artifactId>
-                <version>${p6spy-starter.version}</version>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
             </dependency>
 
             <!--   ip定位     -->
