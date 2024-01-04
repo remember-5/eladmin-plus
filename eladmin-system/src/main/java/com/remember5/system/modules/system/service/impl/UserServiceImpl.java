@@ -15,38 +15,38 @@
  */
 package com.remember5.system.modules.system.service.impl;
 
-import com.google.common.collect.ImmutableMap;
-import com.remember5.system.constants.CacheKeyConstant;
-import com.remember5.security.utils.QueryHelp;
-import com.remember5.security.utils.SecurityUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.exception.EntityExistException;
 import com.remember5.core.exception.EntityNotFoundException;
 import com.remember5.core.properties.FileProperties;
-import com.remember5.core.result.R;
-import com.remember5.core.utils.*;
+import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageResult;
+import com.remember5.core.utils.PageUtil;
+import com.remember5.core.utils.StringUtils;
 import com.remember5.redis.utils.RedisUtils;
-import com.remember5.system.modules.minio.service.MinioService;
+import com.remember5.security.utils.SecurityUtils;
+import com.remember5.system.constants.CacheKeyConstant;
 import com.remember5.system.modules.security.service.OnlineUserService;
-import com.remember5.system.modules.security.service.UserCacheClean;
+import com.remember5.system.modules.system.domain.Job;
+import com.remember5.system.modules.system.domain.Role;
 import com.remember5.system.modules.system.domain.User;
-import com.remember5.system.modules.system.repository.UserRepository;
+import com.remember5.system.modules.system.domain.vo.UserQueryCriteria;
+import com.remember5.system.modules.system.mapper.UserJobMapper;
+import com.remember5.system.modules.system.mapper.UserMapper;
+import com.remember5.system.modules.system.mapper.UserRoleMapper;
 import com.remember5.system.modules.system.service.UserService;
-import com.remember5.system.modules.system.service.dto.JobSmallDto;
-import com.remember5.system.modules.system.service.dto.RoleSmallDto;
-import com.remember5.system.modules.system.service.dto.UserDto;
-import com.remember5.system.modules.system.service.dto.UserQueryCriteria;
-import com.remember5.system.modules.system.service.mapstruct.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotBlank;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -58,60 +58,62 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "user")
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    public static final String PHONE = "phone";
-    private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserJobMapper userJobMapper;
+    private final UserRoleMapper userRoleMapper;
     private final FileProperties properties;
     private final RedisUtils redisUtils;
-    private final UserCacheClean userCacheClean;
     private final OnlineUserService onlineUserService;
-    private final MinioService minIOService;
 
     @Override
-    public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
-        Page<User> page = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(userMapper::toDto));
+    public PageResult<User> queryAll(UserQueryCriteria criteria, Page<Object> page) {
+        criteria.setOffset(page.offset());
+        List<User> users = userMapper.findAll(criteria);
+        Long total = userMapper.countAll(criteria);
+        return PageUtil.toPage(users, total);
     }
 
     @Override
-    public List<UserDto> queryAll(UserQueryCriteria criteria) {
-        List<User> users = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
-        return userMapper.toDto(users);
+    public List<User> queryAll(UserQueryCriteria criteria) {
+        return userMapper.findAll(criteria);
     }
 
     @Override
+    @Cacheable(key = "'id:' + #p0")
     @Transactional(rollbackFor = Exception.class)
-    public UserDto findById(long id) {
-        User user = userRepository.findById(id).orElseGet(User::new);
-        ValidationUtil.isNull(user.getId(), "User", "id", id);
-        return userMapper.toDto(user);
+    public User findById(long id) {
+        return getById(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(User resources) {
-        if (userRepository.findByUsername(resources.getUsername()) != null) {
+        resources.setDeptId(resources.getDept().getId());
+        if (userMapper.findByUsername(resources.getUsername()) != null) {
             throw new EntityExistException(User.class, "username", resources.getUsername());
         }
-        if (userRepository.findByEmail(resources.getEmail()) != null) {
+        if (userMapper.findByEmail(resources.getEmail()) != null) {
             throw new EntityExistException(User.class, "email", resources.getEmail());
         }
-        if (userRepository.findByPhone(resources.getPhone()) != null) {
-            throw new EntityExistException(User.class, PHONE, resources.getPhone());
+        if (userMapper.findByPhone(resources.getPhone()) != null) {
+            throw new EntityExistException(User.class, "phone", resources.getPhone());
         }
-        userRepository.save(resources);
+        save(resources);
+        // 保存用户岗位
+        userJobMapper.insertData(resources.getId(), resources.getJobs());
+        // 保存用户角色
+        userRoleMapper.insertData(resources.getId(), resources.getRoles());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(User resources) throws Exception {
-        User user = userRepository.findById(resources.getId()).orElseGet(User::new);
-        ValidationUtil.isNull(user.getId(), "User", "id", resources.getId());
-        User user1 = userRepository.findByUsername(resources.getUsername());
-        User user2 = userRepository.findByEmail(resources.getEmail());
-        User user3 = userRepository.findByPhone(resources.getPhone());
+        User user = getById(resources.getId());
+        User user1 = userMapper.findByUsername(resources.getUsername());
+        User user2 = userMapper.findByEmail(resources.getEmail());
+        User user3 = userMapper.findByPhone(resources.getPhone());
         if (user1 != null && !user.getId().equals(user1.getId())) {
             throw new EntityExistException(User.class, "username", resources.getUsername());
         }
@@ -119,7 +121,7 @@ public class UserServiceImpl implements UserService {
             throw new EntityExistException(User.class, "email", resources.getEmail());
         }
         if (user3 != null && !user.getId().equals(user3.getId())) {
-            throw new EntityExistException(User.class, PHONE, resources.getPhone());
+            throw new EntityExistException(User.class, "phone", resources.getPhone());
         }
         // 如果用户的角色改变
         if (!resources.getRoles().equals(user.getRoles())) {
@@ -127,10 +129,15 @@ public class UserServiceImpl implements UserService {
             redisUtils.del(CacheKeyConstant.MENU_USER + resources.getId());
             redisUtils.del(CacheKeyConstant.ROLE_AUTH + resources.getId());
         }
+        // 修改部门会影响 数据权限
+        if (!Objects.equals(resources.getDept(),user.getDept())) {
+            redisUtils.del(CacheKeyConstant.DATA_USER + resources.getId());
+        }
         // 如果用户被禁用，则清除用户登录信息
-        if (!resources.getEnabled()) {
+        if(!resources.getEnabled()){
             onlineUserService.kickOutForUsername(resources.getUsername());
         }
+        user.setDeptId(resources.getDept().getId());
         user.setUsername(resources.getUsername());
         user.setEmail(resources.getEmail());
         user.setEnabled(resources.getEnabled());
@@ -140,23 +147,29 @@ public class UserServiceImpl implements UserService {
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
         user.setGender(resources.getGender());
-        userRepository.save(user);
+        saveOrUpdate(user);
         // 清除缓存
         delCaches(user.getId(), user.getUsername());
+        // 更新用户岗位
+        userJobMapper.deleteByUserId(resources.getId());
+        userJobMapper.insertData(resources.getId(), resources.getJobs());
+        // 更新用户角色
+        userRoleMapper.deleteByUserId(resources.getId());
+        userRoleMapper.insertData(resources.getId(), resources.getRoles());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateCenter(User resources) {
-        User user = userRepository.findById(resources.getId()).orElseGet(User::new);
-        User user1 = userRepository.findByPhone(resources.getPhone());
+        User user = getById(resources.getId());
+        User user1 = userMapper.findByPhone(resources.getPhone());
         if (user1 != null && !user.getId().equals(user1.getId())) {
-            throw new EntityExistException(User.class, PHONE, resources.getPhone());
+            throw new EntityExistException(User.class, "phone", resources.getPhone());
         }
         user.setNickName(resources.getNickName());
         user.setPhone(resources.getPhone());
         user.setGender(resources.getGender());
-        userRepository.save(user);
+        saveOrUpdate(user);
         // 清理缓存
         delCaches(user.getId(), user.getUsername());
     }
@@ -166,27 +179,42 @@ public class UserServiceImpl implements UserService {
     public void delete(Set<Long> ids) {
         for (Long id : ids) {
             // 清理缓存
-            UserDto user = findById(id);
+            User user = getById(id);
             delCaches(user.getId(), user.getUsername());
         }
-        userRepository.deleteAllByIdIn(ids);
+        userMapper.deleteBatchIds(ids);
+        // 删除用户岗位
+        userJobMapper.deleteByUserIds(ids);
+        // 删除用户角色
+        userRoleMapper.deleteByUserIds(ids);
     }
 
     @Override
-    public UserDto findByName(String userName) {
-        User user = userRepository.findByUsername(userName);
+    public User findByName(String userName) {
+        return userMapper.findByUsername(userName);
+    }
+
+    @Override
+    public User getLoginData(String userName) {
+        User user = userMapper.findByUsername(userName);
         if (user == null) {
             throw new EntityNotFoundException(User.class, "name", userName);
         } else {
-            return userMapper.toDto(user);
+            return user;
         }
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updatePass(String username, String pass) {
-        userRepository.updatePass(username, pass, new Date());
+        userMapper.updatePass(username, pass, new Date());
         flushCache(username);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void resetPwd(Set<Long> ids, String pwd) {
+        userMapper.resetPwd(ids, pwd);
     }
 
     @Override
@@ -197,48 +225,47 @@ public class UserServiceImpl implements UserService {
         // 验证文件上传的格式
         String image = "gif jpg png jpeg";
         String fileType = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
-        if (fileType != null && !image.contains(fileType)) {
-            throw new BadRequestException("文件格式错误！, 仅支持 " + image + " 格式");
+        if(fileType != null && !image.contains(fileType)){
+            throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
         }
-        User user = userRepository.findByUsername(SecurityUtils.getCurrentUsername());
+        User user = userMapper.findByUsername(SecurityUtils.getCurrentUsername());
         String oldPath = user.getAvatarPath();
-        R restResult = minIOService.uploadFile(multipartFile);
-        String data = String.valueOf(restResult.getData());
-        if (data != null) {
-            user.setAvatarPath(data);
-        }
-        user.setAvatarName(multipartFile.getOriginalFilename());
-        userRepository.save(user);
+        File file = FileUtil.upload(multipartFile, properties.getPath().getAvatar());
+        user.setAvatarPath(Objects.requireNonNull(file).getPath());
+        user.setAvatarName(file.getName());
+        saveOrUpdate(user);
         if (StringUtils.isNotBlank(oldPath)) {
             FileUtil.del(oldPath);
         }
         @NotBlank String username = user.getUsername();
         flushCache(username);
-        return ImmutableMap.of("avatar", multipartFile.getOriginalFilename());
+        return new HashMap<String, String>(1) {{
+            put("avatar", file.getName());
+        }};
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateEmail(String username, String email) {
-        userRepository.updateEmail(username, email);
+        userMapper.updateEmail(username, email);
         flushCache(username);
     }
 
     @Override
-    public void download(List<UserDto> queryAll, HttpServletResponse response) throws IOException {
+    public void download(List<User> users, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (UserDto userDTO : queryAll) {
-            List<String> roles = userDTO.getRoles().stream().map(RoleSmallDto::getName).collect(Collectors.toList());
+        for (User user : users) {
+            List<String> roles = user.getRoles().stream().map(Role::getName).collect(Collectors.toList());
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("用户名", userDTO.getUsername());
+            map.put("用户名", user.getUsername());
             map.put("角色", roles);
-            map.put("部门", userDTO.getDept().getName());
-            map.put("岗位", userDTO.getJobs().stream().map(JobSmallDto::getName).collect(Collectors.toList()));
-            map.put("邮箱", userDTO.getEmail());
-            map.put("状态", userDTO.getEnabled() ? "启用" : "禁用");
-            map.put("手机号码", userDTO.getPhone());
-            map.put("修改密码的时间", userDTO.getPwdResetTime());
-            map.put("创建日期", userDTO.getCreateTime());
+            map.put("部门", user.getDept().getName());
+            map.put("岗位", user.getJobs().stream().map(Job::getName).collect(Collectors.toList()));
+            map.put("邮箱", user.getEmail());
+            map.put("状态", user.getEnabled() ? "启用" : "禁用");
+            map.put("手机号码", user.getPhone());
+            map.put("修改密码的时间", user.getPwdResetTime());
+            map.put("创建日期", user.getCreateTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);
@@ -260,6 +287,5 @@ public class UserServiceImpl implements UserService {
      * @param username /
      */
     private void flushCache(String username) {
-        userCacheClean.cleanUserCache(username);
     }
 }

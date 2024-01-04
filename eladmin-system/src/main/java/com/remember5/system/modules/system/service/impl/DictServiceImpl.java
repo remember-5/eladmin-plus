@@ -16,23 +16,21 @@
 package com.remember5.system.modules.system.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.remember5.system.constants.CacheKeyConstant;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageResult;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.security.utils.QueryHelp;
-import com.remember5.core.utils.ValidationUtil;
 import com.remember5.redis.utils.RedisUtils;
+import com.remember5.system.constants.CacheKeyConstant;
 import com.remember5.system.modules.system.domain.Dict;
-import com.remember5.system.modules.system.repository.DictRepository;
+import com.remember5.system.modules.system.domain.DictDetail;
+import com.remember5.system.modules.system.domain.vo.DictQueryCriteria;
+import com.remember5.system.modules.system.mapper.DictDetailMapper;
+import com.remember5.system.modules.system.mapper.DictMapper;
 import com.remember5.system.modules.system.service.DictService;
-import com.remember5.system.modules.system.service.dto.DictDetailDto;
-import com.remember5.system.modules.system.service.dto.DictDto;
-import com.remember5.system.modules.system.service.dto.DictQueryCriteria;
-import com.remember5.system.modules.system.service.mapstruct.DictMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,28 +45,29 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "dict")
-public class DictServiceImpl implements DictService {
+public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
-    private final DictRepository dictRepository;
     private final DictMapper dictMapper;
     private final RedisUtils redisUtils;
+    private final DictDetailMapper deleteDetail;
 
     @Override
-    public Map<String, Object> queryAll(DictQueryCriteria dict, Pageable pageable) {
-        Page<Dict> page = dictRepository.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb), pageable);
-        return PageUtil.toPage(page.map(dictMapper::toDto));
+    public PageResult<Dict> queryAll(DictQueryCriteria criteria, Page<Object> page) {
+        criteria.setOffset(page.offset());
+        List<Dict> dicts = dictMapper.findAll(criteria);
+        Long total = dictMapper.countAll(criteria);
+        return PageUtil.toPage(dicts, total);
     }
 
     @Override
-    public List<DictDto> queryAll(DictQueryCriteria dict) {
-        List<Dict> list = dictRepository.findAll((root, query, cb) -> QueryHelp.getPredicate(root, dict, cb));
-        return dictMapper.toDto(list);
+    public List<Dict> queryAll(DictQueryCriteria criteria) {
+        return dictMapper.findAll(criteria);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Dict resources) {
-        dictRepository.save(resources);
+        save(resources);
     }
 
     @Override
@@ -76,33 +75,35 @@ public class DictServiceImpl implements DictService {
     public void update(Dict resources) {
         // 清理缓存
         delCaches(resources);
-        Dict dict = dictRepository.findById(resources.getId()).orElseGet(Dict::new);
-        ValidationUtil.isNull(dict.getId(), "Dict", "id", resources.getId());
+        Dict dict = getById(resources.getId());
         dict.setName(resources.getName());
         dict.setDescription(resources.getDescription());
-        dictRepository.save(dict);
+        saveOrUpdate(dict);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Long> ids) {
         // 清理缓存
-        List<Dict> dicts = dictRepository.findByIdIn(ids);
+        List<Dict> dicts = dictMapper.selectBatchIds(ids);
         for (Dict dict : dicts) {
             delCaches(dict);
         }
-        dictRepository.deleteByIdIn(ids);
+        // 删除字典
+        dictMapper.deleteBatchIds(ids);
+        // 删除字典详情
+        deleteDetail.deleteByDictBatchIds(ids);
     }
 
     @Override
-    public void download(List<DictDto> dictDtos, HttpServletResponse response) throws IOException {
+    public void download(List<Dict> dicts, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (DictDto dictDTO : dictDtos) {
-            if (CollectionUtil.isNotEmpty(dictDTO.getDictDetails())) {
-                for (DictDetailDto dictDetail : dictDTO.getDictDetails()) {
+        for (Dict dict : dicts) {
+            if (CollectionUtil.isNotEmpty(dict.getDictDetails())) {
+                for (DictDetail dictDetail : dict.getDictDetails()) {
                     Map<String, Object> map = new LinkedHashMap<>();
-                    map.put("字典名称", dictDTO.getName());
-                    map.put("字典描述", dictDTO.getDescription());
+                    map.put("字典名称", dict.getName());
+                    map.put("字典描述", dict.getDescription());
                     map.put("字典标签", dictDetail.getLabel());
                     map.put("字典值", dictDetail.getValue());
                     map.put("创建日期", dictDetail.getCreateTime());
@@ -110,11 +111,11 @@ public class DictServiceImpl implements DictService {
                 }
             } else {
                 Map<String, Object> map = new LinkedHashMap<>();
-                map.put("字典名称", dictDTO.getName());
-                map.put("字典描述", dictDTO.getDescription());
+                map.put("字典名称", dict.getName());
+                map.put("字典描述", dict.getDescription());
                 map.put("字典标签", null);
                 map.put("字典值", null);
-                map.put("创建日期", dictDTO.getCreateTime());
+                map.put("创建日期", dict.getCreateTime());
                 list.add(map);
             }
         }

@@ -20,7 +20,6 @@ import cn.hutool.jwt.JWTException;
 import com.remember5.security.properties.JwtProperties;
 import com.remember5.security.utils.TokenProvider;
 import com.remember5.system.modules.security.service.OnlineUserService;
-import com.remember5.system.modules.security.service.UserCacheClean;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,47 +45,60 @@ public class TokenFilter extends OncePerRequestFilter {
     private final JwtProperties jwtProperties;
     private final TokenProvider tokenProvider;
     private final OnlineUserService onlineUserService;
-    private final UserCacheClean userCacheClean;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
+        // 如果是 OPTIONS 请求，直接返回false，拦截该请求
+        if ("OPTIONS".equals(request.getMethod())) {
+            return;
+        }
+        String token = resolveToken(request);
+        // 对于 Token 为空的不需要去查 Redis
+        if (CharSequenceUtil.isNotBlank(token)) {
+            // 校验token
+            if (!tokenProvider.verifyToken(token)) {
+                log.error("token verify error! : {}", token);
+                filterChain.doFilter(request, response);
+            }
+            OnlineUserDto onlineUserDto = null;
+            boolean cleanUserCache = false;
+            try {
+                // 会去redis校验存不存在这个key
+                onlineUserDto = onlineUserService.getOne(jwtProperties.getOnlineKey() + token);
+            } catch (JWTException e) {
+                log.error(e.getMessage());
+                cleanUserCache = true;
+            } finally {
+                if (cleanUserCache || Objects.isNull(onlineUserDto)) {
+//                        userCacheClean.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).getClaim(TokenProvider.AUTHORITIES_KEY)));
+                }
+            }
+            if (onlineUserDto != null && StringUtils.hasText(token)) {
+                Authentication authentication = tokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Token 续期
+                tokenProvider.checkRenewal(token);
+            }
+        }
+        filterChain.doFilter(request, response);
+    }
+
+    /**
+     * 初步检测Token
+     *
+     * @param request /
+     * @return /
+     */
+    private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(jwtProperties.getHeader());
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(jwtProperties.getTokenStartWith())) {
             // 去掉令牌前缀
-            String token = bearerToken.replace(jwtProperties.getTokenStartWith(), "");
-            // 对于 Token 为空的不需要去查 Redis
-            if (CharSequenceUtil.isNotBlank(token)) {
-                // 校验token
-                if (!tokenProvider.verifyToken(token)) {
-                    log.error("token verify error! : {}", token);
-                    filterChain.doFilter(request, response);
-                }
-                OnlineUserDto onlineUserDto = null;
-                boolean cleanUserCache = false;
-                try {
-                    // 会去redis校验存不存在这个key
-                    onlineUserDto = onlineUserService.getOne(jwtProperties.getOnlineKey() + token);
-                } catch (JWTException e) {
-                    log.error(e.getMessage());
-                    cleanUserCache = true;
-                } finally {
-                    if (cleanUserCache || Objects.isNull(onlineUserDto)) {
-                        userCacheClean.cleanUserCache(String.valueOf(tokenProvider.getClaims(token).getClaim(TokenProvider.AUTHORITIES_KEY)));
-                    }
-                }
-                if (onlineUserDto != null && StringUtils.hasText(token)) {
-                    Authentication authentication = tokenProvider.getAuthentication(token);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    // Token 续期
-                    tokenProvider.checkRenewal(token);
-                }
-            }
+            return bearerToken.replace(jwtProperties.getTokenStartWith(), "");
         } else {
-            log.error("token verify error! : {}", bearerToken);
+            log.debug("非法Token：{}", bearerToken);
         }
-
-        filterChain.doFilter(request, response);
+        return null;
     }
 
 

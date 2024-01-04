@@ -11,6 +11,7 @@
 
     <artifactId>eladmin-spring-boot-starter-logging</artifactId>
     <name>日志模块</name>
+    <description>aop记录操作日志模块</description>
 
     <properties>
         <java.version>17</java.version>

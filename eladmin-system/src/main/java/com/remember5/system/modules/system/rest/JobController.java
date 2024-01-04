@@ -15,16 +15,16 @@
  */
 package com.remember5.system.modules.system.rest;
 
-import com.remember5.core.base.BaseEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Job;
+import com.remember5.system.modules.system.domain.vo.JobQueryCriteria;
 import com.remember5.system.modules.system.service.JobService;
-import com.remember5.system.modules.system.service.dto.JobQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,8 +58,8 @@ public class JobController {
     @Operation(summary = "查询岗位")
     @GetMapping
     @PreAuthorize("@el.check('job:list','user:list')")
-    public ResponseEntity<Object> queryJob(JobQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(jobService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<Job>> queryJob(JobQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(jobService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Log("新增岗位")
@@ -78,7 +78,7 @@ public class JobController {
     @Operation(summary = "修改岗位")
     @PutMapping
     @PreAuthorize("@el.check('job:edit')")
-    public ResponseEntity<Object> updateJob(@Validated(BaseEntity.Update.class) @RequestBody Job resources) {
+    public ResponseEntity<Object> updateJob(@Validated(Job.Update.class) @RequestBody Job resources) {
         jobService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

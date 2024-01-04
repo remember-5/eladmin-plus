@@ -15,18 +15,18 @@
  */
 package com.remember5.system.modules.mnt.rest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.FileUtil;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.mnt.domain.Database;
+import com.remember5.system.modules.mnt.domain.vo.DatabaseQueryCriteria;
 import com.remember5.system.modules.mnt.service.DatabaseService;
-import com.remember5.system.modules.mnt.service.dto.DatabaseDto;
-import com.remember5.system.modules.mnt.service.dto.DatabaseQueryCriteria;
 import com.remember5.system.modules.mnt.util.SqlUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,15 +63,15 @@ public class DatabaseController {
     @Operation(summary = "查询数据库")
     @GetMapping
     @PreAuthorize("@el.check('database:list')")
-    public ResponseEntity<Object> queryDatabase(DatabaseQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(databaseService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<Database>> queryDatabase(DatabaseQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(databaseService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Log("新增数据库")
     @Operation(summary = "新增数据库")
     @PostMapping
     @PreAuthorize("@el.check('database:add')")
-    public ResponseEntity<Object> queryDatabase(@Validated @RequestBody Database resources) {
+    public ResponseEntity<Object> createDatabase(@Validated @RequestBody Database resources) {
         databaseService.create(resources);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -108,7 +108,7 @@ public class DatabaseController {
     @PreAuthorize("@el.check('database:add')")
     public ResponseEntity<Object> uploadDatabase(@RequestBody MultipartFile file, HttpServletRequest request) throws Exception {
         String id = request.getParameter("id");
-        DatabaseDto database = databaseService.findById(id);
+        Database database = databaseService.getById(id);
         String fileName;
         if (database != null) {
             fileName = file.getOriginalFilename();

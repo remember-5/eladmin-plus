@@ -16,13 +16,13 @@
 package com.remember5.system.modules.system.service.impl;
 
 import com.remember5.core.enums.DataScopeEnum;
-import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.system.domain.Dept;
+import com.remember5.system.modules.system.domain.Role;
+import com.remember5.system.modules.system.domain.User;
 import com.remember5.system.modules.system.service.DataService;
 import com.remember5.system.modules.system.service.DeptService;
 import com.remember5.system.modules.system.service.RoleService;
-import com.remember5.system.modules.system.service.dto.RoleSmallDto;
-import com.remember5.system.modules.system.service.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,6 @@ import java.util.*;
 
 /**
  * @author Zheng Jie
- * @website https://el-admin.vip
  * @description 数据权限服务实现
  * @date 2020-05-07
  **/
@@ -43,19 +42,19 @@ public class DataServiceImpl implements DataService {
     private final DeptService deptService;
 
     /**
-     * 用户角色改变时需清理缓存
+     * 用户角色和用户部门改变时需清理缓存
      *
      * @param user /
      * @return /
      */
     @Override
-    public List<Long> getDeptIds(UserDto user) {
+    public List<Long> getDeptIds(User user) {
         // 用于存储部门id
         Set<Long> deptIds = new HashSet<>();
         // 查询用户角色
-        List<RoleSmallDto> roleSet = roleService.findByUsersId(user.getId());
+        List<Role> roleList = roleService.findByUsersId(user.getId());
         // 获取对应的部门ID
-        for (RoleSmallDto role : roleSet) {
+        for (Role role : roleList) {
             DataScopeEnum dataScopeEnum = DataScopeEnum.find(role.getDataScope());
             switch (Objects.requireNonNull(dataScopeEnum)) {
                 case THIS_LEVEL:
@@ -65,7 +64,7 @@ public class DataServiceImpl implements DataService {
                     deptIds.addAll(getCustomize(deptIds, role));
                     break;
                 default:
-                    return new ArrayList<>(deptIds);
+                    return new ArrayList<>();
             }
         }
         return new ArrayList<>(deptIds);
@@ -78,12 +77,12 @@ public class DataServiceImpl implements DataService {
      * @param role    角色
      * @return 数据权限ID
      */
-    public Set<Long> getCustomize(Set<Long> deptIds, RoleSmallDto role) {
+    public Set<Long> getCustomize(Set<Long> deptIds, Role role) {
         Set<Dept> depts = deptService.findByRoleId(role.getId());
         for (Dept dept : depts) {
             deptIds.add(dept.getId());
             List<Dept> deptChildren = deptService.findByPid(dept.getId());
-            if (deptChildren != null && !deptChildren.isEmpty()) {
+            if (deptChildren != null && deptChildren.size() != 0) {
                 deptIds.addAll(deptService.getDeptChildren(deptChildren));
             }
         }

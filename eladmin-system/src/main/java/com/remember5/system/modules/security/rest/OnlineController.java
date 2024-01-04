@@ -17,7 +17,9 @@ package com.remember5.system.modules.security.rest;
 
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import com.remember5.core.utils.PageResult;
 import com.remember5.system.modules.security.service.OnlineUserService;
+import com.remember5.system.modules.security.service.dto.OnlineUserDto;
 import com.remember5.system.modules.tool.service.impl.EmailServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,25 +50,28 @@ public class OnlineController {
     @Operation(summary = "查询在线用户")
     @GetMapping
     @PreAuthorize("@el.check('online:list')")
-    public ResponseEntity<Object> queryOnlineUser(String filter, Pageable pageable) {
-        return new ResponseEntity<>(onlineUserService.getAll(filter, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<OnlineUserDto>> queryOnlineUser(String username, Pageable pageable) {
+        return new ResponseEntity<>(onlineUserService.getAll(username, pageable), HttpStatus.OK);
     }
 
     @Operation(summary = "导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('online:list')")
-    public void exportOnlineUser(HttpServletResponse response, String filter) throws IOException {
-        onlineUserService.download(onlineUserService.getAll(filter), response);
+    public void exportOnlineUser(HttpServletResponse response, String username) throws IOException {
+        onlineUserService.download(onlineUserService.getAll(username), response);
     }
 
     @Operation(summary = "踢出用户")
     @DeleteMapping
-    @PreAuthorize("@el.check('online:del')")
+    @PreAuthorize("@el.check()")
     public ResponseEntity<Object> deleteOnlineUser(@RequestBody Set<String> keys) throws Exception {
+        //todo 待优化
         for (String key : keys) {
             // 解密Key
+//            token = EncryptUtils.desDecrypt(token);
+//            onlineUserService.logout(token);
             key = new String(aes.decrypt(key.getBytes(StandardCharsets.UTF_8)));
-            onlineUserService.kickOut(key);
+            onlineUserService.logout(key);
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

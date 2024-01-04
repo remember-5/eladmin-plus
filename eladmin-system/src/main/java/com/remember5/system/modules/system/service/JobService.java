@@ -15,22 +15,22 @@
  */
 package com.remember5.system.modules.system.service;
 
-import com.remember5.system.modules.system.service.dto.JobDto;
-import com.remember5.system.modules.system.service.dto.JobQueryCriteria;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.remember5.core.utils.PageResult;
 import com.remember5.system.modules.system.domain.Job;
-import org.springframework.data.domain.Pageable;
+import com.remember5.system.modules.system.domain.vo.JobQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
  * @author Zheng Jie
  * @date 2019-03-29
  */
-public interface JobService {
+public interface JobService extends IService<Job> {
 
     /**
      * 根据ID查询
@@ -38,13 +38,12 @@ public interface JobService {
      * @param id /
      * @return /
      */
-    JobDto findById(Long id);
+    Job findById(Long id);
 
     /**
      * 创建
      *
      * @param resources /
-     * @return /
      */
     void create(Job resources);
 
@@ -66,10 +65,10 @@ public interface JobService {
      * 分页查询
      *
      * @param criteria 条件
-     * @param pageable 分页参数
+     * @param page     分页参数
      * @return /
      */
-    Map<String, Object> queryAll(JobQueryCriteria criteria, Pageable pageable);
+    PageResult<Job> queryAll(JobQueryCriteria criteria, Page<Object> page);
 
     /**
      * 查询全部数据
@@ -77,16 +76,16 @@ public interface JobService {
      * @param criteria /
      * @return /
      */
-    List<JobDto> queryAll(JobQueryCriteria criteria);
+    List<Job> queryAll(JobQueryCriteria criteria);
 
     /**
      * 导出数据
      *
-     * @param queryAll 待导出的数据
+     * @param jobs     待导出的数据
      * @param response /
      * @throws IOException /
      */
-    void download(List<JobDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<Job> jobs, HttpServletResponse response) throws IOException;
 
     /**
      * 验证是否被用户关联

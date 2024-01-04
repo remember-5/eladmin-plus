@@ -15,13 +15,11 @@
  */
 package com.remember5.system.modules.tool.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -32,13 +30,10 @@ import java.io.Serializable;
  * @date 2018-12-31
  */
 @Data
-@Entity
-@Table(name = "tool_alipay_config")
+@TableName("tool_alipay_config")
 public class AlipayConfig implements Serializable {
 
-    @Id
-    @Column(name = "config_id")
-    @Schema(description = "ID", hidden = true)
+    @TableId("config_id")
     private Long id;
 
     @NotBlank
@@ -56,7 +51,6 @@ public class AlipayConfig implements Serializable {
     @Schema(description = "签名方式")
     private String signType = "RSA2";
 
-    @Column(name = "gateway_url")
     @Schema(description = "支付宝开放安全地址", hidden = true)
     private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 

@@ -37,6 +37,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                          AuthenticationException authException) throws IOException {
         log.error("用户访问资源没有携带正确的token {}", authException.getMessage());
         // 当用户尝试访问安全的REST资源而不提供任何凭据时，将调用此方法发送401 响应
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException == null ? "Unauthorized" : authException.getMessage());
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 }

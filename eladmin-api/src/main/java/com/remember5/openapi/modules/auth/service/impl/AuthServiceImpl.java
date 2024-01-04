@@ -16,35 +16,24 @@
 package com.remember5.openapi.modules.auth.service.impl;
 
 import cn.binarywang.wx.miniapp.api.WxMaService;
-import cn.binarywang.wx.miniapp.bean.WxMaJscode2SessionResult;
-import cn.binarywang.wx.miniapp.bean.WxMaPhoneNumberInfo;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.crypto.asymmetric.KeyType;
-import cn.hutool.crypto.asymmetric.RSA;
 import com.remember5.captcha.constants.CaptchaTypeEnum;
-import com.remember5.captcha.properties.CaptchaCodeProperties;
 import com.remember5.captcha.core.CaptchaCodeProvider;
-import com.remember5.core.exception.ServiceException;
+import com.remember5.captcha.properties.CaptchaCodeProperties;
 import com.remember5.core.properties.RsaProperties;
-import com.remember5.core.result.REnum;
 import com.remember5.openapi.constant.RedisKeyConstant;
-import com.remember5.openapi.modules.apiuser.domain.ApiUser;
-import com.remember5.openapi.modules.apiuser.repository.ApiUserRepository;
 import com.remember5.openapi.modules.auth.domain.*;
 import com.remember5.openapi.modules.auth.service.AuthService;
-import com.remember5.security.properties.JwtProperties;
 import com.remember5.redis.utils.RedisUtils;
+import com.remember5.security.properties.JwtProperties;
 import com.remember5.security.utils.TokenProvider;
 import com.wf.captcha.base.Captcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,7 +45,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final ApiUserRepository apiUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final JwtProperties jwtProperties;
@@ -86,24 +74,24 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean register(UsernameRegister usernameRegister) {
-        if (!redisUtils.hasKey(usernameRegister.getUuid())) {
-            throw new ServiceException(REnum.A0242);
-        }
-
-        String code = (String) redisUtils.get(usernameRegister.getUuid());
-        redisUtils.del(usernameRegister.getUuid());
-
-        if (!usernameRegister.getCode().equalsIgnoreCase(code)) {
-            throw new ServiceException(REnum.A0240);
-        }
-
-        ApiUser apiUser = new ApiUser();
-        apiUser.setUsername(usernameRegister.getUsername());
-
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
-        apiUser.setPassword(passwordEncoder.encode(Arrays.toString(rsa.decrypt(usernameRegister.getPassword(), KeyType.PrivateKey))));
-        apiUser.setIsDeleted(false);
-        apiUserRepository.save(apiUser);
+//        if (!redisUtils.hasKey(usernameRegister.getUuid())) {
+//            throw new ServiceException(REnum.A0242);
+//        }
+//
+//        String code = (String) redisUtils.get(usernameRegister.getUuid());
+//        redisUtils.del(usernameRegister.getUuid());
+//
+//        if (!usernameRegister.getCode().equalsIgnoreCase(code)) {
+//            throw new ServiceException(REnum.A0240);
+//        }
+//
+//        ApiUser apiUser = new ApiUser();
+//        apiUser.setUsername(usernameRegister.getUsername());
+//
+//        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
+//        apiUser.setPassword(passwordEncoder.encode(Arrays.toString(rsa.decrypt(usernameRegister.getPassword(), KeyType.PrivateKey))));
+//        apiUser.setIsDeleted(false);
+//        apiUserRepository.save(apiUser);
         return true;
     }
 
@@ -127,58 +115,61 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenDTO login(UsernameLogin usernameLogin) {
-        final boolean hasUUID = redisUtils.hasKey(usernameLogin.getUuid());
-        if (!hasUUID) {
-            throw new ServiceException(REnum.A0242);
-        }
-
-        String code = (String) redisUtils.get(usernameLogin.getUuid());
-        redisUtils.del(usernameLogin.getUuid());
-        if (!usernameLogin.getCode().equalsIgnoreCase(code)) {
-            throw new ServiceException(REnum.A0240);
-        }
-        final ApiUser apiUser = apiUserRepository.findByUsername(usernameLogin.getUsername());
-        if (ObjectUtil.isNull(apiUser)) {
-            throw new ServiceException(REnum.A0201);
-        }
-
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
-        String password = Arrays.toString(rsa.decrypt(usernameLogin.getPassword(), KeyType.PrivateKey));
-        if (!passwordEncoder.matches(password, apiUser.getPassword())) {
-            throw new ServiceException(REnum.A0210);
-        }
-
-        return generateToken(apiUser.getId(), apiUser.getUsername(), apiUser.getPhone());
+//        final boolean hasUUID = redisUtils.hasKey(usernameLogin.getUuid());
+//        if (!hasUUID) {
+//            throw new ServiceException(REnum.A0242);
+//        }
+//
+//        String code = (String) redisUtils.get(usernameLogin.getUuid());
+//        redisUtils.del(usernameLogin.getUuid());
+//        if (!usernameLogin.getCode().equalsIgnoreCase(code)) {
+//            throw new ServiceException(REnum.A0240);
+//        }
+//        final ApiUser apiUser = apiUserRepository.findByUsername(usernameLogin.getUsername());
+//        if (ObjectUtil.isNull(apiUser)) {
+//            throw new ServiceException(REnum.A0201);
+//        }
+//
+//        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
+//        String password = Arrays.toString(rsa.decrypt(usernameLogin.getPassword(), KeyType.PrivateKey));
+//        if (!passwordEncoder.matches(password, apiUser.getPassword())) {
+//            throw new ServiceException(REnum.A0210);
+//        }
+//
+//        return generateToken(apiUser.getId(), apiUser.getUsername(), apiUser.getPhone());
+        return null;
     }
 
 
     @Override
     public TokenDTO loginBySMS(PhoneLogin phoneLogin) {
-        final ApiUser apiUser = apiUserRepository.findByPhone(phoneLogin.getPhone());
-        return generateToken(apiUser.getId(), apiUser.getUsername(), apiUser.getPhone());
+//        final ApiUser apiUser = apiUserRepository.findByPhone(phoneLogin.getPhone());
+//        return generateToken(apiUser.getId(), apiUser.getUsername(), apiUser.getPhone());
+        return null;
     }
 
     @Override
     public TokenDTO loginByWechat(WechatLogin wechatLogin) {
-        try {
-            final WxMaJscode2SessionResult sessionResult = wxMaService.jsCode2SessionInfo(wechatLogin.getCode());
-            final WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService()
-                    .getPhoneNoInfo(sessionResult.getSessionKey(), wechatLogin.getEncryptedData(), wechatLogin.getIv());
-            final String openid = sessionResult.getOpenid();
-            final String purePhoneNumber = phoneNoInfo.getPurePhoneNumber();
-            ApiUser apiUser = apiUserRepository.findByPhone(purePhoneNumber);
-            if (null == apiUser) {
-                apiUser = new ApiUser();
-                apiUser.setUsername(purePhoneNumber);
-                apiUser.setPhone(purePhoneNumber);
-                apiUser.setIsDeleted(false);
-                apiUserRepository.save(apiUser);
-            }
-            return generateToken(apiUser.getId(), apiUser.getUsername(), apiUser.getPhone());
-        } catch (WxErrorException e) {
-            log.error("微信一键登录失败 {}", e.getMessage());
-            throw new ServiceException(REnum.A0200);
-        }
+//        try {
+//            final WxMaJscode2SessionResult sessionResult = wxMaService.jsCode2SessionInfo(wechatLogin.getCode());
+//            final WxMaPhoneNumberInfo phoneNoInfo = wxMaService.getUserService()
+//                    .getPhoneNoInfo(sessionResult.getSessionKey(), wechatLogin.getEncryptedData(), wechatLogin.getIv());
+//            final String openid = sessionResult.getOpenid();
+//            final String purePhoneNumber = phoneNoInfo.getPurePhoneNumber();
+//            ApiUser apiUser = apiUserRepository.findByPhone(purePhoneNumber);
+//            if (null == apiUser) {
+//                apiUser = new ApiUser();
+//                apiUser.setUsername(purePhoneNumber);
+//                apiUser.setPhone(purePhoneNumber);
+//                apiUser.setIsDeleted(false);
+//                apiUserRepository.save(apiUser);
+//            }
+//            return generateToken(apiUser.getId(), apiUser.getUsername(), apiUser.getPhone());
+//        } catch (WxErrorException e) {
+//            logger.error("微信一键登录失败 {}", e.getMessage());
+//            throw new ServiceException(REnum.A0200);
+//        }
+        return null;
 
     }
 

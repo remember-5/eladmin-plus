@@ -24,8 +24,6 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -38,13 +36,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync
 @SpringBootApplication
 @EnableTransactionManagement // 开启事物
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 @EnableAspectJAutoProxy(exposeProxy = true) // Aop exposeProxy=强制采用cglib代理 proxyTargetClass=暴露cglib代理的目标对象
 @ComponentScan(basePackages = {
         "cn.hutool.extra.spring",
-        "com.remember5.*",
-})
-@EnableJpaRepositories(basePackages = {
         "com.remember5.*",
 })
 @EntityScan(basePackages = {

@@ -16,18 +16,17 @@
 package com.remember5.system.modules.system.rest;
 
 import cn.hutool.core.lang.Dict;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.security.utils.SecurityUtils;
-import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Role;
+import com.remember5.system.modules.system.domain.vo.RoleQueryCriteria;
 import com.remember5.system.modules.system.service.RoleService;
-import com.remember5.system.modules.system.service.dto.RoleDto;
-import com.remember5.system.modules.system.service.dto.RoleQueryCriteria;
-import com.remember5.system.modules.system.service.dto.RoleSmallDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,7 +57,7 @@ public class RoleController {
     @Operation(summary = "获取单个role")
     @GetMapping(value = "/{id}")
     @PreAuthorize("@el.check('roles:list')")
-    public ResponseEntity<Object> findRoleById(@PathVariable Long id) {
+    public ResponseEntity<Role> findRoleById(@PathVariable Long id) {
         return new ResponseEntity<>(roleService.findById(id), HttpStatus.OK);
     }
 
@@ -72,15 +71,15 @@ public class RoleController {
     @Operation(summary = "返回全部的角色")
     @GetMapping(value = "/all")
     @PreAuthorize("@el.check('roles:list','user:add','user:edit')")
-    public ResponseEntity<Object> queryAllRole() {
+    public ResponseEntity<List<Role>> queryAllRole() {
         return new ResponseEntity<>(roleService.queryAll(), HttpStatus.OK);
     }
 
     @Operation(summary = "查询角色")
     @GetMapping
     @PreAuthorize("@el.check('roles:list')")
-    public ResponseEntity<Object> queryRole(RoleQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(roleService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<Role>> queryRole(RoleQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(roleService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Operation(summary = "获取用户级别")
@@ -117,9 +116,9 @@ public class RoleController {
     @PutMapping(value = "/menu")
     @PreAuthorize("@el.check('roles:edit')")
     public ResponseEntity<Object> updateRoleMenu(@RequestBody Role resources) {
-        RoleDto role = roleService.findById(resources.getId());
+        Role role = roleService.getById(resources.getId());
         getLevels(role.getLevel());
-        roleService.updateMenu(resources, role);
+        roleService.updateMenu(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -129,7 +128,7 @@ public class RoleController {
     @PreAuthorize("@el.check('roles:del')")
     public ResponseEntity<Object> deleteRole(@RequestBody Set<Long> ids) {
         for (Long id : ids) {
-            RoleDto role = roleService.findById(id);
+            Role role = roleService.getById(id);
             getLevels(role.getLevel());
         }
         // 验证是否被用户关联
@@ -144,7 +143,7 @@ public class RoleController {
      * @return /
      */
     private int getLevels(Integer level) {
-        List<Integer> levels = roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList());
+        List<Integer> levels = roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(Role::getLevel).collect(Collectors.toList());
         int min = Collections.min(levels);
         if (level != null) {
             if (level < min) {

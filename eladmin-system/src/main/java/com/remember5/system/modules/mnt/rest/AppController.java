@@ -15,14 +15,15 @@
  */
 package com.remember5.system.modules.mnt.rest;
 
-import com.remember5.security.logging.annotation.Log;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.mnt.domain.App;
+import com.remember5.system.modules.mnt.domain.vo.AppQueryCriteria;
 import com.remember5.system.modules.mnt.service.AppService;
-import com.remember5.system.modules.mnt.service.dto.AppQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,8 +56,8 @@ public class AppController {
     @Operation(summary = "查询应用")
     @GetMapping
     @PreAuthorize("@el.check('app:list')")
-    public ResponseEntity<Object> queryApp(AppQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(appService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<App>> queryApp(AppQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(appService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Log("新增应用")

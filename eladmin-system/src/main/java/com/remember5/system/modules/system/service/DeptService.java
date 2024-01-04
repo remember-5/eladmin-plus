@@ -15,9 +15,9 @@
  */
 package com.remember5.system.modules.system.service;
 
-import com.remember5.system.modules.system.service.dto.DeptDto;
-import com.remember5.system.modules.system.service.dto.DeptQueryCriteria;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.remember5.system.modules.system.domain.Dept;
+import com.remember5.system.modules.system.domain.vo.DeptQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2019-03-25
  */
-public interface DeptService {
+public interface DeptService extends IService<Dept> {
 
     /**
      * 查询所有数据
@@ -38,7 +38,7 @@ public interface DeptService {
      * @return /
      * @throws Exception /
      */
-    List<DeptDto> queryAll(DeptQueryCriteria criteria, Boolean isQuery) throws Exception;
+    List<Dept> queryAll(DeptQueryCriteria criteria, Boolean isQuery) throws Exception;
 
     /**
      * 根据ID查询
@@ -46,7 +46,7 @@ public interface DeptService {
      * @param id /
      * @return /
      */
-    DeptDto findById(Long id);
+    Dept findById(Long id);
 
     /**
      * 创建
@@ -65,9 +65,9 @@ public interface DeptService {
     /**
      * 删除
      *
-     * @param deptDtos /
+     * @param depts /
      */
-    void delete(Set<DeptDto> deptDtos);
+    void delete(Set<Dept> depts);
 
     /**
      * 根据PID查询
@@ -88,50 +88,50 @@ public interface DeptService {
     /**
      * 导出数据
      *
-     * @param queryAll 待导出的数据
+     * @param depts    待导出的数据
      * @param response /
      * @throws IOException /
      */
-    void download(List<DeptDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<Dept> depts, HttpServletResponse response) throws IOException;
 
     /**
      * 获取待删除的部门
      *
      * @param deptList /
-     * @param deptDtos /
+     * @param depts    /
      * @return /
      */
-    Set<DeptDto> getDeleteDepts(List<Dept> deptList, Set<DeptDto> deptDtos);
+    Set<Dept> getDeleteDepts(List<Dept> deptList, Set<Dept> depts);
 
     /**
      * 根据ID获取同级与上级数据
      *
-     * @param deptDto /
-     * @param depts   /
+     * @param dept  /
+     * @param depts /
      * @return /
      */
-    List<DeptDto> getSuperior(DeptDto deptDto, List<Dept> depts);
+    List<Dept> getSuperior(Dept dept, List<Dept> depts);
 
     /**
      * 构建树形数据
      *
-     * @param deptDtos /
+     * @param depts /
      * @return /
      */
-    Object buildTree(List<DeptDto> deptDtos);
+    Object buildTree(List<Dept> depts);
 
     /**
      * 获取
      *
-     * @param deptList
-     * @return
+     * @param deptList 、
+     * @return 、
      */
     List<Long> getDeptChildren(List<Dept> deptList);
 
     /**
      * 验证是否被角色或用户关联
      *
-     * @param deptDtos /
+     * @param depts /
      */
-    void verification(Set<DeptDto> deptDtos);
+    void verification(Set<Dept> depts);
 }

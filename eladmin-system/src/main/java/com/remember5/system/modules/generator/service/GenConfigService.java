@@ -15,13 +15,14 @@
  */
 package com.remember5.system.modules.generator.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.remember5.system.modules.generator.domain.GenConfig;
 
 /**
  * @author Zheng Jie
  * @date 2019-01-14
  */
-public interface GenConfigService {
+public interface GenConfigService extends IService<GenConfig> {
 
     /**
      * 查询表配置

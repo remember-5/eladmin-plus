@@ -15,9 +15,10 @@
  */
 package com.remember5.system.modules.system.service;
 
-import com.remember5.system.modules.system.service.dto.MenuDto;
-import com.remember5.system.modules.system.service.dto.MenuQueryCriteria;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.remember5.system.modules.system.domain.Menu;
+import com.remember5.system.modules.system.domain.vo.MenuQueryCriteria;
+import com.remember5.system.modules.system.domain.vo.MenuVo;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2018-12-17
  */
-public interface MenuService {
+public interface MenuService extends IService<Menu> {
 
     /**
      * 查询全部数据
@@ -38,7 +39,7 @@ public interface MenuService {
      * @return /
      * @throws Exception /
      */
-    List<MenuDto> queryAll(MenuQueryCriteria criteria, Boolean isQuery) throws Exception;
+    List<Menu> queryAll(MenuQueryCriteria criteria, Boolean isQuery) throws Exception;
 
     /**
      * 根据ID查询
@@ -46,15 +47,14 @@ public interface MenuService {
      * @param id /
      * @return /
      */
-    MenuDto findById(long id);
+    Menu findById(long id);
 
     /**
      * 创建
      *
      * @param resources /
-     * @return /
      */
-    MenuDto create(Menu resources);
+    void create(Menu resources);
 
     /**
      * 编辑
@@ -75,26 +75,18 @@ public interface MenuService {
     /**
      * 构建菜单树
      *
-     * @param menuDtos 原始数据
+     * @param menus 原始数据
      * @return /
      */
-    List<MenuDto> buildTree(List<MenuDto> menuDtos);
+    List<Menu> buildTree(List<Menu> menus);
 
     /**
      * 构建菜单树
      *
-     * @param menuDtos /
+     * @param menus /
      * @return /
      */
-    Object buildMenus(List<MenuDto> menuDtos);
-
-    /**
-     * 根据ID查询
-     *
-     * @param id /
-     * @return /
-     */
-    Menu findOne(Long id);
+    List<MenuVo> buildMenus(List<Menu> menus);
 
     /**
      * 删除
@@ -106,11 +98,11 @@ public interface MenuService {
     /**
      * 导出
      *
-     * @param queryAll 待导出的数据
+     * @param menus    待导出的数据
      * @param response /
      * @throws IOException /
      */
-    void download(List<MenuDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<Menu> menus, HttpServletResponse response) throws IOException;
 
     /**
      * 懒加载菜单数据
@@ -118,16 +110,16 @@ public interface MenuService {
      * @param pid /
      * @return /
      */
-    List<MenuDto> getMenus(Long pid);
+    List<Menu> getMenus(Long pid);
 
     /**
      * 根据ID获取同级与上级数据
      *
-     * @param menuDto /
+     * @param menu    /
      * @param objects /
      * @return /
      */
-    List<MenuDto> getSuperior(MenuDto menuDto, List<Menu> objects);
+    List<Menu> getSuperior(Menu menu, List<Menu> objects);
 
     /**
      * 根据当前用户获取菜单
@@ -135,5 +127,5 @@ public interface MenuService {
      * @param currentUserId /
      * @return /
      */
-    List<MenuDto> findByUser(Long currentUserId);
+    List<Menu> findByUser(Long currentUserId);
 }

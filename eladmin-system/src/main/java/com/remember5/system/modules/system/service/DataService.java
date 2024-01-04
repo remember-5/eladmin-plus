@@ -15,7 +15,8 @@
  */
 package com.remember5.system.modules.system.service;
 
-import com.remember5.system.modules.system.service.dto.UserDto;
+
+import com.remember5.system.modules.system.domain.User;
 
 import java.util.List;
 
@@ -33,5 +34,5 @@ public interface DataService {
      * @param user /
      * @return /
      */
-    List<Long> getDeptIds(UserDto user);
+    List<Long> getDeptIds(User user);
 }

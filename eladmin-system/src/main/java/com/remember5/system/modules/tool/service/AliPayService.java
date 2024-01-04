@@ -15,6 +15,7 @@
  */
 package com.remember5.system.modules.tool.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.remember5.system.modules.tool.domain.AlipayConfig;
 import com.remember5.system.modules.tool.domain.vo.TradeVo;
 
@@ -22,7 +23,7 @@ import com.remember5.system.modules.tool.domain.vo.TradeVo;
  * @author Zheng Jie
  * @date 2018-12-31
  */
-public interface AliPayService {
+public interface AliPayService extends IService<AlipayConfig> {
 
     /**
      * 查询配置

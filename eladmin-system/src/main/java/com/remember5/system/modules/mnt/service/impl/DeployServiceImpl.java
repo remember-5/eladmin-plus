@@ -17,31 +17,28 @@ package com.remember5.system.modules.mnt.service.impl;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
-import com.remember5.security.utils.QueryHelp;
-import com.remember5.security.utils.SecurityUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.core.utils.*;
+import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageResult;
+import com.remember5.core.utils.PageUtil;
+import com.remember5.security.utils.SecurityUtils;
 import com.remember5.system.modules.mnt.domain.App;
 import com.remember5.system.modules.mnt.domain.Deploy;
 import com.remember5.system.modules.mnt.domain.DeployHistory;
-import com.remember5.system.modules.mnt.domain.ServerDeploy;
-import com.remember5.system.modules.mnt.repository.DeployRepository;
+import com.remember5.system.modules.mnt.domain.Server;
+import com.remember5.system.modules.mnt.domain.vo.DeployQueryCriteria;
+import com.remember5.system.modules.mnt.mapper.DeployMapper;
+import com.remember5.system.modules.mnt.mapper.DeployServerMapper;
 import com.remember5.system.modules.mnt.service.DeployHistoryService;
 import com.remember5.system.modules.mnt.service.DeployService;
-import com.remember5.system.modules.mnt.service.ServerDeployService;
-import com.remember5.system.modules.mnt.service.dto.AppDto;
-import com.remember5.system.modules.mnt.service.dto.DeployDto;
-import com.remember5.system.modules.mnt.service.dto.DeployQueryCriteria;
-import com.remember5.system.modules.mnt.service.dto.ServerDeployDto;
-import com.remember5.system.modules.mnt.service.mapstruct.DeployMapper;
+import com.remember5.system.modules.mnt.service.ServerService;
 import com.remember5.system.modules.mnt.util.ExecuteShellUtil;
 import com.remember5.system.modules.mnt.util.ScpClientUtil;
 import com.remember5.system.modules.mnt.websocket.MsgType;
-import com.remember5.system.modules.tool.websocket.controller.service.PushService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,59 +53,57 @@ import java.util.*;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DeployServiceImpl implements DeployService {
+public class DeployServiceImpl extends ServiceImpl<DeployMapper, Deploy> implements DeployService {
 
     private final String FILE_SEPARATOR = "/";
-    private final DeployRepository deployRepository;
     private final DeployMapper deployMapper;
-    private final ServerDeployService serverDeployService;
+    private final DeployServerMapper deployServerMapper;
+    private final ServerService serverService;
     private final DeployHistoryService deployHistoryService;
-    private final PushService pushService;
     /**
      * 循环次数
      */
     private final Integer count = 30;
 
-
     @Override
-    public Object queryAll(DeployQueryCriteria criteria, Pageable pageable) {
-        Page<Deploy> page = deployRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(deployMapper::toDto));
+    public PageResult<Deploy> queryAll(DeployQueryCriteria criteria, Page<Object> page) {
+        criteria.setOffset(page.offset());
+        List<Deploy> deploys = deployMapper.findAll(criteria);
+        Long total = deployMapper.countAll(criteria);
+        return PageUtil.toPage(deploys, total);
     }
 
     @Override
-    public List<DeployDto> queryAll(DeployQueryCriteria criteria) {
-        return deployMapper.toDto(deployRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
-    }
-
-    @Override
-    public DeployDto findById(Long id) {
-        Deploy deploy = deployRepository.findById(id).orElseGet(Deploy::new);
-        ValidationUtil.isNull(deploy.getId(), "Deploy", "id", id);
-        return deployMapper.toDto(deploy);
+    public List<Deploy> queryAll(DeployQueryCriteria criteria) {
+        return deployMapper.findAll(criteria);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Deploy resources) {
-        deployRepository.save(resources);
+        resources.setAppId(resources.getApp().getId());
+        save(resources);
+        // 保存关联关系
+        deployServerMapper.insertData(resources.getId(), resources.getDeploys());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Deploy resources) {
-        Deploy deploy = deployRepository.findById(resources.getId()).orElseGet(Deploy::new);
-        ValidationUtil.isNull(deploy.getId(), "Deploy", "id", resources.getId());
+        Deploy deploy = getById(resources.getId());
         deploy.copy(resources);
-        deployRepository.save(deploy);
+        saveOrUpdate(deploy);
+        // 更新关联关系
+        deployServerMapper.deleteByDeployId(resources.getId());
+        deployServerMapper.insertData(resources.getId(), resources.getDeploys());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Long> ids) {
-        for (Long id : ids) {
-            deployRepository.deleteById(id);
-        }
+        removeBatchByIds(ids);
+        // 删除关联
+        deployServerMapper.deleteByDeployIds(ids);
     }
 
     @Override
@@ -121,13 +116,12 @@ public class DeployServiceImpl implements DeployService {
      * @param id           ID
      */
     private void deployApp(String fileSavePath, Long id) {
-
-        DeployDto deploy = findById(id);
+        Deploy deploy = deployMapper.getDeployById(id);
         if (deploy == null) {
             sendMsg("部署信息不存在", MsgType.ERROR);
             throw new BadRequestException("部署信息不存在");
         }
-        AppDto app = deploy.getApp();
+        App app = deploy.getApp();
         if (app == null) {
             sendMsg("包对应应用信息不存在", MsgType.ERROR);
             throw new BadRequestException("包对应应用信息不存在");
@@ -137,9 +131,9 @@ public class DeployServiceImpl implements DeployService {
         String uploadPath = app.getUploadPath();
         StringBuilder sb = new StringBuilder();
         String msg;
-        Set<ServerDeployDto> deploys = deploy.getDeploys();
-        for (ServerDeployDto deployDTO : deploys) {
-            String ip = deployDTO.getIp();
+        Set<Server> deploys = deploy.getDeploys();
+        for (Server server : deploys) {
+            String ip = server.getIp();
             ExecuteShellUtil executeShellUtil = getExecuteShellUtil(ip);
             //判断是否第一次部署
             boolean flag = checkFile(executeShellUtil, app);
@@ -180,7 +174,7 @@ public class DeployServiceImpl implements DeployService {
                 // 休眠6秒
                 sleep(6);
             }
-            sb.append("服务器:").append(deployDTO.getName()).append("<br>应用:").append(app.getName());
+            sb.append("服务器:").append(server.getName()).append("<br>应用:").append(app.getName());
             sendResultMsg(result, sb);
             executeShellUtil.close();
         }
@@ -188,7 +182,7 @@ public class DeployServiceImpl implements DeployService {
 
     private void sleep(int second) {
         try {
-            Thread.sleep(second * 1000);
+            Thread.sleep(second * 1000L);
         } catch (InterruptedException e) {
             log.error(e.getMessage(), e);
         }
@@ -237,17 +231,16 @@ public class DeployServiceImpl implements DeployService {
     }
 
     private void sendMsg(String msg, MsgType msgType) {
-//        pushService.pushMsg2User("deploy", msg);
     }
 
     @Override
     public String serverStatus(Deploy resources) {
-        Set<ServerDeploy> serverDeploys = resources.getDeploys();
+        Set<Server> servers = resources.getDeploys();
         App app = resources.getApp();
-        for (ServerDeploy serverDeploy : serverDeploys) {
+        for (Server server : servers) {
             StringBuilder sb = new StringBuilder();
-            ExecuteShellUtil executeShellUtil = getExecuteShellUtil(serverDeploy.getIp());
-            sb.append("服务器:").append(serverDeploy.getName()).append("<br>应用:").append(app.getName());
+            ExecuteShellUtil executeShellUtil = getExecuteShellUtil(server.getIp());
+            sb.append("服务器:").append(server.getName()).append("<br>应用:").append(app.getName());
             boolean result = checkIsRunningStatus(app.getPort(), executeShellUtil);
             if (result) {
                 sb.append("<br>正在运行");
@@ -262,9 +255,9 @@ public class DeployServiceImpl implements DeployService {
         return "执行完毕";
     }
 
-    private boolean checkFile(ExecuteShellUtil executeShellUtil, AppDto appDTO) {
-        String result = executeShellUtil.executeForResult("find " + appDTO.getDeployPath() + " -name " + appDTO.getName());
-        return result.indexOf(appDTO.getName()) > 0;
+    private boolean checkFile(ExecuteShellUtil executeShellUtil, App app) {
+        String result = executeShellUtil.executeForResult("find " + app.getDeployPath() + " -name " + app.getName());
+        return result.indexOf(app.getName()) > 0;
     }
 
     /**
@@ -275,9 +268,9 @@ public class DeployServiceImpl implements DeployService {
      */
     @Override
     public String startServer(Deploy resources) {
-        Set<ServerDeploy> deploys = resources.getDeploys();
+        Set<Server> deploys = resources.getDeploys();
         App app = resources.getApp();
-        for (ServerDeploy deploy : deploys) {
+        for (Server deploy : deploys) {
             StringBuilder sb = new StringBuilder();
             ExecuteShellUtil executeShellUtil = getExecuteShellUtil(deploy.getIp());
             //为了防止重复启动，这里先停止应用
@@ -313,9 +306,9 @@ public class DeployServiceImpl implements DeployService {
      */
     @Override
     public String stopServer(Deploy resources) {
-        Set<ServerDeploy> deploys = resources.getDeploys();
+        Set<Server> deploys = resources.getDeploys();
         App app = resources.getApp();
-        for (ServerDeploy deploy : deploys) {
+        for (Server deploy : deploys) {
             StringBuilder sb = new StringBuilder();
             ExecuteShellUtil executeShellUtil = getExecuteShellUtil(deploy.getIp());
             sb.append("服务器:").append(deploy.getName()).append("<br>应用:").append(app.getName());
@@ -340,7 +333,7 @@ public class DeployServiceImpl implements DeployService {
     @Override
     public String serverReduction(DeployHistory resources) {
         Long deployId = resources.getDeployId();
-        Deploy deployInfo = deployRepository.findById(deployId).orElseGet(Deploy::new);
+        Deploy deployInfo = getById(deployId);
         String deployDate = DateUtil.format(resources.getDeployDate(), DatePattern.PURE_DATETIME_PATTERN);
         App app = deployInfo.getApp();
         if (app == null) {
@@ -389,21 +382,21 @@ public class DeployServiceImpl implements DeployService {
     }
 
     private ExecuteShellUtil getExecuteShellUtil(String ip) {
-        ServerDeployDto serverDeployDTO = serverDeployService.findByIp(ip);
-        if (serverDeployDTO == null) {
+        Server server = serverService.findByIp(ip);
+        if (server == null) {
             sendMsg("IP对应服务器信息不存在：" + ip, MsgType.ERROR);
             throw new BadRequestException("IP对应服务器信息不存在：" + ip);
         }
-        return new ExecuteShellUtil(ip, serverDeployDTO.getAccount(), serverDeployDTO.getPassword(), serverDeployDTO.getPort());
+        return new ExecuteShellUtil(ip, server.getAccount(), server.getPassword(), server.getPort());
     }
 
     private ScpClientUtil getScpClientUtil(String ip) {
-        ServerDeployDto serverDeployDTO = serverDeployService.findByIp(ip);
-        if (serverDeployDTO == null) {
+        Server server = serverService.findByIp(ip);
+        if (server == null) {
             sendMsg("IP对应服务器信息不存在：" + ip, MsgType.ERROR);
             throw new BadRequestException("IP对应服务器信息不存在：" + ip);
         }
-        return ScpClientUtil.getInstance(ip, serverDeployDTO.getPort(), serverDeployDTO.getAccount(), serverDeployDTO.getPassword());
+        return ScpClientUtil.getInstance(ip, server.getPort(), server.getAccount(), server.getPassword());
     }
 
     private void sendResultMsg(boolean result, StringBuilder sb) {
@@ -417,13 +410,13 @@ public class DeployServiceImpl implements DeployService {
     }
 
     @Override
-    public void download(List<DeployDto> queryAll, HttpServletResponse response) throws IOException {
+    public void download(List<Deploy> deploys, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (DeployDto deployDto : queryAll) {
+        for (Deploy deploy : deploys) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("应用名称", deployDto.getApp().getName());
-            map.put("服务器", deployDto.getServers());
-            map.put("部署日期", deployDto.getCreateTime());
+            map.put("应用名称", deploy.getApp().getName());
+            map.put("服务器", deploy.getServers());
+            map.put("部署日期", deploy.getCreateTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

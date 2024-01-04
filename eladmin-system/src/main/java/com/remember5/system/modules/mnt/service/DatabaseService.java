@@ -15,10 +15,11 @@
  */
 package com.remember5.system.modules.mnt.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.remember5.core.utils.PageResult;
 import com.remember5.system.modules.mnt.domain.Database;
-import com.remember5.system.modules.mnt.service.dto.DatabaseDto;
-import com.remember5.system.modules.mnt.service.dto.DatabaseQueryCriteria;
-import org.springframework.data.domain.Pageable;
+import com.remember5.system.modules.mnt.domain.vo.DatabaseQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,16 +30,16 @@ import java.util.Set;
  * @author ZhangHouYing
  * @date 2019-08-24
  */
-public interface DatabaseService {
+public interface DatabaseService extends IService<Database> {
 
     /**
      * 分页查询
      *
      * @param criteria 条件
-     * @param pageable 分页参数
+     * @param page     分页参数
      * @return /
      */
-    Object queryAll(DatabaseQueryCriteria criteria, Pageable pageable);
+    PageResult<Database> queryAll(DatabaseQueryCriteria criteria, Page<Object> page);
 
     /**
      * 查询全部
@@ -46,15 +47,7 @@ public interface DatabaseService {
      * @param criteria 条件
      * @return /
      */
-    List<DatabaseDto> queryAll(DatabaseQueryCriteria criteria);
-
-    /**
-     * 根据ID查询
-     *
-     * @param id /
-     * @return /
-     */
-    DatabaseDto findById(String id);
+    List<Database> queryAll(DatabaseQueryCriteria criteria);
 
     /**
      * 创建
@@ -92,5 +85,5 @@ public interface DatabaseService {
      * @param response /
      * @throws IOException e
      */
-    void download(List<DatabaseDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<Database> queryAll, HttpServletResponse response) throws IOException;
 }

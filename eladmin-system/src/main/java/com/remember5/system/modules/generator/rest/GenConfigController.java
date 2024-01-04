@@ -33,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -50,26 +51,25 @@ public class GenConfigController {
 
     @Operation(summary = "查询")
     @GetMapping(value = "/{tableName}")
-    public ResponseEntity<Object> queryGenConfig(@PathVariable String tableName) {
+    public ResponseEntity<GenConfig> queryGenConfig(@PathVariable String tableName) {
         return new ResponseEntity<>(genConfigService.find(tableName), HttpStatus.OK);
     }
 
-    @Operation(summary = "修改")
     @PutMapping
-    public ResponseEntity<Object> updateGenConfig(@Validated @RequestBody GenConfig genConfig) {
+    @Operation(summary = "修改")
+    public ResponseEntity<GenConfig> updateGenConfig(@Validated @RequestBody GenConfig genConfig) {
         return new ResponseEntity<>(genConfigService.update(genConfig.getTableName(), genConfig), HttpStatus.OK);
     }
 
     @Operation(summary = "查看模块名称")
     @GetMapping(value = "/modules")
-    public ResponseEntity<Object> findModules() {
+    public ResponseEntity<List<String>> findModules() {
         // 获取目录下的子目录
-        File[] subDirs = new File(System.getProperty("user.dir")).listFiles(File::isDirectory);
-        ArrayList<String> modulesNames = new ArrayList<>();
-        for (File subDir : subDirs) {
-            modulesNames.add(subDir.getName());
-        }
-        return new ResponseEntity<>(modulesNames, HttpStatus.OK);
+        File[] dirList = new File(System.getProperty("user.dir")).listFiles(File::isDirectory);
+        final List<String> list = Arrays.stream(dirList).toList().stream()
+                .map(File::getName)
+                .filter(dir -> !dir.startsWith(".")).toList();
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @Operation(summary = "查看包名称")
@@ -114,10 +114,10 @@ public class GenConfigController {
             throw new RuntimeException(e);
         }
 
-        if(!isWindows){
+        if (!isWindows) {
             root.reverseList();
         }
-        return new ResponseEntity<>(root , HttpStatus.OK);
+        return new ResponseEntity<>(root, HttpStatus.OK);
     }
 
 }

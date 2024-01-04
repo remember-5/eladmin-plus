@@ -15,15 +15,13 @@
  */
 package com.remember5.system.modules.tool.rest;
 
-import com.remember5.core.annotation.AnonymousAccess;
-import com.remember5.core.annotation.rest.AnonymousGetMapping;
-import com.remember5.security.logging.annotation.Log;
+import com.github.xiaoymin.knife4j.annotations.Ignore;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.AlipayConfig;
 import com.remember5.system.modules.tool.domain.vo.TradeVo;
 import com.remember5.system.modules.tool.service.AliPayService;
 import com.remember5.system.modules.tool.utils.AliPayStatusEnum;
 import com.remember5.system.modules.tool.utils.AlipayUtils;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -89,8 +87,8 @@ public class AliPayController {
         return ResponseEntity.ok(payUrl);
     }
 
-    @Hidden
-    @AnonymousGetMapping("/return")
+    @Ignore
+    @GetMapping(value = "/return")
     @Operation(summary = "支付之后跳转的链接")
     public ResponseEntity<String> returnPage(HttpServletRequest request, HttpServletResponse response) {
         AlipayConfig alipay = alipayService.find();
@@ -101,7 +99,8 @@ public class AliPayController {
             String outTradeNo = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             //支付宝交易号
             String tradeNo = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-            log.info("商户订单号: {} , 第三方交易号: {} ", outTradeNo, tradeNo);
+            System.out.println("商户订单号" + outTradeNo + "  " + "第三方交易号" + tradeNo);
+
             // 根据业务需要返回数据，这里统一返回OK
             return new ResponseEntity<>("payment successful", HttpStatus.OK);
         } else {
@@ -110,9 +109,8 @@ public class AliPayController {
         }
     }
 
-    @Hidden
+    @Ignore
     @RequestMapping("/notify")
-    @AnonymousAccess
     @Operation(summary = "支付异步通知(要公网访问)，接收异步通知，检查通知内容app_id、out_trade_no、total_amount是否与请求中的一致，根据trade_status进行后续业务处理")
     public ResponseEntity<Object> notify(HttpServletRequest request) {
         AlipayConfig alipay = alipayService.find();

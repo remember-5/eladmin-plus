@@ -15,16 +15,16 @@
  */
 package com.remember5.system.modules.system.rest;
 
-import com.remember5.core.base.BaseEntity;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Dict;
+import com.remember5.system.modules.system.domain.vo.DictQueryCriteria;
 import com.remember5.system.modules.system.service.DictService;
-import com.remember5.system.modules.system.service.dto.DictQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -58,15 +59,15 @@ public class DictController {
     @Operation(summary = "查询字典")
     @GetMapping(value = "/all")
     @PreAuthorize("@el.check('dict:list')")
-    public ResponseEntity<Object> queryAllDict() {
+    public ResponseEntity<List<Dict>> queryAllDict() {
         return new ResponseEntity<>(dictService.queryAll(new DictQueryCriteria()), HttpStatus.OK);
     }
 
     @Operation(summary = "查询字典")
     @GetMapping
     @PreAuthorize("@el.check('dict:list')")
-    public ResponseEntity<Object> queryDict(DictQueryCriteria resources, Pageable pageable) {
-        return new ResponseEntity<>(dictService.queryAll(resources, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<Dict>> queryDict(DictQueryCriteria resources, Page<Object> page) {
+        return new ResponseEntity<>(dictService.queryAll(resources, page), HttpStatus.OK);
     }
 
     @Log("新增字典")
@@ -85,7 +86,7 @@ public class DictController {
     @Operation(summary = "修改字典")
     @PutMapping
     @PreAuthorize("@el.check('dict:edit')")
-    public ResponseEntity<Object> updateDict(@Validated(BaseEntity.Update.class) @RequestBody Dict resources) {
+    public ResponseEntity<Object> updateDict(@Validated(Dict.Update.class) @RequestBody Dict resources) {
         dictService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

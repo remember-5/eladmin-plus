@@ -1,5 +1,8 @@
 server:
   port: 8000
+  compression: # 是用来配置服务器响应压缩的属性。这个属性可以用于启用或配置响应压缩，以减少数据传输大小，提高网络传输效率。
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
 
 #配置数据源
 spring:
@@ -8,62 +11,8 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 100MB
-  autoconfigure:
-    # 排除 Druid 自动配置
-    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
-    # 指定使用 Druid 数据源
-    type: com.alibaba.druid.pool.DruidDataSource
-    # 动态数据源文档 @see https://www.kancloud.cn/tracy5546/dynamic-datasource/content
-    dynamic:
-      p6spy: true # 默认false,建议线上关闭。
-      #设置默认的数据源或者数据源组,默认值即为 master
-      primary: master
-      strict: false
-      datasource:
-        # 主库数据源
-        master:
-          driverClassName: com.p6spy.engine.spy.P6SpyDriver
-          #postgres配置
-          url: jdbc:p6spy:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
-          #mysql配置
-          #url: jdbc:p6spy:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
-          username: ${DB_USER:root}
-          password: ${DB_PWD:123456}
-        # 从库数据源
-#        slave:
-#          driverClassName: com.p6spy.engine.spy.P6SpyDriver
-#          url: jdbc:p6spy:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
-#          username: ${DB_USER:root}
-#          password: ${DB_PWD:123456}
     druid:
-      # 初始连接数
-      initial-size: 5
-      # 最小连接数
-      min-idle: 15
-      # 最大连接数
-      max-active: 30
-      # 超时时间(以秒数为单位)
-      remove-abandoned-timeout: 180
-      # 获取连接超时时间
-      max-wait: 3000
-      # 连接有效性检测时间
-      time-between-eviction-runs-millis: 60000
-      # 连接在池中最小生存的时间
-      min-evictable-idle-time-millis: 300000
-      # 连接在池中最大生存的时间
-      max-evictable-idle-time-millis: 900000
-      # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
-      test-while-idle: true
-      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
-      test-on-borrow: true
-      # 是否在归还到池中前进行检验
-      test-on-return: false
-      # 检测连接是否有效
-      validation-query: select 1
-      # 配置监控统计
-      webStatFilter:
-        enabled: true
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
@@ -71,6 +20,9 @@ spring:
         # 控制台管理用户名和密码
         login-username: ${DRUID_USER:admin}
         login-password: ${DRUID_PWD:123456}
+      # 配置监控统计
+      webStatFilter:
+        enabled: true
       filter:
         stat:
           enabled: true
@@ -81,6 +33,55 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+    # 指定使用 Druid 数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 动态数据源文档 @see https://www.kancloud.cn/tracy5546/dynamic-datasource/content
+    dynamic:
+      p6spy: false # 默认false,建议线上关闭。
+      #设置默认的数据源或者数据源组,默认值即为 master
+      primary: master
+      strict: false
+      datasource:
+        # 主库数据源
+        master:
+          driverClassName: com.p6spy.engine.spy.P6SpyDriver
+          #postgres配置
+#          url: jdbc:p6spy:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
+          #mysql配置
+          url: jdbc:p6spy:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+          username: ${DB_USER:root}
+          password: ${DB_PWD:123456}
+        # 从库数据源
+#        slave:
+#          driverClassName: com.p6spy.engine.spy.P6SpyDriver
+#          url: jdbc:p6spy:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
+#          username: ${DB_USER:root}
+#          password: ${DB_PWD:123456}
+      druid:
+        # 初始连接数
+        initial-size: 5
+        # 最小连接数
+        min-idle: 15
+        # 最大连接数
+        max-active: 30
+        # 超时时间(以秒数为单位)
+        remove-abandoned-timeout: 180
+        # 获取连接超时时间
+        max-wait: 3000
+        # 连接有效性检测时间
+        time-between-eviction-runs-millis: 60000
+        # 连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        # 连接在池中最大生存的时间
+        max-evictable-idle-time-millis: 900000
+        # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除，建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+        test-while-idle: true
+        # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个，申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能
+        test-on-borrow: true
+        # 是否在归还到池中前进行检验，归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+        test-on-return: false
+        # 检测连接是否有效
+        validation-query: select 1
   redis:
     host: ${REDIS_HOST:127.0.0.1}
     port: ${REDIS_PORT:6379}
@@ -145,13 +146,12 @@ jwt:
     - /avatar/** # 文件
     - /file/**
     - /druid/** # 阿里巴巴 druid
-    - /*.html
     - /**/*.html
     - /**/*.css
     - /**/*.js
     - /webSocket/**
     - /ws/**
-    - /uploadFile/**
+    - /auth/**
 task:
   pool:
     # 核心线程池大小
@@ -183,7 +183,7 @@ web-socket:
 generator:
   enabled: true
   # 数据库类型  mysql or postgres
-  database-type: postgres
+  database-type: mysql
 
 # IP 本地解析
 ip:
@@ -267,7 +267,7 @@ logging:
     root: INFO
 
 minio:
-  enabled: true
+  enabled: false
   host: ${MINIO_HOST}
   bucket: ${MINIO_BUCKET}
   access-key: ${MINIO_AK}

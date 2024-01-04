@@ -16,7 +16,7 @@
 ```java
 public class TestController {
     @PostMapping()
-    @ApiOperation(value = "发送弹窗消息")
+    @Operation(summary = "发送弹窗消息")
     public Mono dialog(@RequestBody String body) {
         log.info("dialogVO:{}", body);
         // 创建一个Mono，表示异步操作的结果

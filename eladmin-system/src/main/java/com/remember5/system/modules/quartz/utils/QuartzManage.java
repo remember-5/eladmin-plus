@@ -28,6 +28,8 @@ import java.util.Date;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
+ * 管理定时任务
+ *
  * @author Zheng Jie
  * @date 2019-01-07
  */

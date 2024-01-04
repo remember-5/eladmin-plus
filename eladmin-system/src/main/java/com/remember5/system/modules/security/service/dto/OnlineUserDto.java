@@ -23,7 +23,6 @@ import java.util.Date;
 
 /**
  * 在线用户
- *
  * @author Zheng Jie
  */
 @Data

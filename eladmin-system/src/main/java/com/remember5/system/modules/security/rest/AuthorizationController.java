@@ -21,20 +21,17 @@ import cn.hutool.crypto.asymmetric.RSA;
 import com.remember5.captcha.constants.CaptchaTypeEnum;
 import com.remember5.captcha.core.CaptchaCodeProvider;
 import com.remember5.captcha.properties.CaptchaCodeProperties;
-import com.remember5.core.annotation.rest.AnonymousDeleteMapping;
-import com.remember5.core.annotation.rest.AnonymousGetMapping;
-import com.remember5.core.annotation.rest.AnonymousPostMapping;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.properties.RsaProperties;
 import com.remember5.core.utils.StringUtils;
-import com.remember5.security.properties.JwtProperties;
 import com.remember5.redis.utils.RedisUtils;
+import com.remember5.security.properties.JwtProperties;
 import com.remember5.security.utils.TokenProvider;
-import com.remember5.security.utils.SecurityUtils;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.dto.AuthUserDto;
 import com.remember5.system.modules.security.service.dto.JwtUserDto;
-import com.remember5.system.modules.system.service.dto.UserDto;
+import com.remember5.system.modules.system.domain.User;
 import com.remember5.system.properties.LoginProperties;
 import com.wf.captcha.base.Captcha;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,10 +45,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -79,9 +73,9 @@ public class AuthorizationController {
     private final CaptchaCodeProvider captchaCodeProvider;
     private final CaptchaCodeProperties captchaCodeProperties;
 
-
+    @Log("用户登录")
     @Operation(summary = "登录授权")
-    @AnonymousPostMapping(value = "/login")
+    @PostMapping(value = "/login")
     public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) {
         RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
         // 密码解密
@@ -101,7 +95,7 @@ public class AuthorizationController {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
-        final UserDto user = jwtUserDto.getUser();
+        final User user = jwtUserDto.getUser();
         String token = tokenProvider.createAccessToken(user.getId(), user.getUsername(), user.getPhone());
         // 保存在线信息
         onlineUserService.save(jwtUserDto, token, request);
@@ -109,21 +103,20 @@ public class AuthorizationController {
         Map<String, Object> authInfo = new HashMap<>(2);
         authInfo.put("token", jwtProperties.getTokenStartWith() + token);
         authInfo.put("user", jwtUserDto);
+        // todo 删除缓存
         if (loginProperties.isSingleLogin()) {
             //踢掉之前已经登录的token
             onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
         }
+        // 保存在线信息
+        onlineUserService.save(jwtUserDto, token, request);
+        // 返回登录信息
         return ResponseEntity.ok(authInfo);
     }
 
-    @Operation(summary = "获取用户信息")
-    @GetMapping(value = "/info")
-    public ResponseEntity<Object> getUserInfo() {
-        return ResponseEntity.ok(SecurityUtils.getCurrentUser());
-    }
 
     @Operation(summary = "获取验证码")
-    @AnonymousGetMapping(value = "/code")
+    @GetMapping(value = "/code")
     public ResponseEntity<Object> getCode() {
         // 获取运算的结果
         Captcha captcha = captchaCodeProvider.getCaptcha();
@@ -143,7 +136,7 @@ public class AuthorizationController {
     }
 
     @Operation(summary = "退出登录")
-    @AnonymousDeleteMapping(value = "/logout")
+    @DeleteMapping(value = "/logout")
     public ResponseEntity<Object> logout() {
         onlineUserService.logout(tokenProvider.getTokenByRequest());
         return new ResponseEntity<>(HttpStatus.OK);

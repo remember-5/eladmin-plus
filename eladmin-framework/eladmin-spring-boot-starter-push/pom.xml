@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>eladmin-spring-boot-starter-push</artifactId>
-    <name>推送服务</name>
+    <name>推送服务模块</name>
     <description>App推送服务，使用getui</description>
 
     <properties>

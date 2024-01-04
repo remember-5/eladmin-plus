@@ -17,44 +17,52 @@ package com.remember5.system.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author zhanghouying
  * @date 2019-08-24
  */
-@Entity
+
 @Getter
 @Setter
-@Table(name = "mnt_deploy")
+@TableName("mnt_deploy")
 public class Deploy extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "deploy_id")
+    @TableId(value = "deploy_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
-    @Schema(name = "服务器", hidden = true)
-    @JoinTable(name = "mnt_deploy_server",
-            joinColumns = {@JoinColumn(name = "deploy_id", referencedColumnName = "deploy_id")},
-            inverseJoinColumns = {@JoinColumn(name = "server_id", referencedColumnName = "server_id")})
-    private Set<ServerDeploy> deploys;
-
-    @ManyToOne
-    @JoinColumn(name = "app_id")
     @Schema(description = "应用编号")
+    private Long appId;
+
+    @TableField(exist = false)
+    @Schema(description = "服务器", hidden = true)
+    private Set<Server> deploys;
+
+    @TableField(exist = false)
     private App app;
 
     public void copy(Deploy source) {
         BeanUtil.copyProperties(source, this, CopyOptions.create().setIgnoreNullValue(true));
+    }
+
+    public String getServers() {
+        if (CollectionUtil.isNotEmpty(deploys)) {
+            return deploys.stream().map(Server::getName).collect(Collectors.joining(","));
+        }
+        return "";
     }
 }

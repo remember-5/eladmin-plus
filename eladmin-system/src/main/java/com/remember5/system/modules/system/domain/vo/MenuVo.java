@@ -15,7 +15,6 @@
  */
 package com.remember5.system.modules.system.domain.vo;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -28,7 +27,6 @@ import java.util.List;
  * @date 2018-12-20
  */
 @Data
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MenuVo implements Serializable {
 
     private String name;

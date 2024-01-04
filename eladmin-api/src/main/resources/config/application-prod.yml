@@ -8,10 +8,28 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 100MB
-  autoconfigure:
-    # 排除 Druid 自动配置
-    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
+    druid:
+      # 配置监控统计
+      webStatFilter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        # 控制台管理用户名和密码
+        login-username: ${DRUID_USER:admin}
+        login-password: ${DRUID_PWD:123456}
+      filter:
+        stat:
+          enabled: true
+          # 记录慢SQL
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
     # 指定使用 Druid 数据源
     type: com.alibaba.druid.pool.DruidDataSource
     # 动态数据源文档 @see https://www.kancloud.cn/tracy5546/dynamic-datasource/content
@@ -23,11 +41,12 @@ spring:
       datasource:
         # 主库数据源
         master:
-          driverClassName: com.p6spy.engine.spy.P6SpyDriver
           #postgres配置
-          url: jdbc:p6spy:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
+#          driverClassName: org.postgresql.Driver
+#          url: jdbc:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
           #mysql配置
-          #url: jdbc:p6spy:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
+          driverClassName: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${DB_HOST:127.0.0.1}:${DB_PORT:3306}/${DB_NAME:eladmin}?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
           username: ${DB_USER:root}
           password: ${DB_PWD:123456}
         # 从库数据源
@@ -61,26 +80,6 @@ spring:
       test-on-return: false
       # 检测连接是否有效
       validation-query: select 1
-      # 配置监控统计
-      webStatFilter:
-        enabled: true
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        reset-enable: false
-        # 控制台管理用户名和密码
-        login-username: ${DRUID_USER:admin}
-        login-password: ${DRUID_PWD:123456}
-      filter:
-        stat:
-          enabled: true
-          # 记录慢SQL
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: true
-        wall:
-          config:
-            multi-statement-allow: true
   # redis
   redis:
     host: ${REDIS_HOST:127.0.0.1}

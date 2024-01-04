@@ -10,6 +10,8 @@
     </parent>
 
     <artifactId>eladmin-spring-boot-starter-office</artifactId>
+    <name>Office模块</name>
+    <description>解析处理excel,ppt,word等</description>
 
     <properties>
         <java.version>17</java.version>

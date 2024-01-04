@@ -3,7 +3,7 @@ package com.remember5.system.modules.minio.rest;
 
 import com.remember5.core.result.R;
 import com.remember5.oss.entity.Base64Uploader;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.minio.service.MinioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

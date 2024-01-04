@@ -17,8 +17,9 @@ package com.remember5.core.handler;
 
 import com.remember5.core.eneity.ApiError;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.core.exception.ServiceException;
 import com.remember5.core.exception.EntityExistException;
+import com.remember5.core.exception.EntityNotFoundException;
+import com.remember5.core.exception.ServiceException;
 import com.remember5.core.result.R;
 import com.remember5.core.result.REnum;
 import com.remember5.core.utils.ThrowableUtil;
@@ -35,7 +36,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;

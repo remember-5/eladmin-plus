@@ -16,9 +16,10 @@
 package com.remember5.system.constants;
 
 /**
+ * 关于缓存的Key集合
+ *
  * @author: liaojinlong
  * @date: 2020/6/11 15:49
- * @apiNote: 关于缓存的Key集合
  */
 public interface CacheKeyConstant {
 

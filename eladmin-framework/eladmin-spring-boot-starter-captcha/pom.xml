@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>eladmin-spring-boot-starter-captcha</artifactId>
+    <name>验证码模块</name>
 
     <properties>
         <java.version>17</java.version>

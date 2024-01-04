@@ -16,11 +16,10 @@
 package com.remember5.system.modules.quartz.config;
 
 import com.remember5.system.modules.quartz.domain.QuartzJob;
-import com.remember5.system.modules.quartz.repository.QuartzJobRepository;
+import com.remember5.system.modules.quartz.mapper.QuartzJobMapper;
 import com.remember5.system.modules.quartz.utils.QuartzManage;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -31,11 +30,11 @@ import java.util.List;
  * @author Zheng Jie
  * @date 2019-01-07
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JobRunner implements ApplicationRunner {
-    private static final Logger log = LoggerFactory.getLogger(JobRunner.class);
-    private final QuartzJobRepository quartzJobRepository;
+    private final QuartzJobMapper quartzJobMapper;
     private final QuartzManage quartzManage;
 
     /**
@@ -47,7 +46,7 @@ public class JobRunner implements ApplicationRunner {
     public void run(ApplicationArguments applicationArguments) {
         log.info("--------------------注入系统定时任务---------------------");
         try {
-            List<QuartzJob> quartzJobs = quartzJobRepository.findByIsPauseIsFalse();
+            List<QuartzJob> quartzJobs = quartzJobMapper.findByIsPauseIsFalse();
             quartzJobs.forEach(quartzManage::addJob);
         } catch (Exception e) {
             log.error("--------------------定时任务注入失败---------------------");

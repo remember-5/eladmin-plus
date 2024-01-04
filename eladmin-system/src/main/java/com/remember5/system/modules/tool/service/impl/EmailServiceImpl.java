@@ -15,23 +15,24 @@
  */
 package com.remember5.system.modules.tool.service.impl;
 
+
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.system.modules.tool.domain.EmailConfig;
+import com.remember5.system.modules.tool.domain.vo.EmailVo;
+import com.remember5.system.modules.tool.mapper.EmailConfigMapper;
 import com.remember5.system.modules.tool.service.EmailService;
 import lombok.RequiredArgsConstructor;
-import com.remember5.system.modules.tool.domain.vo.EmailVo;
-import com.remember5.system.modules.tool.repository.EmailRepository;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 /**
  * @author Zheng Jie
@@ -40,9 +41,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "email")
-public class EmailServiceImpl implements EmailService {
+public class EmailServiceImpl extends ServiceImpl<EmailConfigMapper, EmailConfig> implements EmailService {
 
-    private final EmailRepository emailRepository;
     public static final String KEY = "Passw0rdPassw0rd";
     private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, KEY.getBytes(StandardCharsets.UTF_8));
 
@@ -55,13 +55,14 @@ public class EmailServiceImpl implements EmailService {
             // 对称加密
             emailConfig.setPass(new String(aes.encrypt(emailConfig.getPass())));
         }
-        return emailRepository.save(emailConfig);
+        saveOrUpdate(emailConfig);
+        return emailConfig;
     }
 
     @Override
     public EmailConfig find() {
-        Optional<EmailConfig> emailConfig = emailRepository.findById(1L);
-        return emailConfig.orElseGet(EmailConfig::new);
+        EmailConfig emailConfig = getById(1L);
+        return emailConfig == null ? new EmailConfig() : emailConfig;
     }
 
     @Override
@@ -89,6 +90,8 @@ public class EmailServiceImpl implements EmailService {
         account.setSslEnable(true);
         // 使用STARTTLS安全连接
         account.setStarttlsEnable(true);
+        // 解决jdk8之后默认禁用部分tls协议，导致邮件发送失败的问题
+        account.setSslProtocols("TLSv1 TLSv1.1 TLSv1.2");
         String content = emailVo.getContent();
         // 发送
         try {

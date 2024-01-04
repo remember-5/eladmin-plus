@@ -16,7 +16,7 @@
 package com.remember5.system.modules.quartz.task;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * 测试用
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
  * @date 2019-01-08
  */
 @Slf4j
-@Component
+@Service
 public class TestTask {
 
     public void run() {
@@ -33,7 +33,7 @@ public class TestTask {
     }
 
     public void run1(String str) {
-        log.info("run1 执行成功，参数为： {}" + str);
+        log.info("run1 执行成功，参数为： {}", str);
     }
 
     public void run2() {

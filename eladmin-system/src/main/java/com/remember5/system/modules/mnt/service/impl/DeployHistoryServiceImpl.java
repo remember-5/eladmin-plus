@@ -15,25 +15,24 @@
  */
 package com.remember5.system.modules.mnt.service.impl;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
-import com.remember5.system.modules.mnt.repository.DeployHistoryRepository;
-import com.remember5.system.modules.mnt.service.mapstruct.DeployHistoryMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageResult;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.security.utils.QueryHelp;
-import com.remember5.core.utils.ValidationUtil;
-import lombok.RequiredArgsConstructor;
 import com.remember5.system.modules.mnt.domain.DeployHistory;
+import com.remember5.system.modules.mnt.domain.vo.DeployHistoryQueryCriteria;
+import com.remember5.system.modules.mnt.mapper.DeployHistoryMapper;
 import com.remember5.system.modules.mnt.service.DeployHistoryService;
-import com.remember5.system.modules.mnt.service.dto.DeployHistoryDto;
-import com.remember5.system.modules.mnt.service.dto.DeployHistoryQueryCriteria;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -42,54 +41,44 @@ import java.util.*;
  */
 @Service
 @RequiredArgsConstructor
-public class DeployHistoryServiceImpl implements DeployHistoryService {
+public class DeployHistoryServiceImpl extends ServiceImpl<DeployHistoryMapper, DeployHistory> implements DeployHistoryService {
 
-    private final DeployHistoryRepository deployhistoryRepository;
     private final DeployHistoryMapper deployhistoryMapper;
 
     @Override
-    public Object queryAll(DeployHistoryQueryCriteria criteria, Pageable pageable) {
-        Page<DeployHistory> page = deployhistoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(deployhistoryMapper::toDto));
+    public PageResult<DeployHistory> queryAll(DeployHistoryQueryCriteria criteria, Page<Object> page) {
+        return PageUtil.toPage(deployhistoryMapper.findAll(criteria, page));
     }
 
     @Override
-    public List<DeployHistoryDto> queryAll(DeployHistoryQueryCriteria criteria) {
-        return deployhistoryMapper.toDto(deployhistoryRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
-    }
-
-    @Override
-    public DeployHistoryDto findById(String id) {
-        DeployHistory deployhistory = deployhistoryRepository.findById(id).orElseGet(DeployHistory::new);
-        ValidationUtil.isNull(deployhistory.getId(), "DeployHistory", "id", id);
-        return deployhistoryMapper.toDto(deployhistory);
+    public List<DeployHistory> queryAll(DeployHistoryQueryCriteria criteria) {
+        return deployhistoryMapper.findAll(criteria);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(DeployHistory resources) {
         resources.setId(IdUtil.simpleUUID());
-        deployhistoryRepository.save(resources);
+        resources.setDeployDate(Timestamp.valueOf(LocalDateTimeUtil.now()));
+        save(resources);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<String> ids) {
-        for (String id : ids) {
-            deployhistoryRepository.deleteById(id);
-        }
+        removeBatchByIds(ids);
     }
 
     @Override
-    public void download(List<DeployHistoryDto> queryAll, HttpServletResponse response) throws IOException {
+    public void download(List<DeployHistory> deployHistories, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (DeployHistoryDto deployHistoryDto : queryAll) {
+        for (DeployHistory deployHistory : deployHistories) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("部署编号", deployHistoryDto.getDeployId());
-            map.put("应用名称", deployHistoryDto.getAppName());
-            map.put("部署IP", deployHistoryDto.getIp());
-            map.put("部署时间", deployHistoryDto.getDeployDate());
-            map.put("部署人员", deployHistoryDto.getDeployUser());
+            map.put("部署编号", deployHistory.getDeployId());
+            map.put("应用名称", deployHistory.getAppName());
+            map.put("部署IP", deployHistory.getIp());
+            map.put("部署时间", deployHistory.getDeployDate());
+            map.put("部署人员", deployHistory.getDeployUser());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

@@ -17,14 +17,14 @@ package com.remember5.system.modules.system.rest;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.remember5.core.exception.BadRequestException;
+import com.remember5.core.utils.PageResult;
 import com.remember5.core.utils.PageUtil;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.security.utils.SecurityUtils;
-import com.remember5.security.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Menu;
+import com.remember5.system.modules.system.domain.vo.MenuQueryCriteria;
+import com.remember5.system.modules.system.domain.vo.MenuVo;
 import com.remember5.system.modules.system.service.MenuService;
-import com.remember5.system.modules.system.service.dto.MenuDto;
-import com.remember5.system.modules.system.service.dto.MenuQueryCriteria;
-import com.remember5.system.modules.system.service.mapstruct.MenuMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
  * @author Zheng Jie
  * @date 2018-12-03
  */
-
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "系统：菜单管理")
@@ -50,7 +49,6 @@ import java.util.stream.Collectors;
 public class MenuController {
 
     private final MenuService menuService;
-    private final MenuMapper menuMapper;
     private static final String ENTITY_NAME = "menu";
 
     @Operation(summary = "导出菜单数据")
@@ -62,16 +60,16 @@ public class MenuController {
 
     @GetMapping(value = "/build")
     @Operation(summary = "获取前端所需菜单")
-    public ResponseEntity<Object> buildMenus() {
-        List<MenuDto> menuDtoList = menuService.findByUser(SecurityUtils.getCurrentUserId());
-        List<MenuDto> menuDtos = menuService.buildTree(menuDtoList);
-        return new ResponseEntity<>(menuService.buildMenus(menuDtos), HttpStatus.OK);
+    public ResponseEntity<List<MenuVo>> buildMenus() {
+        List<Menu> menuList = menuService.findByUser(SecurityUtils.getCurrentUserId());
+        List<Menu> menus = menuService.buildTree(menuList);
+        return new ResponseEntity<>(menuService.buildMenus(menus), HttpStatus.OK);
     }
 
     @Operation(summary = "返回全部的菜单")
     @GetMapping(value = "/lazy")
     @PreAuthorize("@el.check('menu:list','roles:list')")
-    public ResponseEntity<Object> queryAllMenu(@RequestParam Long pid) {
+    public ResponseEntity<List<Menu>> queryAllMenu(@RequestParam Long pid) {
         return new ResponseEntity<>(menuService.getMenus(pid), HttpStatus.OK);
     }
 
@@ -80,9 +78,9 @@ public class MenuController {
     @PreAuthorize("@el.check('menu:list','roles:list')")
     public ResponseEntity<Object> childMenu(@RequestParam Long id) {
         Set<Menu> menuSet = new HashSet<>();
-        List<MenuDto> menuList = menuService.getMenus(id);
-        menuSet.add(menuService.findOne(id));
-        menuSet = menuService.getChildMenus(menuMapper.toEntity(menuList), menuSet);
+        List<Menu> menuList = menuService.getMenus(id);
+        menuSet.add(menuService.getById(id));
+        menuSet = menuService.getChildMenus(menuList, menuSet);
         Set<Long> ids = menuSet.stream().map(Menu::getId).collect(Collectors.toSet());
         return new ResponseEntity<>(ids, HttpStatus.OK);
     }
@@ -90,22 +88,30 @@ public class MenuController {
     @GetMapping
     @Operation(summary = "查询菜单")
     @PreAuthorize("@el.check('menu:list')")
-    public ResponseEntity<Object> queryMenu(MenuQueryCriteria criteria) throws Exception {
-        List<MenuDto> menuDtoList = menuService.queryAll(criteria, true);
-        return new ResponseEntity<>(PageUtil.toPage(menuDtoList, menuDtoList.size()), HttpStatus.OK);
+    public ResponseEntity<PageResult<Menu>> queryMenu(MenuQueryCriteria criteria) throws Exception {
+        List<Menu> menuList = menuService.queryAll(criteria, true);
+        return new ResponseEntity<>(PageUtil.toPage(menuList), HttpStatus.OK);
     }
 
     @Operation(summary = "查询菜单:根据ID获取同级与上级数据")
     @PostMapping("/superior")
     @PreAuthorize("@el.check('menu:list')")
-    public ResponseEntity<Object> getMenuSuperior(@RequestBody List<Long> ids) {
-        Set<MenuDto> menuDtos = new LinkedHashSet<>();
+    public ResponseEntity<List<Menu>> getMenuSuperior(@RequestBody List<Long> ids) {
+        Set<Menu> menus = new LinkedHashSet<>();
         if (CollectionUtil.isNotEmpty(ids)) {
             for (Long id : ids) {
-                MenuDto menuDto = menuService.findById(id);
-                menuDtos.addAll(menuService.getSuperior(menuDto, new ArrayList<>()));
+                Menu menu = menuService.findById(id);
+                List<Menu> menuList = menuService.getSuperior(menu, new ArrayList<>());
+                for (Menu data : menuList) {
+                    if (data.getId().equals(menu.getPid())) {
+                        data.setSubCount(data.getSubCount() - 1);
+                    }
+                }
+                menus.addAll(menuList);
             }
-            return new ResponseEntity<>(menuService.buildTree(new ArrayList<>(menuDtos)), HttpStatus.OK);
+            // 编辑菜单时不显示自己以及自己下级的数据，避免出现PID数据环形问题
+            menus = menus.stream().filter(i -> !ids.contains(i.getId())).collect(Collectors.toSet());
+            return new ResponseEntity<>(menuService.buildTree(new ArrayList<>(menus)), HttpStatus.OK);
         }
         return new ResponseEntity<>(menuService.getMenus(null), HttpStatus.OK);
     }
@@ -138,9 +144,9 @@ public class MenuController {
     public ResponseEntity<Object> deleteMenu(@RequestBody Set<Long> ids) {
         Set<Menu> menuSet = new HashSet<>();
         for (Long id : ids) {
-            List<MenuDto> menuList = menuService.getMenus(id);
-            menuSet.add(menuService.findOne(id));
-            menuSet = menuService.getChildMenus(menuMapper.toEntity(menuList), menuSet);
+            List<Menu> menuList = menuService.getMenus(id);
+            menuSet.add(menuService.getById(id));
+            menuSet = menuService.getChildMenus(menuList, menuSet);
         }
         menuService.delete(menuSet);
         return new ResponseEntity<>(HttpStatus.OK);

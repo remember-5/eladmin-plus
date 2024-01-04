@@ -15,16 +15,17 @@
  */
 package com.remember5.system.modules.tool.rest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.FileUtil;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.LocalStorage;
+import com.remember5.system.modules.tool.domain.vo.LocalStorageQueryCriteria;
 import com.remember5.system.modules.tool.service.LocalStorageService;
-import com.remember5.system.modules.tool.service.dto.LocalStorageQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,11 +48,11 @@ public class LocalStorageController {
 
     private final LocalStorageService localStorageService;
 
-    @Operation(summary = "查询文件")
     @GetMapping
+    @Operation(summary = "查询文件")
     @PreAuthorize("@el.check('storage:list')")
-    public ResponseEntity<Object> queryFile(LocalStorageQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(localStorageService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<LocalStorage>> queryFile(LocalStorageQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(localStorageService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Operation(summary = "导出数据")
@@ -71,7 +72,7 @@ public class LocalStorageController {
 
     @PostMapping("/pictures")
     @Operation(summary = "上传图片")
-    public ResponseEntity<Object> uploadPicture(@RequestParam MultipartFile file) {
+    public ResponseEntity<LocalStorage> uploadPicture(@RequestParam MultipartFile file) {
         // 判断文件是否为图片
         String suffix = FileUtil.getExtensionName(file.getOriginalFilename());
         if (!FileUtil.IMAGE.equals(FileUtil.getFileType(suffix))) {

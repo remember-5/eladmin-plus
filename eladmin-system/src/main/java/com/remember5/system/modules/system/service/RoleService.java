@@ -15,13 +15,13 @@
  */
 package com.remember5.system.modules.system.service;
 
-import com.remember5.system.modules.system.service.dto.RoleDto;
-import com.remember5.system.modules.system.service.dto.RoleQueryCriteria;
-import com.remember5.system.modules.system.service.dto.RoleSmallDto;
-import com.remember5.system.modules.system.service.dto.UserDto;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.security.service.dto.AuthorityDto;
 import com.remember5.system.modules.system.domain.Role;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.GrantedAuthority;
+import com.remember5.system.modules.system.domain.User;
+import com.remember5.system.modules.system.domain.vo.RoleQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -32,14 +32,14 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2018-12-03
  */
-public interface RoleService {
+public interface RoleService extends IService<Role> {
 
     /**
      * 查询全部数据
      *
      * @return /
      */
-    List<RoleDto> queryAll();
+    List<Role> queryAll();
 
     /**
      * 根据ID查询
@@ -47,7 +47,7 @@ public interface RoleService {
      * @param id /
      * @return /
      */
-    RoleDto findById(long id);
+    Role findById(long id);
 
     /**
      * 创建
@@ -73,10 +73,10 @@ public interface RoleService {
     /**
      * 根据用户ID查询
      *
-     * @param id 用户ID
+     * @param userId 用户ID
      * @return /
      */
-    List<RoleSmallDto> findByUsersId(Long id);
+    List<Role> findByUsersId(Long userId);
 
     /**
      * 根据角色查询角色级别
@@ -90,25 +90,17 @@ public interface RoleService {
      * 修改绑定的菜单
      *
      * @param resources /
-     * @param roleDTO   /
      */
-    void updateMenu(Role resources, RoleDto roleDTO);
-
-    /**
-     * 解绑菜单
-     *
-     * @param id /
-     */
-    void untiedMenu(Long id);
+    void updateMenu(Role resources);
 
     /**
      * 待条件分页查询
      *
      * @param criteria 条件
-     * @param pageable 分页参数
+     * @param page     分页参数
      * @return /
      */
-    Object queryAll(RoleQueryCriteria criteria, Pageable pageable);
+    PageResult<Role> queryAll(RoleQueryCriteria criteria, Page<Object> page);
 
     /**
      * 查询全部
@@ -116,16 +108,16 @@ public interface RoleService {
      * @param criteria 条件
      * @return /
      */
-    List<RoleDto> queryAll(RoleQueryCriteria criteria);
+    List<Role> queryAll(RoleQueryCriteria criteria);
 
     /**
      * 导出数据
      *
-     * @param queryAll 待导出的数据
+     * @param roles    待导出的数据
      * @param response /
      * @throws IOException /
      */
-    void download(List<RoleDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<Role> roles, HttpServletResponse response) throws IOException;
 
     /**
      * 获取用户权限信息
@@ -133,7 +125,7 @@ public interface RoleService {
      * @param user 用户信息
      * @return 权限信息
      */
-    List<GrantedAuthority> mapToGrantedAuthorities(UserDto user);
+    List<AuthorityDto> mapToGrantedAuthorities(User user);
 
     /**
      * 验证是否被用户关联
@@ -145,8 +137,8 @@ public interface RoleService {
     /**
      * 根据菜单Id查询
      *
-     * @param menuIds /
+     * @param menuId /
      * @return /
      */
-    List<Role> findInMenuId(List<Long> menuIds);
+    List<Role> findByMenuId(Long menuId);
 }

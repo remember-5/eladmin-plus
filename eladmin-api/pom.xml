@@ -73,12 +73,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!--    mybatis-plus 插件    -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
         <!-- druid数据源驱动 -->
         <dependency>
             <groupId>com.alibaba</groupId>

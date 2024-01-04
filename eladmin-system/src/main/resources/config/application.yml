@@ -13,22 +13,6 @@ spring:
     redis:
       repositories:
         enabled: false
-  #配置 Jpa
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        # 解决 FetchType.LAZY 失效问题 的问题，如果没这个句话，所有关联都要加FetchType.EAGER 例如：@ManyToMany(fetch=FetchType.EAGER)
-        enable_lazy_load_no_trans: true
-        # postgres配置
-        dialect: org.hibernate.dialect.PostgreSQL10Dialect
-        #mysql依赖
-        #dialect: org.hibernate.dialect.MySQL8Dialect
-        session_factory:
-          statement_inspector: com.remember5.system.intercepter.MyIntercepter
-
-    open-in-view: true
 
 # 内存用户缓存配置
 user-cache:
@@ -40,7 +24,7 @@ user-cache:
   min-idle-time: 3600000
 
 mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath*:/mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
 #  typeAliasesPackage: com.remember5.system
   global-config:
@@ -56,5 +40,5 @@ mybatis-plus:
       logic-not-delete-value: 0
   # 原生配置
   configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: true
+    cache-enabled: false # 关闭二级缓存
+    local-cache-scope: STATEMENT # https://baomidou.com/pages/56bac0/#localcachescope

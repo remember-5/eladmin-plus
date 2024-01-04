@@ -16,10 +16,9 @@
 package com.remember5.system.modules.security.service.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.remember5.system.modules.system.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import com.remember5.system.modules.system.service.dto.UserDto;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
@@ -34,15 +33,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JwtUserDto implements UserDetails {
 
-    private final UserDto user;
+    private final User user;
 
     private final List<Long> dataScopes;
 
-    @JSONField(serialize = false)
-    private final List<GrantedAuthority> authorities;
+    private final List<AuthorityDto> authorities;
 
     public Set<String> getRoles() {
-        return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        return authorities.stream().map(AuthorityDto::getAuthority).collect(Collectors.toSet());
     }
 
     @Override

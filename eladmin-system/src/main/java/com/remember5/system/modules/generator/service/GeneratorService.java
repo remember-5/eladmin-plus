@@ -15,8 +15,12 @@
  */
 package com.remember5.system.modules.generator.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.remember5.core.utils.PageResult;
 import com.remember5.system.modules.generator.domain.ColumnInfo;
 import com.remember5.system.modules.generator.domain.GenConfig;
+import com.remember5.system.modules.generator.domain.vo.TableInfo;
 import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,16 +31,25 @@ import java.util.List;
  * @author Zheng Jie
  * @date 2019-01-02
  */
-public interface GeneratorService {
+public interface GeneratorService extends IService<ColumnInfo> {
+
+
+    /**
+     * 获取数据库连接
+     *
+     * @return /
+     */
+    List<String> getDatasource();
+
 
     /**
      * 查询数据库元数据
      *
-     * @param name     表名
-     * @param startEnd 分页参数
+     * @param name 表名
+     * @param page 分页参数
      * @return /
      */
-    Object getTables(String name, int[] startEnd);
+    PageResult<TableInfo> getTables(String name, Page<Object> page);
 
     /**
      * 得到数据表的元数据
@@ -60,13 +73,6 @@ public interface GeneratorService {
      * @param columnInfos /
      */
     void save(List<ColumnInfo> columnInfos);
-
-    /**
-     * 获取所有table
-     *
-     * @return /
-     */
-    Object getTables();
 
     /**
      * 代码生成

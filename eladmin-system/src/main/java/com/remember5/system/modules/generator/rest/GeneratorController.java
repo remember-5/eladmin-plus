@@ -15,9 +15,12 @@
  */
 package com.remember5.system.modules.generator.rest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
+import com.remember5.core.utils.PageResult;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.system.modules.generator.domain.ColumnInfo;
+import com.remember5.system.modules.generator.domain.vo.TableInfo;
 import com.remember5.system.modules.generator.service.GenConfigService;
 import com.remember5.system.modules.generator.service.GeneratorService;
 import com.remember5.system.properties.GeneratorProperties;
@@ -45,28 +48,24 @@ public class GeneratorController {
     private final GeneratorService generatorService;
     private final GenConfigService genConfigService;
 
-
-    @Operation(summary = "查询数据库数据")
-    @GetMapping(value = "/tables/all")
-    public ResponseEntity<Object> queryAllTables() {
-        return new ResponseEntity<>(generatorService.getTables(), HttpStatus.OK);
+    @Operation(summary = "查询数据源")
+    @GetMapping("/datasource")
+    public ResponseEntity<List<String>> getDatasource() {
+        return new ResponseEntity<>(generatorService.getDatasource(), HttpStatus.OK);
     }
+
 
     @Operation(summary = "查询数据库数据")
     @GetMapping(value = "/tables")
-    public ResponseEntity<Object> queryTables(@RequestParam(defaultValue = "") String name,
-                                              @RequestParam(defaultValue = "0") Integer page,
-                                              @RequestParam(defaultValue = "10") Integer size) {
-        // TODO 当用public的schema的时候 并不设置环境变量DB_SCHEMA 这里的分页可能有问题。
-        int[] startEnd = PageUtil.transToStartEnd(page, size);
-        return new ResponseEntity<>(generatorService.getTables(name, startEnd), HttpStatus.OK);
+    public ResponseEntity<PageResult<TableInfo>> queryTables(@RequestParam(defaultValue = "") String name, Page<Object> page) {
+        return new ResponseEntity<>(generatorService.getTables(name, page), HttpStatus.OK);
     }
 
     @Operation(summary = "查询字段数据")
     @GetMapping(value = "/columns")
-    public ResponseEntity<Object> queryColumns(@RequestParam String tableName) {
-        List<ColumnInfo> pgColumnInfos = generatorService.getColumns(tableName);
-        return new ResponseEntity<>(PageUtil.toPage(pgColumnInfos, pgColumnInfos.size()), HttpStatus.OK);
+    public ResponseEntity<PageResult<ColumnInfo>> queryColumns(@RequestParam String tableName) {
+        List<ColumnInfo> columnInfos = generatorService.getColumns(tableName);
+        return new ResponseEntity<>(PageUtil.toPage(columnInfos), HttpStatus.OK);
     }
 
     @Operation(summary = "保存字段数据")

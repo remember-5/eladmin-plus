@@ -1,4 +1,8 @@
 # 更新日志
+## 3.0.0
+- Added: 修改ORM为MybatisPlus
+
+
 ## 2.3.3
 - Added: dockerfile适配openjdk17
 - Added: 新增jpa字段租户

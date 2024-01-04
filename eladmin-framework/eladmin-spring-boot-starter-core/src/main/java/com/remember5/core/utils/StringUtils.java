@@ -20,10 +20,13 @@ import nl.basjes.parse.useragent.UserAgent;
 import nl.basjes.parse.useragent.UserAgentAnalyzer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Zheng Jie
@@ -175,6 +178,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             w = 0;
         }
         return weekDays[w];
+    }
+
+    public static List<Field> getAllFields(Class clazz, List<Field> fields) {
+        if (clazz != null) {
+            fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+            getAllFields(clazz.getSuperclass(), fields);
+        }
+        return fields;
     }
 
 

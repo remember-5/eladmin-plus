@@ -15,13 +15,11 @@
  */
 package com.remember5.system.modules.tool.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -32,13 +30,10 @@ import java.io.Serializable;
  * @date 2018-12-31
  */
 @Data
-@Entity
-@Table(name = "tool_qiniu_config")
+@TableName("tool_qiniu_config")
 public class QiniuConfig implements Serializable {
 
-    @Id
-    @Column(name = "config_id")
-    @Schema(description = "ID")
+    @TableId("config_id")
     private Long id;
 
     @NotBlank

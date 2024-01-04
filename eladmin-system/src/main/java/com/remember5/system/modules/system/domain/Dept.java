@@ -16,15 +16,19 @@
 package com.remember5.system.modules.system.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -32,23 +36,23 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2019-03-25
  */
-@Entity
 @Getter
 @Setter
-@Table(name = "sys_dept")
+@TableName("sys_dept")
 public class Dept extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "dept_id")
     @NotNull(groups = Update.class)
+    @TableId(value = "dept_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @TableField(exist = false)
     @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "depts")
     @Schema(description = "角色")
     private Set<Role> roles;
+
+    @TableField(exist = false)
+    private List<Dept> children;
 
     @Schema(description = "排序")
     private Integer deptSort;
@@ -83,5 +87,17 @@ public class Dept extends BaseEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    public Boolean getHasChildren() {
+        return subCount > 0;
+    }
+
+    public Boolean getLeaf() {
+        return subCount <= 0;
+    }
+
+    public String getLabel() {
+        return name;
     }
 }

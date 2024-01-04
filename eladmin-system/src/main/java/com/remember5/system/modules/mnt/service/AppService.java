@@ -15,10 +15,11 @@
  */
 package com.remember5.system.modules.mnt.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.remember5.core.utils.PageResult;
 import com.remember5.system.modules.mnt.domain.App;
-import com.remember5.system.modules.mnt.service.dto.AppDto;
-import com.remember5.system.modules.mnt.service.dto.AppQueryCriteria;
-import org.springframework.data.domain.Pageable;
+import com.remember5.system.modules.mnt.domain.vo.AppQueryCriteria;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,16 +30,16 @@ import java.util.Set;
  * @author zhanghouying
  * @date 2019-08-24
  */
-public interface AppService {
+public interface AppService extends IService<App> {
 
     /**
      * 分页查询
      *
      * @param criteria 条件
-     * @param pageable 分页参数
+     * @param page     分页参数
      * @return /
      */
-    Object queryAll(AppQueryCriteria criteria, Pageable pageable);
+    PageResult<App> queryAll(AppQueryCriteria criteria, Page<Object> page);
 
     /**
      * 查询全部数据
@@ -46,15 +47,7 @@ public interface AppService {
      * @param criteria 条件
      * @return /
      */
-    List<AppDto> queryAll(AppQueryCriteria criteria);
-
-    /**
-     * 根据ID查询
-     *
-     * @param id /
-     * @return /
-     */
-    AppDto findById(Long id);
+    List<App> queryAll(AppQueryCriteria criteria);
 
     /**
      * 创建
@@ -80,9 +73,9 @@ public interface AppService {
     /**
      * 导出数据
      *
-     * @param queryAll /
+     * @param apps     /
      * @param response /
      * @throws IOException /
      */
-    void download(List<AppDto> queryAll, HttpServletResponse response) throws IOException;
+    void download(List<App> apps, HttpServletResponse response) throws IOException;
 }

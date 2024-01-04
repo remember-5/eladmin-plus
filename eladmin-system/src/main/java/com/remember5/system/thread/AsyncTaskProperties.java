@@ -17,16 +17,16 @@ package com.remember5.system.thread;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * 线程池配置属性类
  *
- * @author https://juejin.im/entry/5abb8f6951882555677e9da2
- * @date 2019年10月31日14:58:18
+ * @author wangjiahao
+ * @date 2023/01/08
  */
 @Data
-@Component
+@Configuration
 public class AsyncTaskProperties {
 
     public static int corePoolSize;

@@ -15,7 +15,7 @@
  */
 package com.remember5.system.modules.tool.service;
 
-
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.remember5.system.modules.tool.domain.EmailConfig;
 import com.remember5.system.modules.tool.domain.vo.EmailVo;
 
@@ -23,7 +23,7 @@ import com.remember5.system.modules.tool.domain.vo.EmailVo;
  * @author Zheng Jie
  * @date 2018-12-26
  */
-public interface EmailService {
+public interface EmailService extends IService<EmailConfig> {
 
     /**
      * 更新邮件配置
@@ -47,7 +47,6 @@ public interface EmailService {
      *
      * @param emailVo     邮件发送的内容
      * @param emailConfig 邮件配置
-     * @throws Exception /
      */
     void send(EmailVo emailVo, EmailConfig emailConfig);
 }

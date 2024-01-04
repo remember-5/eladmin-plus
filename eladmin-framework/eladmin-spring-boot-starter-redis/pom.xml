@@ -10,6 +10,8 @@
     </parent>
 
     <artifactId>eladmin-spring-boot-starter-redis</artifactId>
+    <name>Redis模块</name>
+    <description>Redis模块</description>
 
     <properties>
         <java.version>17</java.version>

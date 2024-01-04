@@ -1,8 +1,8 @@
 package com.remember5.openapi.entity;
 
-import com.remember5.openapi.modules.apiuser.domain.ApiUser;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -15,9 +15,9 @@ import java.util.Collections;
 @Data
 public class ApiUserDetails implements UserDetails {
 
-    private ApiUser user;
+    private User user;
 
-    public ApiUserDetails(ApiUser user) {
+    public ApiUserDetails(User user) {
         this.user = user;
     }
 

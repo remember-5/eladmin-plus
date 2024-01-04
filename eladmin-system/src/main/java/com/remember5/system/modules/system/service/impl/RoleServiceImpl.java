@@ -15,33 +15,32 @@
  */
 package com.remember5.system.modules.system.service.impl;
 
+
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import com.remember5.system.constants.CacheKeyConstant;
-import com.remember5.security.utils.QueryHelp;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.exception.EntityExistException;
-import com.remember5.core.utils.*;
+import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageResult;
+import com.remember5.core.utils.PageUtil;
+import com.remember5.core.utils.StringUtils;
 import com.remember5.redis.utils.RedisUtils;
-import com.remember5.system.modules.security.service.UserCacheClean;
+import com.remember5.system.constants.CacheKeyConstant;
+import com.remember5.system.modules.security.service.dto.AuthorityDto;
 import com.remember5.system.modules.system.domain.Menu;
 import com.remember5.system.modules.system.domain.Role;
 import com.remember5.system.modules.system.domain.User;
-import com.remember5.system.modules.system.repository.RoleRepository;
-import com.remember5.system.modules.system.repository.UserRepository;
+import com.remember5.system.modules.system.domain.vo.RoleQueryCriteria;
+import com.remember5.system.modules.system.mapper.RoleDeptMapper;
+import com.remember5.system.modules.system.mapper.RoleMapper;
+import com.remember5.system.modules.system.mapper.RoleMenuMapper;
+import com.remember5.system.modules.system.mapper.UserMapper;
 import com.remember5.system.modules.system.service.RoleService;
-import com.remember5.system.modules.system.service.dto.RoleDto;
-import com.remember5.system.modules.system.service.dto.RoleQueryCriteria;
-import com.remember5.system.modules.system.service.dto.RoleSmallDto;
-import com.remember5.system.modules.system.service.dto.UserDto;
-import com.remember5.system.modules.system.service.mapstruct.RoleMapper;
-import com.remember5.system.modules.system.service.mapstruct.RoleSmallMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,57 +56,56 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @CacheConfig(cacheNames = "role")
-public class RoleServiceImpl implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
-    private final RoleRepository roleRepository;
     private final RoleMapper roleMapper;
-    private final RoleSmallMapper roleSmallMapper;
+    private final RoleDeptMapper roleDeptMapper;
+    private final RoleMenuMapper roleMenuMapper;
     private final RedisUtils redisUtils;
-    private final UserRepository userRepository;
-    private final UserCacheClean userCacheClean;
+    private final UserMapper userMapper;
 
     @Override
-    public List<RoleDto> queryAll() {
-        Sort sort = Sort.by(Sort.Direction.ASC, "level");
-        return roleMapper.toDto(roleRepository.findAll(sort));
+    public List<Role> queryAll() {
+        return roleMapper.queryAll();
     }
 
     @Override
-    public List<RoleDto> queryAll(RoleQueryCriteria criteria) {
-        return roleMapper.toDto(roleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
+    public List<Role> queryAll(RoleQueryCriteria criteria) {
+        return roleMapper.findAll(criteria);
     }
 
     @Override
-    public Object queryAll(RoleQueryCriteria criteria, Pageable pageable) {
-        Page<Role> page = roleRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(roleMapper::toDto));
+    public PageResult<Role> queryAll(RoleQueryCriteria criteria, Page<Object> page) {
+        criteria.setOffset(page.offset());
+        List<Role> roles = roleMapper.findAll(criteria);
+        Long total = roleMapper.countAll(criteria);
+        return PageUtil.toPage(roles, total);
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public RoleDto findById(long id) {
-        Role role = roleRepository.findById(id).orElseGet(Role::new);
-        ValidationUtil.isNull(role.getId(), "Role", "id", id);
-        return roleMapper.toDto(role);
+    @Cacheable(key = "'id:' + #p0")
+    public Role findById(long id) {
+        return roleMapper.findById(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(Role resources) {
-        if (roleRepository.findByName(resources.getName()) != null) {
+        if (roleMapper.findByName(resources.getName()) != null) {
             throw new EntityExistException(Role.class, "username", resources.getName());
         }
-        roleRepository.save(resources);
+        save(resources);
+        // 判断是否有部门数据，若有，则需创建关联
+        if (CollectionUtil.isNotEmpty(resources.getDepts())) {
+            roleDeptMapper.insertData(resources.getId(), resources.getDepts());
+        }
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Role resources) {
-        Role role = roleRepository.findById(resources.getId()).orElseGet(Role::new);
-        ValidationUtil.isNull(role.getId(), "Role", "id", resources.getId());
-
-        Role role1 = roleRepository.findByName(resources.getName());
-
+        Role role = getById(resources.getId());
+        Role role1 = roleMapper.findByName(resources.getName());
         if (role1 != null && !role1.getId().equals(role.getId())) {
             throw new EntityExistException(Role.class, "username", resources.getName());
         }
@@ -116,26 +114,29 @@ public class RoleServiceImpl implements RoleService {
         role.setDataScope(resources.getDataScope());
         role.setDepts(resources.getDepts());
         role.setLevel(resources.getLevel());
-        roleRepository.save(role);
+        // 更新
+        saveOrUpdate(role);
+        // 删除关联部门数据
+        roleDeptMapper.deleteByRoleId(resources.getId());
+        // 判断是否有部门数据，若有，则需更新关联
+        if (CollectionUtil.isNotEmpty(resources.getDepts())) {
+            roleDeptMapper.insertData(resources.getId(), resources.getDepts());
+        }
         // 更新相关缓存
         delCaches(role.getId(), null);
     }
 
     @Override
-    public void updateMenu(Role resources, RoleDto roleDTO) {
-        Role role = roleMapper.toEntity(roleDTO);
-        List<User> users = userRepository.findByRoleId(role.getId());
+    public void updateMenu(Role role) {
+        List<User> users = userMapper.findByRoleId(role.getId());
         // 更新菜单
-        role.setMenus(resources.getMenus());
-        delCaches(resources.getId(), users);
-        roleRepository.save(role);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void untiedMenu(Long menuId) {
-        // 更新菜单
-        roleRepository.untiedMenu(menuId);
+        roleMenuMapper.deleteByRoleId(role.getId());
+        // 判断是否为空
+        if(CollUtil.isNotEmpty(role.getMenus())){
+            roleMenuMapper.insertData(role.getId(), role.getMenus());
+        }
+        // 更新缓存
+        delCaches(role.getId(), users);
     }
 
     @Override
@@ -145,12 +146,15 @@ public class RoleServiceImpl implements RoleService {
             // 更新相关缓存
             delCaches(id, null);
         }
-        roleRepository.deleteAllByIdIn(ids);
+        removeBatchByIds(ids);
+        // 删除角色部门关联数据、角色菜单关联数据
+        roleDeptMapper.deleteByRoleIds(ids);
+        roleMenuMapper.deleteByRoleIds(ids);
     }
 
     @Override
-    public List<RoleSmallDto> findByUsersId(Long id) {
-        return roleSmallMapper.toDto(new ArrayList<>(roleRepository.findByUserId(id)));
+    public List<Role> findByUsersId(Long userId) {
+        return roleMapper.findByUserId(userId);
     }
 
     @Override
@@ -158,34 +162,35 @@ public class RoleServiceImpl implements RoleService {
         if (roles.size() == 0) {
             return Integer.MAX_VALUE;
         }
-        Set<RoleDto> roleDtos = new HashSet<>();
+        Set<Role> roleSet = new HashSet<>();
         for (Role role : roles) {
-            roleDtos.add(findById(role.getId()));
+            roleSet.add(findById(role.getId()));
         }
-        return Collections.min(roleDtos.stream().map(RoleDto::getLevel).collect(Collectors.toList()));
+        return Collections.min(roleSet.stream().map(Role::getLevel).collect(Collectors.toList()));
     }
 
     @Override
-    public List<GrantedAuthority> mapToGrantedAuthorities(UserDto user) {
+    @Cacheable(key = "'auth:' + #p0.id")
+    public List<AuthorityDto> mapToGrantedAuthorities(User user) {
         Set<String> permissions = new HashSet<>();
         // 如果是管理员直接返回
         if (user.getIsAdmin()) {
             permissions.add("admin");
-            return permissions.stream().map(SimpleGrantedAuthority::new)
+            return permissions.stream().map(AuthorityDto::new)
                     .collect(Collectors.toList());
         }
-        Set<Role> roles = roleRepository.findByUserId(user.getId());
+        List<Role> roles = roleMapper.findByUserId(user.getId());
         permissions = roles.stream().flatMap(role -> role.getMenus().stream())
-                .filter(menu -> StringUtils.isNotBlank(menu.getPermission()))
-                .map(Menu::getPermission).collect(Collectors.toSet());
-        return permissions.stream().map(SimpleGrantedAuthority::new)
+                .map(Menu::getPermission)
+                .filter(StringUtils::isNotBlank).collect(Collectors.toSet());
+        return permissions.stream().map(AuthorityDto::new)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void download(List<RoleDto> roles, HttpServletResponse response) throws IOException {
+    public void download(List<Role> roles, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (RoleDto role : roles) {
+        for (Role role : roles) {
             Map<String, Object> map = new LinkedHashMap<>();
             map.put("角色名称", role.getName());
             map.put("角色级别", role.getLevel());
@@ -198,25 +203,23 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void verification(Set<Long> ids) {
-        if (userRepository.countByRoles(ids) > 0) {
+        if (userMapper.countByRoles(ids) > 0) {
             throw new BadRequestException("所选角色存在用户关联，请解除关联再试！");
         }
     }
 
     @Override
-    public List<Role> findInMenuId(List<Long> menuIds) {
-        return roleRepository.findInMenuId(menuIds);
+    public List<Role> findByMenuId(Long menuId) {
+        return roleMapper.findByMenuId(menuId);
     }
 
     /**
      * 清理缓存
-     *
      * @param id /
      */
     public void delCaches(Long id, List<User> users) {
-        users = CollectionUtil.isEmpty(users) ? userRepository.findByRoleId(id) : users;
+        users = CollectionUtil.isEmpty(users) ? userMapper.findByRoleId(id) : users;
         if (CollectionUtil.isNotEmpty(users)) {
-            users.forEach(item -> userCacheClean.cleanUserCache(item.getUsername()));
             Set<Long> userIds = users.stream().map(User::getId).collect(Collectors.toSet());
             redisUtils.delByKeys(CacheKeyConstant.DATA_USER, userIds);
             redisUtils.delByKeys(CacheKeyConstant.MENU_USER, userIds);

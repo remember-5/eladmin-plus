@@ -15,14 +15,16 @@
  */
 package com.remember5.system.modules.system.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import com.remember5.core.enums.DataScopeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -37,33 +39,23 @@ import java.util.Set;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "sys_role")
+@TableName("sys_role")
 public class Role extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "role_id")
     @NotNull(groups = {Update.class})
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "role_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
     private Long id;
 
-    @JSONField(serialize = false)
-    @ManyToMany(fetch=FetchType.EAGER, mappedBy = "roles")
+    @TableField(exist = false)
     @Schema(description = "用户", hidden = true)
     private Set<User> users;
 
-    @ManyToMany
-    @JoinTable(name = "sys_roles_menus",
-            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "menu_id", referencedColumnName = "menu_id")})
+    @TableField(exist = false)
     @Schema(description = "菜单", hidden = true)
     private Set<Menu> menus;
 
-    @ManyToMany
-    @JoinTable(name = "sys_roles_depts",
-            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "dept_id", referencedColumnName = "dept_id")})
+    @TableField(exist = false)
     @Schema(description = "部门", hidden = true)
     private Set<Dept> depts;
 
@@ -74,7 +66,6 @@ public class Role extends BaseEntity implements Serializable {
     @Schema(description = "数据权限，全部 、 本级 、 自定义")
     private String dataScope = DataScopeEnum.THIS_LEVEL.getValue();
 
-    @Column(name = "level")
     @Schema(description = "级别，数值越小，级别越大")
     private Integer level = 3;
 

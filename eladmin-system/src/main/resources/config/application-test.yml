@@ -12,6 +12,27 @@ spring:
     # 排除 Druid 自动配置
     exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
+    druid:
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        # 控制台管理用户名和密码
+        login-username: ${DRUID_USER:admin}
+        login-password: ${DRUID_PWD:123456}
+      # 配置监控统计
+      webStatFilter:
+        enabled: true
+      filter:
+        stat:
+          enabled: true
+          # 记录慢SQL
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
     # 指定使用 Druid 数据源
     type: com.alibaba.druid.pool.DruidDataSource
     # 动态数据源文档 @see https://www.kancloud.cn/tracy5546/dynamic-datasource/content
@@ -36,51 +57,31 @@ spring:
 #          url: jdbc:p6spy:postgresql://${DB_HOST:127.0.0.1}:${DB_PORT:5432}/${DB_NAME:eladmin}?currentSchema=${DB_SCHEMA:eladmin}
 #          username: ${DB_USER:root}
 #          password: ${DB_PWD:123456}
-    druid:
-      # 初始连接数
-      initial-size: 5
-      # 最小连接数
-      min-idle: 15
-      # 最大连接数
-      max-active: 30
-      # 超时时间(以秒数为单位)
-      remove-abandoned-timeout: 180
-      # 获取连接超时时间
-      max-wait: 5000
-      # 连接有效性检测时间
-      time-between-eviction-runs-millis: 60000
-      # 连接在池中最小生存的时间
-      min-evictable-idle-time-millis: 300000
-      # 连接在池中最大生存的时间
-      max-evictable-idle-time-millis: 900000
-      # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
-      test-while-idle: true
-      # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
-      test-on-borrow: true
-      # 是否在归还到池中前进行检验
-      test-on-return: false
-      # 检测连接是否有效
-      validation-query: select 1
-      # 配置监控统计
-      webStatFilter:
-        enabled: true
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        reset-enable: false
-        # 控制台管理用户名和密码
-        login-username: ${DRUID_USER:admin}
-        login-password: ${DRUID_PWD:123456}
-      filter:
-        stat:
-          enabled: true
-          # 记录慢SQL
-          log-slow-sql: true
-          slow-sql-millis: 1000
-          merge-sql: true
-        wall:
-          config:
-            multi-statement-allow: true
+      druid:
+        # 初始连接数
+        initial-size: 5
+        # 最小连接数
+        min-idle: 15
+        # 最大连接数
+        max-active: 30
+        # 超时时间(以秒数为单位)
+        remove-abandoned-timeout: 180
+        # 获取连接超时时间
+        max-wait: 5000
+        # 连接有效性检测时间
+        time-between-eviction-runs-millis: 60000
+        # 连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        # 连接在池中最大生存的时间
+        max-evictable-idle-time-millis: 900000
+        # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
+        test-while-idle: true
+        # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
+        test-on-borrow: true
+        # 是否在归还到池中前进行检验
+        test-on-return: false
+        # 检测连接是否有效
+        validation-query: select 1
   # redis
   redis:
     host: ${REDIS_HOST:127.0.0.1}
@@ -144,14 +145,11 @@ jwt:
     - /webjars/**
     - /*/api-docs
     - /avatar/** # 文件
-    - /file/**
     - /druid/** # 阿里巴巴 druid
-    - /*.html
     - /**/*.html
     - /**/*.css
     - /**/*.js
-    - /webSocket/**
-    - /ws/**
+    - /auth/**
 
 task:
   pool:

@@ -15,11 +15,10 @@
  */
 package com.remember5.system.modules.tool.domain;
 
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -30,17 +29,14 @@ import java.sql.Timestamp;
  * @date 2018-12-31
  */
 @Data
-@Entity
-@Table(name = "tool_qiniu_content")
+@TableName("tool_qiniu_content")
 public class QiniuContent implements Serializable {
 
-    @Id
-    @Column(name = "content_id")
+    @TableId(value = "content_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @TableField("name")
     @Schema(description = "文件名")
     private String key;
 
@@ -59,8 +55,7 @@ public class QiniuContent implements Serializable {
     @Schema(description = "空间类型：公开/私有")
     private String type = "公开";
 
-    @UpdateTimestamp
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @Schema(description = "创建或更新时间")
-    @Column(name = "update_time")
     private Timestamp updateTime;
 }

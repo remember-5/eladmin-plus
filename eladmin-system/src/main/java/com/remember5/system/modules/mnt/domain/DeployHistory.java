@@ -17,15 +17,13 @@ package com.remember5.system.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -33,14 +31,12 @@ import java.sql.Timestamp;
  * @author zhanghouying
  * @date 2019-08-24
  */
-@Entity
 @Getter
 @Setter
-@Table(name = "mnt_deploy_history")
+@TableName("mnt_deploy_history")
 public class DeployHistory implements Serializable {
 
-    @Id
-    @Column(name = "history_id")
+    @TableId(value = "history_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
     private String id;
 
@@ -50,7 +46,6 @@ public class DeployHistory implements Serializable {
     @Schema(description = "IP")
     private String ip;
 
-    @CreationTimestamp
     @Schema(description = "部署时间")
     private Timestamp deployDate;
 

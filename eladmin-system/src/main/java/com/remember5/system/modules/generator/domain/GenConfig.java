@@ -15,12 +15,15 @@
  */
 package com.remember5.system.modules.generator.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -32,20 +35,16 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-@Table(name = "code_gen_config")
+@TableName("code_gen_config")
 public class GenConfig implements Serializable {
 
     public GenConfig(String tableName) {
         this.tableName = tableName;
-        this.prefix = "t_";
     }
 
-    @Id
-    @Column(name = "config_id")
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "config_id", type = IdType.AUTO)
     private Long id;
 
     @NotBlank
@@ -63,26 +62,6 @@ public class GenConfig implements Serializable {
     @Schema(description = "模块名")
     private String moduleName;
 
-    @NotBlank
-    @Schema(description = "前端文件路径")
-    private String path;
-
-    @Schema(description = "前端接口文件路径")
-    private String apiPath;
-    @Schema(description = "是否相对路径")
-    private Boolean relativePath = false;
-
-    @Schema(description = "是否添加到管理员权限上")
-    private Boolean adminJurisdiction = false;
-    @Schema(description = "组件相对路径")
-    private String componentPath;
-    @Schema(description = "菜单标题")
-    private String menuHeadline;
-
-    @Schema(description = "路由地址")
-    private String routingAddress;
-    @Schema(description = "自动生成菜单")
-    private Boolean autoGenerateMenu = false;
     @Schema(description = "作者")
     private String author;
 
@@ -91,4 +70,36 @@ public class GenConfig implements Serializable {
 
     @Schema(description = "是否覆盖")
     private Boolean cover = false;
+
+    @NotBlank
+    @Schema(description = "前端文件路径")
+    private String path;
+
+    @TableField(value = "api_path")
+    @Schema(description = "前端接口文件路径")
+    private String apiPath;
+
+    @TableField(value = "relative_path")
+    @Schema(description = "是否相对路径")
+    private Boolean relativePath = false;
+
+    @TableField(value = "admin_jurisdiction")
+    @Schema(description = "是否添加到管理员权限上")
+    private Boolean adminJurisdiction = false;
+
+    @TableField(value = "component_path")
+    @Schema(description = "组件相对路径")
+    private String componentPath;
+
+    @TableField(value = "menu_headline")
+    @Schema(description = "菜单标题")
+    private String menuHeadline;
+
+    @TableField(value = "routing_address")
+    @Schema(description = "路由地址")
+    private String routingAddress;
+
+    @TableField(value = "auto_generate_menu")
+    @Schema(description = "自动生成菜单")
+    private Boolean autoGenerateMenu = false;
 }

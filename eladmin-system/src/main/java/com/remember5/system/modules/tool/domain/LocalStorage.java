@@ -17,13 +17,15 @@ package com.remember5.system.modules.tool.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -32,15 +34,12 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "tool_local_storage")
 @NoArgsConstructor
+@TableName("tool_local_storage")
 public class LocalStorage extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "storage_id")
+    @TableId(value = "storage_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Schema(description = "真实文件名")

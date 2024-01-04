@@ -15,13 +15,15 @@
  */
 package com.remember5.system.modules.mnt.rest;
 
-import com.remember5.security.logging.annotation.Log;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.system.modules.mnt.domain.DeployHistory;
+import com.remember5.system.modules.mnt.domain.vo.DeployHistoryQueryCriteria;
 import com.remember5.system.modules.mnt.service.DeployHistoryService;
-import com.remember5.system.modules.mnt.service.dto.DeployHistoryQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,8 +55,8 @@ public class DeployHistoryController {
     @Operation(summary = "查询部署历史")
     @GetMapping
     @PreAuthorize("@el.check('deployHistory:list')")
-    public ResponseEntity<Object> queryDeployHistory(DeployHistoryQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(deployhistoryService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<DeployHistory>> queryDeployHistory(DeployHistoryQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(deployhistoryService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Log("删除DeployHistory")

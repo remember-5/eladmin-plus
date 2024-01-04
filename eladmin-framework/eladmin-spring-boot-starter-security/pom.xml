@@ -10,6 +10,8 @@
     </parent>
 
     <artifactId>eladmin-spring-boot-starter-security</artifactId>
+    <name>Spring Security模块</name>
+    <description>Spring Security模块</description>
 
     <properties>
         <java.version>17</java.version>

@@ -15,11 +15,10 @@
  */
 package com.remember5.system.modules.quartz.domain;
 
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -27,15 +26,12 @@ import java.sql.Timestamp;
  * @author Zheng Jie
  * @date 2019-01-07
  */
-@Entity
 @Data
-@Table(name = "sys_quartz_log")
+@TableName("sys_quartz_log")
 public class QuartzLog implements Serializable {
 
-    @Id
-    @Column(name = "log_id")
+    @TableId(value = "log_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Schema(description = "任务名称", hidden = true)
@@ -62,7 +58,7 @@ public class QuartzLog implements Serializable {
     @Schema(description = "执行耗时", hidden = true)
     private Long time;
 
-    @CreationTimestamp
+    @TableField(fill = FieldFill.INSERT)
     @Schema(description = "创建时间", hidden = true)
     private Timestamp createTime;
 }

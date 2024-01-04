@@ -18,27 +18,28 @@ package com.remember5.system.modules.system.rest;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.properties.RsaProperties;
+import com.remember5.core.utils.PageResult;
 import com.remember5.core.utils.PageUtil;
 import com.remember5.security.utils.SecurityUtils;
 import com.remember5.system.enums.CodeEnum;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.Dept;
+import com.remember5.system.modules.system.domain.Role;
 import com.remember5.system.modules.system.domain.User;
 import com.remember5.system.modules.system.domain.vo.UserPassVo;
+import com.remember5.system.modules.system.domain.vo.UserQueryCriteria;
 import com.remember5.system.modules.system.service.*;
-import com.remember5.system.modules.system.service.dto.RoleSmallDto;
-import com.remember5.system.modules.system.service.dto.UserDto;
-import com.remember5.system.modules.system.service.dto.UserQueryCriteria;
 import com.remember5.system.properties.LoginProperties;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -71,17 +72,17 @@ public class UserController {
     private final VerifyService verificationCodeService;
     private final LoginProperties loginProperties;
 
-    @Operation(summary = "导出用户数据")
-    @GetMapping(value = "/download")
-    @PreAuthorize("@el.check('user:list')")
-    public void exportUser(HttpServletResponse response, UserQueryCriteria criteria) throws IOException {
-        userService.download(userService.queryAll(criteria), response);
+
+    @Operation(summary = "获取用户信息")
+    @GetMapping(value = "/info")
+    public ResponseEntity<UserDetails> getUserInfo() {
+        return ResponseEntity.ok(SecurityUtils.getCurrentUser());
     }
 
     @Operation(summary = "查询用户")
     @GetMapping
     @PreAuthorize("@el.check('user:list')")
-    public ResponseEntity<Object> queryUser(UserQueryCriteria criteria, Pageable pageable) {
+    public ResponseEntity<PageResult<User>> queryUser(UserQueryCriteria criteria, Page<Object> page) {
         if (!ObjectUtils.isEmpty(criteria.getDeptId())) {
             criteria.getDeptIds().add(criteria.getDeptId());
             // 先查找是否存在子节点
@@ -96,14 +97,14 @@ public class UserController {
             // 取交集
             criteria.getDeptIds().retainAll(dataScopes);
             if (!CollectionUtil.isEmpty(criteria.getDeptIds())) {
-                return new ResponseEntity<>(userService.queryAll(criteria, pageable), HttpStatus.OK);
+                return new ResponseEntity<>(userService.queryAll(criteria, page), HttpStatus.OK);
             }
         } else {
             // 否则取并集
             criteria.getDeptIds().addAll(dataScopes);
-            return new ResponseEntity<>(userService.queryAll(criteria, pageable), HttpStatus.OK);
+            return new ResponseEntity<>(userService.queryAll(criteria, page), HttpStatus.OK);
         }
-        return new ResponseEntity<>(PageUtil.toPage(null, 0), HttpStatus.OK);
+        return new ResponseEntity<>(PageUtil.noData(), HttpStatus.OK);
     }
 
     @Log("新增用户")
@@ -112,8 +113,8 @@ public class UserController {
     @PreAuthorize("@el.check('user:add')")
     public ResponseEntity<Object> createUser(@Validated @RequestBody User resources) {
         checkLevel(resources);
-        // 默认密码，在配置文件中
-        resources.setPassword(passwordEncoder.encode(loginProperties.getDefaultPassword()));
+        // 默认密码 123456
+        resources.setPassword(passwordEncoder.encode("123456"));
         userService.create(resources);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -145,8 +146,8 @@ public class UserController {
     @PreAuthorize("@el.check('user:del')")
     public ResponseEntity<Object> deleteUser(@RequestBody Set<Long> ids) {
         for (Long id : ids) {
-            Integer currentLevel = Collections.min(roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
-            Integer optLevel = Collections.min(roleService.findByUsersId(id).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
+            Integer currentLevel = Collections.min(roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(Role::getLevel).collect(Collectors.toList()));
+            Integer optLevel = Collections.min(roleService.findByUsersId(id).stream().map(Role::getLevel).collect(Collectors.toList()));
             if (currentLevel > optLevel) {
                 throw new BadRequestException("角色权限不足，不能删除：" + userService.findById(id).getUsername());
             }
@@ -157,11 +158,11 @@ public class UserController {
 
     @Operation(summary = "修改密码")
     @PostMapping(value = "/updatePass")
-    public ResponseEntity<Object> updateUserPass(@RequestBody UserPassVo passVo) {
+    public ResponseEntity<Object> updateUserPass(@RequestBody UserPassVo passVo) throws Exception {
         RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
         String oldPass = new String(rsa.decrypt(passVo.getOldPass(), KeyType.PrivateKey));
         String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
-        UserDto user = userService.findByName(SecurityUtils.getCurrentUsername());
+        User user = userService.findByName(SecurityUtils.getCurrentUsername());
         if (!passwordEncoder.matches(oldPass, user.getPassword())) {
             throw new BadRequestException("修改失败，旧密码错误");
         }
@@ -173,23 +174,10 @@ public class UserController {
     }
 
     @Operation(summary = "重置密码")
-    @PostMapping(value = "/resetPass")
-    @PreAuthorize("@el.check()")
-    public ResponseEntity<Object> resetUserPass(@RequestBody Long userId) {
-        String password = "123456";
-        UserDto user = userService.findById(userId);
-        userService.updatePass(user.getUsername(), passwordEncoder.encode(password));
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Operation(summary = "修改密码")
-    @PostMapping(value = "/updateUserPass")
-    @PreAuthorize("@el.check()")
-    public ResponseEntity<Object> updateUserPassword(@RequestBody UserPassVo passVo) {
-        RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
-        String newPass = new String(rsa.decrypt(passVo.getNewPass(), KeyType.PrivateKey));
-        UserDto user = userService.findById(passVo.getUserId());
-        userService.updatePass(user.getUsername(), passwordEncoder.encode(newPass));
+    @PutMapping(value = "/resetPwd")
+    public ResponseEntity<Object> resetPwd(@RequestBody Set<Long> ids) {
+        String pwd = passwordEncoder.encode("123456");
+        userService.resetPwd(ids, pwd);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -202,15 +190,15 @@ public class UserController {
     @Log("修改邮箱")
     @Operation(summary = "修改邮箱")
     @PostMapping(value = "/updateEmail/{code}")
-    public ResponseEntity<Object> updateUserEmail(@PathVariable String code, @RequestBody User user) {
+    public ResponseEntity<Object> updateUserEmail(@PathVariable String code, @RequestBody User resources) throws Exception {
         RSA rsa = new RSA(rsaProperties.getPrivateKey(), null);
-        String password = new String(rsa.decrypt(user.getPassword(), KeyType.PrivateKey));
-        UserDto userDto = userService.findByName(SecurityUtils.getCurrentUsername());
-        if (!passwordEncoder.matches(password, userDto.getPassword())) {
+        String password = new String(rsa.decrypt(resources.getPassword(), KeyType.PrivateKey));
+        User user = userService.findByName(SecurityUtils.getCurrentUsername());
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadRequestException("密码错误");
         }
         verificationCodeService.validated(CodeEnum.EMAIL_RESET_EMAIL_CODE.getKey() + user.getEmail(), code);
-        userService.updateEmail(userDto.getUsername(), user.getEmail());
+        userService.updateEmail(user.getUsername(), user.getEmail());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -220,10 +208,17 @@ public class UserController {
      * @param resources /
      */
     private void checkLevel(User resources) {
-        Integer currentLevel = Collections.min(roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
+        Integer currentLevel = Collections.min(roleService.findByUsersId(SecurityUtils.getCurrentUserId()).stream().map(Role::getLevel).collect(Collectors.toList()));
         Integer optLevel = roleService.findByRoles(resources.getRoles());
         if (currentLevel > optLevel) {
             throw new BadRequestException("角色权限不足");
         }
+    }
+
+    @Operation(summary = "导出用户数据")
+    @GetMapping(value = "/download")
+    @PreAuthorize("@el.check('user:list')")
+    public void exportUser(HttpServletResponse response, UserQueryCriteria criteria) throws IOException {
+        userService.download(userService.queryAll(criteria), response);
     }
 }

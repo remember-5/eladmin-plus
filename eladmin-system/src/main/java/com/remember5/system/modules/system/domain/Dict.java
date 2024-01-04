@@ -15,12 +15,15 @@
  */
 package com.remember5.system.modules.system.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -30,20 +33,17 @@ import java.util.List;
  * @author Zheng Jie
  * @date 2019-04-10
  */
-@Entity
 @Getter
 @Setter
-@Table(name = "sys_dict")
+@TableName("sys_dict")
 public class Dict extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "dict_id")
     @NotNull(groups = Update.class)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "dict_id", type = IdType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "dict", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @TableField(exist = false)
     private List<DictDetail> dictDetails;
 
     @NotBlank

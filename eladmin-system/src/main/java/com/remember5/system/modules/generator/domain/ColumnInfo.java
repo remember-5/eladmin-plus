@@ -15,13 +15,14 @@
  */
 package com.remember5.system.modules.generator.domain;
 
-import com.remember5.system.modules.generator.utils.GenUtil;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -32,15 +33,12 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-@Table(name = "code_column_config")
+@TableName("code_column_config")
 public class ColumnInfo implements Serializable {
 
-    @Id
-    @Column(name = "column_id")
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "column_id", type = IdType.AUTO)
     private Long id;
 
     @Schema(description = "表名")
@@ -65,10 +63,10 @@ public class ColumnInfo implements Serializable {
     private Boolean notNull;
 
     @Schema(description = "是否在列表显示")
-    private Boolean listShow;
+    private Boolean listShow = true;
 
     @Schema(description = "是否表单显示")
-    private Boolean formShow;
+    private Boolean formShow = true;
 
     @Schema(description = "表单类型")
     private String formType;
@@ -78,22 +76,4 @@ public class ColumnInfo implements Serializable {
 
     @Schema(description = "字典名称")
     private String dictName;
-
-    @Schema(description = "日期注解")
-    private String dateAnnotation;
-
-    public ColumnInfo(String tableName, String columnName, Boolean notNull, String columnType, String remark, String keyType, String extra) {
-        this.tableName = tableName;
-        this.columnName = columnName;
-        this.columnType = columnType;
-        this.keyType = keyType;
-        this.extra = extra;
-        this.notNull = notNull;
-        if (GenUtil.PK.equalsIgnoreCase(keyType) && GenUtil.EXTRA.equalsIgnoreCase(extra)) {
-            this.notNull = false;
-        }
-        this.remark = remark;
-        this.listShow = true;
-        this.formShow = true;
-    }
 }

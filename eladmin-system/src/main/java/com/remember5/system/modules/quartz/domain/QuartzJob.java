@@ -15,12 +15,15 @@
  */
 package com.remember5.system.modules.quartz.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -31,19 +34,16 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@Entity
-@Table(name = "sys_quartz_job")
+@TableName("sys_quartz_job")
 public class QuartzJob extends BaseEntity implements Serializable {
 
     public static final String JOB_KEY = "JOB_KEY";
 
-    @Id
-    @Column(name = "job_id")
+    @TableId(value = "job_id", type = IdType.AUTO)
     @NotNull(groups = {Update.class})
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Transient
+    @TableField(exist = false)
     @Schema(description = "用于子任务唯一标识", hidden = true)
     private String uuid;
 

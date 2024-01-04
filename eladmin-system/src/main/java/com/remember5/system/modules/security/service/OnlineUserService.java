@@ -17,16 +17,13 @@ package com.remember5.system.modules.security.service;
 
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
-import com.remember5.core.utils.FileUtil;
-import com.remember5.core.utils.IpUtils;
-import com.remember5.core.utils.PageUtil;
-import com.remember5.core.utils.StringUtils;
-import com.remember5.security.properties.JwtProperties;
+import com.remember5.core.utils.*;
 import com.remember5.redis.utils.RedisUtils;
+import com.remember5.security.properties.JwtProperties;
 import com.remember5.system.modules.security.service.dto.JwtUserDto;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;
 import com.remember5.system.modules.tool.service.impl.EmailServiceImpl;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
@@ -44,13 +41,13 @@ import java.util.*;
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class OnlineUserService {
 
     private final JwtProperties jwtProperties;
     private final RedisUtils redisUtils;
 
-    private SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
+    private final SymmetricCrypto aes = new SymmetricCrypto(SymmetricAlgorithm.AES, EmailServiceImpl.KEY.getBytes(StandardCharsets.UTF_8));
 
     /**
      * 保存在线用户信息
@@ -86,14 +83,14 @@ public class OnlineUserService {
     /**
      * 查询全部数据
      *
-     * @param filter   /
+     * @param username /
      * @param pageable /
      * @return /
      */
-    public Map<String, Object> getAll(String filter, Pageable pageable) {
-        List<OnlineUserDto> onlineUserDtos = getAll(filter);
+    public PageResult<OnlineUserDto> getAll(String username, Pageable pageable) {
+        List<OnlineUserDto> onlineUserDtos = getAll(username);
         return PageUtil.toPage(
-                PageUtil.toPage(pageable.getPageNumber(), pageable.getPageSize(), onlineUserDtos),
+                PageUtil.paging(pageable.getPageNumber(), pageable.getPageSize(), onlineUserDtos),
                 onlineUserDtos.size()
         );
     }
@@ -101,22 +98,17 @@ public class OnlineUserService {
     /**
      * 查询全部数据，不分页
      *
-     * @param filter /
+     * @param username /
      * @return /
      */
-    public List<OnlineUserDto> getAll(String filter) {
-        List<String> keys = redisUtils.scan(jwtProperties.getOnlineKey() + "*");
+    public List<OnlineUserDto> getAll(String username) {
+        String loginKey = jwtProperties.getOnlineKey() +
+                (StringUtils.isBlank(username) ? "" : "*" + username);
+        List<String> keys = redisUtils.scan(loginKey + "*");
         Collections.reverse(keys);
         List<OnlineUserDto> onlineUserDtos = new ArrayList<>();
         for (String key : keys) {
-            OnlineUserDto onlineUserDto = (OnlineUserDto) redisUtils.get(key);
-            if (StringUtils.isNotBlank(filter)) {
-                if (onlineUserDto.toString().contains(filter)) {
-                    onlineUserDtos.add(onlineUserDto);
-                }
-            } else {
-                onlineUserDtos.add(onlineUserDto);
-            }
+            onlineUserDtos.add((OnlineUserDto) redisUtils.get(key));
         }
         onlineUserDtos.sort((o1, o2) -> o2.getLoginTime().compareTo(o1.getLoginTime()));
         return onlineUserDtos;

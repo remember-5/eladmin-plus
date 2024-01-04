@@ -9,17 +9,20 @@
     <version>2.3.3</version>
     <packaging>pom</packaging>
 
+    <name>依赖管理</name>
+
+
     <properties>
         <lombok.version>1.18.30</lombok.version>
-        <druid.version>1.2.20</druid.version>
-        <mybatis-plus.version>3.5.4.1</mybatis-plus.version>
+        <druid.version>1.2.21</druid.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
 
         <hutool.version>5.8.22</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
         <fastjson.version>2.0.43</fastjson.version>
         <knife4j.version>4.3.0</knife4j.version>
         <!--   todo 暂未升级     -->
-        <dynamic.version>3.4.0</dynamic.version>
+        <dynamic.version>4.3.0</dynamic.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <commons-io.version>2.11.0</commons-io.version>
         <minio.verison>8.5.7</minio.verison>

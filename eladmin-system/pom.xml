@@ -24,7 +24,6 @@
         <oshi.version>5.7.1</oshi.version>
         <!-- oshi监控需要指定jna版本, 问题详见 https://github.com/oshi/oshi/issues/1040 -->
         <jna.version>5.8.0</jna.version>
-        <dynamic.version>3.4.0</dynamic.version>
         <mail.version>1.4.7</mail.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <alipay.version>4.9.153.ALL</alipay.version>
@@ -73,7 +72,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>${dynamic.version}</version>
         </dependency>
 
         <!-- linux的管理 -->

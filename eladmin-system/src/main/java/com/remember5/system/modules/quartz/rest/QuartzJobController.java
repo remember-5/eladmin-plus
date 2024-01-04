@@ -15,16 +15,19 @@
  */
 package com.remember5.system.modules.quartz.rest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
+import com.remember5.security.utils.SpringContextHolder;
 import com.remember5.system.modules.quartz.domain.QuartzJob;
-import com.remember5.system.modules.quartz.service.dto.JobQueryCriteria;
-import com.remember5.system.modules.quartz.service.impl.QuartzJobServiceImpl;
+import com.remember5.system.modules.quartz.domain.QuartzLog;
+import com.remember5.system.modules.quartz.domain.vo.QuartzJobQueryCriteria;
+import com.remember5.system.modules.quartz.service.QuartzJobService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,34 +50,34 @@ import java.util.Set;
 public class QuartzJobController {
 
     private static final String ENTITY_NAME = "quartzJob";
-    private final QuartzJobServiceImpl quartzJobService;
+    private final QuartzJobService quartzJobService;
 
     @Operation(summary = "查询定时任务")
     @GetMapping
     @PreAuthorize("@el.check('timing:list')")
-    public ResponseEntity<Object> queryQuartzJob(JobQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(quartzJobService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<QuartzJob>> queryQuartzJob(QuartzJobQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(quartzJobService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Operation(summary = "导出任务数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('timing:list')")
-    public void exportQuartzJob(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
+    public void exportQuartzJob(HttpServletResponse response, QuartzJobQueryCriteria criteria) throws IOException {
         quartzJobService.download(quartzJobService.queryAll(criteria), response);
     }
 
     @Operation(summary = "导出日志数据")
     @GetMapping(value = "/logs/download")
     @PreAuthorize("@el.check('timing:list')")
-    public void exportQuartzJobLog(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
+    public void exportQuartzJobLog(HttpServletResponse response, QuartzJobQueryCriteria criteria) throws IOException {
         quartzJobService.downloadLog(quartzJobService.queryAllLog(criteria), response);
     }
 
     @Operation(summary = "查询任务执行日志")
     @GetMapping(value = "/logs")
     @PreAuthorize("@el.check('timing:list')")
-    public ResponseEntity<Object> queryQuartzJobLog(JobQueryCriteria criteria, Pageable pageable) {
-        return new ResponseEntity<>(quartzJobService.queryAllLog(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<QuartzLog>> queryQuartzJobLog(QuartzJobQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(quartzJobService.queryAllLog(criteria, page), HttpStatus.OK);
     }
 
     @Log("新增定时任务")
@@ -85,6 +88,8 @@ public class QuartzJobController {
         if (resources.getId() != null) {
             throw new BadRequestException("A new " + ENTITY_NAME + " cannot already have an ID");
         }
+        // 验证Bean是不是合法的，合法的定时任务 Bean 需要用 @Service 定义
+        checkBean(resources.getBeanName());
         quartzJobService.create(resources);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -94,6 +99,8 @@ public class QuartzJobController {
     @PutMapping
     @PreAuthorize("@el.check('timing:edit')")
     public ResponseEntity<Object> updateQuartzJob(@Validated(QuartzJob.Update.class) @RequestBody QuartzJob resources) {
+        // 验证Bean是不是合法的，合法的定时任务 Bean 需要用 @Service 定义
+        checkBean(resources.getBeanName());
         quartzJobService.update(resources);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -103,7 +110,7 @@ public class QuartzJobController {
     @PutMapping(value = "/{id}")
     @PreAuthorize("@el.check('timing:edit')")
     public ResponseEntity<Object> updateQuartzJobStatus(@PathVariable Long id) {
-        quartzJobService.updateIsPause(quartzJobService.findById(id));
+        quartzJobService.updateIsPause(quartzJobService.getById(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -112,7 +119,7 @@ public class QuartzJobController {
     @PutMapping(value = "/exec/{id}")
     @PreAuthorize("@el.check('timing:edit')")
     public ResponseEntity<Object> executionQuartzJob(@PathVariable Long id) {
-        quartzJobService.execution(quartzJobService.findById(id));
+        quartzJobService.execution(quartzJobService.getById(id));
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -123,5 +130,13 @@ public class QuartzJobController {
     public ResponseEntity<Object> deleteQuartzJob(@RequestBody Set<Long> ids) {
         quartzJobService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void checkBean(String beanName) {
+        // 避免调用攻击者可以从SpringContextHolder获得控制jdbcTemplate类
+        // 并使用getDeclaredMethod调用jdbcTemplate的queryForMap函数，执行任意sql命令。
+        if (!SpringContextHolder.getAllServiceBeanName().contains(beanName)) {
+            throw new BadRequestException("非法的 Bean，请重新输入！");
+        }
     }
 }

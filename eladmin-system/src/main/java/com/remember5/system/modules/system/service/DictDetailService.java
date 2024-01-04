@@ -15,19 +15,19 @@
  */
 package com.remember5.system.modules.system.service;
 
-import com.remember5.system.modules.system.service.dto.DictDetailDto;
-import com.remember5.system.modules.system.service.dto.DictDetailQueryCriteria;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.remember5.core.utils.PageResult;
 import com.remember5.system.modules.system.domain.DictDetail;
-import org.springframework.data.domain.Pageable;
+import com.remember5.system.modules.system.domain.vo.DictDetailQueryCriteria;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Zheng Jie
  * @date 2019-04-10
  */
-public interface DictDetailService {
+public interface DictDetailService extends IService<DictDetail> {
 
     /**
      * 创建
@@ -54,10 +54,10 @@ public interface DictDetailService {
      * 分页查询
      *
      * @param criteria 条件
-     * @param pageable 分页参数
+     * @param page     分页参数
      * @return /
      */
-    Map<String, Object> queryAll(DictDetailQueryCriteria criteria, Pageable pageable);
+    PageResult<DictDetail> queryAll(DictDetailQueryCriteria criteria, Page<Object> page);
 
     /**
      * 根据字典名称获取字典详情
@@ -65,5 +65,5 @@ public interface DictDetailService {
      * @param name 字典名称
      * @return /
      */
-    List<DictDetailDto> getDictByName(String name);
+    List<DictDetail> getDictByName(String name);
 }

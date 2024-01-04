@@ -15,20 +15,19 @@
  */
 package com.remember5.system.modules.mnt.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.system.modules.mnt.domain.App;
-import com.remember5.system.modules.mnt.repository.AppRepository;
-import com.remember5.system.modules.mnt.service.mapstruct.AppMapper;
 import com.remember5.core.utils.FileUtil;
+import com.remember5.core.utils.PageResult;
 import com.remember5.core.utils.PageUtil;
-import com.remember5.security.utils.QueryHelp;
-import com.remember5.core.utils.ValidationUtil;
-import lombok.RequiredArgsConstructor;
+import com.remember5.system.modules.mnt.domain.App;
+import com.remember5.system.modules.mnt.domain.vo.AppQueryCriteria;
+import com.remember5.system.modules.mnt.mapper.AppMapper;
+import com.remember5.system.modules.mnt.mapper.DeployMapper;
+import com.remember5.system.modules.mnt.mapper.DeployServerMapper;
 import com.remember5.system.modules.mnt.service.AppService;
-import com.remember5.system.modules.mnt.service.dto.AppDto;
-import com.remember5.system.modules.mnt.service.dto.AppQueryCriteria;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,44 +41,36 @@ import java.util.*;
  */
 @Service
 @RequiredArgsConstructor
-public class AppServiceImpl implements AppService {
+public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
-    private final AppRepository appRepository;
     private final AppMapper appMapper;
+    private final DeployMapper deployMapper;
+    private final DeployServerMapper deployServerMapper;
 
     @Override
-    public Object queryAll(AppQueryCriteria criteria, Pageable pageable) {
-        Page<App> page = appRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder), pageable);
-        return PageUtil.toPage(page.map(appMapper::toDto));
+    public PageResult<App> queryAll(AppQueryCriteria criteria, Page<Object> page) {
+        return PageUtil.toPage(appMapper.queryAll(criteria, page));
     }
 
     @Override
-    public List<AppDto> queryAll(AppQueryCriteria criteria) {
-        return appMapper.toDto(appRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder)));
-    }
-
-    @Override
-    public AppDto findById(Long id) {
-        App app = appRepository.findById(id).orElseGet(App::new);
-        ValidationUtil.isNull(app.getId(), "App", "id", id);
-        return appMapper.toDto(app);
+    public List<App> queryAll(AppQueryCriteria criteria) {
+        return appMapper.queryAll(criteria);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void create(App resources) {
         verification(resources);
-        appRepository.save(resources);
+        save(resources);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(App resources) {
         verification(resources);
-        App app = appRepository.findById(resources.getId()).orElseGet(App::new);
-        ValidationUtil.isNull(app.getId(), "App", "id", resources.getId());
+        App app = getById(resources.getId());
         app.copy(resources);
-        appRepository.save(app);
+        saveOrUpdate(app);
     }
 
     private void verification(App resources) {
@@ -99,24 +90,29 @@ public class AppServiceImpl implements AppService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Set<Long> ids) {
-        for (Long id : ids) {
-            appRepository.deleteById(id);
+        // 删除应用
+        removeBatchByIds(ids);
+        // 删除部署
+        Set<Long> deployIds = deployMapper.getIdByAppIds(ids);
+        if (deployIds != null && deployIds.size() > 0) {
+            deployServerMapper.deleteByDeployIds(deployIds);
+            deployMapper.deleteBatchIds(deployIds);
         }
     }
 
     @Override
-    public void download(List<AppDto> queryAll, HttpServletResponse response) throws IOException {
+    public void download(List<App> apps, HttpServletResponse response) throws IOException {
         List<Map<String, Object>> list = new ArrayList<>();
-        for (AppDto appDto : queryAll) {
+        for (App app : apps) {
             Map<String, Object> map = new LinkedHashMap<>();
-            map.put("应用名称", appDto.getName());
-            map.put("端口", appDto.getPort());
-            map.put("上传目录", appDto.getUploadPath());
-            map.put("部署目录", appDto.getDeployPath());
-            map.put("备份目录", appDto.getBackupPath());
-            map.put("启动脚本", appDto.getStartScript());
-            map.put("部署脚本", appDto.getDeployScript());
-            map.put("创建日期", appDto.getCreateTime());
+            map.put("应用名称", app.getName());
+            map.put("端口", app.getPort());
+            map.put("上传目录", app.getUploadPath());
+            map.put("部署目录", app.getDeployPath());
+            map.put("备份目录", app.getBackupPath());
+            map.put("启动脚本", app.getStartScript());
+            map.put("部署脚本", app.getDeployScript());
+            map.put("创建日期", app.getCreateTime());
             list.add(map);
         }
         FileUtil.downloadExcel(list, response);

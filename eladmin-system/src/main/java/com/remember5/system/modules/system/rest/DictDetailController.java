@@ -15,18 +15,16 @@
  */
 package com.remember5.system.modules.system.rest;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.security.logging.annotation.Log;
+import com.remember5.core.utils.PageResult;
+import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.system.domain.DictDetail;
+import com.remember5.system.modules.system.domain.vo.DictDetailQueryCriteria;
 import com.remember5.system.modules.system.service.DictDetailService;
-import com.remember5.system.modules.system.service.dto.DictDetailDto;
-import com.remember5.system.modules.system.service.dto.DictDetailQueryCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,16 +50,15 @@ public class DictDetailController {
 
     @Operation(summary = "查询字典详情")
     @GetMapping
-    public ResponseEntity<Object> queryDictDetail(DictDetailQueryCriteria criteria,
-                                                  @PageableDefault(sort = {"dictSort"}, direction = Sort.Direction.ASC) Pageable pageable) {
-        return new ResponseEntity<>(dictDetailService.queryAll(criteria, pageable), HttpStatus.OK);
+    public ResponseEntity<PageResult<DictDetail>> queryDictDetail(DictDetailQueryCriteria criteria, Page<Object> page) {
+        return new ResponseEntity<>(dictDetailService.queryAll(criteria, page), HttpStatus.OK);
     }
 
     @Operation(summary = "查询多个字典详情")
     @GetMapping(value = "/map")
     public ResponseEntity<Object> getDictDetailMaps(@RequestParam String dictName) {
         String[] names = dictName.split("[,，]");
-        Map<String, List<DictDetailDto>> dictMap = new HashMap<>(16);
+        Map<String, List<DictDetail>> dictMap = new HashMap<>(16);
         for (String name : names) {
             dictMap.put(name, dictDetailService.getDictByName(name));
         }

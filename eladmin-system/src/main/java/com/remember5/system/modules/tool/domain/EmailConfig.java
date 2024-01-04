@@ -15,13 +15,11 @@
  */
 package com.remember5.system.modules.tool.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -31,14 +29,11 @@ import java.io.Serializable;
  * @author Zheng Jie
  * @date 2018-12-26
  */
-@Entity
 @Data
-@Table(name = "tool_email_config")
+@TableName("tool_email_config")
 public class EmailConfig implements Serializable {
 
-    @Id
-    @Column(name = "config_id")
-    @Schema(description = "ID", hidden = true)
+    @TableId("config_id")
     private Long id;
 
     @NotBlank

@@ -17,28 +17,28 @@ package com.remember5.system.modules.mnt.domain;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 /**
  * @author zhanghouying
  * @date 2019-08-24
  */
-@Entity
 @Getter
 @Setter
-@Table(name = "mnt_app")
+@TableName("mnt_app")
 public class App extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "app_id")
+
+    @TableId(value = "app_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Schema(description = "名称")

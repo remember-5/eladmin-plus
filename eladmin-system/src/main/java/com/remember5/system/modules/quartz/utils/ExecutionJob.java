@@ -19,31 +19,30 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
-import com.remember5.security.utils.SpringContextHolder;
 import com.remember5.core.utils.StringUtils;
 import com.remember5.core.utils.ThrowableUtil;
 import com.remember5.redis.utils.RedisUtils;
+import com.remember5.security.utils.SpringContextHolder;
 import com.remember5.system.modules.quartz.domain.QuartzJob;
 import com.remember5.system.modules.quartz.domain.QuartzLog;
-import com.remember5.system.modules.quartz.repository.QuartzLogRepository;
+import com.remember5.system.modules.quartz.mapper.QuartzLogMapper;
 import com.remember5.system.modules.quartz.service.QuartzJobService;
 import com.remember5.system.modules.tool.domain.vo.EmailVo;
 import com.remember5.system.modules.tool.service.EmailService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * 参考人人开源，https://gitee.com/renrenio/renren-security
+ * 参考人人开源，<a href="https://gitee.com/renrenio/renren-security">...</a>
  *
  * @author /
  * @date 2019-01-07
@@ -52,14 +51,15 @@ import java.util.concurrent.Future;
 @Async
 public class ExecutionJob extends QuartzJobBean {
 
+    // 此处仅供参考，可根据任务执行情况自定义线程池参数
+    private final ThreadPoolTaskExecutor executor = SpringContextHolder.getBean("elAsync");
+
     @Override
     public void executeInternal(JobExecutionContext context) {
-        // 创建单个线程
-        ExecutorService executor = Executors.newSingleThreadExecutor();
         // 获取任务
         QuartzJob quartzJob = (QuartzJob) context.getMergedJobDataMap().get(QuartzJob.JOB_KEY);
         // 获取spring bean
-        QuartzLogRepository quartzLogRepository = SpringContextHolder.getBean(QuartzLogRepository.class);
+        QuartzLogMapper quartzLogMapper = SpringContextHolder.getBean(QuartzLogMapper.class);
         QuartzJobService quartzJobService = SpringContextHolder.getBean(QuartzJobService.class);
         RedisUtils redisUtils = SpringContextHolder.getBean(RedisUtils.class);
 
@@ -116,8 +116,7 @@ public class ExecutionJob extends QuartzJobBean {
                 }
             }
         } finally {
-            quartzLogRepository.save(quartzLog);
-            executor.shutdown();
+            quartzLogMapper.insert(quartzLog);
         }
     }
 
@@ -128,7 +127,7 @@ public class ExecutionJob extends QuartzJobBean {
         data.put("task", quartzJob);
         data.put("msg", msg);
         TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
-        Template template = engine.getTemplate("email/taskAlarm.ftl");
+        Template template = engine.getTemplate("taskAlarm.ftl");
         emailVo.setContent(template.render(data));
         List<String> emails = Arrays.asList(quartzJob.getEmail().split("[,，]"));
         emailVo.setTos(emails);

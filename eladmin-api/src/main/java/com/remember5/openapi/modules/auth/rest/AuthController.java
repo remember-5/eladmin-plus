@@ -1,6 +1,5 @@
 package com.remember5.openapi.modules.auth.rest;
 
-import com.remember5.core.annotation.rest.AnonymousGetMapping;
 import com.remember5.core.result.R;
 import com.remember5.openapi.modules.auth.domain.*;
 import com.remember5.openapi.modules.auth.service.AuthService;
@@ -9,10 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 认证管理
@@ -60,7 +56,7 @@ public class AuthController {
     }
 
     @Operation(summary = "获取图形验证码")
-    @AnonymousGetMapping(value = "code")
+    @GetMapping(value = "code")
     public R<CaptchaDTO> getCode() {
         return R.success(authService.getCode());
     }

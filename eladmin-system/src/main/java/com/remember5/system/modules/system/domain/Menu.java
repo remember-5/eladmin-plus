@@ -16,14 +16,18 @@
 package com.remember5.system.modules.system.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.remember5.core.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,28 +35,28 @@ import java.util.Set;
  * @author Zheng Jie
  * @date 2018-12-17
  */
-@Entity
 @Getter
 @Setter
-@Table(name = "sys_menu")
+@TableName("sys_menu")
 public class Menu extends BaseEntity implements Serializable {
 
-    @Id
-    @Column(name = "menu_id")
     @NotNull(groups = {Update.class})
+    @TableId(value = "menu_id", type = IdType.AUTO)
     @Schema(description = "ID", hidden = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @TableField(exist = false)
     @JSONField(serialize = false)
-    @ManyToMany(mappedBy = "menus")
     @Schema(description = "菜单角色")
     private Set<Role> roles;
+
+    @TableField(exist = false)
+    private List<Menu> children;
 
     @Schema(description = "菜单标题")
     private String title;
 
-    @Column(name = "name")
+    @TableField(value = "name")
     @Schema(description = "菜单组件名称")
     private String componentName;
 
@@ -74,11 +78,9 @@ public class Menu extends BaseEntity implements Serializable {
     @Schema(description = "菜单图标")
     private String icon;
 
-    @Column(columnDefinition = "bit(1) default 0")
     @Schema(description = "缓存")
     private Boolean cache;
 
-    @Column(columnDefinition = "bit(1) default 0")
     @Schema(description = "是否隐藏")
     private Boolean hidden;
 
@@ -106,5 +108,17 @@ public class Menu extends BaseEntity implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Boolean getHasChildren() {
+        return subCount > 0;
+    }
+
+    public Boolean getLeaf() {
+        return subCount <= 0;
+    }
+
+    public String getLabel() {
+        return title;
     }
 }

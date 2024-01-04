@@ -9,6 +9,8 @@
     </parent>
 
     <artifactId>eladmin-spring-boot-starter-ftp</artifactId>
+    <name>FTP模块</name>
+    <description>FTP模块</description>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -7,9 +7,9 @@ package com.remember5.security.enums;
 public enum LogChannelEnum {
 
     // 后台系统
-    Sys(1,"System"),
+    system(1,"System"),
     // App渠道
-    App(2,"App");
+    app(2,"App");
 
 
     public final Integer channelId;

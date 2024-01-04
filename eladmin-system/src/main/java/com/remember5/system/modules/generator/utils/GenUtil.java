@@ -20,10 +20,10 @@ import cn.hutool.extra.template.*;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.FileUtil;
 import com.remember5.core.utils.StringUtils;
-import lombok.extern.slf4j.Slf4j;
 import com.remember5.system.modules.generator.domain.ColumnInfo;
 import com.remember5.system.modules.generator.domain.GenConfig;
 import com.remember5.system.modules.generator.service.AutoPermissionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.ObjectUtils;
 
 import java.io.File;
@@ -62,13 +62,12 @@ public class GenUtil {
     private static List<String> getAdminTemplateNames() {
         List<String> templateNames = new ArrayList<>();
         templateNames.add("Entity");
-        templateNames.add("Dto");
-        templateNames.add("Mapper");
         templateNames.add("Controller");
         templateNames.add("QueryCriteria");
         templateNames.add("Service");
         templateNames.add("ServiceImpl");
-        templateNames.add("Repository");
+        templateNames.add("Mapper");
+        templateNames.add("Mapper-xml");
         return templateNames;
     }
 
@@ -94,7 +93,7 @@ public class GenUtil {
             Map<String, Object> map = new HashMap<>(1);
             Template template = engine.getTemplate("generator/admin/" + templateName + ".ftl");
             map.put("content", template.render(genMap));
-            map.put("name", templateName);
+            map.put("name", templateName.replace("-xml", ".xml"));
             genList.add(map);
         }
         // 获取前端模版
@@ -194,8 +193,9 @@ public class GenUtil {
             // 生成代码
             genFile(file, template, genMap);
         }
-        if (genConfig.getAutoGenerateMenu())
+        if (genConfig.getAutoGenerateMenu()) {
             autoPermissionService.genAutoPermission(genConfig);
+        }
     }
 
     // 获取模版数据
@@ -249,6 +249,10 @@ public class GenUtil {
         genMap.put("hasDict", false);
         // 存在日期注解
         genMap.put("hasDateAnnotation", false);
+        // 存储主键字段名
+        genMap.put("pkIdName", "none");
+        // 存储符号
+        genMap.put("symbol", "#");
         // 保存字段信息
         List<Map<String, Object>> columns = new ArrayList<>();
         // 保存查询字段的信息
@@ -279,6 +283,8 @@ public class GenUtil {
                 genMap.put("pkChangeColName", changeColumnName);
                 // 存储大写开头的字段名
                 genMap.put("pkCapitalColName", capitalColumnName);
+                // 存储主键字段名
+                genMap.put("pkIdName", column.getColumnName());
             }
             // 是否存在 Timestamp 类型的字段
             if (TIMESTAMP.equals(colType)) {
@@ -295,7 +301,9 @@ public class GenUtil {
             // 主键存在字典
             if (StringUtils.isNotBlank(column.getDictName())) {
                 genMap.put("hasDict", true);
-                dicts.add(column.getDictName());
+                if (!dicts.contains(column.getDictName())) {
+                    dicts.add(column.getDictName());
+                }
             }
 
             // 存储字段类型
@@ -316,11 +324,6 @@ public class GenUtil {
             listMap.put("capitalColumnName", capitalColumnName);
             // 字典名称
             listMap.put("dictName", column.getDictName());
-            // 日期注解
-            listMap.put("dateAnnotation", column.getDateAnnotation());
-            if (StringUtils.isNotBlank(column.getDateAnnotation())) {
-                genMap.put("hasDateAnnotation", true);
-            }
             // 添加非空字段信息
             if (column.getNotNull()) {
                 isNotNullColumns.add(listMap);
@@ -392,20 +395,25 @@ public class GenUtil {
             return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
 
-        if ("Dto".equals(templateName)) {
-            return packagePath + "service" + File.separator + "dto" + File.separator + className + "Dto.java";
-        }
-
         if ("QueryCriteria".equals(templateName)) {
-            return packagePath + "service" + File.separator + "dto" + File.separator + className + "QueryCriteria.java";
+            return packagePath + "domain" + File.separator + "vo" + File.separator + className + "QueryCriteria.java";
         }
 
         if ("Mapper".equals(templateName)) {
-            return packagePath + "service" + File.separator + "mapstruct" + File.separator + className + "Mapper.java";
+            return packagePath + "mapper" + File.separator + className + "Mapper.java";
         }
 
-        if ("Repository".equals(templateName)) {
-            return packagePath + "repository" + File.separator + className + "Repository.java";
+        if ("Mapper-xml".equals(templateName)) {
+            // 生成在src/main/resources/mapper/xxx/xxxMapper.xml
+            String mapperXmlPath =
+                    rootPath + File.separator +
+                    genConfig.getModuleName() + File.separator +
+                    "src" + File.separator +
+                    "main" + File.separator +
+                    "resources" + File.separator +
+                    "mapper" + File.separator +
+                    modulePackageName + File.separator;
+            return mapperXmlPath + className + "Mapper.xml";
         }
 
         return null;

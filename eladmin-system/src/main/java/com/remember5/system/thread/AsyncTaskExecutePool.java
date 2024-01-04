@@ -17,7 +17,6 @@ package com.remember5.system.thread;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -26,12 +25,15 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 异步任务线程池装配类
+ * 实现spring提供的AsyncConfigurer接口并重写的
+ * https://juejin.im/entry/5abb8f6951882555677e9da2
  *
- * @author https://juejin.im/entry/5abb8f6951882555677e9da2
- * @date 2019年10月31日15:06:18
+ * @author wangjiahao
+ * @date 2023/01/08
+ * @since 2.3.0
  */
 @Slf4j
-@Configuration
+@Deprecated
 public class AsyncTaskExecutePool implements AsyncConfigurer {
 
     @Override
@@ -57,8 +59,8 @@ public class AsyncTaskExecutePool implements AsyncConfigurer {
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
         return (throwable, method, objects) -> {
-            log.error("====" + throwable.getMessage() + "====", throwable);
-            log.error("exception method:" + method.getName());
+            log.error("==== {} ==== {}", throwable.getMessage(), throwable);
+            log.error("exception method {} ", method.getName());
         };
     }
 }
