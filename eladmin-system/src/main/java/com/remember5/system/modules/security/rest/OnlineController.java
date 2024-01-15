@@ -17,7 +17,7 @@ package com.remember5.system.modules.security.rest;
 
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.security.service.OnlineUserService;
 import com.remember5.system.modules.security.service.dto.OnlineUserDto;
 import com.remember5.system.modules.tool.service.impl.EmailServiceImpl;

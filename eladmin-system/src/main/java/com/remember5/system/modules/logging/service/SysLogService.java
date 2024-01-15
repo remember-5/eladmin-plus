@@ -17,7 +17,7 @@ package com.remember5.system.modules.logging.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.logging.domain.SysLog;
 import com.remember5.system.modules.logging.domain.vo.SysLogQueryCriteria;
 import org.aspectj.lang.ProceedingJoinPoint;

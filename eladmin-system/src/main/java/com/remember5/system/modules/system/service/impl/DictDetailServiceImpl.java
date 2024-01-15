@@ -17,8 +17,8 @@ package com.remember5.system.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.remember5.core.utils.PageResult;
-import com.remember5.core.utils.PageUtil;
+import com.remember5.security.entity.PageResult;
+import com.remember5.security.utils.PageUtil;
 import com.remember5.redis.utils.RedisUtils;
 import com.remember5.system.constants.CacheKeyConstant;
 import com.remember5.system.modules.system.domain.Dict;

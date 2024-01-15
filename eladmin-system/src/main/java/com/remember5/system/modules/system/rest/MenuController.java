@@ -17,8 +17,8 @@ package com.remember5.system.modules.system.rest;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.core.utils.PageResult;
-import com.remember5.core.utils.PageUtil;
+import com.remember5.security.entity.PageResult;
+import com.remember5.security.utils.PageUtil;
 import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.security.utils.SecurityUtils;
 import com.remember5.system.modules.system.domain.Menu;

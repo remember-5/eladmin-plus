@@ -18,7 +18,6 @@ package com.remember5.core.utils;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReUtil;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 
 /**
  * 验证工具
@@ -41,13 +40,6 @@ public class ValidationUtil {
             String msg = entity + " 不存在: " + parameter + " is " + value;
             throw new RuntimeException(msg);
         }
-    }
-
-    /**
-     * 验证邮箱
-     */
-    public static boolean isEmail(String email) {
-        return new EmailValidator().isValid(email, null);
     }
 
     /**

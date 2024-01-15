@@ -13,9 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.core.utils;
+package com.remember5.security.utils;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.remember5.security.entity.PageResult;
 
 import java.util.Collections;
 import java.util.List;

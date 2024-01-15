@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.web.multipart.MultipartFile;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 
 /**
 * ${apiAlias}服务接口

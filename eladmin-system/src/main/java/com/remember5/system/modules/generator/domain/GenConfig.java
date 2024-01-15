@@ -66,7 +66,7 @@ public class GenConfig implements Serializable {
     private String author;
 
     @Schema(description = "表前缀")
-    private String prefix;
+    private String prefix = "t_";
 
     @Schema(description = "是否覆盖")
     private Boolean cover = false;
@@ -79,14 +79,6 @@ public class GenConfig implements Serializable {
     @Schema(description = "前端接口文件路径")
     private String apiPath;
 
-    @TableField(value = "relative_path")
-    @Schema(description = "是否相对路径")
-    private Boolean relativePath = false;
-
-    @TableField(value = "admin_jurisdiction")
-    @Schema(description = "是否添加到管理员权限上")
-    private Boolean adminJurisdiction = false;
-
     @TableField(value = "component_path")
     @Schema(description = "组件相对路径")
     private String componentPath;
@@ -98,6 +90,10 @@ public class GenConfig implements Serializable {
     @TableField(value = "routing_address")
     @Schema(description = "路由地址")
     private String routingAddress;
+
+    @TableField(value = "admin_jurisdiction")
+    @Schema(description = "是否添加到管理员权限上")
+    private Boolean adminJurisdiction = false;
 
     @TableField(value = "auto_generate_menu")
     @Schema(description = "自动生成菜单")

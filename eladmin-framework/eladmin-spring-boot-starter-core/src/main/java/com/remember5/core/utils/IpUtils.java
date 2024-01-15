@@ -17,8 +17,7 @@ package com.remember5.core.utils;
 
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.remember5.core.constants.ElAdminConstant;
 import com.remember5.core.properties.IpProperties;
 import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
@@ -67,8 +66,8 @@ public class IpUtils {
      */
     public static String getHttpCityInfo(String ip) {
         String api = String.format(ElAdminConstant.Url.IP_URL, ip);
-        JSONObject object = JSONUtil.parseObj(HttpUtil.get(api));
-        return object.get("addr", String.class);
+        final JSONObject jsonObject = JSONObject.parseObject(HttpUtil.get(api));
+        return jsonObject.getString("addr");
     }
 
 

@@ -1,4 +1,14 @@
 # 更新日志
+## 3.0.1
+- Fixed: 修复实体缺少包的问题
+- Fixed: 修复mybatis-plus 扫描包路径只能识别单包的问题
+- Added: 适配Postgres生成代码
+- Changed: 优化代码生成逻辑
+- Changed: 优化redisson的默认值
+- Changed: 优化OpenAPI3 & Knife4j的配置
+- Changed: 删除多余的WebSecurity配置
+
+
 ## 3.0.0
 - Added: 修改ORM为MybatisPlus
 - Changed: 删除匿名访问

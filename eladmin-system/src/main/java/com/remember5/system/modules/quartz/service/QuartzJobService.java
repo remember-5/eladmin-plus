@@ -17,7 +17,7 @@ package com.remember5.system.modules.quartz.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.quartz.domain.QuartzJob;
 import com.remember5.system.modules.quartz.domain.QuartzLog;
 import com.remember5.system.modules.quartz.domain.vo.QuartzJobQueryCriteria;

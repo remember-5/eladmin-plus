@@ -16,7 +16,7 @@
 package com.remember5.system.modules.tool.rest;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.tool.domain.QiniuConfig;
 import com.remember5.system.modules.tool.domain.QiniuContent;

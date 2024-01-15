@@ -89,7 +89,6 @@ CREATE TABLE `code_gen_config` (
   `menu_headline` varchar(255) DEFAULT NULL COMMENT '菜单标题',
   `routing_address` varchar(255) DEFAULT NULL COMMENT '路由地址',
   `auto_generate_menu` bit(1) DEFAULT NULL COMMENT '自动生成菜单',
-  `relative_path` bit(1) DEFAULT NULL COMMENT '是否相对路径',
   `admin_jurisdiction` bit(1) DEFAULT NULL COMMENT '是否添加到管理员权限上',
   `component_path` varchar(255) DEFAULT NULL COMMENT '组件相对路径',
   PRIMARY KEY (`config_id`) USING BTREE,

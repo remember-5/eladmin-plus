@@ -65,6 +65,7 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
                 .allowCredentials(true)
                 // 设置允许的方法
                 .allowedMethods("*")
+                .allowedHeaders("*")
                 // 跨域允许时间
                 .maxAge(3600);
     }

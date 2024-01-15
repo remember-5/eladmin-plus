@@ -17,8 +17,8 @@ package com.remember5.system.modules.generator.rest;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.core.utils.PageResult;
-import com.remember5.core.utils.PageUtil;
+import com.remember5.security.entity.PageResult;
+import com.remember5.security.utils.PageUtil;
 import com.remember5.system.modules.generator.domain.ColumnInfo;
 import com.remember5.system.modules.generator.domain.vo.TableInfo;
 import com.remember5.system.modules.generator.service.GenConfigService;

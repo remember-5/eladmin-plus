@@ -13,22 +13,11 @@ spring:
     redis:
       repositories:
         enabled: false
-  #配置 Jpa
-  jpa:
-    hibernate:
-      ddl-auto: none
-    properties:
-      hibernate:
-        # postgres配置
-        dialect: org.hibernate.dialect.PostgreSQL10Dialect
-        #mysql依赖
-        #dialect: org.hibernate.dialect.MySQL8Dialect
-    open-in-view: true
 
 mybatis-plus:
-  mapper-locations: classpath:mapper/*.xml
+  mapper-locations: classpath*:/mapper/**/*.xml
   #实体扫描，多个package用逗号或者分号分隔
-#  typeAliasesPackage: com.remember5.*
+  type-aliases-package: com.remember5.openapi.modules.*.mapper, com.remember5.biz.*.mapper
   global-config:
     banner: off
     # 数据库相关配置
@@ -38,9 +27,10 @@ mybatis-plus:
       #是否开启大写命名，默认不开启
       #capital-mode: true
       #逻辑删除配置
-      logic-delete-value: 1
-      logic-not-delete-value: 0
+      logic-delete-field: isDeleted
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   # 原生配置
   configuration:
-    map-underscore-to-camel-case: true
-    cache-enabled: true
+    cache-enabled: false # 关闭二级缓存
+    local-cache-scope: STATEMENT # https://baomidou.com/pages/56bac0/#localcachescope

@@ -254,6 +254,39 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         IoUtil.close(out);
     }
 
+    /**
+     * 下载文件
+     *
+     * @param request  /
+     * @param response /
+     * @param file     /
+     */
+    public static void downloadFile(HttpServletRequest request, HttpServletResponse response, File file, boolean deleteOnExit) {
+        response.setCharacterEncoding(request.getCharacterEncoding());
+        response.setContentType("application/octet-stream");
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
+            IOUtils.copy(fis, response.getOutputStream());
+            response.flushBuffer();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                    if (deleteOnExit) {
+                        file.deleteOnExit();
+                    }
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }
+    }
+
+
     public static String getFileType(String type) {
         String documents = "txt doc pdf ppt pps xlsx xls docx";
         String music = "mp3 wav wma mpa ram ra aac aif m4a";
@@ -341,37 +374,6 @@ public class FileUtil extends cn.hutool.core.io.FileUtil {
         return null;
     }
 
-    /**
-     * 下载文件
-     *
-     * @param request  /
-     * @param response /
-     * @param file     /
-     */
-    public static void downloadFile(HttpServletRequest request, HttpServletResponse response, File file, boolean deleteOnExit) {
-        response.setCharacterEncoding(request.getCharacterEncoding());
-        response.setContentType("application/octet-stream");
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
-            IOUtils.copy(fis, response.getOutputStream());
-            response.flushBuffer();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                    if (deleteOnExit) {
-                        file.deleteOnExit();
-                    }
-                } catch (IOException e) {
-                    log.error(e.getMessage(), e);
-                }
-            }
-        }
-    }
 
     public static String getMd5(File file) {
         return getMd5(getByte(file));

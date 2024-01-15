@@ -1,7 +1,8 @@
-package com.remember5.system.config;
+package com.remember5.security.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022/4/26 12:50
  */
 @Configuration
+@MapperScan(basePackages = {"com.remember5.openapi.modules.*.mapper", "com.remember5.system.modules.*.mapper"})
 public class MybatisPlusConfig {
 
     /**

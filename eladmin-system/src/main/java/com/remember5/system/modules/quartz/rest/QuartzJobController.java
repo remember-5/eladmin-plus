@@ -17,7 +17,7 @@ package com.remember5.system.modules.quartz.rest;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.security.utils.SpringContextHolder;
 import com.remember5.system.modules.quartz.domain.QuartzJob;

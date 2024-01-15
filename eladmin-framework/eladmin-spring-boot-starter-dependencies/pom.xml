@@ -6,7 +6,7 @@
 
     <groupId>com.remember5</groupId>
     <artifactId>eladmin-spring-boot-starter-dependencies</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <packaging>pom</packaging>
 
     <name>依赖管理</name>
@@ -17,7 +17,7 @@
         <druid.version>1.2.21</druid.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
 
-        <hutool.version>5.8.22</hutool.version>
+        <hutool.version>5.8.25</hutool.version>
         <guava.version>32.1.2-jre</guava.version>
         <fastjson.version>2.0.43</fastjson.version>
         <knife4j.version>4.3.0</knife4j.version>
@@ -37,7 +37,7 @@
         <mica-ip2region.version>2.7.15</mica-ip2region.version>
         <qcloud-cos.version>5.6.89</qcloud-cos.version>
         <wx-java.version>4.5.0</wx-java.version>
-
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
     </properties>
 
     <!--  依赖版本管理，并不会直接注入引用  -->
@@ -288,6 +288,19 @@
                 <version>${yauaa.version}</version>
             </dependency>
 
+            <!--mapStruct依赖-->
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
             <dependency>
                 <groupId>com.remember5</groupId>
                 <artifactId>eladmin-spring-boot-starter-core</artifactId>
@@ -346,6 +359,12 @@
             <dependency>
                 <groupId>com.remember5</groupId>
                 <artifactId>eladmin-spring-boot-starter-office</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.remember5</groupId>
+                <artifactId>eladmin-spring-boot-starter-mp</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

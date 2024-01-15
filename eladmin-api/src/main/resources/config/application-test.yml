@@ -136,30 +136,14 @@ jwt:
   renew: 3600000
   # 放行接口
   permit-url:
-    - /swagger-ui.html # swagger 文档
-    - /swagger-resources/**
-    - /v3/api-docs/swagger-config
+    - /favicon.ico
+    - /doc.html # swagger
     - /webjars/**
-    - /*/api-docs
-    - /avatar/** # 文件
-    - /file/**
+    - /v3/api-docs/**
     - /druid/** # 阿里巴巴 druid
-    - /version/**
-    - /user/wxMiniAppCode2Sessions
-    - /user/wxMiniAppLogin
-    - /*.html
-    - /**/*.html
-    - /**/*.css
-    - /**/*.js
     - /webSocket/**
     - /ws/**
-    - /favicon.ico
-    - /v2/api-docs/**
-    - /user/code
-    - /user/refToken
-    - /user/captchaBy*/**
-    - /user/register
-    - /user/loginBy*
+    - /auth/**
     - /api/**/open/**
 
 web-socket:
@@ -171,7 +155,7 @@ web-socket:
 
 # IP 本地解析
 ip:
-  local-parsing: false
+  local-parsing: true
 
 #是否允许生成代码，生产环境设置为false
 generator:
@@ -199,7 +183,7 @@ file:
 
 #是否开启 swagger-ui
 swagger:
-  enabled: true
+  enabled: false
   title: 'eladmin-nt1模版项目'
   description: '后台管理接口文档'
   author: '王家豪'
@@ -211,9 +195,21 @@ swagger:
   group-name: 'OpenApi'
   base-package: me.zhengjie
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.remember5.openapi
+
 # knife4j增强模式 @see https://doc.xiaominfo.com/knife4j/documentation/enhance.html
 knife4j:
-  enable: true
+  enable: false
   cors: false
   production: false
   basic:

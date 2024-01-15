@@ -20,7 +20,7 @@ import ${package}.domain.${className};
     <#list columns as column>
         <#if column.columnKey = 'UNI'>
             <#if column_index = 1>
-import me.zhengjie.exception.EntityExistException;
+import com.remember5.core.exception.EntityExistException;
             </#if>
         </#if>
     </#list>
@@ -37,14 +37,14 @@ import ${package}.domain.vo.${className}QueryCriteria;
 import ${package}.mapper.${className}Mapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.remember5.core.utils.PageUtil;
+import com.remember5.security.utils.PageUtil;
+import com.remember5.security.entity.PageResult;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import com.remember5.core.utils.PageResult;
 import org.springframework.web.multipart.MultipartFile;
 import com.remember5.core.enums.FileTypeEnum;
 

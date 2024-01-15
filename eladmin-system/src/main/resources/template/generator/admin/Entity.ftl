@@ -31,6 +31,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 </#if>
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import javax.validation.constraints.*;
 
 /**
 * ${apiAlias}
@@ -39,6 +40,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 **/
 @Data
 @TableName("${tableName}")
+@Schema(description = "${apiAlias}")
 public class ${className} implements Serializable {
 <#if columns??>
     <#list columns as column>
@@ -48,9 +50,17 @@ public class ${className} implements Serializable {
     </#if>
     <#if column.istNotNull && column.columnKey != 'PRI'>
         <#if column.columnType = 'String'>
-    @NotBlank
+            <#if column.remark != ''>
+    @NotBlank(message = "${column.remark}不能为空")
+            <#else>
+    @NotBlank(message = "${column.changeColumnName}不能为空")
+            </#if>
         <#else>
-    @NotNull
+        <#if column.remark != ''>
+    @NotNull(message = "${column.remark}不能为空")
+        <#else>
+    @NotNull(message = "${column.changeColumnName}不能为空")
+        </#if>
         </#if>
     </#if>
     <#if column.remark != ''>

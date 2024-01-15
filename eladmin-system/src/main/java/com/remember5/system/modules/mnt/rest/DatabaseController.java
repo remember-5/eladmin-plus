@@ -18,7 +18,7 @@ package com.remember5.system.modules.mnt.rest;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.exception.BadRequestException;
 import com.remember5.core.utils.FileUtil;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.logging.annotation.Log;
 import com.remember5.system.modules.mnt.domain.Database;
 import com.remember5.system.modules.mnt.domain.vo.DatabaseQueryCriteria;

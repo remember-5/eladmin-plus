@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package com.remember5.system.config;
+package com.remember5.security.config;
 
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
@@ -38,6 +38,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         /* 操作人 */
         String username = "System";
         try {
+            // todo 修改在jwt中获取用户名
             username = SecurityUtils.getCurrentUsername();
         } catch (Exception ignored) {
         }

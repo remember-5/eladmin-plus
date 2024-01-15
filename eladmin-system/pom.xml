@@ -5,7 +5,7 @@
     <parent>
         <artifactId>eladmin</artifactId>
         <groupId>com.remember5</groupId>
-        <version>3.0.0</version>
+        <version>3.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,6 +32,17 @@
 
     <dependencies>
 
+        <!--mapStruct依赖-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.remember5.biz</groupId>
             <artifactId>eladmin-biz</artifactId>
@@ -55,11 +66,6 @@
         <dependency>
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
         </dependency>
 
         <!-- quartz -->

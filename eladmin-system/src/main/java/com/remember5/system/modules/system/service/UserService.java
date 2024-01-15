@@ -17,7 +17,7 @@ package com.remember5.system.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.system.domain.User;
 import com.remember5.system.modules.system.domain.vo.UserQueryCriteria;
 import org.springframework.web.multipart.MultipartFile;

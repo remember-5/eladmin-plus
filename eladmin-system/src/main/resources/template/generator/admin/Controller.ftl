@@ -18,7 +18,7 @@ package ${package}.rest;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.remember5.core.utils.FileUtil;
-import com.remember5.core.utils.PageResult;
+import com.remember5.security.entity.PageResult;
 import com.remember5.system.modules.logging.annotation.Log;
 import ${package}.domain.${className};
 import ${package}.domain.vo.${className}QueryCriteria;

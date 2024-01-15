@@ -28,9 +28,6 @@ import com.alibaba.fastjson2.JSONArray;
 public class TranslatorUtil {
     private static final String TRANSLATED_URL = "https://translate.googleapis.com/translate_a/single";
 
-    public TranslatorUtil() {
-    }
-
     public static String translate(String word) {
         final String body = HttpRequest.get(TRANSLATED_URL).form("client", "gtx")
                 .form("sl", "en")
