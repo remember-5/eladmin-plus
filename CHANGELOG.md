@@ -1,6 +1,8 @@
 # 更新日志
 ## 3.0.0
 - Added: 修改ORM为MybatisPlus
+- Changed: 删除匿名访问
+- Fixed: 优化P6spy打印
 
 
 ## 2.3.3
