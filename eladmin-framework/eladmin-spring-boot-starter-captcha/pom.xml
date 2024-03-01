@@ -21,6 +21,12 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- Java图形验证码 -->
         <dependency>
             <groupId>com.github.whvcse</groupId>

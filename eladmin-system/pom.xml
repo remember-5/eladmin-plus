@@ -32,6 +32,17 @@
 
     <dependencies>
 
+        <!-- lombok放上面，lombok和mapstruct都是在编译期通过注解处理器生成对应代码的，
+            如果mapstruct的注解处理器比lombok的更早被执行，
+            则POJO的成员变量的getter和setter方法都还没有被生成，
+            此时就会报某某属性不存在的错误。
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!--mapStruct依赖-->
         <dependency>
             <groupId>org.mapstruct</groupId>

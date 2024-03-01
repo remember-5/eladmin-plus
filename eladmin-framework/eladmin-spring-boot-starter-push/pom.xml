@@ -22,6 +22,12 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <!-- 结合getui服务 https://mvnrepository.com/artifact/com.getui.push/restful-sdk -->
         <dependency>
             <groupId>com.getui.push</groupId>

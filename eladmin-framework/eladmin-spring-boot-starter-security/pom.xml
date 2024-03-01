@@ -21,6 +21,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- =========================  参数校验  start  ========================= -->
         <!-- 保证 Spring AOP 相关的依赖包 保证内部的方法也可以执行事物 -->

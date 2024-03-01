@@ -23,6 +23,13 @@
     </properties>
 
     <dependencies>
+        <!--lombok插件-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
         <dependency>
             <groupId>com.remember5.biz</groupId>
             <artifactId>eladmin-biz</artifactId>
@@ -54,17 +61,12 @@
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-doc</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.remember5</groupId>
-            <artifactId>eladmin-spring-boot-starter-websocket</artifactId>
-        </dependency>
 
         <!-- 多数据源 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
         </dependency>
-
 
         <!-- postgres依赖包  -->
         <dependency>
@@ -94,7 +96,6 @@
             <groupId>com.github.binarywang</groupId>
             <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
         </dependency>
-
 
         <!--Mysql 驱动依赖-->
         <dependency>
