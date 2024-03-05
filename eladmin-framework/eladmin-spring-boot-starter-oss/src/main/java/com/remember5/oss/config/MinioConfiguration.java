@@ -14,26 +14,23 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(MinioProperties.class)
+@ConditionalOnProperty(prefix = "minio", name = "enabled", havingValue = "true", matchIfMissing = true)
+// @ConditionalOnExpression(value = "T(org.apache.commons.lang3.StringUtils).isNotEmpty('${minio.host}')")
 public class MinioConfiguration {
 
     /**
      * 创建Minio客户端连接
      */
-    @ConditionalOnProperty(prefix = "minio", name = "enabled", havingValue = "true", matchIfMissing = true)
-    // @ConditionalOnExpression(value = "T(org.apache.commons.lang3.StringUtils).isNotEmpty('${minio.host}')")
-    public static class EnableMinioConfiguration {
-        @Bean(name="minioClient")
-        public MinioClient getMinioClient(MinioProperties minioProperties) {
-            return MinioClient.builder()
-                    .endpoint(minioProperties.getHost())
-                    .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                    .build();
-        }
-
-        @Bean(name="minioUtils")
-        public MinioUtils initMinioUtils(MinioClient minioClient, MinioProperties minioProperties) {
-            return new MinioUtils(minioClient, minioProperties);
-        }
+    @Bean(name="minioClient")
+    public MinioClient getMinioClient(MinioProperties minioProperties) {
+        return MinioClient.builder()
+                .endpoint(minioProperties.getHost())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
     }
 
+    @Bean(name="minioUtils")
+    public MinioUtils initMinioUtils(MinioClient minioClient, MinioProperties minioProperties) {
+        return new MinioUtils(minioClient, minioProperties);
+    }
 }
