@@ -57,6 +57,7 @@
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-security</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-doc</artifactId>
@@ -103,7 +104,6 @@
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
 
 

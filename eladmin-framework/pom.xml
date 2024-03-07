@@ -28,6 +28,7 @@
         <module>eladmin-spring-boot-starter-dependencies</module>
         <module>eladmin-spring-boot-starter-doc</module>
         <module>eladmin-spring-boot-starter-ftp</module>
+        <module>eladmin-spring-boot-starter-generator</module>
         <module>eladmin-spring-boot-starter-logging</module>
         <module>eladmin-spring-boot-starter-office</module>
         <module>eladmin-spring-boot-starter-oss</module>

@@ -38,7 +38,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         /* 操作人 */
         String username = "System";
         try {
-            // todo 修改在jwt中获取用户名
             username = SecurityUtils.getCurrentUsername();
         } catch (Exception ignored) {
         }
