@@ -48,18 +48,21 @@ public class MyBatisPlusCodeGenerator {
     /** 保存路径 */
     public static final String OUTPUT_DIR = "/Users/wangjiahao/IdeaProjects/eladmin-plus/eladmin-framework/eladmin-spring-boot-starter-generator";
     /** 生成表, 可生成多个 */
-    public static final List<String> TABLES = Arrays.asList("sys_user");
+    public static final List<String> TABLES = Arrays.asList("t_cms");
     /** 忽略的表前缀 */
     public static final List<String> TABLES_PREFIX = Arrays.asList("t_", "c_", "sys_");
     /** 包名 */
-    public static final String PACKAGE_PATH = "com.remember5.generator.system";
+    public static final String PACKAGE_PATH = "com.remember5.generator";
     /** 模块名称 */
-    public static final String MODULE_NAME = "user";
+    public static final String MODULE_NAME = "test";
     /** xml存放包名 */
     public static final String MAPPER_XML_PATH = "mapper";
+    /** 开启自定义返回 */
+    public static final Boolean ENABLE_CUSTOM_RETURN = false;
 
     /** 模版路径 */
     public static final String CONTROLLER_TEMPLATE_PATH = "generator/templates/controller.java";
+    public static final String CUSTOM_CONTROLLER_TEMPLATE_PATH = "generator/templates/custom.controller.java";
     public static final String ENTITY_TEMPLATE_PATH = "generator/templates/entity.java";
     public static final String MAPPER_TEMPLATE_PATH = "generator/templates/mapper.java";
     public static final String MAPPER_XML_TEMPLATE_PATH = "generator/templates/mapper.xml";
@@ -153,7 +156,7 @@ public class MyBatisPlusCodeGenerator {
 
                 })
                 .templateConfig(builder -> {
-                    builder.controller(CONTROLLER_TEMPLATE_PATH)
+                    builder.controller(ENABLE_CUSTOM_RETURN ? CUSTOM_CONTROLLER_TEMPLATE_PATH : CONTROLLER_TEMPLATE_PATH)
                             .entity(ENTITY_TEMPLATE_PATH)
                             .mapper(MAPPER_TEMPLATE_PATH)
                             .xml(MAPPER_XML_TEMPLATE_PATH)
@@ -167,7 +170,6 @@ public class MyBatisPlusCodeGenerator {
                 // 执行
                 .execute();
     }
-
 
     public static void main(String[] args) {
         generator();

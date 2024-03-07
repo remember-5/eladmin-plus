@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import com.remember5.core.result.R;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -42,29 +43,29 @@ public class ${table.controllerName} {
     private final ${table.serviceName} ${controllerMappingHyphen}Service;
 
     @GetMapping("/{id}")
-    public ${entity} get${entity}(@PathVariable Long id) {
-        return ${controllerMappingHyphen}Service.getById(id);
+    public R<${entity}> get${entity}(@PathVariable Long id) {
+        return R.success(${controllerMappingHyphen}Service.getById(id));
     }
 
     @GetMapping
     public List<${entity}> getAll${entity}() {
-        return ${controllerMappingHyphen}Service.list();
+        return R.success(${controllerMappingHyphen}Service.list());
     }
 
     @PostMapping
-    public void add${entity}(@RequestBody ${entity} ${controllerMappingHyphen}) {
-        ${controllerMappingHyphen}Service.save(cms);
+    public R<Boolean> add${entity}(@RequestBody ${entity} ${controllerMappingHyphen}) {
+        return R.success(${controllerMappingHyphen}Service.save(cms));
     }
 
     @PutMapping("/{id}")
-    public void update${entity}(@PathVariable Long id, @RequestBody ${entity} ${controllerMappingHyphen}) {
+    public R<Boolean> update${entity}(@PathVariable Long id, @RequestBody ${entity} ${controllerMappingHyphen}) {
         ${controllerMappingHyphen}.setId(id);
-        ${controllerMappingHyphen}Service.updateById(cms);
+        return R.success(${controllerMappingHyphen}Service.updateById(cms));
     }
 
     @DeleteMapping("/{id}")
-    public void delete${entity}(@PathVariable Long id) {
-        ${controllerMappingHyphen}Service.removeById(id);
+    public R<Boolean> delete${entity}(@PathVariable Long id) {
+        return R.success(${controllerMappingHyphen}Service.removeById(id));
     }
 
 }
