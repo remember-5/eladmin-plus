@@ -29,7 +29,7 @@ import ${superControllerClassPackage};
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if lowerEntityNameStyle>${lowerEntityName}<#else>${table.entityPath}</#if>")
 @RequiredArgsConstructor
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
@@ -40,32 +40,32 @@ public class ${table.controllerName} extends ${superControllerClass} {
 public class ${table.controllerName} {
 </#if>
 
-    private final ${table.serviceName} ${controllerMappingHyphen}Service;
+    private final ${table.serviceName} ${lowerEntityName}Service;
 
     @GetMapping("/{id}")
     public R<${entity}> get${entity}(@PathVariable Long id) {
-        return R.success(${controllerMappingHyphen}Service.getById(id));
+        return R.success(${lowerEntityName}Service.getById(id));
     }
 
     @GetMapping
     public List<${entity}> getAll${entity}() {
-        return R.success(${controllerMappingHyphen}Service.list());
+        return R.success(${lowerEntityName}Service.list());
     }
 
     @PostMapping
-    public R<Boolean> add${entity}(@RequestBody ${entity} ${controllerMappingHyphen}) {
-        return R.success(${controllerMappingHyphen}Service.save(cms));
+    public R<Boolean> add${entity}(@RequestBody ${entity} ${lowerEntityName}) {
+        return R.success(${lowerEntityName}Service.save(${lowerEntityName}));
     }
 
     @PutMapping("/{id}")
-    public R<Boolean> update${entity}(@PathVariable Long id, @RequestBody ${entity} ${controllerMappingHyphen}) {
-        ${controllerMappingHyphen}.setId(id);
-        return R.success(${controllerMappingHyphen}Service.updateById(cms));
+    public R<Boolean> update${entity}(@PathVariable Long id, @RequestBody ${entity} ${lowerEntityName}) {
+        ${lowerEntityName}.setId(id);
+        return R.success(${lowerEntityName}Service.updateById(${lowerEntityName}));
     }
 
     @DeleteMapping("/{id}")
     public R<Boolean> delete${entity}(@PathVariable Long id) {
-        return R.success(${controllerMappingHyphen}Service.removeById(id));
+        return R.success(${lowerEntityName}Service.removeById(id));
     }
 
 }
