@@ -8,7 +8,16 @@
         <!-- 搜索 -->
         <#if queryColumns??>
           <#list queryColumns as column>
-            <#if column.queryType != 'BetWeen'>
+            <#if column.queryType == '=' && (column.formType = 'Radio' || column.formType = 'Select') && ((column.dictName)?? && (column.dictName)!="")>
+              <label class="el-form-item-label"><#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if></label>
+              <el-select v-model="form.${column.changeColumnName}" filterable placeholder="请选择">
+                <el-option
+                        v-for="item in dict.${column.dictName}"
+                        :key="item.id"
+                        :label="item.label"
+                        :value="item.value" />
+              </el-select>
+            <#elseif column.queryType != 'BetWeen'>
         <label class="el-form-item-label"><#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if></label>
         <el-input v-model="query.${column.changeColumnName}" clearable placeholder="<#if column.remark != ''>${column.remark}<#else>${column.changeColumnName}</#if>" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
             </#if>
