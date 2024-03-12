@@ -253,10 +253,10 @@ logging:
 
 minio:
   enabled: true
-  host: ${MINIO_HOST}
-  bucket: ${MINIO_BUCKET}
-  access-key: ${MINIO_AK}
-  secret-key: ${MINIO_SK}
+  host: ${MINIO_HOST:http://127.0.0.1:9000}
+  bucket: ${MINIO_BUCKET:}
+  access-key: ${MINIO_AK:""}
+  secret-key: ${MINIO_SK:""}
   domain: ${MINIO_DOMAIN:}
   file-expires: 10800
   bucket-prefix: bk-
