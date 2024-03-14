@@ -1,7 +1,24 @@
+/**
+* Copyright [2022] [remember5]
+* <p>
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+* <p>
+* http://www.apache.org/licenses/LICENSE-2.0
+* <p>
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 package ${package.Controller};
 
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +41,13 @@ import ${superControllerClassPackage};
  * @author ${author}
  * @since ${date}
  */
+@Tag(name = "${table.comment!}管理")
 <#if restControllerStyle>
 @RestController
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if lowerEntityNameStyle>${lowerEntityName}<#else>${table.entityPath}</#if>")
+@RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 @RequiredArgsConstructor
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
@@ -43,27 +61,32 @@ public class ${table.controllerName} {
     private final ${table.serviceName} ${lowerEntityName}Service;
 
     @GetMapping("/{id}")
+    @Operation(summary = "根据id获取")
     public R<${entity}> get${entity}(@PathVariable Integer id) {
         return R.success(${lowerEntityName}Service.getById(id));
     }
 
     @GetMapping
+    @Operation(summary = "获取列表")
     public R<List<${entity}>> getAll${entity}() {
         return R.success(${lowerEntityName}Service.list());
     }
 
     @PostMapping
+    @Operation(summary = "保存")
     public R<Boolean> add${entity}(@RequestBody ${entity} ${lowerEntityName}) {
         return R.success(${lowerEntityName}Service.save(${lowerEntityName}));
     }
 
     @PutMapping("/{id}")
+    @Operation(summary = "根据id更新")
     public R<Boolean> update${entity}(@PathVariable Integer id, @RequestBody ${entity} ${lowerEntityName}) {
         ${lowerEntityName}.setId(id);
         return R.success(${lowerEntityName}Service.updateById(${lowerEntityName}));
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "根据id删除")
     public R<Boolean> delete${entity}(@PathVariable Integer id) {
         return R.success(${lowerEntityName}Service.removeById(id));
     }

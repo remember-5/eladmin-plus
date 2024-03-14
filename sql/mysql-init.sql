@@ -18,32 +18,6 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for app_version
--- ----------------------------
-DROP TABLE IF EXISTS `app_version`;
-CREATE TABLE `app_version` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `version_name` varchar(255) NOT NULL COMMENT '版本号  这里设定为只有基础功能或大改动时才会有改动',
-  `build_code` varchar(255) NOT NULL COMMENT '打包号  这里设定wgt包改动或功能性改动',
-  `is_new` bit(1) DEFAULT b'0' COMMENT '是否最新 1 历史 0 最新',
-  `is_deleted` bit(1) NOT NULL COMMENT '1 表示删除，0 表示未删除。',
-  `content` varchar(1024) DEFAULT NULL COMMENT '升级说明',
-  `url` varchar(255) NOT NULL COMMENT '下载链接',
-  `create_date` datetime DEFAULT NULL COMMENT '是否最新 1.历史 0 最新',
-  `update_date` datetime DEFAULT NULL,
-  `is_must` bit(1) DEFAULT NULL COMMENT '是否是必须更新',
-  `res_type` int unsigned DEFAULT NULL COMMENT '资源类型 1、app 2、wgt',
-  `platform` int DEFAULT NULL COMMENT '平台 1、ios 2、android',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='App版本';
-
--- ----------------------------
--- Records of app_version
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for code_column_config
 -- ----------------------------
 DROP TABLE IF EXISTS `code_column_config`;
@@ -109,10 +83,14 @@ CREATE TABLE `m_user` (
   `user_id` bigint NOT NULL AUTO_INCREMENT,
   `username` varchar(255) DEFAULT NULL COMMENT '用户名',
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
+  `nickname` varchar(50)  DEFAULT NULL COMMENT '昵称',
   `phone` varchar(255) DEFAULT NULL COMMENT '手机号',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `wx_union_id` varchar(50) DEFAULT NULL COMMENT '微信的union_id',
+  `wx_mini_open_id` varchar(50) DEFAULT NULL COMMENT '小程序的openid',
+  `wx_official_open_id` varchar(50) DEFAULT NULL COMMENT '公众号openId',
   `is_deleted` bit(1) DEFAULT NULL COMMENT '1 表示删除，0 表示未删除',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='API 用户表';
 
@@ -137,8 +115,8 @@ CREATE TABLE `mnt_app` (
   `deploy_script` varchar(4000) DEFAULT NULL COMMENT '部署脚本',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`app_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='应用管理';
 
@@ -160,8 +138,8 @@ CREATE TABLE `mnt_database` (
   `pwd` varchar(255) NOT NULL COMMENT '密码',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`db_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='数据库管理';
 
@@ -180,8 +158,8 @@ CREATE TABLE `mnt_deploy` (
   `app_id` bigint DEFAULT NULL COMMENT '应用编号',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL,
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`deploy_id`) USING BTREE,
   KEY `idx_app_id` (`app_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='部署管理';
@@ -199,7 +177,7 @@ DROP TABLE IF EXISTS `mnt_deploy_history`;
 CREATE TABLE `mnt_deploy_history` (
   `history_id` varchar(50) NOT NULL COMMENT 'ID',
   `app_name` varchar(255) NOT NULL COMMENT '应用名称',
-  `deploy_date` datetime NOT NULL COMMENT '部署日期',
+  `deploy_date` timestamp NOT NULL COMMENT '部署日期',
   `deploy_user` varchar(50) NOT NULL COMMENT '部署用户',
   `ip` varchar(20) NOT NULL COMMENT '服务器IP',
   `deploy_id` bigint DEFAULT NULL COMMENT '部署编号',
@@ -242,8 +220,8 @@ CREATE TABLE `mnt_server` (
   `port` int DEFAULT NULL COMMENT '端口',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`server_id`) USING BTREE,
   KEY `idx_ip` (`ip`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='服务器管理';
@@ -267,8 +245,8 @@ CREATE TABLE `sys_dept` (
   `enabled` bit(1) NOT NULL COMMENT '状态',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dept_id`) USING BTREE,
   KEY `inx_pid` (`pid`) USING BTREE,
   KEY `inx_enabled` (`enabled`) USING BTREE
@@ -297,8 +275,8 @@ CREATE TABLE `sys_dict` (
   `description` varchar(255) DEFAULT NULL COMMENT '描述',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`dict_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='数据字典';
 
@@ -324,8 +302,8 @@ CREATE TABLE `sys_dict_detail` (
   `dict_sort` int DEFAULT NULL COMMENT '排序',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`detail_id`) USING BTREE,
   KEY `idx_dict_id` (`dict_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='数据字典详情';
@@ -355,8 +333,8 @@ CREATE TABLE `sys_job` (
   `job_sort` int DEFAULT NULL COMMENT '排序',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`job_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`),
   KEY `inx_enabled` (`enabled`)
@@ -389,7 +367,7 @@ CREATE TABLE `sys_log` (
   `browser` varchar(255) DEFAULT NULL COMMENT '浏览器',
   `channel_id` int DEFAULT NULL COMMENT '渠道类型 1=sys 2=app',
   `exception_detail` text COMMENT '异常详细',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
   PRIMARY KEY (`log_id`) USING BTREE,
   KEY `log_create_time_index` (`create_time`) USING BTREE,
   KEY `inx_log_type` (`log_type`) USING BTREE
@@ -422,8 +400,8 @@ CREATE TABLE `sys_menu` (
   `permission` varchar(255) DEFAULT NULL COMMENT '权限',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`menu_id`) USING BTREE,
   UNIQUE KEY `uniq_title` (`title`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE,
@@ -549,8 +527,8 @@ CREATE TABLE `sys_quartz_job` (
   `pause_after_failure` bit(1) DEFAULT NULL COMMENT '任务失败后是否暂停',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`job_id`) USING BTREE,
   KEY `inx_is_pause` (`is_pause`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='定时任务';
@@ -572,7 +550,7 @@ DROP TABLE IF EXISTS `sys_quartz_log`;
 CREATE TABLE `sys_quartz_log` (
   `log_id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `bean_name` varchar(255) DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
+  `create_time` timestamp DEFAULT NULL,
   `cron_expression` varchar(255) DEFAULT NULL,
   `exception_detail` text,
   `is_success` bit(1) DEFAULT b'0',
@@ -601,8 +579,8 @@ CREATE TABLE `sys_role` (
   `data_scope` varchar(255) DEFAULT NULL COMMENT '数据权限',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`role_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE,
   KEY `role_name_index` (`name`) USING BTREE
@@ -774,9 +752,9 @@ CREATE TABLE `sys_user` (
   `enabled` bit(1) DEFAULT b'0' COMMENT '状态：1启用、0禁用',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `pwd_reset_time` datetime DEFAULT NULL COMMENT '修改密码的时间',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `pwd_reset_time` timestamp DEFAULT NULL COMMENT '修改密码的时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE KEY `uk_email` (`email`) USING BTREE,
   UNIQUE KEY `username` (`username`) USING BTREE,
@@ -845,11 +823,11 @@ CREATE TABLE `t_cms` (
   `cms_status` bit(1) DEFAULT b'0' COMMENT '文章状态',
   `audit_person` varchar(255) DEFAULT NULL COMMENT '审核人',
   `audit_status` bit(1) DEFAULT b'0' COMMENT '审核状态',
-  `audit_time` datetime DEFAULT NULL COMMENT '审核时间',
+  `audit_time` timestamp DEFAULT NULL COMMENT '审核时间',
   `audit_proposal` varchar(255) DEFAULT NULL COMMENT '审核意见',
-  `publish_time` datetime DEFAULT NULL COMMENT '发布时间',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `publish_time` timestamp DEFAULT NULL COMMENT '发布时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp DEFAULT NULL COMMENT '修改时间',
   `is_deleted` bit(1) DEFAULT b'0' COMMENT '1 表示删除，0 表示未删除',
   `annex_url` varchar(255) DEFAULT NULL COMMENT '附件url',
   PRIMARY KEY (`cms_id`)
@@ -870,8 +848,8 @@ CREATE TABLE `t_cms_column` (
   `fid` bigint DEFAULT NULL COMMENT '父id',
   `column_name` varchar(255) DEFAULT NULL COMMENT '栏目名',
   `agent_id` bigint DEFAULT NULL COMMENT '代理商id',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp DEFAULT NULL COMMENT '修改时间',
   `is_deleted` bit(1) DEFAULT b'0' COMMENT '1 表示删除，0 表示未删除',
   PRIMARY KEY (`column_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='栏目表';
@@ -894,8 +872,8 @@ CREATE TABLE `t_message_notification` (
   `message_level` bit(1) DEFAULT b'0' COMMENT '消息级别(0紧急/1普通)',
   `message_label` bit(1) DEFAULT b'0' COMMENT '标签(类型:0错误/1普通通知/2待办)',
   `message_state` bit(1) DEFAULT b'0' COMMENT '状态(0未开始/1进行中/2已处理)',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_date` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_date` timestamp DEFAULT NULL COMMENT '创建时间',
+  `update_date` timestamp DEFAULT NULL COMMENT '修改时间',
   `is_deleted` bit(1) DEFAULT b'0' COMMENT '1 表示删除，0 表示未删除',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='消息通知';
@@ -966,8 +944,8 @@ CREATE TABLE `tool_local_storage` (
   `size` varchar(100) DEFAULT NULL COMMENT '大小',
   `create_by` varchar(255) DEFAULT NULL COMMENT '创建者',
   `update_by` varchar(255) DEFAULT NULL COMMENT '更新者',
-  `create_time` datetime DEFAULT NULL COMMENT '创建日期',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_time` timestamp DEFAULT NULL COMMENT '创建日期',
+  `update_time` timestamp DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`storage_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='本地存储';
 
@@ -1010,7 +988,7 @@ CREATE TABLE `tool_qiniu_content` (
   `type` varchar(255) DEFAULT NULL COMMENT '文件类型：私有或公开',
   `url` varchar(255) DEFAULT NULL COMMENT '文件url',
   `suffix` varchar(255) DEFAULT NULL COMMENT '文件后缀',
-  `update_time` datetime DEFAULT NULL COMMENT '上传或同步的时间',
+  `update_time` timestamp DEFAULT NULL COMMENT '上传或同步的时间',
   PRIMARY KEY (`content_id`) USING BTREE,
   UNIQUE KEY `uniq_name` (`name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='七牛云文件存储';

@@ -41,24 +41,24 @@ public class MyBatisPlusCodeGenerator {
     public static final String DB_USERNAME = "root";
     public static final String DB_PASSWORD = "123456";
     public static final String DB_SCHEMA = "";
-
-    /** 基本配置 */
-    public static final String AUTHOR = "wangjiahao";
-    public static final String ANNOTATION_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    /** 保存路径 */
-    public static final String OUTPUT_DIR = "/Users/wangjiahao/IdeaProjects/eladmin-plus/eladmin-framework/eladmin-spring-boot-starter-generator";
     /** 生成表, 可生成多个 */
     public static final List<String> TABLES = Arrays.asList("t_cms");
     /** 忽略的表前缀 */
     public static final List<String> TABLES_PREFIX = Arrays.asList("t_", "c_", "sys_");
+
+    /** 作者 */
+    public static final String AUTHOR = "wangjiahao";
+    public static final String ANNOTATION_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    /** 保存路径(子模块项目路径) */
+    public static final String OUTPUT_DIR = "/Users/wangjiahao/IdeaProjects/eladmin-plus/eladmin-api";
     /** 包名 */
-    public static final String PACKAGE_PATH = "com.remember5.generator";
+    public static final String PACKAGE_PATH = "com.remember5.openapi.modules";
     /** 模块名称 */
     public static final String MODULE_NAME = "test";
     /** xml存放包名 */
     public static final String MAPPER_XML_PATH = "mapper";
     /** 开启自定义返回 */
-    public static final Boolean ENABLE_CUSTOM_RETURN = false;
+    public static final boolean ENABLE_CUSTOM_RETURN = false;
 
     /** 模版路径 */
     public static final String CONTROLLER_TEMPLATE_PATH = "generator/templates/controller.java";
@@ -70,6 +70,7 @@ public class MyBatisPlusCodeGenerator {
     public static final String SERVICE_IMPL_TEMPLATE_PATH = "generator/templates/serviceImpl.java";
     public static final String DTO_TEMPLATE_PATH = "generator/templates/entityDTO.java.ftl";
     public static final String VO_TEMPLATE_PATH = "generator/templates/entityVO.java.ftl";
+    public static final String MAPSTRUCT_TEMPLATE_PATH = "generator/templates/mapstruct.java.ftl";
 
     public static void generator() {
         // 使用元数据查询的方式生成代码,默认已经根据jdbcType来适配java类型,支持使用typeConvertHandler来转换需要映射的类型映射
@@ -92,9 +93,10 @@ public class MyBatisPlusCodeGenerator {
                     if (typeCode == Types.SMALLINT) {
                         // 自定义类型转换
                         return DbColumnType.INTEGER;
+                    } else if(typeCode == Types.DATE || typeCode == Types.TIME || typeCode == Types.TIMESTAMP) {
+                        return DbColumnType.TIMESTAMP;
                     }
                     return typeRegistry.getColumnType(metaInfo);
-
                 }))
                 // 包配置
                 .packageConfig(builder -> {
@@ -116,6 +118,12 @@ public class MyBatisPlusCodeGenerator {
                         customFile.fileName("VO.java")
                                 .packageName("vo")
                                 .templatePath(VO_TEMPLATE_PATH);
+                    });
+                    // mapstruct
+                    consumer.customFile(customFile -> {
+                        customFile.fileName("Mapstruct.java")
+                                .packageName("mapstruct")
+                                .templatePath(MAPSTRUCT_TEMPLATE_PATH);
                     });
                 })
                 // 策略配置
@@ -171,6 +179,7 @@ public class MyBatisPlusCodeGenerator {
                 .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 // 执行
                 .execute();
+        System.out.println("生成成功!");
     }
 
     public static void main(String[] args) {

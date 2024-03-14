@@ -30,6 +30,17 @@
             <optional>true</optional>
         </dependency>
 
+        <!--mapStruct依赖-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.remember5.biz</groupId>
             <artifactId>eladmin-biz</artifactId>
@@ -44,10 +55,6 @@
         <dependency>
             <groupId>com.remember5</groupId>
             <artifactId>eladmin-spring-boot-starter-captcha</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.remember5</groupId>
-            <artifactId>eladmin-spring-boot-starter-push</artifactId>
         </dependency>
         <dependency>
             <groupId>com.remember5</groupId>
@@ -76,6 +83,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--Mysql 驱动依赖-->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- druid数据源驱动 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -96,13 +110,6 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>wx-java-miniapp-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!--Mysql 驱动依赖-->
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

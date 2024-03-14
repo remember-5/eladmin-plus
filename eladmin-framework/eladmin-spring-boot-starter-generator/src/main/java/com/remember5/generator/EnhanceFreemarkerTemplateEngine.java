@@ -36,9 +36,15 @@ public class EnhanceFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
         final String entityName = tableInfo.getEntityName();
         final String lowerEntityName = entityName.substring(0, 1).toLowerCase() + entityName.substring(1);
         objectMap.put("lowerEntityName", lowerEntityName);
-        String otherPath = this.getPathInfo(OutputFile.entity);
         customFiles.forEach(customFile -> {
-            String fileName = String.format(otherPath + File.separator + entityName + "%s", customFile.getFileName());
+            String fileName = null;
+            final String packageName = customFile.getPackageName();
+            if ("vo".equals(packageName) || "dto".equals(packageName)) {
+                fileName = String.format(this.getPathInfo(OutputFile.entity) + File.separator + entityName + "%s", customFile.getFileName());
+            } else if ("mapstruct".equals(packageName)) {
+                objectMap.put("mapstructPackages", this.getConfigBuilder().getPackageConfig().getParent() + ".mapstruct");
+                fileName = String.format(this.getPathInfo(OutputFile.parent) + File.separator + "mapstruct" + File.separator + entityName + "%s", customFile.getFileName());
+            }
             this.outputFile(new File(fileName), objectMap, customFile.getTemplatePath(), false);
         });
     }
