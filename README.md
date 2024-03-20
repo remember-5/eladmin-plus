@@ -2,15 +2,11 @@
 
 请在开发前，一定要先阅读完本文档
 
-本项目是基于[eladmin](https://github.com/elunez/eladmin) 的基础上，二次开发的项目，欢迎各位大佬贡献代码
+本项目是基于[eladmin](https://github.com/elunez/eladmin) 的基础上，二次开发的项目，欢迎贡献代码
 
 演示地址：[http://eladmin.remember5.top](http://eladmin.remember5.top)
 
 已同步官方的版本`f78adec4ec757b6e22f116abd60eba0ae081bac7`
-
-注意！！！
-注意！！！
-注意！！！
 
 ```
 DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCHEMA=eladmin_schema;REDIS_HOST=127.0.0.1;REDIS_PORT=6379;REDIS_PWD=;REDIS_DB=0;DRUID_USER=admin;DRUID_PWD=123456;
@@ -38,49 +34,6 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 | MINIO_SK     | minio的SecretKey | 默认 无         |
 
 
-## 使用Mysql
-项目适配msql,但默认配置是postgres，如果使用mysql，需要改以下配置
-- `pom` 中添加Mysql 驱动依赖 `mysql-driver`
-- 配置文件中的`spring.datasource.dynamic.datasource` 更改为mysql 
-- 全局配置文件中的`spring.jpa.properties.hibernate.dialect` 更改为mysql
-- `generator.database-type` 更改为mysql
-
-## 新增功能列表
-
-- [x] admin重置/修改普通用户密码
-- [x] 安全拦截配置更改到菜单中
-- [x] 支持生成excel模版和上传excel批量导入
-- [x] 生成代码时可选择生成菜单
-- [x] 配置GitLab CI/CD
-- [x] 集成minio
-- [x] 可动态配置的资源存储
-- [x] 支持图片上传及base64图片上传
-- [x] 支持mybatis-plus
-- [x] 自定义上传头像
-- [x] websocket消息通知
-- [x] 支持打包为docker镜像
-- [x] 多数据源支持
-- [x] redis-utils支持lset，zset，geo方法
-- [x] 可动态配置获取IP地址
-- [x] 升级为使用knife4j
-- [x] 支持离线导出接口文档
-- [x] 更丰富的权限划分(基础的菜单权限)
-- [x] 增加简单CMS功能
-- [x] RSA密码加密解密分不同环境的配置
-- [x] 使用p6spy更高效的记录日志
-- [x] validation 参数校验 
-- [x] 集成Netty
-- [x] 依赖和代码分离打包
-- [x] postgres 生成代码
-- [x] log注解可以记录api模块的日志
-- [x] app的wgt包管理，配置多渠道，来管理不同的app
-- [ ] 多租户
-- [ ] 导入导出模版支持多表
-- [ ] 代码生成支持动态数据源
-- [ ] 增加oauth2的支持(单独分支)
-- [ ] 支持工作流
-
-
 ## 技术选型
 - 核心框架：SpringBoot
 - ORM框架：Mybatis
@@ -88,11 +41,11 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - 权限安全：Spring Security
 - 网页即时通讯：Netty(WebSocket)
 - 连接池：Druid（阿里开源）
-- 日志处理：SLF4J(日志门面框架)、logback
+- 日志处理：SLF4J(日志门面框架)
 - 缓存处理：Redis
 - Excel表处理：POI+EasyExcel
 - 在线文档：Knife4j
-- 实体转换：mapstruct 
+- 实体转换：Mapstruct 
 
 ## 贡献者列表
 感谢以下伙伴的付出(排名不分先后)
@@ -141,31 +94,5 @@ DB_HOST=127.0.0.1;DB_PORT=3306;DB_NAME=eladmin;DB_USER=root;DB_PWD=123456,DB_SCH
 - 文章列表：内置功能强大的高效编辑器，提高书写速度，集成了文件上传和审核功能。
 - 栏目管理：管理文章的栏目，可以随心配置栏目
 
-
-## 使用教程
-
 ### 官方文档
 see https://el-admin.vip/
-
-## 生产环境注意事项
-
-### 需要修改以下配置
-1. 修改`RSA`的公钥和私钥
-2. 修改新增用户的默认密码配置
-3. 修改前端默认登录的账号密码
-4. 关闭`swagger`
-5. 修改`jwt`时效时间，尽量缩短
-6. 如使用`minio`, 请更改`minio`的`Access Policy`为`custom`，关闭`s3:ListBucket` https://blog.remember5.top/minio#acc1c14cfe75498e9ffc06e4eb21802e
-
-### 安全事项：
-1. 禁止携带服务器，插件等明文信息在接口中
-
-### FAQ
-1. `could not initialize proxy - no Session `
-  - 在@OneToMany的参数中使用fetch=FetchType.EAGER
-  - 在application.properties的配置文件中新增spring.jpa.open-in-view=true
-  - 在spring.jpa.properties.hibernate.enable_lazy_load_no_trans=true可以解决lazy失效问题
-2. 适配问题 
-  - 经过测试，Navicat(16.0.9)中Postgres(140002) to Mysql(5.7.28) 会有Bool格式转换成Varchar(5)的情况
-  - 适配mysql的方案，修改pg-bool 为 pg-int 0=false 1=true 同时 mysql 也更改tinyint为0=false 1=true
-
