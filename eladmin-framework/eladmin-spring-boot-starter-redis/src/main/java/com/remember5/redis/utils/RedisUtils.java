@@ -53,6 +53,16 @@ public class RedisUtils {
     }
 
     /**
+     * 获取指定前缀下的所有key
+     *
+     * @param pattern  key前缀
+     * @return /
+     */
+    public Set<String> keys(String pattern) {
+        return redisTemplate.keys(pattern);
+    }
+
+    /**
      * 指定缓存失效时间
      *
      * @param key  键
