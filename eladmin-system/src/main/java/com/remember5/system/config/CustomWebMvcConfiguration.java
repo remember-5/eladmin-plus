@@ -21,21 +21,15 @@ import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageCo
 import com.remember5.security.handler.ApiRequestMappingHandlerMapping;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,32 +47,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
 
-
-    /**
-     * 配置跨域
-     * @return 跨域
-     */
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        //1.允许任何来源
-        corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
-        //2.允许任何请求头
-        corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
-        //3.允许任何方法
-        corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
-        //4.允许凭证
-        corsConfiguration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        CorsFilter corsFilter = new CorsFilter(source);
-
-        FilterRegistrationBean<CorsFilter> filterRegistrationBean=new FilterRegistrationBean<>(corsFilter);
-        filterRegistrationBean.setOrder(-101);  // 小于 SpringSecurity Filter的 Order(-100) 即可
-
-        return filterRegistrationBean;
-    }
 
 
     /**
