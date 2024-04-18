@@ -90,7 +90,7 @@ spring:
     #连接超时时间
     timeout: 5000
     redisson:
-      file: classpath:redisson.yaml
+      file: classpath:redisson-prod.yaml
 
 # 登录相关配置
 login:

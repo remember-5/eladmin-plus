@@ -1,9 +1,10 @@
 <settings>
     <mirrors>
         <mirror>
-            <id>nexus-163</id>
-            <url>http://mirrors.163.com/maven/repository/maven-public/</url>
-            <mirrorOf>central</mirrorOf>
+            <id>aliyunmaven</id>
+            <mirrorOf>*</mirrorOf>
+            <name>阿里云公共仓库</name>
+            <url>https://maven.aliyun.com/repository/public</url>
         </mirror>
     </mirrors>
 </settings>

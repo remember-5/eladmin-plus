@@ -1,0 +1,28 @@
+# ---- Base Node ----
+FROM maven:3.8.5-openjdk-17 AS build
+
+# copy maven setting file
+COPY settings.xml /usr/share/maven/conf/settings.xml
+
+WORKDIR /tmp
+
+# 预下载依赖
+COPY pom.xml .
+# copy代码
+COPY eladmin-api eladmin-api
+COPY eladmin-biz eladmin-biz
+COPY eladmin-framework eladmin-framework
+COPY eladmin-system eladmin-system
+# RUN mvn dependency:go-offline
+
+RUN mvn clean package -P singleton -DskipTests
+
+# ---- Run ----
+FROM openjdk:17-jdk AS run
+WORKDIR /app
+COPY --from=build /tmp/eladmin-system/target/eladmin-template.jar /app/eladmin-template.jar
+
+# 声明一个环境参数用来动态启用配置文件 默认dev
+ENV ACTIVE=dev TZ=Asia/Shanghai
+
+CMD ["sh","-c","java -jar /app/eladmin-template.jar --spring.profiles.active=${ACTIVE}"]

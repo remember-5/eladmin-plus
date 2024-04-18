@@ -1,5 +1,3 @@
----
-# Single instance https://github.com/redisson/redisson/wiki/2.-Configuration#262-single-instance-yaml-config-format
 singleServerConfig:
   idleConnectionTimeout: 10000
   connectTimeout: 10000
@@ -17,10 +15,7 @@ singleServerConfig:
   database: ${REDIS_DB:-0}
   dnsMonitoringInterval: 5000
 
----
-# Other configuration https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter#2-add-settings-into-applicationsettings-file
-
-threads: 16
-nettyThreads: 32
+threads: 0
+nettyThreads: 0
 codec: !<org.redisson.codec.JsonJacksonCodec> {}
 transportMode: "NIO"

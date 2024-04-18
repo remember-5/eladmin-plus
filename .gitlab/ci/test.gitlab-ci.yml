@@ -1,12 +1,41 @@
 # =========== 测试环境 ===========
+cache:
+  paths:
+    - ./eladmin-system/target/eladmin-template.jar
+    - ./eladmin-api/target/eladmin-api-demo.jar
 
-# 测试环境构建 Job
+# 开发环境编译
 test-build:
-  stage: compile
-  # 环境变量
-  variables:
+  stage: build
   script:
-    - echo "=============== 开始编译构建任务 ==============="
-    - $MAVEN_HOME/bin/mvn compile
+    - echo "=============== $CI_JOB_STAGE ==============="
+    # 清缓存
+    - mvn clean
+    # 指定jdk变量
+    - export JAVA_HOME=/usr/local/java/jdk-17.0.1
+    - echo $JAVA_HOME
+    # 打包
+    - mvn package -P singleton
   only:
     - test
+
+# =========== ip=10.4.15.115 ===========
+# 开发环境打包
+test-package:
+  stage: deploy
+  only:
+    - test
+  script:
+    - echo $(pwd)
+    # 停止服务
+    - sh stop.sh
+    # 删除jar包
+    - rm -rf /server/xx/system/eladmin-template.jar
+    - rm -rf /server/xx/api/eladmin-api-demo.jar
+    # copy到指定位置
+    - cp ./eladmin-system/target/eladmin-template.jar /server/xx/system
+    - cp ./eladmin-api/target/eladmin-api-demo.jar /server/xx/api
+    # 启动后台服务
+    -  nohup /usr/local/java/jdk-17.0.1/bin/java -jar /server/xx/system/mk-ai-system.jar --spring.profiles.active=test > /server/xx/system/nohup.out 2>&1 &
+    # 启动api服务
+    -  nohup /usr/local/java/jdk-17.0.1/bin/java -jar /server/xx/api/mk-ai-api.jar --spring.profiles.active=test > /server/xx/api/nohup.out 2>&1 &

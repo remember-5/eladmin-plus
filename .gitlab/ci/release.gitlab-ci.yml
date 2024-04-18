@@ -1,73 +1,90 @@
 # =========== 生产环境 ===========
+variables:
+  API_IMAGE_NAME: api
+  API_VERSION: 1.0.0
+  SYSTEM_IMAGE_NAME: system
+  SYSTEM_VERSION: 1.0.0
 
-cache:
-  paths:
-    - ./eladmin-system/target/eladmin-template.jar
-
-# 生产环境构建
-prod-build:
-  stage: compile
+.api-build:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^main/ && ($CI_COMMIT_MESSAGE =~ /^ci\[all\]/ || $CI_COMMIT_MESSAGE =~ /^ci\[api\]/)'
   script:
-    - echo "=============== 开始编译构建任务 ==============="
-    # 清缓存
-    - mvn clean
-    # 打包
-    - mvn package -P singleton
-  #  tags:
-  #    - xxx
-  only:
-    - main
+    -  echo "=============== [api-build] ==============="
+    -  docker build -f Dockerfile.Api -t $API_IMAGE_NAME:$API_VERSION .
+
+.api-deploy:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^main/ && ($CI_COMMIT_MESSAGE =~ /^ci\[all\]/ || $CI_COMMIT_MESSAGE =~ /^ci\[api\]/)'
+  script:
+    - echo "=============== [api-deploy] ==============="
+    - docker stop $API_IMAGE_NAME || true
+    - docker rm $API_IMAGE_NAME || true
+    - docker run -d --network="host" --name $API_IMAGE_NAME -e "ACTIVE=prod" $API_IMAGE_NAME:$API_VERSION
+    - docker image prune -f
 
 
-# 生产环境打包
-prod-package:
-  stage: package
-  # 环境变量
+.system-build:
+  stage: build
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^main/ && ($CI_COMMIT_MESSAGE =~ /^ci\[all\]/ || $CI_COMMIT_MESSAGE =~ /^ci\[system\]/)'
+  script:
+    - echo "=============== [system-deploy] ==============="
+    - docker build -f Dockerfile.System -t $SYSTEM_IMAGE_NAME:$SYSTEM_VERSION .
+
+.system-deploy:
+  stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH =~ /^main/ && ($CI_COMMIT_MESSAGE =~ /^ci\[all\]/ || $CI_COMMIT_MESSAGE =~ /^ci\[system\]/)'
+  script:
+    - echo "=============== [system-deploy] ==============="
+    - docker stop $SYSTEM_IMAGE_NAME || true
+    - docker rm $SYSTEM_IMAGE_NAME || true
+    - docker run -d --network="host" --name $SYSTEM_IMAGE_NAME -e "ACTIVE=prod" $SYSTEM_IMAGE_NAME:$SYSTEM_VERSION
+    - docker image prune -f
+
+
+
+# =========== ip1 ===========
+node1-api-build:
+  extends:
+    - .api-build
+  tags:
+    - xx
+
+node1-api-deploy:
   variables:
-#    DB_HOST:
-#    DB_PORT:
-#    DB_NAME:
-#    DB_USER:
-#    DB_PWD:
-#    DB_SCHEMA:
-#    REDIS_HOST:
-#    REDIS_PORT:
-#    REDIS_PWD:
-#    REDIS_DB:
-#    DRUID_USER:
-#    DRUID_PWD:
-  script:
-    - echo $(pwd)
-    # 停止服务
-    - sh stop.sh
-    # 删除jar包
-    - rm -rf /server/eladmin/eladmin-template.jar
-    # copy到指定位置
-    - cp ./eladmin-system/target/eladmin-template.jar /server/eladmin
-    - cp start.sh /server/eladmin
-    - cd /server/eladmin
-    # 启动服务
-    - nohup java -DDB_HOST="$DB_HOST" \
-      -DDB_PORT="$DB_PORT" \
-      -DDB_NAME="$DB_NAME" \
-      -DDB_USER="$DB_USER" \
-      -DDB_PWD="$DB_PWD" \
-      -DDB_SCHEMA="$DB_SCHEMA" \
-      -DREDIS_HOST="$REDIS_HOST" \
-      -DREDIS_PORT="$REDIS_PORT" \
-      -DREDIS_PWD="$REDIS_PWD" \
-      -DREDIS_DB="$REDIS_DB" \
-      -DDRUID_USER="$DRUID_USER" \
-      -DDRUID_PWD="$DRUID_PWD" -jar /server/eladmin/eladmin-template.jar > nohup.out 2>&1 &
-  #    artifacts:
-  #      paths:
-  #        - target/*.jar
-  #    tags:
-  #      - xxx
-  # 跑几个节点就写几，区间是 2-50 ，比如有3个节点，tags 命名规范为 prod-node + 序号, prod-node1 prod-node2 prod-node3 如果写多，则找不到prod-node4的runner
-#  parallel: 3
-#  tags:
-#    # 前缀规范 prod-node + 序号(CI_NODE_INDEX为gitlab-runner提供的variables)
-#    - prod-node${CI_NODE_INDEX}
-  only:
-    - main
+    XX: xx
+  extends:
+    - .api-deploy
+  tags:
+    - xx
+
+node1-system-build:
+  extends:
+    - .system-build
+  tags:
+    - xx
+
+node1-system-deploy:
+  extends:
+    - .system-deploy
+  tags:
+    - xx
+
+# =========== ip2 ===========
+node2-api-build:
+  extends:
+    - .api-build
+  tags:
+    - xx
+
+node2-api-deploy:
+  variables:
+    XX: xx
+  extends:
+    - .api-deploy
+  tags:
+    - xx
+
