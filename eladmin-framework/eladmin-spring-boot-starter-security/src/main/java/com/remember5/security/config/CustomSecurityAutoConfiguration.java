@@ -20,8 +20,14 @@ import com.remember5.security.handler.JwtAuthenticationEntryPoint;
 import com.remember5.security.properties.JwtProperties;
 import com.remember5.security.utils.TokenProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Collections;
 
 /**
  * 安全自动化配置
@@ -56,6 +62,36 @@ public class CustomSecurityAutoConfiguration {
     @ConditionalOnBean(JwtProperties.class)
     public TokenProvider initTokenProvider(JwtProperties jwtProperties) {
         return new TokenProvider(jwtProperties);
+    }
+
+    /**
+     * 常见的场景：项目中使用了 Spring Security 安全框架导致 CORS 跨域配置失效
+     * CORS 配置失效解决方案
+     * 配置 CorsFilter 优先于 SpringSecurityFilter 执行；
+     * <a href="https://www.cnblogs.com/haoxianrui/p/17338196.html">跨域配置</a>
+     * 配置跨域
+     * @return 跨域
+     */
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        //1.允许任何来源
+        corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        //2.允许任何请求头
+        corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
+        //3.允许任何方法
+        corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
+        //4.允许凭证
+        corsConfiguration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        CorsFilter corsFilter = new CorsFilter(source);
+
+        FilterRegistrationBean<CorsFilter> filterRegistrationBean=new FilterRegistrationBean<>(corsFilter);
+        filterRegistrationBean.setOrder(-101);  // 小于 SpringSecurity Filter的 Order(-100) 即可
+
+        return filterRegistrationBean;
     }
 
 }
