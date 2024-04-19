@@ -14,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -97,6 +98,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService());
+    }
+
+    /**
+     * 虽然这两个都是继承WebSecurityConfigurerAdapter后重写的方法，
+     * 但是http.permitAll不会绕开springsecurity的过滤器验证，相当于只是允许该路径通过过滤器
+     * 而web.ignoring是直接绕开spring security的所有filter，直接跳过验证。
+     *
+     * @param web /
+     * @throws Exception /
+     */
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(jwtProperties.getPermitUrl().toArray(new String[0]));
     }
 
     @Bean

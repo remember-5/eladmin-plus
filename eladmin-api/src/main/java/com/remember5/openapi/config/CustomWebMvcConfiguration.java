@@ -15,6 +15,7 @@
  */
 package com.remember5.openapi.config;
 
+import com.alibaba.fastjson2.JSONReader;
 import com.alibaba.fastjson2.JSONWriter;
 import com.alibaba.fastjson2.support.config.FastJsonConfig;
 import com.alibaba.fastjson2.support.spring.http.converter.FastJsonHttpMessageConverter;
@@ -24,13 +25,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -50,28 +50,6 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
-
-
-    /**
-     * 配置跨域
-     *
-     * @param registry /
-     */
-    @Override
-    protected void addCorsMappings(CorsRegistry registry) {
-        log.info("跨域已设置");
-        // 设置允许跨域的路由
-        registry.addMapping("/**")
-                // 设置允许跨域请求的域名
-                .allowedOriginPatterns("*")
-                // 是否允许证书（cookies）
-                .allowCredentials(true)
-                // 设置允许的方法
-                .allowedMethods("*")
-                // 跨域允许时间
-                .maxAge(3600);
-    }
-
 
     /**
      * 注册接口多版本匹配器 ApiRequestMappingHandlerMapping
@@ -93,14 +71,15 @@ public class CustomWebMvcConfiguration extends WebMvcConfigurationSupport {
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 使用 fastjson 序列化，会导致 @JsonIgnore 失效，可以使用 @JSONField(serialize = false) 替换
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-        List<MediaType> supportMediaTypeList = new ArrayList<>();
-        supportMediaTypeList.add(MediaType.APPLICATION_JSON);
         FastJsonConfig config = new FastJsonConfig();
         config.setDateFormat("yyyy-MM-dd HH:mm:ss");
         config.setWriterFeatures(JSONWriter.Feature.WriteMapNullValue);
+        // config.setWriterFeatures(JSONWriter.Feature.WriteMapNullValue, JSONWriter.Feature.PrettyFormat);
+        config.setReaderFeatures(JSONReader.Feature.FieldBased, JSONReader.Feature.SupportArrayToBean);
+
         converter.setFastJsonConfig(config);
-        converter.setSupportedMediaTypes(supportMediaTypeList);
         converter.setDefaultCharset(StandardCharsets.UTF_8);
+        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
         converters.add(0, converter);
     }
 

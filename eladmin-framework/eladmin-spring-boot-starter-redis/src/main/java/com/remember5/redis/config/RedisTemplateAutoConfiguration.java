@@ -15,6 +15,7 @@
  */
 package com.remember5.redis.config;
 
+import com.alibaba.fastjson2.support.spring.data.redis.GenericFastJsonRedisSerializer;
 import com.remember5.redis.utils.RedisUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.cache.annotation.EnableCaching;
@@ -40,16 +41,17 @@ public class RedisTemplateAutoConfiguration {
     @ConditionalOnMissingBean(name = "redisTemplate")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         // 创建 RedisTemplate 对象
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
         // 设置 RedisConnection 工厂
         template.setConnectionFactory(redisConnectionFactory);
 
-        // 使用 String 序列化方式，序列化 KEY 。
+        //默认的Serialize，包含 keySerializer & valueSerializer
+        GenericFastJsonRedisSerializer fastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
         template.setKeySerializer(RedisSerializer.string());
+        template.setValueSerializer(fastJsonRedisSerializer);
+
         template.setHashKeySerializer(RedisSerializer.string());
-        // 使用 JSON 序列化方式（库是 Jackson ），序列化 VALUE 。
-        template.setValueSerializer(RedisSerializer.json());
-        template.setHashValueSerializer(RedisSerializer.json());
+        template.setHashValueSerializer(fastJsonRedisSerializer);
         return template;
     }
 
