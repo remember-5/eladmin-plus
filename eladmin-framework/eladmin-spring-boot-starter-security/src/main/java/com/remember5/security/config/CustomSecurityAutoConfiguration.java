@@ -73,7 +73,7 @@ public class CustomSecurityAutoConfiguration {
      * @return 跨域
      */
     @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
+    public FilterRegistrationBean<CorsFilter> filterRegistrationBean() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         //1.允许任何来源
         corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("*"));
