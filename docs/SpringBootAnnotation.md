@@ -16,14 +16,14 @@ see [https://juejin.cn/post/6951223104689569806](https://juejin.cn/post/69512231
 * no-rollback- for	抛出 no-rollback-for 指定的异常类型，不回滚事务
 
 **propagation 传播行为**
-
-* REQUIRED：如果有事务, 那么加入事务, 没有的话新建一个(默认情况下)
-* NOT_SUPPORTED：容器不为这个方法开启事务
-* REQUIRES_NEW：不管是否存在事务,都创建一个新的事务,原来的挂起,新的执行完毕,继续执行老的事务
-* MANDATORY：必须在一个已有的事务中执行,否则抛出异常
-* NEVER：必须在一个没有的事务中执行,否则抛出异常(与MANDATORY相反)
-* SUPPORTS：如果其他bean调用这个方法,在其他bean中声明事务,那就用事务.如果其他bean没有声明事务,那就不用事务.
-* NESTED： 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
+指定方法：通过使用 propagation 属性设置，例如：@Transactional(propagation = Propagation.REQUIRED)
+* REQUIRED ：如果当前存在事务，则加入该事务；如果当前没有事务，则创建一个新的事务。
+* SUPPORTS ：如果当前存在事务，则加入该事务；如果当前没有事务，则以非事务的方式继续运行。
+* MANDATORY ：如果当前存在事务，则加入该事务；如果当前没有事务，则抛出异常。
+* REQUIRES_NEW ：创建一个新的事务，如果当前存在事务，则把当前事务挂起。
+* NOT_SUPPORTED ：以非事务方式运行，如果当前存在事务，则把当前事务挂起。
+* NEVER ：以非事务方式运行，如果当前存在事务，则抛出异常。
+* NESTED ：如果当前存在事务，则创建一个事务作为当前事务的嵌套事务来运行；如果当前没有事务，则该取值等价于 REQUIRED 。
 
 
 **事物超时设置**
